@@ -1,0 +1,8 @@
+{
+  "appId": "com.ichallenger.app",
+  "appName": "iChallenger",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https"
+  }
+}
