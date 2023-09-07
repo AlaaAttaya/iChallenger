@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\User;
+use App\Models\ContactUs;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
 {
@@ -140,16 +141,14 @@ class AuthController extends Controller
 
     public function getAllUsers(Request $request)
     {
-        $searchUsername = $request->username;
+        $searchUsername = $request->input('username','');
         $query = User::query();
-    
+        $users = [];
         if ($searchUsername !== null) {
             $query->where('username', 'like', '%' . $searchUsername . '%');
+            $query->where('user_role_id', '!=', 1);
+            $users = $query->get();
         }
-
-        $query->where('user_role_id', '!=', 1);
-    
-        $users = $query->get();
     
         return response()->json([
             'status' => 'Success',
@@ -158,8 +157,45 @@ class AuthController extends Controller
     }
     
     
+    public function getContactUs(Request $request)
+    {
+        $search = $request->input('search');
+    
+        $query = ContactUs::query();
+    
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', $search . '%')
+                    ->orWhere('email', 'like', $search . '%');
+            });
+        }
+    
+        $messages = $query->get();
+    
+        return response()->json(['data' => $messages]);
+    }
 
-
+    public function submitContactUs(Request $request)
+    {
+       
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string',
+        ]);
+    
+        
+        $contactUs = new ContactUs();
+        $contactUs->name = $request->name;
+        $contactUs->email = $request->email;
+        $contactUs->message = $request->message;
+    
+        
+        $contactUs->save();
+    
+       
+        return response()->json(['message' => 'Contact us message submitted successfully']);
+    }
    
   
 

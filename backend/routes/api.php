@@ -36,5 +36,6 @@ Route::group(["prefix" => "guest"], function () {
     Route::get("unauthorized", [AuthController::class, "unauthorized"])->name("unauthorized");
     Route::post("login", [AuthController::class, "login"]);
     Route::post("register", [AuthController::class, "register"]);
-
+    Route::post("submitcontactus", [AuthController::class, "submitContactus"]);
+    Route::get("contactus", [AuthController::class, "getContactus"]);
 });

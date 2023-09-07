@@ -15,7 +15,7 @@ class AdminController extends Controller
 {
     public function banUser(Request $request)
     {   
-        $identifier=$request->user_id;
+        $identifier=$request->input('user_id');
         $user = User::find($identifier);
     
         if (!$user) {
@@ -29,7 +29,7 @@ class AdminController extends Controller
     }
     public function unbanUser(Request $request)
     {   
-        $identifier=$request->user_id;
+        $identifier=$request->input('user_id');
         $user = User::find($identifier);
     
         if (!$user) {

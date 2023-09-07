@@ -22,6 +22,13 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
+        Schema::create('contact_us', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->text('message');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -31,5 +38,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('countries');
         Schema::dropIfExists('regions');
+        Schema::dropIfExists('contact_us');
     }
 };
