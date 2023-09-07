@@ -69,8 +69,8 @@ class AuthController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+            'profileimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+            'coverimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
         ]);
 
         $user = new User;
@@ -97,8 +97,8 @@ class AuthController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->profile_image=$image_path;
-        $user->cover_image=$cover_path;
+        $user->profileimage=$image_path;
+        $user->coverimage=$cover_path;
         $user->user_role_id=1;
         $user->save();
 
@@ -170,7 +170,7 @@ class AuthController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
-        $user->image = $image_path;
+        $user->profileimage = $image_path;
 
         $user->save();
 
