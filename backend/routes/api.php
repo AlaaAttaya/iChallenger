@@ -17,11 +17,14 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get("search", [AuthController::class, "getAllUsers"]);
         Route::post('editprofile', [UserController::class, "editProfile"]);
         Route::post('changepassword',  [UserController::class, "changePassword"]);
+        Route::get("countries", [UserController::class, "getCountries"]);
+        Route::get("regions", [UserController::class, "getRegions"]);
     });
 
 
     Route::group(["middleware" => "admin", "prefix" => "admin"], function () {
-    
+        Route::post('banuser', [AdminController::class, 'banUser']);
+        Route::post('unbanuser', [AdminController::class, 'unbanUser']);
     });
 
 

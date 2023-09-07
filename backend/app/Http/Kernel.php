@@ -43,7 +43,10 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\CorsMiddleware::class,
-            \App\Http\Middleware\AdminMiddleware::class, 
+            
+        ],
+        'admin' => [
+            \App\Http\Middleware\AdminMiddleware::class,
         ],
     ];
 

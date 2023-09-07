@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\Region;
+
 use Illuminate\Support\Facades\Log; 
 
 class UserController extends Controller
@@ -63,5 +66,23 @@ class UserController extends Controller
             'message' => 'Password changed successfully'
         ]);
     }
+    public function getCountries()
+    {
+        $countries = Country::all();
 
+        return response()->json([
+            'status' => 'Success',
+            'data' => $countries,
+        ]);
+    }
+
+    public function getRegions()
+    {
+        $regions = Region::all();
+
+        return response()->json([
+            'status' => 'Success',
+            'data' => $regions,
+        ]);
+    }
 }
