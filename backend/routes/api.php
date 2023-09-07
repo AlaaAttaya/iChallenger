@@ -14,7 +14,9 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('editprofile', [AuthController::class, "editProfile"]);
         Route::post('changepassword',  [AuthController::class, "changePassword"]);
     });
-
+    Route::group(["middleware" => "admin"], function () {
+        
+    });
 });
 
 
