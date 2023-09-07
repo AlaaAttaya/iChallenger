@@ -137,21 +137,27 @@ class AuthController extends Controller
             'data' => $user
         ]);
     }
-
+    
     public function getAllUsers(Request $request)
     {
-        $searchUsername=$request->username;
+        $searchUsername = $request->username;
+        $query = User::query();
+    
         if ($searchUsername !== null) {
-            $users = User::where('username', 'like', '%' . $searchUsername . '%')->get();
-        } else {
-            $users = [];
+            $query->where('username', 'like', '%' . $searchUsername . '%');
         }
 
+        $query->where('user_role_id', '!=', 1);
+    
+        $users = $query->get();
+    
         return response()->json([
             'status' => 'Success',
             'data' => $users,
         ]);
     }
+    
+    
 
         public function editProfile(Request $request)
     {

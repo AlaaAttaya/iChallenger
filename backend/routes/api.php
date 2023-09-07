@@ -3,20 +3,28 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 Route::group(["middleware" => "auth:api"], function () {
+
+
     Route::group(["prefix" => "user"], function () {
 
         Route::get("profile", [AuthController::class, "profile"]);
         Route::post("logout", [AuthController::class, "logout"]);
         Route::post("refresh", [AuthController::class, "refresh"]);
         Route::get("search", [AuthController::class, "getAllUsers"]);
-        Route::post('editprofile', [AuthController::class, "editProfile"]);
-        Route::post('changepassword',  [AuthController::class, "changePassword"]);
+        Route::post('editprofile', [UserController::class, "editProfile"]);
+        Route::post('changepassword',  [UserController::class, "changePassword"]);
     });
-    Route::group(["middleware" => "admin"], function () {
-        
+
+
+    Route::group(["middleware" => "admin", "prefix" => "admin"], function () {
+    
     });
+
+
 });
 
 
