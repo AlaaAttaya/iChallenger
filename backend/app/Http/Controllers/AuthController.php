@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\ContactUs;
 use App\Models\UserAuthentication;
+use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
 {
@@ -235,5 +236,85 @@ class AuthController extends Controller
     
         return response()->json(['message' => 'User authentication disconnected successfully'], 200);
     }
+
+
+    //Forgot Password
+
+    public function resetPasswordCode(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $code = str_pad(random_int(0, 99999), 6, '0', STR_PAD_LEFT);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        
+        $emailController = new EmailController();
+
+        $user->temporary_code = $code;
+        $user->temporary_code_expiration = now()->addMinutes(15);
+        $user->save();
+
+        $from = 'ichallenger@yahoo.com';
+        $fromName = 'Admin';
+        $to = $user->email;
+        $subject = 'Password Reset Code';
+        $body = 'Your password reset code is: ' . $code;
+        $isTransactional = true;
+    
+
+        $emailController->sendEmail($from, $fromName, $to, $subject, $body, $isTransactional);
+
+        return response()->json(['message' => 'Reset code sent successfully']);
+    }
+
+    public function verifyCode(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'code' => 'required|digits:5',
+        ]);
+
+       
+        if (!$user->temporary_code || $user->temporary_code !== $request->code) {
+            return response()->json(['message' => 'Invalid code'], 400);
+        }
+
+    
+        if ($user->temporary_code_expiration <= now()) {
+            return response()->json(['message' => 'Code has expired'], 400);
+        }
+
+      
+
+        return response()->json(['message' => 'Code verified successfully']);
+    }
+ 
+
+    public function resetPassword(Request $request)
+    {
+        
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'new_password' => 'required|string|min:8',
+        ]);
+
+       
+        $user = User::where('email', $request->email)->first();
+
+       
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password reset successfully']);
+    }
+
+
 
 }

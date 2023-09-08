@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\EmailController;
 Route::group(["middleware" => "auth:api"], function () {
 
 
@@ -27,6 +27,7 @@ Route::group(["middleware" => "auth:api"], function () {
     Route::group(["middleware" => "admin", "prefix" => "admin"], function () {
         Route::post('banuser', [AdminController::class, 'banUser']);
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
+        Route::post('sendemail',[AdminController::class, 'sendEmail']);
     });
 
 
@@ -40,4 +41,7 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("register", [AuthController::class, "register"]);
     Route::post("submitcontactus", [AuthController::class, "submitContactus"]);
     Route::get("contactus", [AuthController::class, "getContactus"]);
+    Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
+    Route::post("verifycode", [AuthController::class, "verifyCode"]); 
+    Route::post("resetpassword", [AuthController::class, "resetPassword"]);
 });

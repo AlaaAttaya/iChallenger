@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\User;
+use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 
 class AdminController extends Controller
@@ -40,5 +41,33 @@ class AdminController extends Controller
         $user->save();
     
         return response()->json(['message' => 'User has been unbanned.']);
+    }
+    public function sendEmail(Request $request)
+    {
+        
+        $request->validate([
+            'to' => 'required|email',
+            'subject' => 'required|string',
+            'body' => 'required|string',
+        ]);
+
+        
+        $to = $request->input('to');
+        $subject = $request->input('subject');
+        $body = $request->input('body');
+        $isTransactional = true; 
+
+        
+        $from = 'ichallenger@yahoo.com';
+        $fromName = 'Admin';
+
+        
+        $emailController = new EmailController();
+
+        
+        $response = $emailController->sendEmail($from, $fromName, $to, $subject, $body, $isTransactional);
+
+       
+        return response()->json(['message' => $response]);
     }
 }

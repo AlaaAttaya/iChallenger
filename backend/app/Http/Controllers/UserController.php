@@ -23,19 +23,13 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+            'email' => 'required|string|max:255|unique:users,email,' . $user->id,
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/images/u_'.$user->id.'_'.$request->username);
-            $image_path = "/storage".str_replace('public', '', $imagePath);
-        } else {
-            $image_path = $user->image; 
-        }
 
         $user->name = $request->name;
         $user->username = $request->username;
-        $user->profileimage = $image_path;
+        $user->email = $request->email;
 
         $user->save();
 
@@ -66,6 +60,7 @@ class UserController extends Controller
             'message' => 'Password changed successfully'
         ]);
     }
+    
     public function getCountries()
     {
         $countries = Country::all();
@@ -85,4 +80,6 @@ class UserController extends Controller
             'data' => $regions,
         ]);
     }
+    
+   
 }
