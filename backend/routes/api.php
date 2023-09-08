@@ -13,6 +13,7 @@ Route::group(["middleware" => "auth:api"], function () {
 
         Route::get("countries", [UserController::class, "getCountries"]);
         Route::get("regions", [UserController::class, "getRegions"]);
+
         Route::get("search", [AuthController::class, "getAllUsers"]);
         Route::get("profile", [AuthController::class, "profile"]);
         Route::post("logout", [AuthController::class, "logout"]);
@@ -35,8 +36,18 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('report', [UserController::class, 'reportUser']);
 
 
-        Route::post('sendmessage', [MessageController::class, 'sendMessage']);
+        Route::post('sendmessage', [UserController::class, 'sendMessage']);
        
+        Route::get('getgames', [UserController::class, 'getGames']);
+
+        Route::post('createpost', [UserController::class, 'createPost']);
+        Route::delete('deletepost', [UserController::class, 'deletePost']);
+        Route::get('getallposts', [UserController::class, 'getAllPosts']);
+        Route::post('likepost', [UserController::class, 'likePost']);
+        Route::post('unlikepost', [UserController::class, 'unlikePost']);
+        Route::post('createcomment', [UserController::class, 'createComment']);
+        Route::delete('deletecomment', [UserController::class, 'deleteComment']);
+        Route::get('getpostcomments', [UserController::class, 'getPostComments']);
 
     });
 
@@ -47,11 +58,11 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
         Route::get('getreports', [AdminController::class, 'getReports']);
 
-        Route::get('getgames', [AdminController::class, 'getGames']);
+        
         Route::post('creategame', [AdminController::class, 'createGame']);
         Route::post('updategame', [AdminController::class, 'updateGame']);
 
-        
+
     });
 
 

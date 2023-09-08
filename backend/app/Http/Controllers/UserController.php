@@ -13,6 +13,12 @@ use App\Models\Region;
 use App\Models\Follower; 
 use App\Models\Report; 
 use App\Models\Message;
+use App\Models\Game;
+use App\Models\Post;
+use App\Models\PostLike;
+use App\Models\PostComment;
+use App\Models\PostUpload;
+
 
 use Illuminate\Support\Facades\Log; 
 
@@ -266,4 +272,101 @@ class UserController extends Controller
             'data' => $message,
         ]);
     }
+
+    public function getGames(Request $request)
+    {
+        $search = $request->input('search');
+
+        $games = Game::query();
+
+        if (!empty($search)) {
+            
+            $games->where('name', 'like', $search . '%');
+        }
+
+        $games = $games->get();
+
+        return response()->json(['status' => 'Success', 'data' => $games]);
+    }
+
+        public function createPost(Request $request)
+    {   
+    
+        $request->validate([
+            'description' => 'required|string|max:255',
+            'game_forum_id' => 'required|exists:game_forums,id',
+            'uploads' => 'array',
+            'uploads.*' => 'file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:204800', 
+        ]);
+
+    
+        $post = new Post([
+            'user_id' => Auth::user()->id,
+            'game_forum_id' => $request->input('game_forum_id'),
+            'description' => $request->input('description'),
+        ]);
+
+        $post->save();
+
+        
+        if ($request->hasFile('uploads')) {
+            foreach ($request->file('uploads') as $upload) {
+                
+                $filePath = $upload->store('public/users/u_' . $user->id . '_' . $request->username . '/posts/');
+                $filePath = "/storage" . str_replace('public', '', $filePath);
+
+                $postUpload = new PostUpload([
+                    'post_id' => $post->id,
+                    'file_path' => $filePath,
+                ]);
+
+                $postUpload->save();
+            }
+        }
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post created successfully',
+            'data' => $post,
+        ]);
+    }
+
+        public function deletePost(Request $request)
+    {   $postId = $request->input('postId');
+        $user=Auth::user();
+        $post = Post::find($postId);
+
+        
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404); 
+        }
+
+        $post->delete();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post and associated data deleted successfully.',
+        ]);
+    }
+
+    public function getAllPosts()
+    {   
+        $user=Auth::user();
+        $posts = Post::withCount('postLikes', 'postComments')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Posts retrieved successfully',
+            'data' => $posts,
+        ]);
+    }
+
+
+
+    
 }

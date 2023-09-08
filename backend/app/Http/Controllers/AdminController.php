@@ -91,6 +91,7 @@ class AdminController extends Controller
         ]);
     }
 
+    //Create Game
     public function createGame(Request $request)
     {
         $request->validate([
@@ -119,21 +120,7 @@ class AdminController extends Controller
         return response()->json(['status' => 'Success', 'message' => 'Game created successfully', 'data' => $game]);
     }
 
-        public function getGames(Request $request)
-    {
-        $search = $request->input('search');
-
-        $games = Game::query();
-
-        if (!empty($search)) {
-            
-            $games->where('name', 'like', $search . '%');
-        }
-
-        $games = $games->get();
-
-        return response()->json(['status' => 'Success', 'data' => $games]);
-    }
+   
 
     
     public function updateGame(Request $request)
@@ -174,6 +161,6 @@ class AdminController extends Controller
     }
 
 
-    
+
     
 }
