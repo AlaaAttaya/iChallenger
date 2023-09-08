@@ -33,6 +33,9 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('following', [UserController::class, "getUserFollowing"]);
 
         Route::post('report', [UserController::class, 'reportUser']);
+
+
+        Route::post('sendmessage', [MessageController::class, 'sendMessage']);
        
 
     });

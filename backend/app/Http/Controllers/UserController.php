@@ -12,6 +12,7 @@ use App\Models\Country;
 use App\Models\Region;
 use App\Models\Follower; 
 use App\Models\Report; 
+use App\Models\Message;
 
 use Illuminate\Support\Facades\Log; 
 
@@ -238,5 +239,31 @@ class UserController extends Controller
             'data' => $report,
         ]);
     }
-   
+
+
+    public function sendMessage(Request $request)
+    {
+        $request->validate([
+            'recipient_id' => 'required|exists:users,id',
+            'content' => 'required|string',
+        ]);
+
+    
+        $sender = Auth::user();
+
+        
+        $message = new Message([
+            'sender_id' => $sender->id,
+            'recipient_id' => $request->recipient_id,
+            'content' => $request->content,
+        ]);
+
+        $message->save();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Message sent successfully',
+            'data' => $message,
+        ]);
+    }
 }

@@ -68,6 +68,19 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('reported_user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
+        Schema::create('messages', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('sender_id');
+            $table->unsignedBigInteger('recipient_id');
+            $table->text('content');
+            $table->timestamps();
+            
+            
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('recipient_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -80,5 +93,6 @@ return new class extends Migration
         Schema::dropIfExists('user_roles');
         Schema::dropIfExists('follows');
         Schema::dropIfExists('reports');
+        Schema::dropIfExists('messages');
     }
 };
