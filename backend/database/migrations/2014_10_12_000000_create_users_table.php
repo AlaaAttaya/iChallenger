@@ -81,6 +81,78 @@ return new class extends Migration
             $table->foreign('recipient_id')->references('id')->on('users')->onDelete('cascade');
         });
 
+      
+         Schema::create('games', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        
+        Schema::create('game_forums', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('game_id');
+            $table->string('name'); 
+            
+            $table->timestamps();
+
+           
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+        });
+
+       
+        Schema::create('game_modes', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('game_id');
+            $table->string('name');
+          
+            $table->timestamps();
+
+        
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+        });
+
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('game_forum_id'); 
+            $table->text('description');
+            $table->timestamps();
+            $table->foreign('game_forum_id')->references('id')->on('game_forums')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('post_uploads', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('post_id');
+            $table->string('file_path');
+            $table->timestamps();
+
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+        });
+
+
+        Schema::create('post_likes', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+        });
+
+        Schema::create('post_comments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id');
+            $table->text('comment');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -91,8 +163,19 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('user_authentications');
         Schema::dropIfExists('user_roles');
+        
         Schema::dropIfExists('follows');
+
         Schema::dropIfExists('reports');
+
         Schema::dropIfExists('messages');
+
+        Schema::dropIfExists('games');
+        Schema::dropIfExists('game_modes');
+        Schema::dropIfExists('game_forums');
+        Schema::dropIfExists('posts');
+        Schema::dropIfExists('post_uploads');
+        Schema::dropIfExists('post_likes');
+        Schema::dropIfExists('post_comments');
     }
 };
