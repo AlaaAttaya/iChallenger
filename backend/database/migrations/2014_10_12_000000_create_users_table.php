@@ -310,5 +310,12 @@ return new class extends Migration
         Schema::dropIfExists('channel_banned_users');
 
         Schema::dropIfExists('leaderboard');
+        Schema::dropIfExists('tournaments');
+        Schema::dropIfExists('brackets');
+        Schema::dropIfExists('matches');
+        Schema::dropIfExists('teams');
+        Schema::dropIfExists('team_members');
+        Schema::dropIfExists('invitations');
+        Schema::dropIfExists('tournament_winners');
     }
 };
