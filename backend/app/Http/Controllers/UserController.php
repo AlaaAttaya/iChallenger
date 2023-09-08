@@ -24,13 +24,14 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'email' => 'required|string|max:255|unique:users,email,' . $user->id,
+            'country' => 'required|string',
         ]);
 
 
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
-
+        $user->country = $request->country;
         $user->save();
 
         return response()->json([
@@ -38,7 +39,7 @@ class UserController extends Controller
             'data' => $user
         ]);
     }
-
+        //changecover/profilepic
     public function changePassword(Request $request)
     {
         $user = Auth::user();
@@ -60,7 +61,7 @@ class UserController extends Controller
             'message' => 'Password changed successfully'
         ]);
     }
-    
+
     public function getCountries()
     {
         $countries = Country::all();
@@ -81,5 +82,71 @@ class UserController extends Controller
         ]);
     }
     
+
+    //Follow
+
+    public function followUser(Request $request)
+    {    $userId=$request->input('user_id');
+        $user = Auth::user();
+        $targetUser = User::find($userId);
+
+        if (!$targetUser) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($user->id === $targetUser->id) {
+            return response()->json(['message' => 'You cannot follow yourself'], 400);
+        }
+
+       
+        if (!$user->isFollowing($targetUser)) {
+            $user->follow($targetUser);
+            return response()->json(['message' => 'You are now following ' . $targetUser->username]);
+        }
+
+        return response()->json(['message' => 'You are already following ' . $targetUser->username]);
+    }
+
+    public function unfollowUser(Request $request)
+    {   $userId=$request->input('user_id');
+        $user = Auth::user();
+        $targetUser = User::find($userId);
+
+        if (!$targetUser) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($user->id === $targetUser->id) {
+            return response()->json(['message' => 'You cannot unfollow yourself'], 400);
+        }
+
+        
+        if ($user->isFollowing($targetUser)) {
+            $user->unfollow($targetUser);
+            return response()->json(['message' => 'You have unfollowed ' . $targetUser->username]);
+        }
+
+        return response()->json(['message' => 'You are not following ' . $targetUser->username]);
+    }
+
+    public function getUserFollowers()
+    {
+        $user = Auth::user();
+    
+        $followersCount = $user->followers->count();
+        $followers = $user->followers;
+    
+        return response()->json(['followers_count' => $followersCount, 'followers' => $followers]);
+    }
+    
+    public function getUserFollowing()
+    {
+        $user = Auth::user();
+    
+        $followingCount = $user->following->count();
+        $following = $user->following;
+    
+        return response()->json(['following_count' => $followingCount, 'following' => $following]);
+    }
    
 }

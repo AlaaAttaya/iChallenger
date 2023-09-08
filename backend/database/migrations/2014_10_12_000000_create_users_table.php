@@ -43,6 +43,19 @@ return new class extends Migration
             $table->string('role'); 
             $table->timestamps();
         });
+
+        Schema::create('follows', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('follower_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+
+          
+            $table->foreign('follower_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unique(['follower_id', 'user_id']);
+        });
+       
     }
 
     /**
@@ -53,5 +66,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('user_authentications');
         Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('follows');
     }
 };
