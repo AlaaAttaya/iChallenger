@@ -153,6 +153,63 @@ return new class extends Migration
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
 
+
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('type');
+            $table->text('message'); 
+            $table->boolean('read')->default(false); 
+            $table->timestamps();
+            
+           
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+
+
+        Schema::create('channels', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->unique();
+            $table->string('name')->unique();
+            $table->timestamps();
+         
+           
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+         });
+
+
+         Schema::create('channel_moderators', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('channel_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+         
+            
+            $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+         });
+
+
+         Schema::create('channel_banned_users', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('channel_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+         
+           
+            $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+         });
+         
+         Schema::create('leaderboard', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->unique();
+            $table->integer('won')->default(0);
+            $table->integer('lost')->default(0);
+            $table->integer('points')->default(0);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -169,13 +226,21 @@ return new class extends Migration
         Schema::dropIfExists('reports');
 
         Schema::dropIfExists('messages');
+        Schema::dropIfExists('notifications');
 
         Schema::dropIfExists('games');
         Schema::dropIfExists('game_modes');
         Schema::dropIfExists('game_forums');
+
         Schema::dropIfExists('posts');
         Schema::dropIfExists('post_uploads');
         Schema::dropIfExists('post_likes');
         Schema::dropIfExists('post_comments');
+
+        Schema::dropIfExists('channels');
+        Schema::dropIfExists('channel_moderators');
+        Schema::dropIfExists('channel_banned_users');
+        
+        Schema::dropIfExists('leaderboard');
     }
 };
