@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('country');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profileimage');
-            $table->string('coverimage');
+            $table->string('profileimage')->default('/storage/images/profilepic.png');
+            $table->string('coverimage')->default('/storage/images/coverpic.png'); 
             $table->string('temporary_code')->nullable();
             $table->timestamp('temporary_code_expiration')->nullable();
             $table->boolean('is_banned')->default(false);

@@ -30,6 +30,10 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('followers', [UserController::class, "getUserFollowers"]);
         Route::get('following', [UserController::class, "getUserFollowing"]);
 
+
+        Route::post('changeprofilepic', [UserController::class, "changeProfilePic"]);
+        Route::post('changecoverpic', [UserController::class, "changeCoverPic"]);
+
     });
 
 
@@ -51,7 +55,7 @@ Route::group(["prefix" => "guest"], function () {
 
     Route::post("submitcontactus", [AuthController::class, "submitContactus"]);
     Route::get("contactus", [AuthController::class, "getContactus"]);
-    
+
     Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
     Route::post("verifycode", [AuthController::class, "verifyCode"]); 
     Route::post("resetpassword", [AuthController::class, "resetPassword"]);

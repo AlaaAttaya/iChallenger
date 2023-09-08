@@ -39,7 +39,71 @@ class UserController extends Controller
             'data' => $user
         ]);
     }
-        //changecover/profilepic
+        
+    public function changeProfilePic(Request $request)
+    {
+        $user = Auth::user();
+    
+       
+        $request->validate([
+            'profileimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+        ]);
+    
+        if ($request->hasFile('profileimage')) {
+           
+            $imagePath = $request->file('profileimage')->store('public/users/u_' . $user->id . '_' . $request->username . '/profile/');
+            $imagePath = "/storage" . str_replace('public', '', $imagePath);
+    
+        
+            $user->profileimage = $imagePath;
+            $user->save();
+    
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Profile picture changed successfully',
+                'data' => $user,
+            ]);
+        }
+    
+        return response()->json([
+            'status' => 'Error',
+            'message' => 'No new profile picture uploaded',
+        ]);
+    }
+    
+    public function changeCoverPic(Request $request)
+    {
+        $user = Auth::user();
+    
+       
+        $request->validate([
+            'coverimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+        ]);
+    
+        if ($request->hasFile('coverimage')) {
+            
+            $imagePath =  $request->file('coverimage')->store('public/users/u_' . $user->id . '_' . $request->username . '/cover/');
+            $imagePath = "/storage" . str_replace('public', '', $imagePath);
+    
+           
+            $user->coverimage = $imagePath;
+            $user->save();
+    
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Cover picture changed successfully',
+                'data' => $user,
+            ]);
+        }
+    
+        return response()->json([
+            'status' => 'Error',
+            'message' => 'No new cover picture uploaded',
+        ]);
+    }
+    
+
+
     public function changePassword(Request $request)
     {
         $user = Auth::user();
