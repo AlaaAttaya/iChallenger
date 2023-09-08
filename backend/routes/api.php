@@ -19,6 +19,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('changepassword',  [UserController::class, "changePassword"]);
         Route::get("countries", [UserController::class, "getCountries"]);
         Route::get("regions", [UserController::class, "getRegions"]);
+        Route::post('connectauth', [AuthController::class, 'connectauth']);
+        Route::post('disconnectauth', [AuthController::class, 'disconnectauth']);
     });
 
 

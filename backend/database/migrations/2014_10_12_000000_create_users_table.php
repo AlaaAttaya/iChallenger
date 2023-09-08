@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('profileimage');
             $table->string('coverimage');
+            $table->string('temporary_code')->nullable();
+            $table->timestamp('temporary_code_expiration')->nullable();
             $table->boolean('is_banned')->default(false);
             $table->unsignedBigInteger('user_role_id');
             $table->rememberToken();

@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\ContactUs;
+use App\Models\UserAuthentication;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
 {
 
-  //User
+    //User
 
     public function unauthorized(Request $request)
     {
@@ -156,7 +157,8 @@ class AuthController extends Controller
         ]);
     }
     
-    
+    //Contact us
+
     public function getContactUs(Request $request)
     {
         $search = $request->input('search');
@@ -196,7 +198,42 @@ class AuthController extends Controller
        
         return response()->json(['message' => 'Contact us message submitted successfully']);
     }
-   
-  
+
+    //Authentication
+
+    public function connectauth(Request $request)
+    {   $user = Auth::user();
+        $request->validate([
+            'provider' => 'required|string',
+            'auth_id' => 'required|string',
+        ]);
+    
+        
+    
+        $user->authentications()->create([
+            'provider' => $request->provider,
+            'auth_id' => $request->auth_id,
+            'user_id' => $user->id,
+        ]);
+    
+        return response()->json(['message' => 'User authentication connected successfully'], 201);
+    }
+    
+    public function disconnectauth(Request $request)
+    {
+        $user = Auth::user();
+    
+        $request->validate([
+            'provider' => 'required|string',
+            'auth_id' => 'required|string',
+        ]);
+    
+        $user->authentications()
+             ->where('provider', $request->provider)
+             ->where('auth_id', $request->auth_id)
+             ->delete();
+    
+        return response()->json(['message' => 'User authentication disconnected successfully'], 200);
+    }
 
 }

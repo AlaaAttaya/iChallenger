@@ -26,7 +26,8 @@ class User extends Authenticatable implements JWTSubject
         'coverimage',
         'is_banned',
         'user_role_id',
-        'country'
+        'country',
+        'temporary_code', 
     ];
 
     /**
