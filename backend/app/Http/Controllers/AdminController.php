@@ -12,7 +12,9 @@ use Illuminate\Support\Carbon;
 use App\Http\Controllers\EmailController;
 use App\Models\Report;
 use App\Models\User;
-
+use App\Models\Game;
+use App\Models\GameForum;
+use App\Models\GameMode;
 
 class AdminController extends Controller
 {
@@ -88,4 +90,90 @@ class AdminController extends Controller
             'data' => $reports->get(),
         ]);
     }
+
+    public function createGame(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|unique:games',
+            'game_modes' => 'required|array',
+            'game_modes.*.name' => 'required|string',
+            'game_modes.*.max_players_per_team' => 'required|integer',
+        ]);
+    
+        
+        $game = Game::create([
+            'name' => $request->input('name'),
+        ]);
+    
+        
+        foreach ($request->input('game_modes') as $mode) {
+            $game->gameModes()->create($mode);
+        }
+    
+        
+        GameForum::create([
+            'game_id' => $game->id,
+            'name' => $game->name,
+        ]);
+    
+        return response()->json(['status' => 'Success', 'message' => 'Game created successfully', 'data' => $game]);
+    }
+
+        public function getGames(Request $request)
+    {
+        $search = $request->input('search');
+
+        $games = Game::query();
+
+        if (!empty($search)) {
+            
+            $games->where('name', 'like', $search . '%');
+        }
+
+        $games = $games->get();
+
+        return response()->json(['status' => 'Success', 'data' => $games]);
+    }
+
+    
+    public function updateGame(Request $request)
+    {   
+        $id=$request->input('id');
+
+        $request->validate([
+            'name' => 'required|string|unique:games,name,' . $id,
+            'game_modes' => 'required|array',
+            'game_modes.*.name' => 'required|string',
+            'game_modes.*.max_players_per_team' => 'required|integer',
+        ]);
+
+        $game = Game::find($id);
+
+        if (!$game) {
+            return response()->json(['status' => 'Error', 'message' => 'Game not found'], 404);
+        }
+
+       
+        $game->name = $request->input('name');
+        $game->save();
+
+        
+        foreach ($request->input('game_modes') as $modeData) {
+            $gameMode = $game->gameModes->firstWhere('name', $modeData['name']);
+
+            if ($gameMode) {
+               
+                $gameMode->update($modeData);
+            } else {
+                
+                $game->gameModes()->create($modeData);
+            }
+        }
+
+        return response()->json(['status' => 'Success', 'message' => 'Game updated successfully', 'data' => $game]);
+    }
+
+
+    
+    
 }

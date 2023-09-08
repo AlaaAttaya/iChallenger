@@ -46,6 +46,12 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
         Route::get('getreports', [AdminController::class, 'getReports']);
+
+        Route::get('getgames', [AdminController::class, 'getGames']);
+        Route::post('creategame', [AdminController::class, 'createGame']);
+        Route::post('updategame', [AdminController::class, 'updateGame']);
+
+        
     });
 
 
