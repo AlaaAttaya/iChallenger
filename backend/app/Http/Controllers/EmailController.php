@@ -11,13 +11,8 @@ class EmailController extends Controller
     {
         try {
            
-            $fromAddress = env('MAIL_FROM_ADDRESS');
-            $fromNameValue = env('MAIL_FROM_NAME');
-
-           
-            $from = $from ?? $fromAddress;
-            $fromName = $fromName ?? $fromNameValue;
-
+            $from = env('MAIL_FROM_ADDRESS');
+            $fromName = env('MAIL_FROM_NAME');
            
             Mail::raw($body, function ($message) use ($from, $fromName, $to, $subject) {
                 $message->to($to);

@@ -257,8 +257,8 @@ class AuthController extends Controller
         $user->temporary_code_expiration = now()->addMinutes(15);
         $user->save();
 
-        $from = 'ichallenger@yahoo.com';
-        $fromName = 'Admin';
+        $from = 'ichallenger@zohomail.com';
+        $fromName = 'iChallenger';
         $to = $user->email;
         $subject = 'Password Reset Code';
         $body = 'Your password reset code is: ' . $code;

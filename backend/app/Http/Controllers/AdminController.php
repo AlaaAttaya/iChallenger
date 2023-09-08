@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
-use App\Models\User;
-use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\EmailController;
+use App\Models\Report;
+use App\Models\User;
+
 
 class AdminController extends Controller
 {
@@ -58,7 +60,7 @@ class AdminController extends Controller
         $isTransactional = true; 
 
         
-        $from = 'ichallenger@yahoo.com';
+        $from = 'ichallenger@zohomail.com';
         $fromName = 'Admin';
 
         
@@ -69,5 +71,21 @@ class AdminController extends Controller
 
        
         return response()->json(['message' => $response]);
+    }
+    
+    public function getReports(Request $request)
+    {
+        $user = Auth::user();
+    
+        $reports = Report::with('reportedUser');
+    
+        if ($request->has('search_username')) {
+            $reports->whereHas('reportedUser', 'like', '%' . $request->input('search_username') . '%');
+        }
+    
+        return response()->json([
+            'status' => 'Success',
+            'data' => $reports->get(),
+        ]);
     }
 }

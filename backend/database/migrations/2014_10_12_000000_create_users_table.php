@@ -56,6 +56,18 @@ return new class extends Migration
             $table->unique(['follower_id', 'user_id']);
         });
        
+
+        Schema::create('reports', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('reported_user_id'); 
+            $table->text('message'); 
+            $table->timestamps();
+
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('reported_user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**
@@ -67,5 +79,6 @@ return new class extends Migration
         Schema::dropIfExists('user_authentications');
         Schema::dropIfExists('user_roles');
         Schema::dropIfExists('follows');
+        Schema::dropIfExists('reports');
     }
 };

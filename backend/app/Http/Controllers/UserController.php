@@ -10,6 +10,8 @@ use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Region;
+use App\Models\Follower; 
+use App\Models\Report; 
 
 use Illuminate\Support\Facades\Log; 
 
@@ -211,6 +213,30 @@ class UserController extends Controller
         $following = $user->following;
     
         return response()->json(['following_count' => $followingCount, 'following' => $following]);
+    }
+
+    
+    public function reportUser(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'reported_user_id' => 'required|exists:users,id', 
+            'message' => 'required|string|max:255', 
+        ]);
+
+        
+        $report = new Report();
+        $report->user_id = $user->id; 
+        $report->reported_user_id = $request->input('reported_user_id'); 
+        $report->message = $request->input('message'); 
+        $report->save();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User reported successfully',
+            'data' => $report,
+        ]);
     }
    
 }

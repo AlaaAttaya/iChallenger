@@ -17,7 +17,9 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get("profile", [AuthController::class, "profile"]);
         Route::post("logout", [AuthController::class, "logout"]);
         Route::post("refresh", [AuthController::class, "refresh"]);
-       
+
+        Route::post('changeprofilepic', [UserController::class, "changeProfilePic"]);
+        Route::post('changecoverpic', [UserController::class, "changeCoverPic"]);
         Route::post('editprofile', [UserController::class, "editProfile"]);
         Route::post('changepassword',  [UserController::class, "changePassword"]);
      
@@ -30,9 +32,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('followers', [UserController::class, "getUserFollowers"]);
         Route::get('following', [UserController::class, "getUserFollowing"]);
 
-
-        Route::post('changeprofilepic', [UserController::class, "changeProfilePic"]);
-        Route::post('changecoverpic', [UserController::class, "changeCoverPic"]);
+        Route::post('report', [UserController::class, 'reportUser']);
+       
 
     });
 
@@ -41,6 +42,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('banuser', [AdminController::class, 'banUser']);
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
+        Route::get('getreports', [AdminController::class, 'getReports']);
     });
 
 
