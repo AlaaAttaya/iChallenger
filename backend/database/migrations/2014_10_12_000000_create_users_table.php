@@ -105,7 +105,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('game_id');
             $table->string('name');
-          
+            $table->unsignedSmallInteger('max_players_per_team')->default(1); 
             $table->timestamps();
 
         
@@ -210,6 +210,74 @@ return new class extends Migration
             $table->integer('points')->default(0);
             $table->timestamps();
         });
+
+        Schema::create('tournaments', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('game_id');
+            $table->unsignedBigInteger('game_mode_id');
+            $table->unsignedBigInteger('tournament_type_id');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->boolean('is_completed')->default(false);
+            $table->integer('tournament_size');
+            $table->timestamps();
+        });
+        
+        Schema::create('brackets', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('tournament_id');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('matches', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('bracket_id');
+            $table->date('match_date');
+            $table->boolean('is_completed')->default(false);
+            $table->unsignedBigInteger('winner_id')->nullable();
+            $table->timestamps();
+        });
+
+
+        Schema::create('teams', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('captain_id')->nullable();
+            $table->foreign('captain_id')->references('id')->on('users')->onDelete('set null');
+            $table->timestamps();
+        });
+
+
+        Schema::create('team_members', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('is_captain')->default(false);
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('invitations', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('invited_user_id');
+            $table->string('status');
+            $table->timestamps();
+        });
+
+        Schema::create('tournament_winners', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('tournament_id');
+            $table->unsignedBigInteger('winner_id'); 
+            $table->timestamps();
+        
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->foreign('winner_id')->references('id')->on('teams')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -240,7 +308,7 @@ return new class extends Migration
         Schema::dropIfExists('channels');
         Schema::dropIfExists('channel_moderators');
         Schema::dropIfExists('channel_banned_users');
-        
+
         Schema::dropIfExists('leaderboard');
     }
 };
