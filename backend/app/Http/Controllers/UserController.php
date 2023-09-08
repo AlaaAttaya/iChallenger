@@ -365,8 +365,162 @@ class UserController extends Controller
             'data' => $posts,
         ]);
     }
+    
+    public function likePost(Request $request)
+    {
+        $postId = $request->input('postId');
+        $user = Auth::user();
+
+        $post = Post::find($postId);
+
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404);
+        }
+
+        $like = new PostLike([
+            'user_id' => $user->id,
+            'post_id' => $postId,
+        ]);
+
+        $like->save();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post liked successfully',
+        ]);
+    }
+
+        public function unlikePost(Request $request)
+    {
+        $postId = $request->input('postId');
+        $user = Auth::user();
+
+        $like = PostLike::where('user_id', $user->id)
+            ->where('post_id', $postId)
+            ->first();
+
+        if (!$like) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Like not found.',
+            ], 404);
+        }
+
+        $like->delete();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post unliked successfully',
+        ]);
+    }
 
 
+        public function createComment(Request $request)
+    {
+        $postId = $request->input('postId');
+        $comment = $request->input('comment');
+        $user = Auth::user();
+
+        $post = Post::find($postId);
+
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404);
+        }
+
+        $postComment = new PostComment([
+            'user_id' => $user->id,
+            'post_id' => $postId,
+            'comment' => $comment,
+        ]);
+
+        $postComment->save();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Comment created successfully',
+        ]);
+    }
+
+
+        public function deleteComment(Request $request)
+    {
+        $commentId = $request->input('commentId');
+        $user = Auth::user();
+
+        $comment = PostComment::find($commentId);
+
+        if (!$comment) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Comment not found.',
+            ], 404);
+        }
+
+        if ($comment->user_id !== $user->id) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You are not authorized to delete this comment.',
+            ], 403);
+        }
+
+        $comment->delete();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Comment deleted successfully',
+        ]);
+    }
+
+    public function getPostComments(Request $request)
+    {  
+        $postId = $request->input('postId');
+        $user = Auth::user();
+        $post = Post::find($postId);
+    
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404);
+        }
+    
+        $comments = $post->postComments;
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Comments retrieved successfully',
+            'data' => $comments,
+        ]);
+    }
+
+    public function getPostLikes(Request $request)
+    {
+        $postId = $request->input('postId');
+        $user = Auth::user();
+        $post = Post::find($postId);
+    
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404);
+        }
+    
+        $likes = $post->postLikes;
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post likes retrieved successfully',
+            'data' => $likes,
+        ]);
+    }
+    
 
     
 }

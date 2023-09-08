@@ -48,7 +48,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('createcomment', [UserController::class, 'createComment']);
         Route::delete('deletecomment', [UserController::class, 'deleteComment']);
         Route::get('getpostcomments', [UserController::class, 'getPostComments']);
-
+        Route::get('getpostlikes', [UserController::class, 'getPostLikes']);
     });
 
 
