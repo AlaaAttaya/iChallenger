@@ -21,7 +21,7 @@ use App\Models\TeamMember;
 use App\Models\Tournament;
 use App\Models\TournamentType;
 use App\Models\TournamentWinner;
-
+use App\Models\Matching;
 class AdminController extends Controller
 {
     public function banUser(Request $request)
@@ -197,6 +197,131 @@ class AdminController extends Controller
     }
 
     
-   
+    public function createTournament(Request $request)
+    {
+       
+        $request->validate([
+            'name' => 'required|string',
+            'game_id' => 'required|exists:games,id',
+            'game_mode_id' => 'required|exists:game_modes,id',
+            'tournament_type_id' => 'required|exists:tournament_types,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'tournament_size' => 'required|integer|min:2',
+        ]);
     
+       
+        $tournament = Tournament::create($request->all());
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Tournament created successfully.',
+            'data' => $tournament,
+        ], 201);
+    }
+
+        public function updateTournament(Request $request)
+    {
+        $tournamentId=$request->input('tournamentId');
+        $tournament = Tournament::find($tournamentId);
+
+        if (!$tournament) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Tournament not found.',
+            ], 404);
+        }
+
+       
+        $request->validate([
+            'name' => 'string',
+            'game_id' => 'exists:games,id',
+            'game_mode_id' => 'exists:game_modes,id',
+            'tournament_type_id' => 'exists:tournament_types,id',
+            'start_date' => 'date',
+            'end_date' => 'date|after:start_date',
+            'tournament_size' => 'integer|min:2',
+        ]);
+
+       
+        $tournament->update($request->all());
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Tournament updated successfully.',
+            'data' => $tournament,
+        ]);
+    }
+        public function createMatch(Request $request)
+    {
+        
+        $request->validate([
+            'bracket_id' => 'required|exists:brackets,id',
+            'match_date' => 'required|date',
+        ]);
+
+        
+        $match = Matching::create($request->all());
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Match created successfully.',
+            'data' => $match,
+        ], 201);
+    }
+        public function markMatchAsComplete(Request $request, $matchId)
+    {
+        
+        $match = Matching::find($matchId);
+
+        if (!$match) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Match not found.',
+            ], 404);
+        }
+
+        
+        $match->update(['is_completed' => true]);
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Match marked as complete successfully.',
+            'data' => $match,
+        ]);
+    }
+
+        public function createTeam(Request $request)
+    {
+       
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+       
+        $team = Team::create($request->all());
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Team created successfully.',
+            'data' => $team,
+        ], 201);
+    }
+    public function createTournamentWinner(Request $request)
+    {
+        
+        $request->validate([
+            'tournament_id' => 'required|exists:tournaments,id',
+            'winner_id' => 'required|exists:teams,id',
+        ]);
+    
+       
+        $tournamentWinner = TournamentWinner::create($request->all());
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Tournament winner added successfully.',
+            'data' => $tournamentWinner,
+        ], 201);
+    }
 }

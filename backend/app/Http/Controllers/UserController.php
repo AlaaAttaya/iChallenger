@@ -13,7 +13,6 @@ use App\Models\Region;
 use App\Models\Follower; 
 use App\Models\Report; 
 use App\Models\Message;
-use App\Models\Game;
 use App\Models\Post;
 use App\Models\PostLike;
 use App\Models\PostComment;
@@ -22,6 +21,15 @@ use App\Models\Notification;
 use App\Models\Channel;
 use App\Models\ChannelBannedUser;
 use App\Models\ChannelModerator;
+use App\Models\Game;
+use App\Models\GameForum;
+use App\Models\GameMode;
+use App\Models\Leadboard;
+use App\Models\Team;
+use App\Models\TeamMember;
+use App\Models\Tournament;
+use App\Models\TournamentType;
+use App\Models\TournamentWinner;
 
 use Illuminate\Support\Facades\Log; 
 
@@ -748,6 +756,45 @@ class UserController extends Controller
             'status' => 'Success',
             'message' => 'Leaderboard rankings retrieved successfully.',
             'data' => $leaderboard,
+        ]);
+    }
+        public function getAllTournaments()
+    {
+        $tournaments = Tournament::all();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'All tournaments retrieved successfully.',
+            'data' => $tournaments,
+        ]);
+    }
+        public function filterTournaments(Request $request)
+    {
+       
+        $query = Tournament::query();
+
+        if ($request->has('game_id')) {
+            $query->where('game_id', $request->input('game_id'));
+        }
+
+        if ($request->has('start_date')) {
+            $query->where('start_date', '>=', $request->input('start_date'));
+        }
+
+        if ($request->has('end_date')) {
+            $query->where('end_date', '<=', $request->input('end_date'));
+        }
+
+        if ($request->has('game_mode_id')) {
+            $query->where('game_mode_id', $request->input('game_mode_id'));
+        }
+
+        $filteredTournaments = $query->get();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Tournaments filtered successfully.',
+            'data' => $filteredTournaments,
         ]);
     }
     

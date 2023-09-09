@@ -11,13 +11,15 @@ Route::group(["middleware" => "auth:api"], function () {
 
     Route::group(["prefix" => "user"], function () {
 
-        Route::get("countries", [UserController::class, "getCountries"]);
-        Route::get("regions", [UserController::class, "getRegions"]);
-
         Route::get("search", [AuthController::class, "getAllUsers"]);
         Route::get("profile", [AuthController::class, "profile"]);
         Route::post("logout", [AuthController::class, "logout"]);
         Route::post("refresh", [AuthController::class, "refresh"]);
+        Route::post('connectauth', [AuthController::class, 'connectauth']);
+        Route::post('disconnectauth', [AuthController::class, 'disconnectauth']);
+
+        Route::get("countries", [UserController::class, "getCountries"]);
+        Route::get("regions", [UserController::class, "getRegions"]);
 
         Route::post('changeprofilepic', [UserController::class, "changeProfilePic"]);
         Route::post('changecoverpic', [UserController::class, "changeCoverPic"]);
@@ -25,8 +27,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('changepassword',  [UserController::class, "changePassword"]);
      
 
-        Route::post('connectauth', [AuthController::class, 'connectauth']);
-        Route::post('disconnectauth', [AuthController::class, 'disconnectauth']);
+       
 
         Route::post('follow', [UserController::class, "followUser"]);
         Route::post('unfollow', [UserController::class, "unfollowUser"]);
@@ -59,13 +60,16 @@ Route::group(["middleware" => "auth:api"], function () {
 
 
        
-        Route::get('leaderboard', [LeaderboardController::class, 'getLeaderboard']);
+        Route::get('leaderboard', [UserController::class, 'getLeaderboard']);
 
+        Route::get('tournaments', [UserController::class, 'getAllTournaments']);
+        Route::get('filtertournaments', [UserController::class, 'filterTournaments']);
 
     });
 
 
     Route::group(["middleware" => "admin", "prefix" => "admin"], function () {
+        
         Route::post('banuser', [AdminController::class, 'banUser']);
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
@@ -74,7 +78,14 @@ Route::group(["middleware" => "auth:api"], function () {
         
         Route::post('creategame', [AdminController::class, 'createGame']);
         Route::post('updategame', [AdminController::class, 'updateGame']);
-        Route::post('updateleaderboard', [LeaderboardController::class, 'updateLeaderboard']);
+        Route::post('updateleaderboard', [AdminController::class, 'updateLeaderboard']);
+
+        Route::post('createtournament', [AdminController::class, 'createTournament']);
+        Route::post('updatetournament', [AdminController::class, 'updateTournament']);
+        Route::post('creatematch', [AdminController::class, 'createMatch']);
+        Route::post('markmatchascomplete', [AdminController::class, 'markMatchAsComplete']);
+        Route::post('createteam', [AdminController::class, 'createTeam']);
+        Route::post('createtournamentwinner', [AdminController::class, 'createTournamentWinner']);
 
     });
 
@@ -94,4 +105,5 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
     Route::post("verifycode", [AuthController::class, "verifyCode"]); 
     Route::post("resetpassword", [AuthController::class, "resetPassword"]);
+
 });
