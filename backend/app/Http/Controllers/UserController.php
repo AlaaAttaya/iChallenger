@@ -627,5 +627,82 @@ class UserController extends Controller
         ]);
     }
 
-    
+
+        public function addModeratorToChannel(Request $request)
+    {
+        $userId = $request->input('userId');
+        $channelId = $request->input('channelId');
+        $user = Auth::user();
+
+        
+        $channel = Channel::find($channelId);
+        if (!$channel || $channel->user_id !== $user->id) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You are not authorized to perform this action.',
+            ], 403);
+        }
+
+        
+        $existingModerator = ChannelModerator::where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->first();
+
+        if ($existingModerator) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is already a moderator of the channel.',
+            ]);
+        }
+
+       
+        $moderator = new ChannelModerator([
+            'user_id' => $userId,
+            'channel_id' => $channelId,
+        ]);
+
+        $moderator->save();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User added as a moderator to the channel successfully.',
+        ]);
+    }
+
+        public function removeModeratorFromChannel(Request $request)
+    {
+        $userId = $request->input('userId');
+        $channelId = $request->input('channelId');
+        $user = Auth::user();
+
+        
+        $channel = Channel::find($channelId);
+        if (!$channel || $channel->user_id !== $user->id) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You are not authorized to perform this action.',
+            ], 403);
+        }
+
+        
+        $existingModerator = ChannelModerator::where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->first();
+
+        if (!$existingModerator) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is not a moderator of the channel.',
+            ]);
+        }
+
+       
+        $existingModerator->delete();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User removed as a moderator from the channel successfully.',
+        ]);
+    }
+
 }
