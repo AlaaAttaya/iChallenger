@@ -797,5 +797,75 @@ class UserController extends Controller
             'data' => $filteredTournaments,
         ]);
     }
+
+
+    public function getUserPosts(Request $request)
+    {
+        
+        $username = $request->input('username');
+    
+        
+        $user = User::where('username', $username)
+            ->with('userPosts.userLikes', 'userPosts.userComments')
+            ->first();
+    
+        if (!$user) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+    
+       
+        $userPosts = $user->userPosts;
+    
+        
+        foreach ($userPosts as $post) {
+            $post->like_count = $post->userLikes->count();
+            $post->comment_count = $post->userComments->count();
+        }
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User posts retrieved successfully.',
+            'data' => $userPosts,
+        ]);
+    }
+    
+    
+
+    public function getGameForumPosts(Request $request)
+    {
+        $forumId = $request->input('ForumId');
+    
+       
+        $forum = GameForum::find($forumId);
+    
+        if (!$forum) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Game forum not found.',
+            ], 404);
+        }
+    
+        
+        $posts = $forum->forumPosts()
+            ->with(['user', 'userLikes', 'userComments'])
+            ->get();
+    
+        
+        foreach ($posts as $post) {
+            $post->user->like_count = $post->userLikes->count();
+            $post->user->comment_count = $post->userComments->count();
+        }
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Game forum posts retrieved successfully.',
+            'data' => $posts,
+        ]);
+    }
+    
+    
     
 }

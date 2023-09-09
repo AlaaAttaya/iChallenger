@@ -15,8 +15,9 @@ class GameForum extends Model
         return $this->belongsTo(Game::class);
     }
 
-    public function posts()
+        public function forumPosts()
     {
         return $this->hasMany(Post::class);
     }
+    
 }

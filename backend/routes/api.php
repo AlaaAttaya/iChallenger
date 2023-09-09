@@ -51,7 +51,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::delete('deletecomment', [UserController::class, 'deleteComment']);
         Route::get('getpostcomments', [UserController::class, 'getPostComments']);
         Route::get('getpostlikes', [UserController::class, 'getPostLikes']);
-
+        Route::get('getuserposts', [UserController::class, 'getUserPosts']);
+        Route::get('getgameforumposts', [UserController::class, 'getGameForumPosts']);
         
         Route::post('channel/banuser', [UserController::class, 'banUserFromChannel']);
         Route::post('channel/unbanuser', [UserController::class, 'unbanUserFromChannel']);
@@ -69,7 +70,7 @@ Route::group(["middleware" => "auth:api"], function () {
 
 
     Route::group(["middleware" => "admin", "prefix" => "admin"], function () {
-        
+
         Route::post('banuser', [AdminController::class, 'banUser']);
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
