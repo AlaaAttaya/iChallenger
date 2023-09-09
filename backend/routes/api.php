@@ -37,7 +37,8 @@ Route::group(["middleware" => "auth:api"], function () {
 
 
         Route::post('sendmessage', [UserController::class, 'sendMessage']);
-       
+        Route::post('sendnotification', [UserController::class, 'sendNotification']);
+        
         Route::get('getgames', [UserController::class, 'getGames']);
 
         Route::post('createpost', [UserController::class, 'createPost']);

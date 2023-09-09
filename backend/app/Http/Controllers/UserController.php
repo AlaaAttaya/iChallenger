@@ -18,7 +18,7 @@ use App\Models\Post;
 use App\Models\PostLike;
 use App\Models\PostComment;
 use App\Models\PostUpload;
-
+use App\Models\Notification;
 
 use Illuminate\Support\Facades\Log; 
 
@@ -521,6 +521,32 @@ class UserController extends Controller
         ]);
     }
     
+        public function sendNotification($type, $message)
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $notification = new Notification([
+                'user_id' => $user->id,
+                'type' => $type,
+                'message' => $message,
+            ]);
+
+            $notification->save();
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Notification sent successfully',
+                'data' => $notification,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User not authenticated',
+            ], 401);
+        }
+    }
+
 
     
 }
