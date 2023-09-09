@@ -93,4 +93,46 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Follower::class, 'follower_id');
     }
+    
+    public function channel()
+    {
+        return $this->hasOne(Channel::class, 'user_id');
+    }
+
+    public function channelModerators()
+    {
+        return $this->hasMany(ChannelModerator::class, 'user_id');
+    }
+
+    public function channelBannedUsers()
+    {
+        return $this->hasMany(ChannelBannedUser::class, 'user_id');
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }
+
+        public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'recipient_id');
+    }
+    public function leaderboard()
+    {
+        return $this->hasOne(Leaderboard::class, 'user_id');
+    }
+        public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_members', 'user_id', 'team_id')
+            ->withPivot('is_captain');
+    }
+        public function teamInvitations()
+    {
+        return $this->hasMany(TeamInvitation::class, 'invited_user_id');
+    }
 }
