@@ -38,7 +38,7 @@ Route::group(["middleware" => "auth:api"], function () {
 
         Route::post('sendmessage', [UserController::class, 'sendMessage']);
         Route::post('sendnotification', [UserController::class, 'sendNotification']);
-        
+
         Route::get('getgames', [UserController::class, 'getGames']);
 
         Route::post('createpost', [UserController::class, 'createPost']);
@@ -50,6 +50,18 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::delete('deletecomment', [UserController::class, 'deleteComment']);
         Route::get('getpostcomments', [UserController::class, 'getPostComments']);
         Route::get('getpostlikes', [UserController::class, 'getPostLikes']);
+
+        
+        Route::post('channel/banuser', [UserController::class, 'banUserFromChannel']);
+        Route::post('channel/unbanuser', [UserController::class, 'unbanUserFromChannel']);
+        Route::post('channel/addmoderator', [UserController::class, 'addModeratorToChannel']);
+        Route::post('channel/removemoderator', [UserController::class, 'removeModeratorFromChannel']);
+
+
+       
+        Route::get('leaderboard', [LeaderboardController::class, 'getLeaderboard']);
+
+
     });
 
 
@@ -62,7 +74,7 @@ Route::group(["middleware" => "auth:api"], function () {
         
         Route::post('creategame', [AdminController::class, 'createGame']);
         Route::post('updategame', [AdminController::class, 'updateGame']);
-
+        Route::post('updateleaderboard', [LeaderboardController::class, 'updateLeaderboard']);
 
     });
 

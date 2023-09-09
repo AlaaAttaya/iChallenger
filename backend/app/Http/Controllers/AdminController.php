@@ -15,6 +15,12 @@ use App\Models\User;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\GameMode;
+use App\Models\Leadboard;
+use App\Models\Team;
+use App\Models\TeamMember;
+use App\Models\Tournament;
+use App\Models\TournamentType;
+use App\Models\TournamentWinner;
 
 class AdminController extends Controller
 {
@@ -161,6 +167,36 @@ class AdminController extends Controller
     }
 
 
+    public function updateLeaderboard(Request $request)
+    {
+        $userId = $request->input('user_id');
 
+       
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+
+        $request->validate([
+            'won' => 'integer',
+            'lost' => 'integer',
+            'points' => 'integer',
+        ]);
+
+        
+        $user->leaderboard()->update($request->only('won', 'lost', 'points'));
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Leaderboard updated successfully.',
+        ]);
+    }
+
+    
+   
     
 }

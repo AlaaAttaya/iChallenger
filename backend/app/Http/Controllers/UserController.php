@@ -705,4 +705,50 @@ class UserController extends Controller
         ]);
     }
 
+    public function getLeaderboard(Request $request)
+    {
+        $searchUsername = $request->input('search');
+    
+        
+        if ($searchUsername) {
+            $user = User::where('username', $searchUsername)->first();
+    
+            if (!$user) {
+                return response()->json([
+                    'status' => 'Error',
+                    'message' => 'User not found.',
+                ], 404);
+            }
+    
+            $leaderboardEntry = Leaderboard::where('user_id', $user->id)->first();
+    
+            if (!$leaderboardEntry) {
+                return response()->json([
+                    'status' => 'Error',
+                    'message' => 'User not found in the leaderboard.',
+                ], 404);
+            }
+    
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'User found in the leaderboard.',
+                'data' => [
+                    'user' => $user,
+                    'leaderboard_entry' => $leaderboardEntry,
+                ],
+            ]);
+        }
+    
+        
+        $leaderboard = Leaderboard::with('user:id,name')
+            ->orderByDesc('points')
+            ->get();
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Leaderboard rankings retrieved successfully.',
+            'data' => $leaderboard,
+        ]);
+    }
+    
 }
