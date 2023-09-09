@@ -19,6 +19,9 @@ use App\Models\PostLike;
 use App\Models\PostComment;
 use App\Models\PostUpload;
 use App\Models\Notification;
+use App\Models\Channel;
+use App\Models\ChannelBannedUser;
+use App\Models\ChannelModerator;
 
 use Illuminate\Support\Facades\Log; 
 
@@ -547,6 +550,82 @@ class UserController extends Controller
         }
     }
 
+        public function banUserFromChannel(Request $request)
+    {
+        $userId = $request->input('userId');
+        $channelId = $request->input('channelId');
+        $user = Auth::user();
+
+        
+        $channel = Channel::find($channelId);
+        if (!$channel || $channel->user_id !== $user->id) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You are not authorized to perform this action.',
+            ], 403);
+        }
+
+        
+        $existingBan = ChannelBannedUser::where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->first();
+
+        if ($existingBan) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is already banned from the channel.',
+            ]);
+        }
+
+        
+        $ban = new ChannelBannedUser([
+            'user_id' => $userId,
+            'channel_id' => $channelId,
+        ]);
+
+        $ban->save();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User banned from the channel successfully.',
+        ]);
+    }
+    
+        public function unbanUserFromChannel(Request $request)
+    {
+        $userId = $request->input('userId');
+        $channelId = $request->input('channelId');
+        $user = Auth::user();
+
+        
+        $channel = Channel::find($channelId);
+        if (!$channel || $channel->user_id !== $user->id) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You are not authorized to perform this action.',
+            ], 403);
+        }
+
+        
+        $existingBan = ChannelBannedUser::where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->first();
+
+        if (!$existingBan) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is not banned from the channel.',
+            ]);
+        }
+
+       
+        $existingBan->delete();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User unbanned from the channel successfully.',
+        ]);
+    }
 
     
 }
