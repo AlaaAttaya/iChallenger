@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         UserRole::create(['role' => 'Player']);
         User::create([
             'name' => 'Admin',
-            'username' => 'admin',
+            'username' => 'Admin',
             'email' => 'admin@ichallenger.com',
             'password' => Hash::make('admin123'),
             'profileimage' => '/storage/images/adminpic.png', 
