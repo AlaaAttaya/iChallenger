@@ -17,6 +17,7 @@ function createWindow() {
 
   // This will load iChallenger site in Desktop
   // win.loadURL("http://localhost:3000");
+  win.setMinimumSize(300, 300);
 
   win.loadFile(path.join(__dirname, "views/login.html"));
 }
