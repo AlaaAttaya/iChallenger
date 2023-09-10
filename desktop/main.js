@@ -1,19 +1,24 @@
+process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
+
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 720,
+
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
     },
+    icon: path.join(__dirname, "assets/images/iChallenger.png"),
   });
 
   // This will load iChallenger site in Desktop
   // win.loadURL("http://localhost:3000");
 
-  win.loadFile(path.join(__dirname, "index.html"));
+  win.loadFile(path.join(__dirname, "views/login.html"));
 }
 
 app.whenReady().then(() => {

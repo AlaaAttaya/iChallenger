@@ -5,7 +5,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <div className="app"></div>
+        <div className="app">asdasd</div>
       </BrowserRouter>
     </>
   );
