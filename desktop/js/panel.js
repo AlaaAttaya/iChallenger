@@ -6,6 +6,7 @@ const logout = document.getElementById("logout-button");
 const base_url = "http://127.0.0.1:8000/api/";
 const avatarimg = document.getElementById("avatarimg");
 const username = document.getElementById("username");
+const websiteButton = document.getElementById("website-button");
 let user;
 
 function refreshToken() {
@@ -23,7 +24,6 @@ function refreshToken() {
       }
     })
     .then((data) => {
-      console.log(data.data.token);
       const token = data.data.token;
       localStorage.setItem("token", token);
 
@@ -51,8 +51,6 @@ async function verifyToken() {
       user = response.data.data;
       avatarimg.src = "http://127.0.0.1:8000" + user.profileimage;
       username.innerText = user.username;
-
-      console.log(user.name);
     } catch (refreshError) {
       console.log(refreshError);
       window.location.href = "../views/login.html";
@@ -82,16 +80,25 @@ document.getElementById("searchnavbar").addEventListener("blur", function () {
   document.getElementById("search-icon").style.fill = "#9e9e9e";
 });
 
+//Burgermenu Button
 burgermenu.addEventListener("click", function () {
   leftnavbar.style.left = "0%";
   ichallengerlogo.style.display = "block";
 });
+//CloseLeftNavbar Button
 closeleftnavbar.addEventListener("click", function () {
   leftnavbar.style.left = "-100%";
   ichallengerlogo.style.display = "none";
 });
 
+//Logout Button
 logout.addEventListener("click", function () {
   localStorage.removeItem("token");
   window.location.href = "../views/login.html";
+});
+
+// Website Button
+
+websiteButton.addEventListener("click", function () {
+  ipcRenderer.send("open-website-window");
 });

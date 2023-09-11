@@ -113,6 +113,7 @@ body {
 .dashboard-svg {
   margin-right: 10px;
 }
+
 .logout-svg {
   margin-right: 10px;
 }
@@ -205,6 +206,14 @@ a {
 }
 #website-button {
   padding-right: 82px;
+}
+
+.dashboard-path {
+  fill: #269c55;
+}
+#dashboard-button {
+  background-color: #9e9e9e49;
+  color: #269c55;
 }
 @media screen and (max-width: 400px) {
   .left-navbar {

@@ -5,8 +5,9 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <div className="app">asdasd</div>
+        <div className="app">asdaasdasdsadasdasd</div>
       </BrowserRouter>
+      {console.log("|test")}
     </>
   );
 };
