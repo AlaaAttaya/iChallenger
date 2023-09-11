@@ -137,7 +137,8 @@ class AuthController extends Controller
             'data' => $user
         ]);
     }
-
+    
+    
     public function getAllUsers(Request $request)
     {
         $searchUsername = $request->input('username','');

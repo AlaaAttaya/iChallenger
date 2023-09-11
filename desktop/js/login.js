@@ -1,9 +1,10 @@
 const base_url = "http://127.0.0.1:8000/api/";
-
 const login = document.getElementById("login");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const error = document.getElementById("error");
+
+localStorage.removeItem("token");
 
 login.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -32,7 +33,7 @@ login.addEventListener("click", async (event) => {
     } else {
       error.innerText = "Unauthorized.";
     }
-  } catch (error) {
-    console.error(error);
+  } catch (response_error) {
+    error.innerText = "Invalid email or password.";
   }
 });
