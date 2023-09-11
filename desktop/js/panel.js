@@ -12,6 +12,9 @@ const emailsButton = document.getElementById("emails-button");
 const tournamentsButton = document.getElementById("tournaments-button");
 const gamesButton = document.getElementById("games-button");
 const usersButton = document.getElementById("users-button");
+const renderedpage = document.getElementById("renderedpage");
+const loadingScreen = document.getElementById("loading"); //loading animation
+
 let user;
 
 function refreshToken() {
@@ -84,16 +87,32 @@ document.getElementById("searchnavbar").addEventListener("blur", function () {
 function handleWindowResize() {
   if (window.innerWidth > 400 && ichallengerlogo.style.display == "block") {
     document.querySelector(".searchbar").style.marginLeft = "180px";
+    renderedpage.style.marginLeft = "220px";
   } else {
     document.querySelector(".searchbar").style.marginLeft = "5px";
+    renderedpage.style.marginLeft = "0px";
   }
 }
 
 window.addEventListener("resize", handleWindowResize);
 
+//Loading Functions
+function showLoadingScreen() {
+  loadingScreen.style.display = "block";
+}
+
+function hideLoadingScreen() {
+  loadingScreen.style.display = "none";
+}
+
 //Burgermenu Button
 burgermenu.addEventListener("click", function () {
   leftnavbar.style.left = "0%";
+  renderedpage.style.marginLeft = "220px";
+  if (window.innerWidth <= 400) {
+    renderedpage.style.marginLeft = "0px";
+  }
+
   ichallengerlogo.style.display = "block";
   if (window.innerWidth > 400) {
     document.querySelector(".searchbar").style.marginLeft = "180px";
@@ -104,6 +123,7 @@ burgermenu.addEventListener("click", function () {
 closeleftnavbar.addEventListener("click", function () {
   leftnavbar.style.left = "-100%";
   ichallengerlogo.style.display = "none";
+  renderedpage.style.marginLeft = "0px";
   document.querySelector(".searchbar").style.marginLeft = "5px";
 });
 
@@ -117,3 +137,21 @@ logout.addEventListener("click", function () {
 websiteButton.addEventListener("click", function () {
   ipcRenderer.send("open-website-window");
 });
+//Dashboard Button
+function LoadDashboard() {
+  showLoadingScreen();
+  fetch("../views/dashboard.html")
+    .then((response) => response.text())
+    .then((html) => {
+      hideLoadingScreen();
+      renderedpage.innerHTML = html;
+    })
+    .catch((error) => {
+      console.error("Error loading the HTML page:", error);
+      hideLoadingScreen();
+    });
+}
+dashboardButton.addEventListener("click", function () {
+  LoadDashboard();
+});
+window.addEventListener("load", LoadDashboard);
