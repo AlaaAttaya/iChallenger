@@ -152,6 +152,11 @@ function LoadEmailPage() {
       hideLoadingScreen();
       localStorage.setItem("currentpage", "email");
       renderedpage.innerHTML = response.data;
+
+      const script = document.createElement("script");
+      script.src = "../js/email.js";
+
+      renderedpage.appendChild(script);
     })
     .catch((error) => {
       console.error("Error loading the HTML page:", error);
@@ -229,7 +234,10 @@ tournamentsButton.addEventListener("click", () => {
 });
 
 function LoadCurrentPage() {
-  currentPage = localStorage.getItem("currentpage");
+  if (localStorage.getItem("currentpage")) {
+    currentPage = localStorage.getItem("currentpage");
+  }
+
   ButtonnotselectedAll();
 
   switch (currentPage) {

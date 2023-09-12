@@ -4,8 +4,7 @@ const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const error = document.getElementById("error");
 
-localStorage.removeItem("token");
-
+localStorage.clear();
 login.addEventListener("click", async (event) => {
   event.preventDefault();
 
