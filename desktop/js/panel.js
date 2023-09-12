@@ -175,7 +175,7 @@ ipcRenderer.on("remove-websitebutton-background-color", () => {
 });
 
 //Dashboard Page
-function LoadDashboard() {
+function LoadDashboardPage() {
   showLoadingScreen();
   ButtonnotselectedAll();
   ButtonsvgSelected(dashboardButton, dashboardsvg);
@@ -193,12 +193,12 @@ function LoadDashboard() {
 }
 //Dashboard Button
 dashboardButton.addEventListener("click", function () {
-  LoadDashboard();
+  LoadDashboardPage();
 });
-window.addEventListener("load", LoadDashboard);
+window.addEventListener("load", LoadDashboardPage);
 
 //Emails Page
-function LoadSendEmail() {
+function LoadEmailPage() {
   showLoadingScreen();
   ButtonnotselectedAll();
   ButtonsvgSelected(emailsButton, emailssvg);
@@ -215,11 +215,11 @@ function LoadSendEmail() {
     });
 }
 emailsButton.addEventListener("click", () => {
-  LoadSendEmail();
+  LoadEmailPage();
 });
 
 //Users Page
-function LoadUsers() {
+function LoadUsersPage() {
   showLoadingScreen();
   ButtonnotselectedAll();
   ButtonsvgSelected(usersButton, userssvg);
@@ -235,3 +235,48 @@ function LoadUsers() {
       hideLoadingScreen();
     });
 }
+usersButton.addEventListener("click", () => {
+  LoadUsersPage();
+});
+
+//Games Page
+function LoadGamesPage() {
+  showLoadingScreen();
+  ButtonnotselectedAll();
+  ButtonsvgSelected(gamesButton, gamessvg);
+
+  axios
+    .get("../views/games.html")
+    .then((response) => {
+      hideLoadingScreen();
+      renderedpage.innerHTML = response.data;
+    })
+    .catch((error) => {
+      console.error("Error loading the HTML page:", error);
+      hideLoadingScreen();
+    });
+}
+gamesButton.addEventListener("click", () => {
+  LoadGamesPage();
+});
+
+//Tournaments Page
+function LoadTournamentsPage() {
+  showLoadingScreen();
+  ButtonnotselectedAll();
+  ButtonsvgSelected(tournamentsButton, tournamentssvg);
+
+  axios
+    .get("../views/tournaments.html")
+    .then((response) => {
+      hideLoadingScreen();
+      renderedpage.innerHTML = response.data;
+    })
+    .catch((error) => {
+      console.error("Error loading the HTML page:", error);
+      hideLoadingScreen();
+    });
+}
+tournamentsButton.addEventListener("click", () => {
+  LoadTournamentsPage();
+});

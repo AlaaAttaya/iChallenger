@@ -69,7 +69,7 @@ class AdminController extends Controller
 
         
         $from = 'ichallenger@zohomail.com';
-        $fromName = 'Admin';
+        $fromName = 'Admin - iChallenger';
 
         
         $emailController = new EmailController();
