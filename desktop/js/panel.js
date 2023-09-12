@@ -14,7 +14,12 @@ const gamesButton = document.getElementById("games-button");
 const usersButton = document.getElementById("users-button");
 const renderedpage = document.getElementById("renderedpage");
 const loadingScreen = document.getElementById("loading"); //loading animation
-
+const websitesvg = document.getElementsByClassName("website-svg")[0];
+const dashboardsvg = document.getElementsByClassName("dashboard-svg")[0];
+const emailssvg = document.getElementsByClassName("emails-svg")[0];
+const tournamentssvg = document.getElementsByClassName("tournaments-svg")[0];
+const gamessvg = document.getElementsByClassName("games-svg")[0];
+const userssvg = document.getElementsByClassName("users-svg")[0];
 let user;
 
 function refreshToken() {
@@ -105,6 +110,31 @@ function hideLoadingScreen() {
   loadingScreen.style.display = "none";
 }
 
+//Selected Page
+function ButtonsvgSelected(button, svg) {
+  button.style.backgroundColor = "#9e9e9e11";
+  button.style.color = "#269c55";
+  const paths = svg.querySelectorAll("path");
+  paths.forEach((path) => {
+    path.style.fill = "#269c55";
+  });
+}
+function ButtonsvgnotSelected(button, svg) {
+  button.style.backgroundColor = "";
+  button.style.color = "#9e9e9e";
+  const paths = svg.querySelectorAll("path");
+  paths.forEach((path) => {
+    path.style.fill = "#9E9E9E";
+  });
+}
+function ButtonnotselectedAll() {
+  ButtonsvgnotSelected(websiteButton, websitesvg);
+  ButtonsvgnotSelected(dashboardButton, dashboardsvg);
+  ButtonsvgnotSelected(gamesButton, gamessvg);
+  ButtonsvgnotSelected(tournamentsButton, tournamentssvg);
+  ButtonsvgnotSelected(emailsButton, emailssvg);
+  ButtonsvgnotSelected(usersButton, userssvg);
+}
 //Burgermenu Button
 burgermenu.addEventListener("click", function () {
   leftnavbar.style.left = "0%";
@@ -137,21 +167,71 @@ logout.addEventListener("click", function () {
 websiteButton.addEventListener("click", function () {
   ipcRenderer.send("open-website-window");
 });
-//Dashboard Button
+ipcRenderer.on("set-websitebutton-background-color", () => {
+  ButtonsvgSelected(websiteButton, websitesvg);
+});
+ipcRenderer.on("remove-websitebutton-background-color", () => {
+  ButtonsvgnotSelected(websiteButton, websitesvg);
+});
+
+//Dashboard Page
 function LoadDashboard() {
   showLoadingScreen();
-  fetch("../views/dashboard.html")
-    .then((response) => response.text())
-    .then((html) => {
+  ButtonnotselectedAll();
+  ButtonsvgSelected(dashboardButton, dashboardsvg);
+
+  axios
+    .get("../views/dashboard.html")
+    .then((response) => {
       hideLoadingScreen();
-      renderedpage.innerHTML = html;
+      renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
       console.error("Error loading the HTML page:", error);
       hideLoadingScreen();
     });
 }
+//Dashboard Button
 dashboardButton.addEventListener("click", function () {
   LoadDashboard();
 });
 window.addEventListener("load", LoadDashboard);
+
+//Emails Page
+function LoadSendEmail() {
+  showLoadingScreen();
+  ButtonnotselectedAll();
+  ButtonsvgSelected(emailsButton, emailssvg);
+
+  axios
+    .get("../views/email.html")
+    .then((response) => {
+      hideLoadingScreen();
+      renderedpage.innerHTML = response.data;
+    })
+    .catch((error) => {
+      console.error("Error loading the HTML page:", error);
+      hideLoadingScreen();
+    });
+}
+emailsButton.addEventListener("click", () => {
+  LoadSendEmail();
+});
+
+//Users Page
+function LoadUsers() {
+  showLoadingScreen();
+  ButtonnotselectedAll();
+  ButtonsvgSelected(usersButton, userssvg);
+
+  axios
+    .get("../views/users.html")
+    .then((response) => {
+      hideLoadingScreen();
+      renderedpage.innerHTML = response.data;
+    })
+    .catch((error) => {
+      console.error("Error loading the HTML page:", error);
+      hideLoadingScreen();
+    });
+}

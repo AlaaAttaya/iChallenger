@@ -2,9 +2,9 @@ process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-
+let win;
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1024,
     height: 720,
 
@@ -41,20 +41,25 @@ app.on("window-all-closed", () => {
 let websiteWindow = null;
 
 ipcMain.on("open-website-window", () => {
+  win.webContents.send("set-websitebutton-background-color");
   if (websiteWindow && !websiteWindow.isDestroyed()) {
     websiteWindow.close();
+  } else {
+    websiteWindow = new BrowserWindow({
+      width: 1024,
+      height: 720,
+      webPreferences: {
+        nodeIntegration: true,
+      },
+      icon: path.join(app.getAppPath(), "assets/images/iChallenger.png"),
+    });
+
+    websiteWindow.loadURL("https://localhost:3000");
+
+    websiteWindow.show();
   }
 
-  websiteWindow = new BrowserWindow({
-    width: 1024,
-    height: 720,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-    icon: path.join(app.getAppPath(), "assets/images/iChallenger.png"),
+  websiteWindow.on("closed", () => {
+    win.webContents.send("remove-websitebutton-background-color");
   });
-
-  websiteWindow.loadURL("https://localhost:3000");
-
-  websiteWindow.show();
 });

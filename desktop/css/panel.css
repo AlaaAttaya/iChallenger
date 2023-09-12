@@ -77,14 +77,18 @@ body {
   font-weight: 500;
 }
 .leftnavbar-button:hover {
-  background-color: #9e9e9e49;
-  color: #269c55;
+  background-color: #9e9e9e49 !important;
+  color: #269c55 !important;
 }
+
 .leftnavbar-button:hover .leftnavbar-svg path {
-  fill: #269c55;
+  fill: #269c55 !important;
 }
 .leftnavbar-button:hover .dashboard-path {
-  fill: #269c55;
+  fill: #269c55 !important;
+}
+.hovered {
+  background-color: #9e9e9e49;
 }
 .logout-button {
   cursor: pointer;
@@ -211,10 +215,6 @@ a {
 
 .dashboard-path {
   fill: #269c55;
-}
-#dashboard-button {
-  background-color: #9e9e9e11;
-  color: #269c55;
 }
 
 .pageloaded {
