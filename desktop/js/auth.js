@@ -53,3 +53,4 @@ async function verifyToken() {
     window.location.href = "../views/login.html";
   }
 }
+window.addEventListener("load", verifyToken);

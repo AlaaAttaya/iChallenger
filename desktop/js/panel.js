@@ -13,7 +13,7 @@ const tournamentsButton = document.getElementById("tournaments-button");
 const gamesButton = document.getElementById("games-button");
 const usersButton = document.getElementById("users-button");
 const renderedpage = document.getElementById("renderedpage");
-const loadingScreen = document.getElementById("loading"); //loading animation
+const loadingScreen = document.getElementById("loading");
 const websitesvg = document.getElementsByClassName("website-svg")[0];
 const dashboardsvg = document.getElementsByClassName("dashboard-svg")[0];
 const emailssvg = document.getElementsByClassName("emails-svg")[0];
@@ -21,64 +21,7 @@ const tournamentssvg = document.getElementsByClassName("tournaments-svg")[0];
 const gamessvg = document.getElementsByClassName("games-svg")[0];
 const userssvg = document.getElementsByClassName("users-svg")[0];
 let user;
-
-function refreshToken() {
-  fetch("http://localhost:8000/api/user/refresh", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        window.location.href = "../views/login.html";
-      }
-    })
-    .then((data) => {
-      const token = data.data.token;
-      localStorage.setItem("token", token);
-
-      setTimeout(refreshToken, 3600000);
-    })
-    .catch((error) => {
-      console.error("Token refresh failed:", error);
-
-      window.location.href = "../views/login.html";
-    });
-}
-
-setTimeout(refreshToken, 3600000);
-
-async function verifyToken() {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    try {
-      const response = await axios.get(base_url + "user/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      user = response.data.data;
-      avatarimg.src = "http://127.0.0.1:8000" + user.profileimage;
-      username.innerText = user.username;
-      user_role = user.user_role_id;
-
-      if (user_role == 2) {
-        window.location.href = "../views/login.html";
-      }
-    } catch (refreshError) {
-      console.log(refreshError);
-      window.location.href = "../views/login.html";
-    }
-  } else {
-    window.location.href = "../views/login.html";
-  }
-}
-
-window.addEventListener("load", verifyToken);
+let currentPage = "dashboard";
 
 document.getElementById("searchnavbar").addEventListener("focus", function () {
   document.getElementById("search-icon").style.fill = "#269c55";
@@ -184,6 +127,7 @@ function LoadDashboardPage() {
     .get("../views/dashboard.html")
     .then((response) => {
       hideLoadingScreen();
+      localStorage.setItem("currentpage", "dashboard");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -195,7 +139,6 @@ function LoadDashboardPage() {
 dashboardButton.addEventListener("click", function () {
   LoadDashboardPage();
 });
-window.addEventListener("load", LoadDashboardPage);
 
 //Emails Page
 function LoadEmailPage() {
@@ -207,6 +150,7 @@ function LoadEmailPage() {
     .get("../views/email.html")
     .then((response) => {
       hideLoadingScreen();
+      localStorage.setItem("currentpage", "email");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -228,6 +172,7 @@ function LoadUsersPage() {
     .get("../views/users.html")
     .then((response) => {
       hideLoadingScreen();
+      localStorage.setItem("currentpage", "users");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -249,6 +194,7 @@ function LoadGamesPage() {
     .get("../views/games.html")
     .then((response) => {
       hideLoadingScreen();
+      localStorage.setItem("currentpage", "games");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -270,6 +216,7 @@ function LoadTournamentsPage() {
     .get("../views/tournaments.html")
     .then((response) => {
       hideLoadingScreen();
+      localStorage.setItem("currentpage", "tournaments");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -280,3 +227,30 @@ function LoadTournamentsPage() {
 tournamentsButton.addEventListener("click", () => {
   LoadTournamentsPage();
 });
+
+function LoadCurrentPage() {
+  currentPage = localStorage.getItem("currentpage");
+  ButtonnotselectedAll();
+
+  switch (currentPage) {
+    case "dashboard":
+      LoadDashboardPage();
+      break;
+    case "email":
+      LoadEmailPage();
+      break;
+    case "users":
+      LoadUsersPage();
+      break;
+    case "games":
+      LoadGamesPage();
+      break;
+    case "tournaments":
+      LoadTournamentsPage();
+      break;
+    default:
+      LoadDashboardPage();
+      break;
+  }
+}
+window.addEventListener("load", LoadCurrentPage);
