@@ -8,6 +8,35 @@
   </head>
   <body>
     <h2>Emails</h2>
+    <div class="email-container">
+      <label class="form-label" for="email">Email</label>
+      <input
+        class="form-input"
+        type="text"
+        id="email"
+        name="email"
+        placeholder="Enter email"
+      />
+      <label class="form-label" for="subject">Subject</label>
+      <input
+        class="form-input"
+        type="text"
+        id="subject"
+        name="subject"
+        placeholder="Enter subject"
+      />
+      <label class="form-label" for="message">Message</label>
+      <textarea
+        class="form-textarea"
+        id="message"
+        name="message"
+        rows="4"
+        placeholder="Enter your message"
+      ></textarea>
+      <div class="send-button-container">
+        <button class="send-button">Send</button>
+      </div>
+    </div>
     <script src="../js/email.js"></script>
     <script src="../js/auth.js"></script>
   </body>

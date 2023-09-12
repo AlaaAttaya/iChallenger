@@ -1,3 +1,93 @@
+@import url("https://fonts.googleapis.com/css?family=Rubik:400,500&display=swap");
+
 h2 {
   text-align: center;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.email-container {
+  padding: 20px;
+  border-radius: 5px;
+
+  box-sizing: border-box;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  color: #000000;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: 2px solid #269c55;
+}
+
+.send-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.send-button {
+  background-color: #2fd671;
+  color: #000000;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.send-button:hover {
+  background-color: #269c55;
+  color: #ffffff;
+}
+
+@media (max-width: 430px) {
+  .email-container {
+    padding: 10px;
+  }
+
+  .form-input,
+  .form-textarea {
+    width: calc(100% - 16px);
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .send-button {
+    padding: 10px 30px;
+    font-size: 14px;
+  }
+}
+@media (min-width: 430px) and (max-width: 770px) {
+  .form-input,
+  .form-textarea {
+    font-size: 16px;
+  }
+}
+@media (min-width: 777px) {
+  .email-container {
+    width: 500px;
+  }
 }
