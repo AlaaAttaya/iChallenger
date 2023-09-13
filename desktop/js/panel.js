@@ -20,6 +20,8 @@ const emailssvg = document.getElementsByClassName("emails-svg")[0];
 const tournamentssvg = document.getElementsByClassName("tournaments-svg")[0];
 const gamessvg = document.getElementsByClassName("games-svg")[0];
 const userssvg = document.getElementsByClassName("users-svg")[0];
+const extrascripts = document.getElementById("extrascripts");
+
 let user;
 let currentPage = "dashboard";
 
@@ -117,6 +119,17 @@ ipcRenderer.on("remove-websitebutton-background-color", () => {
   ButtonsvgnotSelected(websiteButton, websitesvg);
 });
 
+//Load Script
+function LoadScriptOnce(scriptSrc, scriptId) {
+  const existingScript = document.getElementById(scriptId);
+
+  if (!existingScript) {
+    const script = document.createElement("script");
+    script.src = scriptSrc;
+    script.id = scriptId;
+    extrascripts.appendChild(script);
+  }
+}
 //Dashboard Page
 function LoadDashboardPage() {
   showLoadingScreen();
@@ -128,6 +141,7 @@ function LoadDashboardPage() {
     .then((response) => {
       hideLoadingScreen();
       localStorage.setItem("currentpage", "dashboard");
+      LoadScriptOnce("../js/email.js", "emailScript");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -141,6 +155,7 @@ dashboardButton.addEventListener("click", function () {
 });
 
 //Emails Page
+
 function LoadEmailPage() {
   showLoadingScreen();
   ButtonnotselectedAll();
@@ -151,18 +166,15 @@ function LoadEmailPage() {
     .then((response) => {
       hideLoadingScreen();
       localStorage.setItem("currentpage", "email");
+      LoadScriptOnce("../js/email.js", "emailScript");
       renderedpage.innerHTML = response.data;
-
-      const script = document.createElement("script");
-      script.src = "../js/email.js";
-
-      renderedpage.appendChild(script);
     })
     .catch((error) => {
       console.error("Error loading the HTML page:", error);
       hideLoadingScreen();
     });
 }
+
 emailsButton.addEventListener("click", () => {
   LoadEmailPage();
 });

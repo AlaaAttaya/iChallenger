@@ -60,7 +60,4 @@ sendbutton.addEventListener("click", () => {
       console.error("Error sending email:", error);
       showMessage("Error sending email.");
     });
-  emailValue = "";
-  messageValue = "";
-  subjectValue = "";
 });

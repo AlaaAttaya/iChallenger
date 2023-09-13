@@ -227,7 +227,7 @@ a {
   flex-direction: column;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   .left-navbar {
     width: 60%;
     left: -100%;
