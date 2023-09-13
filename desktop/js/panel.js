@@ -20,7 +20,6 @@ const emailssvg = document.getElementsByClassName("emails-svg")[0];
 const tournamentssvg = document.getElementsByClassName("tournaments-svg")[0];
 const gamessvg = document.getElementsByClassName("games-svg")[0];
 const userssvg = document.getElementsByClassName("users-svg")[0];
-const extrascripts = document.getElementById("extrascripts");
 
 let user;
 let currentPage = "dashboard";
@@ -119,36 +118,23 @@ ipcRenderer.on("remove-websitebutton-background-color", () => {
   ButtonsvgnotSelected(websiteButton, websitesvg);
 });
 
-//Load Script
-function LoadScriptOnce(scriptSrc, scriptId) {
-  const existingScript = document.getElementById(scriptId);
-
-  if (!existingScript) {
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.id = scriptId;
-    extrascripts.appendChild(script);
-  }
-}
 //Dashboard Page
 function LoadDashboardPage() {
   showLoadingScreen();
   ButtonnotselectedAll();
   ButtonsvgSelected(dashboardButton, dashboardsvg);
 
-  axios
-    .get("../views/dashboard.html")
-    .then((response) => {
-      hideLoadingScreen();
-      localStorage.setItem("currentpage", "dashboard");
-      extrascripts.innerHTML = "";
-      LoadScriptOnce("../js/dashboard.js", "dashboardScript");
-      renderedpage.innerHTML = response.data;
-    })
-    .catch((error) => {
-      console.error("Error loading the HTML page:", error);
-      hideLoadingScreen();
-    });
+  localStorage.setItem("currentpage", "dashboard");
+  renderedpage.innerHTML = "";
+  const pageIframe = document.createElement("iframe");
+  pageIframe.style.width = "100%";
+  pageIframe.style.height = "100%";
+  pageIframe.style.border = "none";
+  pageIframe.style.overflow = "hidden";
+  pageIframe.src = "../views/dashboard.html";
+  renderedpage.appendChild(pageIframe);
+
+  hideLoadingScreen();
 }
 //Dashboard Button
 dashboardButton.addEventListener("click", function () {
@@ -162,19 +148,17 @@ function LoadEmailPage() {
   ButtonnotselectedAll();
   ButtonsvgSelected(emailsButton, emailssvg);
 
-  axios
-    .get("../views/email.html")
-    .then((response) => {
-      hideLoadingScreen();
-      localStorage.setItem("currentpage", "email");
-      extrascripts.innerHTML = "";
-      LoadScriptOnce("../js/email.js", "emailScript");
-      renderedpage.innerHTML = response.data;
-    })
-    .catch((error) => {
-      console.error("Error loading the HTML page:", error);
-      hideLoadingScreen();
-    });
+  localStorage.setItem("currentpage", "email");
+  renderedpage.innerHTML = "";
+  const pageIframe = document.createElement("iframe");
+  pageIframe.style.width = "100%";
+  pageIframe.style.height = "100%";
+  pageIframe.style.border = "none";
+  pageIframe.style.overflow = "hidden";
+  pageIframe.src = "../views/email.html";
+  renderedpage.appendChild(pageIframe);
+
+  hideLoadingScreen();
 }
 
 emailsButton.addEventListener("click", () => {
@@ -187,17 +171,18 @@ function LoadUsersPage() {
   ButtonnotselectedAll();
   ButtonsvgSelected(usersButton, userssvg);
 
-  axios
-    .get("../views/users.html")
-    .then((response) => {
-      hideLoadingScreen();
-      localStorage.setItem("currentpage", "users");
-      renderedpage.innerHTML = response.data;
-    })
-    .catch((error) => {
-      console.error("Error loading the HTML page:", error);
-      hideLoadingScreen();
-    });
+  localStorage.setItem("currentpage", "users");
+
+  renderedpage.innerHTML = "";
+  const pageIframe = document.createElement("iframe");
+  pageIframe.style.width = "100%";
+  pageIframe.style.height = "100%";
+  pageIframe.style.border = "none";
+  pageIframe.style.overflow = "hidden";
+  pageIframe.src = "../views/users.html";
+  renderedpage.appendChild(pageIframe);
+
+  hideLoadingScreen();
 }
 usersButton.addEventListener("click", () => {
   LoadUsersPage();
@@ -209,17 +194,17 @@ function LoadGamesPage() {
   ButtonnotselectedAll();
   ButtonsvgSelected(gamesButton, gamessvg);
 
-  axios
-    .get("../views/games.html")
-    .then((response) => {
-      hideLoadingScreen();
-      localStorage.setItem("currentpage", "games");
-      renderedpage.innerHTML = response.data;
-    })
-    .catch((error) => {
-      console.error("Error loading the HTML page:", error);
-      hideLoadingScreen();
-    });
+  localStorage.setItem("currentpage", "games");
+  renderedpage.innerHTML = "";
+  const pageIframe = document.createElement("iframe");
+  pageIframe.style.width = "100%";
+  pageIframe.style.height = "100%";
+  pageIframe.style.border = "none";
+  pageIframe.style.overflow = "hidden";
+  pageIframe.src = "../views/games.html";
+  renderedpage.appendChild(pageIframe);
+
+  hideLoadingScreen();
 }
 gamesButton.addEventListener("click", () => {
   LoadGamesPage();
@@ -231,17 +216,18 @@ function LoadTournamentsPage() {
   ButtonnotselectedAll();
   ButtonsvgSelected(tournamentsButton, tournamentssvg);
 
-  axios
-    .get("../views/tournaments.html")
-    .then((response) => {
-      hideLoadingScreen();
-      localStorage.setItem("currentpage", "tournaments");
-      renderedpage.innerHTML = response.data;
-    })
-    .catch((error) => {
-      console.error("Error loading the HTML page:", error);
-      hideLoadingScreen();
-    });
+  hideLoadingScreen();
+  localStorage.setItem("currentpage", "tournaments");
+  renderedpage.innerHTML = "";
+  const pageIframe = document.createElement("iframe");
+  pageIframe.style.width = "100%";
+  pageIframe.style.height = "100%";
+  pageIframe.style.border = "none";
+  pageIframe.style.overflow = "hidden";
+  pageIframe.src = "../views/tournaments.html";
+  renderedpage.appendChild(pageIframe);
+
+  hideLoadingScreen();
 }
 tournamentsButton.addEventListener("click", () => {
   LoadTournamentsPage();

@@ -22,7 +22,8 @@ function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
-sendbutton.addEventListener("click", () => {
+
+function SendEmail() {
   let emailValue = email.value;
   let subjectValue = subject.value;
   let messageValue = message.value;
@@ -60,4 +61,5 @@ sendbutton.addEventListener("click", () => {
       console.error("Error sending email:", error);
       showMessage("Error sending email.");
     });
-});
+}
+sendbutton.addEventListener("click", SendEmail);

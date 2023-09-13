@@ -11,7 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   height: 100vh;
 }
 
@@ -83,7 +83,7 @@ body {
 .message-popup {
   display: none;
   position: fixed;
-  top: 80px;
+  top: 0px;
   right: 0px;
 
   background-color: #333;
