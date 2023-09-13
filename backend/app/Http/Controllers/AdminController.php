@@ -324,4 +324,23 @@ class AdminController extends Controller
             'data' => $tournamentWinner,
         ], 201);
     }
+    public function getData()
+    {
+      
+        $totalUsers = User::count();
+        $totalTournaments = Tournament::count();
+        $totalPosts = Post::count();
+        
+    $data = [
+        'totalusers' => $totalUsers,
+        'totaltournaments' => $totalTournaments,
+        'totalposts' => $totalPosts,
+    ];
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Data Retrieved successfully.',
+            'data' => $data,
+        ], 201);
+    }
+
 }
