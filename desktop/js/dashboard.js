@@ -100,7 +100,7 @@ function fetchUsersByCountry() {
       console.error("Error fetching users by country data:", error);
     });
 }
-
+//Fetch Count of Tournaments for Each Game
 function fetchTournamentsByGame() {
   axios
     .get(`${base_url}admin/tournamentsbygame`, {
@@ -111,7 +111,7 @@ function fetchTournamentsByGame() {
     .then((response) => {
       if (response.status === 200 && response.data) {
         const data = response.data;
-        console.log(data.data);
+
         const backgroundColors = data.data.map(() => getRandomColor());
 
         const labels = data.data.map((item) => item.name);

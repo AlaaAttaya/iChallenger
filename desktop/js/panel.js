@@ -3,8 +3,6 @@ const burgermenu = document.getElementById("burgermenu");
 const closeleftnavbar = document.getElementById("closeleftnavbar");
 const leftnavbar = document.getElementById("leftnavbar");
 const ichallengerlogo = document.getElementById("ichallengerlogo-leftnavbar");
-const avatarimg = document.getElementById("avatarimg");
-const username = document.getElementById("username");
 const logout = document.getElementById("logout-button");
 const websiteButton = document.getElementById("website-button");
 const dashboardButton = document.getElementById("dashboard-button");
@@ -20,7 +18,8 @@ const emailssvg = document.getElementsByClassName("emails-svg")[0];
 const tournamentssvg = document.getElementsByClassName("tournaments-svg")[0];
 const gamessvg = document.getElementsByClassName("games-svg")[0];
 const userssvg = document.getElementsByClassName("users-svg")[0];
-
+const searchnavbar = document.getElementById("searchnavbar");
+const searchResultsContainer = document.getElementById("searchResults");
 let user;
 let currentPage = "dashboard";
 
@@ -262,3 +261,34 @@ function LoadCurrentPage() {
   }
 }
 window.addEventListener("load", LoadCurrentPage);
+
+//Navbar Search Results
+function performSearch(query) {
+  return ["Result 1", "Result 2", "Result 3"];
+}
+function showSearchResults(results) {
+  searchResultsContainer.innerHTML = "";
+
+  if (results.length > 0) {
+    results.forEach((result) => {
+      const resultElement = document.createElement("div");
+      resultElement.classList.add("results");
+      resultElement.textContent = result;
+
+      searchResultsContainer.appendChild(resultElement);
+    });
+
+    searchResultsContainer.style.display = " flex";
+  }
+}
+
+searchnavbar.addEventListener("input", () => {
+  const searchQuery = searchnavbar.value.trim();
+  if (searchQuery == "") {
+    searchResultsContainer.style.display = "none";
+  } else {
+    const results = performSearch(searchQuery);
+
+    showSearchResults(results);
+  }
+});

@@ -1,56 +1,67 @@
+const avatarimg = document.getElementById("avatarimg");
+const username = document.getElementById("username");
+
 function refreshToken() {
-  axios
-    .post(
-      "http://localhost:8000/api/user/refresh",
-      {},
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    )
+  fetch("http://localhost:8000/api/user/refresh", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  })
     .then((response) => {
       if (response.status === 200) {
-        const token = response.data.data.token;
-        localStorage.setItem("token", token);
-
-        setTimeout(refreshToken, 3600000);
+        return response.json();
       } else {
         window.location.href = "../views/login.html";
       }
     })
+    .then((data) => {
+      const token = data.data.token;
+      localStorage.setItem("token", token);
+    })
     .catch((error) => {
       console.error("Token refresh failed:", error);
       window.location.href = "../views/login.html";
+    })
+    .finally(() => {
+      setTimeout(refreshToken, 360000);
     });
 }
 
-setTimeout(refreshToken, 3600000);
+setTimeout(refreshToken, 360000);
 
 async function verifyToken() {
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
-      const response = await axios.get(base_url + "user/profile", {
+      const response = await fetch("http://localhost:8000/api/user/profile", {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      user = response.data.data;
-      avatarimg.src = "http://127.0.0.1:8000" + user.profileimage;
-      username.innerText = user.username;
-      user_role = user.user_role_id;
 
-      if (user_role == 2) {
+      if (response.status === 200) {
+        const data = await response.json();
+
+        const user = data.data;
+        avatarimg.src = "http://127.0.0.1:8000" + user.profileimage;
+        username.innerText = user.username;
+        const user_role = user.user_role_id;
+        if (user_role === 2) {
+          window.location.href = "../views/login.html";
+        }
+      } else {
         window.location.href = "../views/login.html";
       }
-    } catch (refreshError) {
-      console.log(refreshError);
+    } catch (error) {
+      console.error("Token verification failed:", error);
       window.location.href = "../views/login.html";
     }
   } else {
     window.location.href = "../views/login.html";
   }
 }
+
 window.addEventListener("load", verifyToken);

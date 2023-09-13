@@ -87,6 +87,7 @@ body {
   font-size: 25px;
   color: #5a58589f;
 }
+
 @media (max-width: 700px) {
   .charttitle {
     font-size: 15px;
