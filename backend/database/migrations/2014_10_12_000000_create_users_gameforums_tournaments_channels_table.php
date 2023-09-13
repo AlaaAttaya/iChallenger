@@ -208,7 +208,12 @@ return new class extends Migration
             $table->integer('points')->default(0);
             $table->timestamps();
         });
-
+        Schema::create('tournament_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+           
+            $table->timestamps();
+        });
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -313,5 +318,6 @@ return new class extends Migration
         Schema::dropIfExists('team_members');
         Schema::dropIfExists('invitations');
         Schema::dropIfExists('tournament_winners');
+        Schema::dropIfExists('tournament_types');
     }
 };

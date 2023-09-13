@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Country; 
 use App\Models\Region;
-
+use App\Models\TournamentType;
 
 
 class DatabaseSeeder extends Seeder
@@ -248,6 +248,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-      
+        TournamentType::create(['name' => 'Single Elimination']);
+        TournamentType::create( ['name' => 'Double Elimination']); 
     }
 }
