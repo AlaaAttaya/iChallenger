@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use App\Http\Controllers\EmailController;
 use App\Models\Report;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\GameMode;
@@ -326,8 +327,7 @@ class AdminController extends Controller
     }
     public function getData()
     {
-      
-        $totalUsers = User::count();
+        $totalUsers = User::where('user_role_id', '<>', 1)->count();
         $totalTournaments = Tournament::count();
         $totalPosts = Post::count();
         

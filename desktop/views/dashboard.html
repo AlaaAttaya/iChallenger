@@ -4,15 +4,32 @@
     <meta charset="UTF-8" />
     <title>iChallenger - Dashboard</title>
     <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel="stylesheet" href="../css/loading.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <h2>Dashboard</h2>
     <div class="data-cards-container">
-      <div id="loading"><span class="spinner"></span></div>
+      <div class="data-card lightblue">
+        <div class="data-card-info">
+          <span class="data-card-number" id="usersnumber">0</span>
+          <span>Total Users</span>
+        </div>
+        <img class="card-img" src="../assets/images/users.png" />
+      </div>
+      <div class="data-card lightgreen">
+        <div class="data-card-info">
+          <span class="data-card-number" id="tournamentsnumber">0</span>
+          <span>Tournaments</span>
+        </div>
+        <img class="card-img" src="../assets/images/champion.png" />
+      </div>
+      <div class="data-card lightforestgreen">
+        <div class="data-card-info">
+          <span class="data-card-number" id="uploadsnumber">0</span>
+          <span>User Uploads</span>
+        </div>
+        <img class="card-img" src="../assets/images/posts.png" />
+      </div>
     </div>
-    <script src="../js/auth.js"></script>
-    <script src="../js/dashboard.js"></script>
   </body>
 </html>

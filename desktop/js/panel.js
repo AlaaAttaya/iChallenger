@@ -141,7 +141,8 @@ function LoadDashboardPage() {
     .then((response) => {
       hideLoadingScreen();
       localStorage.setItem("currentpage", "dashboard");
-      LoadScriptOnce("../js/email.js", "emailScript");
+      extrascripts.innerHTML = "";
+      LoadScriptOnce("../js/dashboard.js", "dashboardScript");
       renderedpage.innerHTML = response.data;
     })
     .catch((error) => {
@@ -166,6 +167,7 @@ function LoadEmailPage() {
     .then((response) => {
       hideLoadingScreen();
       localStorage.setItem("currentpage", "email");
+      extrascripts.innerHTML = "";
       LoadScriptOnce("../js/email.js", "emailScript");
       renderedpage.innerHTML = response.data;
     })
