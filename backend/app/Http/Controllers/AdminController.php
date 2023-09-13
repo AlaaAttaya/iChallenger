@@ -369,4 +369,22 @@ class AdminController extends Controller
             'data' => $usersByCountry,
         ], 200);
     }
+        public function searchEntities(Request $request)
+    {   $searchName=$request->input('searchName');
+    
+        $users = User::where('name', 'like', $searchName . '%')->get();
+
+        
+        $tournaments = Tournament::where('name', 'like', $searchName . '%')->get();
+
+        
+        $games = Game::where('name', 'like', $searchName . '%')->get();
+
+        
+        return [
+            'users' => $users,
+            'tournaments' => $tournaments,
+            'games' => $games,
+        ];
+    }
 }
