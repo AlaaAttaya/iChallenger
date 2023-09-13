@@ -342,5 +342,31 @@ class AdminController extends Controller
             'data' => $data,
         ], 201);
     }
+    public function getTournamentsByGame()
+    {
+       
+        $games = Game::withCount('tournaments')->get();
 
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Tournaments by Game retrieved successfully.',
+            'data' => $games,
+        ], 200);
+    }
+
+    public function getUsersByCountry()
+    {
+       
+        $usersByCountry = User::select('country')
+            ->selectRaw('COUNT(*) as user_count')
+            ->groupBy('country')
+            ->orderByDesc('user_count')
+            ->get();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Users by Country retrieved successfully.',
+            'data' => $usersByCountry,
+        ], 200);
+    }
 }

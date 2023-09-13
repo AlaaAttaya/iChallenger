@@ -13,7 +13,7 @@ body {
   justify-content: space-evenly;
 }
 .data-card {
-  width: 250px;
+  width: 200px;
   height: 80px;
   color: #5a58589f;
   display: flex;
@@ -58,13 +58,11 @@ body {
   align-content: space-evenly;
   gap: 10px;
   margin-top: 10px;
-  margin-left: 50px;
-  margin-right: 50px;
 }
+
 .chart {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   align-content: center;
   background-color: #ffffff;
   align-items: center;
@@ -72,18 +70,34 @@ body {
   padding: 20px;
   width: 90%;
 }
-.canvas {
-  width: 70%;
-  height: 100%;
+.canvas-container {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
 }
 .charttitle-container {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 30%;
+  width: 100%;
+  text-align: center;
 }
 .charttitle {
   font-weight: 500;
-  font-size: 30px;
+  font-size: 25px;
   color: #5a58589f;
+}
+@media (max-width: 700px) {
+  .charttitle {
+    font-size: 15px;
+  }
+
+  .chart {
+    flex-direction: column;
+    padding: 8px;
+  }
+
+  .canvas-container {
+    max-width: none;
+  }
 }

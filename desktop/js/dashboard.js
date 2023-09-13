@@ -2,6 +2,8 @@ base_url = "http://127.0.0.1:8000/api/";
 const usersnumber = document.getElementById("usersnumber");
 const tournamentsnumber = document.getElementById("tournamentsnumber");
 const uploadsnumber = document.getElementById("uploadsnumber");
+const ColumnChart = document.getElementById("ColumnChart");
+const PieChart = document.getElementById("PieChart");
 function fetchData() {
   axios
     .get(`${base_url}admin/getdatacards`, {
@@ -16,9 +18,6 @@ function fetchData() {
         const totalTournaments = data.totaltournaments;
         const totalPosts = data.totalposts;
 
-        console.log("Total Users:", totalUsers);
-        console.log("Total Tournaments:", totalTournaments);
-        console.log("Total Posts:", totalPosts);
         usersnumber.innerText = totalUsers;
         tournamentsnumber.innerText = totalTournaments;
         uploadsnumber.innerText = totalPosts;
@@ -31,8 +30,7 @@ function fetchData() {
     });
 }
 fetchData();
-const ColumnChart = document.getElementById("ColumnChart");
-// Define your data and labels
+
 const data = {
   labels: [
     "Category 1",
@@ -64,10 +62,9 @@ const data = {
   ],
 };
 
-// Create the chart
-const ctx = ColumnChart.getContext("2d");
-const myColumnChart = new Chart(ctx, {
-  type: "bar", // Use 'bar' for column chart
+const ctxcolumn = ColumnChart.getContext("2d");
+const myColumnChart = new Chart(ctxcolumn, {
+  type: "bar",
   data: data,
   options: {
     scales: {
@@ -76,4 +73,20 @@ const myColumnChart = new Chart(ctx, {
       },
     },
   },
+});
+
+const piechartdata = {
+  labels: ["Label 1", "Label 2", "Label 3"],
+  datasets: [
+    {
+      data: [30, 50, 20],
+      backgroundColor: ["#A585FF", "#6587FF", "#FF985F"],
+    },
+  ],
+};
+const ctxpie = PieChart.getContext("2d");
+
+const myPieChart = new Chart(ctxpie, {
+  type: "pie",
+  data: piechartdata,
 });
