@@ -2,3 +2,18 @@
 h2 {
   text-align: center;
 }
+.data-cards-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.data-card {
+  width: 180px;
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

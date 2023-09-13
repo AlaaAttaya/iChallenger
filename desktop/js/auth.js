@@ -1,26 +1,26 @@
 function refreshToken() {
-  fetch("http://localhost:8000/api/user/refresh", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  })
+  axios
+    .post(
+      "http://localhost:8000/api/user/refresh",
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
     .then((response) => {
-      if (response.ok) {
-        return response.json();
+      if (response.status === 200) {
+        const token = response.data.data.token;
+        localStorage.setItem("token", token);
+
+        setTimeout(refreshToken, 3600000);
       } else {
         window.location.href = "../views/login.html";
       }
     })
-    .then((data) => {
-      const token = data.data.token;
-      localStorage.setItem("token", token);
-
-      setTimeout(refreshToken, 3600000);
-    })
     .catch((error) => {
       console.error("Token refresh failed:", error);
-
       window.location.href = "../views/login.html";
     });
 }

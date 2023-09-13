@@ -83,8 +83,9 @@ body {
 .message-popup {
   display: none;
   position: fixed;
-  bottom: 20px;
-  left: 50%;
+  top: 80px;
+  right: 0px;
+
   background-color: #333;
   color: #fff;
   padding: 10px 20px;

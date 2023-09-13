@@ -1,4 +1,4 @@
-const base_url = "http://127.0.0.1:8000/api/";
+base_url = "http://127.0.0.1:8000/api/";
 const burgermenu = document.getElementById("burgermenu");
 const closeleftnavbar = document.getElementById("closeleftnavbar");
 const leftnavbar = document.getElementById("leftnavbar");
