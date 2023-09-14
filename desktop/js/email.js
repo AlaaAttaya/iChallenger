@@ -53,11 +53,11 @@ function SendEmail() {
         },
       }
     )
-    .then(function (response) {
+    .then((response) => {
       console.log("Email sent successfully:", response);
       showMessage("Email sent successfully.");
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.error("Error sending email:", error);
       showMessage("Error sending email.");
     });

@@ -262,18 +262,37 @@ function LoadCurrentPage() {
 }
 window.addEventListener("load", LoadCurrentPage);
 
-//Navbar Search Results
 function performSearch(query) {
-  return ["Result 1", "Result 2", "Result 3"];
+  return axios
+    .get(`${base_url}admin/searchentities?searchName=${query}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+
+      const users = data.users;
+      const tournaments = data.tournaments;
+      const games = data.games;
+
+      const results = [...users, ...tournaments, ...games];
+
+      return results;
+    })
+    .catch((error) => {
+      console.error("There was a problem with the Axios request:", error);
+      return [];
+    });
 }
 function showSearchResults(results) {
   searchResultsContainer.innerHTML = "";
-
+  console.log(results);
   if (results.length > 0) {
     results.forEach((result) => {
       const resultElement = document.createElement("div");
       resultElement.classList.add("results");
-      resultElement.textContent = result;
+      resultElement.innerHTML += result.name;
 
       searchResultsContainer.appendChild(resultElement);
     });
@@ -287,8 +306,8 @@ searchnavbar.addEventListener("input", () => {
   if (searchQuery == "") {
     searchResultsContainer.style.display = "none";
   } else {
-    const results = performSearch(searchQuery);
-
-    showSearchResults(results);
+    performSearch(searchQuery).then((results) => {
+      showSearchResults(results);
+    });
   }
 });
