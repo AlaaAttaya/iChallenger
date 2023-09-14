@@ -103,7 +103,7 @@ return new class extends Migration
         Schema::create('game_modes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->unsignedSmallInteger('max_players_per_team')->default(1); 
             $table->timestamps();
 

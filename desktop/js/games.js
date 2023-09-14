@@ -63,8 +63,15 @@ fetchAndDisplayGames();
 
 searchInput.addEventListener("input", () => {
   const searchQuery = searchInput.value.trim().toLowerCase();
+  const addGameElement = document.getElementById("addgame");
 
-  gamesContainer.innerHTML = "";
+  const childrenArray = Array.from(gamesContainer.children);
+
+  childrenArray.forEach((childElement) => {
+    if (childElement !== addGameElement) {
+      gamesContainer.removeChild(childElement);
+    }
+  });
 
   if (searchQuery === "") {
     allGames.forEach((game) => {
@@ -73,7 +80,7 @@ searchInput.addEventListener("input", () => {
     });
   } else {
     const filteredGames = allGames.filter((game) =>
-      game.name.toLowerCase().includes(searchQuery)
+      game.name.toLowerCase().startsWith(searchQuery)
     );
 
     filteredGames.forEach((game) => {
@@ -125,4 +132,62 @@ addGameModeButton.addEventListener("click", () => {
   removeGameModeButton.addEventListener("click", () => {
     gameModesContainer.removeChild(gameModeInput);
   });
+});
+
+document.getElementById("create-game").addEventListener("click", () => {
+  const name = document.getElementById("game-name").value;
+  const gameModes = [];
+
+  const gameModeInputs = document.querySelectorAll(".gamemodeinputs");
+  gameModeInputs.forEach((input) => {
+    const gameModeName = input.querySelector(".game-mode-name").value;
+    const teamCount = input.querySelector(".team-count").value;
+
+    if (gameModeName.trim() !== "" && teamCount.trim() !== "") {
+      gameModes.push({
+        name: gameModeName,
+        max_players_per_team: parseInt(teamCount),
+      });
+    }
+  });
+
+  document.getElementById("errormessage").innerText = "";
+
+  const gameImageInput = document.getElementById("game-image");
+
+  if (gameImageInput.files.length > 0 && gameModes.length != 0) {
+    const gameImageFile = gameImageInput.files[0];
+
+    const formData = new FormData();
+    formData.append("gameimage", gameImageFile);
+
+    formData.append("name", name);
+    formData.append("game_modes", JSON.stringify(gameModes));
+
+    axios
+      .post(base_url + "admin/creategame", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        if (
+          error.response.data.message &&
+          error.response.data.message.includes("already been taken")
+        ) {
+          document.getElementById("errormessage").innerText =
+            "Game name is already taken.";
+        } else {
+          document.getElementById("errormessage").innerText =
+            "Error creating the game. ";
+        }
+      });
+  } else {
+    document.getElementById("errormessage").innerText =
+      "Must select a game image and provide a name & at least 1 game mode. ";
+  }
 });
