@@ -1,6 +1,13 @@
 base_url = "http://127.0.0.1:8000/api/";
 const searchInput = document.getElementById("searchgames");
 const gamesContainer = document.getElementById("games-container");
+const addGameButton = document.getElementById("addgame");
+const modalContainer = document.getElementById("modal-container");
+const closeModal = document.getElementById("closemodal");
+const gameModesContainer = document.getElementById("game-modes-container");
+const addGameModeButton = document.getElementById("add-game-mode");
+const previewImage = document.getElementById("preview-image");
+const gameImageInput = document.getElementById("game-image");
 let allGames = [];
 document.getElementById("searchgames").addEventListener("focus", function () {
   document.getElementById("searchgames-icon").style.fill = "#269c55";
@@ -72,4 +79,47 @@ searchInput.addEventListener("input", () => {
       gamesContainer.appendChild(gameCard);
     });
   }
+});
+previewImage.addEventListener("click", () => {
+  gameImageInput.click();
+});
+
+gameImageInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      previewImage.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  }
+});
+
+///
+addGameButton.addEventListener("click", () => {
+  modalContainer.style.display = "flex";
+});
+
+closeModal.addEventListener("click", () => {
+  modalContainer.style.display = "none";
+});
+
+addGameModeButton.addEventListener("click", () => {
+  const gameModeInput = document.createElement("div");
+  gameModeInput.classList.add("gamemodeinputs");
+  gameModeInput.innerHTML = `
+      
+      <input type="text" class="game-mode-name" placeholder="Name" />
+      <input type="number" class="team-count" placeholder="Team Count" />
+      <button class="remove-game-mode">Remove</button>
+    `;
+  gameModesContainer.appendChild(gameModeInput);
+
+  const removeGameModeButton = gameModeInput.querySelector(".remove-game-mode");
+  removeGameModeButton.addEventListener("click", () => {
+    gameModesContainer.removeChild(gameModeInput);
+  });
 });

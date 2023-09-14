@@ -2,6 +2,10 @@
 h2 {
   text-align: center;
 }
+h3 {
+  text-align: center;
+}
+
 body {
   font-family: "Rubik", sans-serif;
   margin: 0;
@@ -28,8 +32,8 @@ body {
   border-radius: 10px;
   display: flex;
   flex-wrap: nowrap;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   width: 80%;
   max-width: 500px;
   position: relative;
@@ -43,14 +47,15 @@ body {
   font-size: medium;
 }
 .searchgamesinput:focus {
-  outline: none;
+  outline: none !important;
 
-  font-weight: 600;
+  font-weight: 550;
 }
 .games-wrapper {
   margin-top: 10px;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
 }
 .games-container {
@@ -113,6 +118,151 @@ body {
   box-sizing: border-box;
 }
 
+.modal-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 17, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 35%;
+  height: 85%;
+  max-width: 80%;
+  max-height: 90%;
+  overflow-y: auto;
+
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+.close-modal:hover svg path {
+  fill: #269c55;
+}
+.imageinput {
+  display: none;
+}
+.gameuploadimage {
+  cursor: pointer;
+  width: 80%;
+  height: 80%;
+}
+input[type="text"],
+input[type="number"] {
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  font-weight: 600px;
+  padding: 10px;
+  border: none;
+  background-color: rgba(242, 242, 242, 0.8);
+  border-radius: 3px;
+  width: 75%;
+}
+input[type="number"] {
+  margin-top: 5px;
+}
+input[type="text"]:focus {
+  outline: 2px solid #269c55;
+}
+input[type="number"]:focus {
+  outline: 2px solid #269c55;
+}
+.modal-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.modal-input label {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  margin-bottom: 5px;
+
+  width: 80%;
+}
+.addgamemode {
+  margin-top: 5px;
+  display: flex;
+  width: 80%;
+  align-items: center;
+}
+.gamemode-title {
+  font-weight: 500;
+}
+
+button {
+  font-family: "Rubik", sans-serif;
+  font-size: 13px;
+  border-radius: 7px;
+  background-color: #2fd671;
+  color: #202020;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #269c55;
+  color: #ffffff;
+}
+.addgamemodebutton {
+  padding: 10px;
+  color: #ffffff;
+  margin-left: 5px;
+  font-weight: 500;
+}
+.creategame {
+  font-weight: 600;
+  margin-top: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.gamemodelist {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+.gamemodeinputs {
+  margin-left: 40px;
+}
+.game-mode-name {
+  width: 60% !important;
+}
+.team-count {
+  width: 60% !important;
+}
+.remove-game-mode {
+  padding: 10px;
+  color: #ffffff;
+  background-color: #d62f2f;
+  margin-left: 5px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+.remove-game-mode:hover {
+  padding: 10px;
+  color: #ffffff;
+  background-color: #a12222;
+  margin-left: 5px;
+  font-weight: 500;
+}
 @media screen and (min-width: 1300px) {
   .add-game {
     width: 230px;
@@ -121,5 +271,29 @@ body {
   .game-card {
     width: 230px;
     height: 230px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .modal-content {
+    width: 80%;
+    height: 80%;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .gamemodeinputs {
+    margin-left: 0px;
+  }
+  .addgamemode {
+    margin-left: 0px;
+  }
+  .game-mode-name {
+    width: 95% !important;
+  }
+  .team-count {
+    width: 95% !important;
   }
 }
