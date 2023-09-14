@@ -219,7 +219,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('game_id');
-            $table->unsignedBigInteger('game_mode_id');
+            $table->string('game_mode');
             $table->unsignedBigInteger('tournament_type_id');
             $table->date('start_date');
             $table->date('end_date');

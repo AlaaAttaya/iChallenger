@@ -143,42 +143,46 @@ class AdminController extends Controller
    
 
     
-    public function updateGame(Request $request)
-    {   
-        $id=$request->input('id');
+public function updateGame(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|unique:games,name,' . $id,
+        'game_modes' => 'required|json',
+        'gameimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $request->validate([
-            'name' => 'required|string|unique:games,name,' . $id,
-            'game_modes' => 'required|array',
-            'game_modes.*.name' => 'required|string',
-            'game_modes.*.max_players_per_team' => 'required|integer',
-        ]);
+    $game = Game::find($id);
 
-        $game = Game::find($id);
-
-        if (!$game) {
-            return response()->json(['status' => 'Error', 'message' => 'Game not found'], 404);
-        }
-
-       
-        $game->name = $request->input('name');
-        $game->save();
-
-        
-        foreach ($request->input('game_modes') as $modeData) {
-            $gameMode = $game->gameModes->firstWhere('name', $modeData['name']);
-
-            if ($gameMode) {
-               
-                $gameMode->update($modeData);
-            } else {
-                
-                $game->gameModes()->create($modeData);
-            }
-        }
-
-        return response()->json(['status' => 'Success', 'message' => 'Game updated successfully', 'data' => $game]);
+    if (!$game) {
+        return response()->json(['status' => 'Error', 'message' => 'Game not found'], 404);
     }
+
+    
+    $game->name = $request->input('name');
+
+   
+    $requestedGameModes = json_decode($request->input('game_modes'), true);
+    $game->gameModes()->delete(); 
+
+    foreach ($requestedGameModes as $requestedGameMode) {
+        $gameMode = new GameMode([
+            'name' => $requestedGameMode['name'],
+            'max_players_per_team' => $requestedGameMode['max_players_per_team'],
+        ]);
+        $game->gameModes()->save($gameMode);
+    }
+
+   
+    if ($request->hasFile('gameimage')) {
+        $gameImagePath = $request->file('gameimage')->store('public/games/');
+        $game->gameimage = "/storage" . str_replace('public', '', $gameImagePath);
+    }
+
+    $game->save();
+
+    return response()->json(['status' => 'Success', 'message' => 'Game updated successfully', 'data' => $game]);
+}
+
 
 
     public function updateLeaderboard(Request $request)
