@@ -11,10 +11,12 @@ const gameImageInput = document.getElementById("game-image");
 let allGames = [];
 document.getElementById("searchgames").addEventListener("focus", function () {
   document.getElementById("searchgames-icon").style.fill = "#269c55";
+  document.getElementById("searchgamesbar").style.border = "3px solid #269c55 ";
 });
 
 document.getElementById("searchgames").addEventListener("blur", function () {
   document.getElementById("searchgames-icon").style.fill = "#9e9e9e";
+  document.getElementById("searchgamesbar").style.border = "3px solid #9e9e9e ";
 });
 
 function createGameCard(game) {
@@ -111,12 +113,13 @@ addGameModeButton.addEventListener("click", () => {
   const gameModeInput = document.createElement("div");
   gameModeInput.classList.add("gamemodeinputs");
   gameModeInput.innerHTML = `
-      
-      <input type="text" class="game-mode-name" placeholder="Name" />
-      <input type="number" class="team-count" placeholder="Team Count" />
-      <button class="remove-game-mode">Remove</button>
-    `;
-  gameModesContainer.appendChild(gameModeInput);
+        
+        <input type="text" class="game-mode-name" placeholder="Name" />
+        <input type="number" class="team-count" placeholder="Team Count" />
+        <button class="remove-game-mode">Remove</button>
+      `;
+
+  gameModesContainer.insertBefore(gameModeInput, gameModesContainer.firstChild);
 
   const removeGameModeButton = gameModeInput.querySelector(".remove-game-mode");
   removeGameModeButton.addEventListener("click", () => {

@@ -25,10 +25,14 @@ let currentPage = "dashboard";
 
 document.getElementById("searchnavbar").addEventListener("focus", function () {
   document.getElementById("search-icon").style.fill = "#269c55";
+  document.getElementById("searchbar").style.border = "3px solid #269c55";
+  document.getElementById("searchResults").style.border = "3px solid #269c55";
 });
 
 document.getElementById("searchnavbar").addEventListener("blur", function () {
   document.getElementById("search-icon").style.fill = "#9e9e9e";
+  document.getElementById("searchbar").style.border = "3px solid #9e9e9e ";
+  document.getElementById("searchResults").style.border = "3px solid #9e9e9e";
 });
 
 //Resize of Left Navbar & Searchbar

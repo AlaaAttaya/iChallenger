@@ -69,13 +69,7 @@ body {
   display: flex;
   align-items: center;
 }
-.adminpanel-span {
-  margin-top: 20px;
-  color: #269c55;
-  margin-left: 35px;
-  font-size: 25px;
-  font-weight: 500;
-}
+
 .leftnavbar-button:hover {
   background-color: #9e9e9e49 !important;
   color: #269c55 !important;
@@ -145,7 +139,7 @@ a {
 }
 .searchbar {
   margin-left: 15px;
-  border: 3px solid #269c55;
+  border: 3px solid #9e9e9e;
   border-radius: 10px;
   display: flex;
   flex-wrap: nowrap;
@@ -176,6 +170,7 @@ a {
   border: 3px solid #269c55;
   width: 50px;
   height: 50px;
+  margin-right: 40px;
 }
 .Avatar-container {
   display: flex;
@@ -191,8 +186,7 @@ a {
   align-content: center;
 }
 .avatarusername {
-  margin-left: 10px;
-  margin-right: 40px;
+  margin-right: 10px;
 }
 #username {
   color: #111111;
@@ -291,13 +285,7 @@ a {
   .logout-button {
     margin-left: 10px;
   }
-  .adminpanel-span {
-    margin-top: 20px;
-    color: #269c55;
-    margin-left: 10px;
-    font-size: 25px;
-    font-weight: 500;
-  }
+
   .leftnavbar-button {
     margin-left: 10px;
   }
