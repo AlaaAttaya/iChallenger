@@ -294,7 +294,7 @@ class UserController extends Controller
             
             $games->where('name', 'like', $search . '%');
         }
-
+        $games->with('gameModes');
         $games = $games->get();
 
         return response()->json(['status' => 'Success', 'data' => $games]);
