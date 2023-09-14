@@ -5,6 +5,22 @@ const passwordInput = document.getElementById("password");
 const error = document.getElementById("error");
 
 localStorage.clear();
+usernameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+
+    passwordInput.focus();
+  }
+});
+
+passwordInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+
+    login.click();
+  }
+});
+
 login.addEventListener("click", async (event) => {
   event.preventDefault();
 
