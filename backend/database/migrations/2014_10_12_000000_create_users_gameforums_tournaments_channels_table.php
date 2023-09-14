@@ -83,6 +83,7 @@ return new class extends Migration
          Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('gameimage')->default('/storage/images/UploadImage.png');
             $table->timestamps();
         });
 

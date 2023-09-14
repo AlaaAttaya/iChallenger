@@ -287,7 +287,7 @@ function performSearch(query) {
 }
 function showSearchResults(results) {
   searchResultsContainer.innerHTML = "";
-  console.log(results);
+
   if (results.length > 0) {
     results.forEach((result) => {
       const resultElement = document.createElement("div");

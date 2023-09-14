@@ -8,6 +8,64 @@
   </head>
   <body>
     <h2>Games</h2>
+    <div class="searchgamesbar">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 35 35"
+        fill="none"
+        class="searchgames-iconsvg"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.9589 0C6.24175 0 0 6.09868 0 13.639C0 21.1793 6.24175 27.2779 13.9589 27.2779C16.7142 27.2779 19.2641 26.4882 21.426 25.1469L31.5103 35L35 31.5903L25.044 21.8875C26.8338 19.5935 27.9179 16.751 27.9179 13.639C27.9179 6.09868 21.6761 0 13.9589 0ZM13.9589 3.20917C19.8703 3.20917 24.6334 7.86309 24.6334 13.639C24.6334 19.4148 19.8703 24.0688 13.9589 24.0688C8.04756 24.0688 3.28446 19.4148 3.28446 13.639C3.28446 7.86309 8.04756 3.20917 13.9589 3.20917Z"
+          class="searchgames-icon"
+          id="searchgames-icon"
+        />
+      </svg>
+
+      <input
+        type="text"
+        id="searchgames"
+        name="searchgames"
+        placeholder="Search..."
+        class="searchgamesinput"
+        required
+      />
+    </div>
+    <div class="games-wrapper">
+      <div class="games-container">
+        <div class="add-game" id="addgame">
+          <svg
+            width="60"
+            height="60"
+            viewBox="0 0 60 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              id="plus-sign-inside-a-box_svgrepo.com"
+              clip-path="url(#clip0_208_8669)"
+            >
+              <rect width="60" height="60" fill="#A0FFAA" />
+              <g id="Group">
+                <path
+                  id="Vector"
+                  d="M0.000976562 0V60H60V0H0.000976562ZM53.7224 34.4109H34.3098V53.8225C34.3098 56.2599 32.3363 58.2333 29.8988 58.2333C27.4621 58.2333 25.4868 56.2599 25.4868 53.8225V34.4109H6.07601C3.63915 34.4109 1.66385 32.4364 1.66385 30.0001C1.66385 27.5632 3.63795 25.5881 6.07601 25.5881H25.4868V6.17571C25.4868 3.73905 27.4621 1.76495 29.8988 1.76495C32.3363 1.76495 34.3098 3.73905 34.3098 6.17571V25.5879H53.7224C56.1574 25.5879 58.1334 27.5632 58.1334 29.9999C58.1334 32.4364 56.1586 34.4109 53.7224 34.4109Z"
+                  fill="#252525"
+                />
+              </g>
+            </g>
+            <defs>
+              <clipPath id="clip0_208_8669">
+                <rect width="60" height="60" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+      </div>
+      <div class="games-container" id="games-container"></div>
+    </div>
     <script src="../js/games.js"></script>
   </body>
 </html>
