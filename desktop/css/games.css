@@ -243,6 +243,7 @@ button:hover {
   margin-left: 40px;
 }
 .game-mode-name {
+  margin-top: 5px;
   width: 60% !important;
 }
 .team-count {
@@ -265,6 +266,9 @@ button:hover {
 }
 .errormessage {
   color: red;
+}
+.gamemode-labels {
+  margin-top: 5px;
 }
 @media screen and (min-width: 1300px) {
   .add-game {

@@ -143,8 +143,8 @@ class AdminController extends Controller
    
 
     
-public function updateGame(Request $request, $id)
-{
+public function updateGame(Request $request)
+{$id=$request->input('id');
     $request->validate([
         'name' => 'required|string|unique:games,name,' . $id,
         'game_modes' => 'required|json',
