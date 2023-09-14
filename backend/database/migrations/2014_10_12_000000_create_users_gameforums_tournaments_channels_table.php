@@ -82,7 +82,7 @@ return new class extends Migration
       
          Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('gameimage')->default('/storage/images/UploadImage.png');
             $table->timestamps();
         });
@@ -91,7 +91,7 @@ return new class extends Migration
         Schema::create('game_forums', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
-            $table->string('name'); 
+            $table->string('name')->unique(); 
             
             $table->timestamps();
 
@@ -103,7 +103,7 @@ return new class extends Migration
         Schema::create('game_modes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->unsignedSmallInteger('max_players_per_team')->default(1); 
             $table->timestamps();
 

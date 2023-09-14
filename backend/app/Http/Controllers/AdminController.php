@@ -97,35 +97,48 @@ class AdminController extends Controller
             'data' => $reports->get(),
         ]);
     }
-
+  
     //Create Game
     public function createGame(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|unique:games',
-            'game_modes' => 'required|array',
-            'game_modes.*.name' => 'required|string',
-            'game_modes.*.max_players_per_team' => 'required|integer',
-        ]);
-    
-        
-        $game = Game::create([
-            'name' => $request->input('name'),
-        ]);
-    
-        
-        foreach ($request->input('game_modes') as $mode) {
-            $game->gameModes()->create($mode);
-        }
-    
-        
-        GameForum::create([
-            'game_id' => $game->id,
-            'name' => $game->name,
-        ]);
-    
-        return response()->json(['status' => 'Success', 'message' => 'Game created successfully', 'data' => $game]);
+{
+    $request->validate([
+        'name' => 'required|string|unique:games',
+        'game_modes' => 'required|json',
+        'gameimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $game = new Game([
+        'name' => $request->input('name'),
+    ]);
+
+    if ($request->hasFile('gameimage')) {
+        $gameImagePath = $request->file('gameimage')->store('public/games/');
+        $game->gameimage = "/storage" . str_replace('public', '', $gameImagePath);
+    } else {
+        $game->gameimage = '/storage/images/UploadImage.png';
     }
+
+    $game->save();
+
+    $forum = $game->forum()->create([
+        'name' => $game->name,
+    ]);
+
+    
+    $gameModes = json_decode($request->input('game_modes'), true);
+
+    foreach ($gameModes as $mode) {
+        $gameMode = new GameMode([
+            'name' => $mode['name'],
+            'max_players_per_team' => $mode['max_players_per_team'],
+        ]);
+        $game->gameModes()->save($gameMode);
+    }
+
+    return response()->json(['status' => 'Success', 'message' => 'Game created successfully', 'data' => $game]);
+}
+
+    
 
    
 
