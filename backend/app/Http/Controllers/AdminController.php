@@ -372,7 +372,7 @@ class AdminController extends Controller
         public function searchEntities(Request $request)
     {   $searchName=$request->input('searchName');
     
-        $users = User::where('name', 'like', $searchName . '%')->where('user_role_id', '<>', 1) ->get();
+        $users = User::where('username', 'like', $searchName . '%')->where('user_role_id', '<>', 1)->get();
 
         
         $tournaments = Tournament::where('name', 'like', $searchName . '%')->get();
