@@ -66,16 +66,20 @@ function fetchContactUsResults(searchText) {
         dropdownButton.addEventListener("click", () => {
           if (messageParagraph.style.display === "none") {
             messageParagraph.style.display = "block";
+            dropdownButton.textContent = "Hide Message";
+            dropdownButton.style.backgroundColor = "#d62f2f";
           } else {
             messageParagraph.style.display = "none";
+            dropdownButton.textContent = "Show Message";
+            dropdownButton.style.backgroundColor = "#2fd671";
           }
         });
 
         resultDiv.appendChild(nameParagraph);
         resultDiv.appendChild(emailParagraph);
         resultDiv.appendChild(subjectParagraph);
-        resultDiv.appendChild(dropdownButton);
         resultDiv.appendChild(messageParagraph);
+        resultDiv.appendChild(dropdownButton);
 
         ResultsFetched.appendChild(resultDiv);
       });
@@ -85,8 +89,6 @@ function fetchContactUsResults(searchText) {
     });
 }
 
-fetchContactUsResults();
-
 //Report List
 function FetchReports(searchText) {
   activePage = "reports";
@@ -95,7 +97,11 @@ function FetchReports(searchText) {
   ReportButton.style.color = "#2fd671";
   ContactusButton.style.color = "#000000";
 
-  const apiUrl = `${base_url}admin/getreports`;
+  let apiUrl = `${base_url}admin/getreports`;
+
+  if (searchText && searchText.trim() !== "") {
+    apiUrl += `?search=${searchText}`;
+  }
 
   const requestData = {
     method: "GET",
@@ -105,25 +111,25 @@ function FetchReports(searchText) {
     },
   };
 
-  if (searchText && searchText.trim() !== "") {
-    requestData.params = {
-      search_username: searchText,
-    };
-  }
-
   axios(apiUrl, requestData)
     .then((response) => {
-      console.log(response);
       const reportsData = response.data.data;
+      console.log(reportsData);
       ResultsFetched.innerHTML = "";
 
       reportsData.forEach((item) => {
         const resultDiv = document.createElement("div");
-        resultDiv.classList.add("fetchedresults");
-
-        const reportedByEmail = item.reportedUser.email;
-        const reportedByUsername = item.reportedUser.username;
+        resultDiv.classList.add("fetchedresults-reports");
+        const reportedByEmail = item.user.email;
+        const reportedByUsername = item.reported_user.username;
+        const reportedEmail = item.reported_user.email;
+        const reportedUsername = item.reported_user.username;
         const message = item.message;
+
+        const reportedEmailParagraph = document.createElement("p");
+        reportedEmailParagraph.textContent = `Reported  Email: ${reportedByEmail}`;
+        const reportedUsernameParagraph = document.createElement("p");
+        reportedUsernameParagraph.textContent = `Reported  Username: ${reportedByUsername}`;
 
         const reportedByEmailParagraph = document.createElement("p");
         reportedByEmailParagraph.textContent = `Reported By Email: ${reportedByEmail}`;
@@ -131,11 +137,12 @@ function FetchReports(searchText) {
         const reportedByUsernameParagraph = document.createElement("p");
         reportedByUsernameParagraph.textContent = `Reported By Username: ${reportedByUsername}`;
 
-        const messageParagraph = document.createElement("p");
-        messageParagraph.textContent = `Message: ${message}`;
-
         const showMessageButton = document.createElement("button");
         showMessageButton.textContent = "Show Message";
+
+        const messageParagraph = document.createElement("p");
+        messageParagraph.textContent = `Message: ${message}`;
+        messageParagraph.style.display = "none";
 
         const banButton = document.createElement("button");
         banButton.textContent = "Ban";
@@ -148,8 +155,12 @@ function FetchReports(searchText) {
         showMessageButton.addEventListener("click", () => {
           if (messageParagraph.style.display === "none") {
             messageParagraph.style.display = "block";
+            showMessageButton.textContent = "Hide Message";
+            showMessageButton.style.backgroundColor = "#d62f2f";
           } else {
             messageParagraph.style.display = "none";
+            showMessageButton.textContent = "Show Message";
+            showMessageButton.style.backgroundColor = "#2fd671";
           }
         });
 
@@ -160,13 +171,14 @@ function FetchReports(searchText) {
         unbanButton.addEventListener("click", () => {
           console.log(`Unbanning user with email: ${userEmailToBan}`);
         });
-
+        resultDiv.appendChild(reportedEmailParagraph);
+        resultDiv.appendChild(reportedUsernameParagraph);
         resultDiv.appendChild(reportedByEmailParagraph);
         resultDiv.appendChild(reportedByUsernameParagraph);
-        resultDiv.appendChild(messageParagraph);
-        resultDiv.appendChild(showMessageButton);
         resultDiv.appendChild(banButton);
         resultDiv.appendChild(unbanButton);
+        resultDiv.appendChild(messageParagraph);
+        resultDiv.appendChild(showMessageButton);
 
         ResultsFetched.appendChild(resultDiv);
       });
@@ -175,6 +187,7 @@ function FetchReports(searchText) {
       console.error("Error fetching reports:", error);
     });
 }
+
 ContactusButton.addEventListener("click", function () {
   fetchContactUsResults("");
 });
@@ -196,3 +209,6 @@ SearchResults.addEventListener("keydown", () => {
     }
   }, 300);
 });
+
+//ON LOAD
+FetchReports("");

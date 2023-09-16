@@ -50,7 +50,7 @@ body {
 }
 .pages {
   display: flex;
-  margin-right: 40px;
+
   flex-wrap: wrap;
 }
 
@@ -115,7 +115,38 @@ body {
   overflow: visible;
   text-overflow: clip;
 }
+.fetchedresults-reports p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fetchedresults-reports {
+  margin-top: 10px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  color: #000000;
+  font-weight: 550;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
 
+.fetchedresults-reports button {
+  align-self: flex-end;
+  cursor: pointer;
+  border: none;
+  background-color: #2fd671;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.fetchedresults-reports p.message {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
 .ban {
   cursor: pointer;
   color: #ffffff;

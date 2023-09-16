@@ -83,30 +83,31 @@ class AdminController extends Controller
         return response()->json(['message' => $response]);
     }
     
-    public function getReports(Request $request)
+        public function getReports(Request $request)
     {
         $user = Auth::user();
         $search = $request->input('search');
-        
+
         $reports = Report::with('user', 'reportedUser');
-        
+
         if ($search) {
             $reports->where(function ($query) use ($search) {
-                $query->where(function ($subquery) use ($search) {
+                $query->whereHas('user', function ($subquery) use ($search) {
                     $subquery->where('username', 'like', $search . '%')
-                            ->orWhere('email', 'like', $search . '%');
-                })->orWhere(function ($subquery) use ($search) {
-                    $subquery->where('reported_user.username', 'like', $search . '%')
-                            ->orWhere('reported_user.email', 'like', $search . '%');
+                        ->orWhere('email', 'like', $search . '%');
+                })->orWhereHas('reportedUser', function ($subquery) use ($search) {
+                    $subquery->where('username', 'like', $search . '%')
+                        ->orWhere('email', 'like', $search . '%');
                 });
             });
         }
-        
+        $reports->withCount('reportedUser as reportedUserReports');
         return response()->json([
             'status' => 'Success',
             'data' => $reports->get(),
         ]);
     }
+
     
 
   
