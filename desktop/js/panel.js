@@ -186,6 +186,7 @@ function LoadUsersPage() {
   renderedpage.appendChild(pageIframe);
 
   hideLoadingScreen();
+  return pageIframe;
 }
 usersButton.addEventListener("click", () => {
   LoadUsersPage();
@@ -208,6 +209,7 @@ function LoadGamesPage() {
   renderedpage.appendChild(pageIframe);
 
   hideLoadingScreen();
+  return pageIframe;
 }
 gamesButton.addEventListener("click", () => {
   LoadGamesPage();
@@ -231,6 +233,7 @@ function LoadTournamentsPage() {
   renderedpage.appendChild(pageIframe);
 
   hideLoadingScreen();
+  return pageIframe;
 }
 tournamentsButton.addEventListener("click", () => {
   LoadTournamentsPage();
@@ -289,6 +292,50 @@ function performSearch(query) {
       return [];
     });
 }
+function handleSearchResultClick(textToInsert, resultType) {
+  const pageIframe =
+    resultType === "users"
+      ? LoadUsersPage()
+      : resultType === "tournaments"
+      ? LoadTournamentsPage()
+      : LoadGamesPage();
+
+  pageIframe.addEventListener("load", () => {
+    const iframeDocument =
+      pageIframe.contentDocument || pageIframe.contentWindow.document;
+    const searchInput =
+      resultType === "users"
+        ? iframeDocument.getElementById("searchusers")
+        : resultType === "tournaments"
+        ? iframeDocument.getElementById("searchtournaments")
+        : iframeDocument.getElementById("searchgames");
+
+    if (searchInput) {
+      const delayBetweenCharacters = 100;
+
+      async function typeText() {
+        for (const char of textToInsert) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, delayBetweenCharacters)
+          );
+          const event = new InputEvent("input", {
+            bubbles: true,
+            cancelable: true,
+            inputType: "insertText",
+            data: char,
+          });
+          searchInput.value += char;
+          searchInput.dispatchEvent(event);
+        }
+      }
+
+      typeText();
+    }
+
+    searchResultsContainer.style.display = "none";
+  });
+}
+
 function showSearchResults(results) {
   searchResultsContainer.innerHTML = "";
 
@@ -332,6 +379,9 @@ function showSearchResults(results) {
       />
     </svg>`;
         resultElement.innerHTML += result.username;
+        resultElement.addEventListener("click", () => {
+          handleSearchResultClick(result.username, "users");
+        });
       } else if (result.tournament_type_id !== undefined) {
         resultElement.innerHTML = `  <svg
         width="20"
@@ -349,6 +399,9 @@ function showSearchResults(results) {
         />
       </svg>`;
         resultElement.innerHTML += result.name;
+        resultElement.addEventListener("click", () => {
+          handleSearchResultClick(result.name, "tournaments");
+        });
       } else {
         resultElement.innerHTML = `  <svg
         width="20"
@@ -364,6 +417,9 @@ function showSearchResults(results) {
         />
       </svg>`;
         resultElement.innerHTML += result.name;
+        resultElement.addEventListener("click", () => {
+          handleSearchResultClick(result.name, "games");
+        });
       }
 
       searchResultsContainer.appendChild(resultElement);
