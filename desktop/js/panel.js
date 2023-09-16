@@ -22,6 +22,7 @@ const searchnavbar = document.getElementById("searchnavbar");
 const searchResultsContainer = document.getElementById("searchResults");
 let user;
 let currentPage = "dashboard";
+let searchTimeout;
 
 document.getElementById("searchnavbar").addEventListener("focus", function () {
   document.getElementById("search-icon").style.fill = "#269c55";
@@ -429,13 +430,17 @@ function showSearchResults(results) {
   }
 }
 
-searchnavbar.addEventListener("input", () => {
-  const searchQuery = searchnavbar.value.trim();
-  if (searchQuery == "") {
-    searchResultsContainer.style.display = "none";
-  } else {
-    performSearch(searchQuery).then((results) => {
-      showSearchResults(results);
-    });
-  }
+searchnavbar.addEventListener("keydown", () => {
+  clearTimeout(searchTimeout);
+
+  searchTimeout = setTimeout(() => {
+    const searchQuery = searchnavbar.value.trim();
+    if (searchQuery == "") {
+      searchResultsContainer.style.display = "none";
+    } else {
+      performSearch(searchQuery).then((results) => {
+        showSearchResults(results);
+      });
+    }
+  }, 300);
 });

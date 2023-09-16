@@ -4,6 +4,7 @@ const ReportButton = document.getElementById("reportsbutton");
 const ResultsFetched = document.getElementById("fetchresults");
 const SearchResults = document.getElementById("searchusers");
 let activePage;
+let searchTimeout;
 document.getElementById("searchusers").addEventListener("focus", function () {
   document.getElementById("searchusers-icon").style.fill = "#269c55";
   document.getElementById("searchusersbar").style.border = "3px solid #269c55 ";
@@ -97,11 +98,15 @@ ReportButton.addEventListener("click", function () {
   ContactusButton.style.color = "#000000";
 });
 
-SearchResults.addEventListener("input", () => {
-  const searchText = SearchResults.value;
+SearchResults.addEventListener("keydown", () => {
+  clearTimeout(searchTimeout);
 
-  if (activePage === "contactus") {
-    fetchContactUsResults(searchText);
-  } else if (activePage === "reports") {
-  }
+  searchTimeout = setTimeout(() => {
+    const searchText = SearchResults.value;
+
+    if (activePage === "contactus") {
+      fetchContactUsResults(searchText);
+    } else if (activePage === "reports") {
+    }
+  }, 300);
 });
