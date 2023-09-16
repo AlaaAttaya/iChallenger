@@ -90,7 +90,7 @@ class AdminController extends Controller
         $reports = Report::with('reportedUser');
     
         if ($request->has('search_username')) {
-            $reports->whereHas('reportedUser', 'like', '%' . $request->input('search_username') . '%');
+            $reports->whereHas('reportedUser', 'like',  $request->input('search_username') . '%');
         }
     
         return response()->json([

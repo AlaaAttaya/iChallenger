@@ -235,27 +235,39 @@ class UserController extends Controller
 
     
     public function reportUser(Request $request)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $request->validate([
-            'reported_user_id' => 'required|exists:users,id', 
-            'message' => 'required|string|max:255', 
-        ]);
+    $request->validate([
+        'reported_user' => 'required|string', 
+        'message' => 'required|string|max:255',
+    ]);
 
-        
-        $report = new Report();
-        $report->user_id = $user->id; 
-        $report->reported_user_id = $request->input('reported_user_id'); 
-        $report->message = $request->input('message'); 
-        $report->save();
+   
+    $reportedUser = User::where('username', $request->input('reported_user'))
+        ->orWhere('email', $request->input('reported_user'))
+        ->first();
 
+    if (!$reportedUser) {
         return response()->json([
-            'status' => 'Success',
-            'message' => 'User reported successfully',
-            'data' => $report,
-        ]);
+            'status' => 'Error',
+            'message' => 'User not found.',
+        ], 404);
     }
+
+    $report = new Report();
+    $report->user_id = $user->id;
+    $report->reported_user_id = $reportedUser->id;
+    $report->message = $request->input('message');
+    $report->save();
+
+    return response()->json([
+        'status' => 'Success',
+        'message' => 'User reported successfully',
+        'data' => $report,
+    ]);
+}
+
 
 
     public function sendMessage(Request $request)

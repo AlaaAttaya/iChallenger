@@ -88,7 +88,7 @@ function fetchContactUsResults(searchText) {
 fetchContactUsResults();
 
 //Report List
-function FetchReports() {}
+function FetchReports(searchText) {}
 ContactusButton.addEventListener("click", fetchContactUsResults);
 ReportButton.addEventListener("click", function () {
   activePage = "reports";
@@ -107,6 +107,7 @@ SearchResults.addEventListener("keydown", () => {
     if (activePage === "contactus") {
       fetchContactUsResults(searchText);
     } else if (activePage === "reports") {
+      FetchReports(searchText);
     }
   }, 300);
 });
