@@ -88,14 +88,99 @@ function fetchContactUsResults(searchText) {
 fetchContactUsResults();
 
 //Report List
-function FetchReports(searchText) {}
-ContactusButton.addEventListener("click", fetchContactUsResults);
-ReportButton.addEventListener("click", function () {
+function FetchReports(searchText) {
   activePage = "reports";
   ReportButton.style.borderBottom = "3px solid #2fd671";
   ContactusButton.style.borderBottom = "3px solid #989898";
   ReportButton.style.color = "#2fd671";
   ContactusButton.style.color = "#000000";
+
+  const apiUrl = `${base_url}admin/getreports`;
+
+  const requestData = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (searchText && searchText.trim() !== "") {
+    requestData.params = {
+      search_username: searchText,
+    };
+  }
+
+  axios(apiUrl, requestData)
+    .then((response) => {
+      console.log(response);
+      const reportsData = response.data.data;
+      ResultsFetched.innerHTML = "";
+
+      reportsData.forEach((item) => {
+        const resultDiv = document.createElement("div");
+        resultDiv.classList.add("fetchedresults");
+
+        const reportedByEmail = item.reportedUser.email;
+        const reportedByUsername = item.reportedUser.username;
+        const message = item.message;
+
+        const reportedByEmailParagraph = document.createElement("p");
+        reportedByEmailParagraph.textContent = `Reported By Email: ${reportedByEmail}`;
+
+        const reportedByUsernameParagraph = document.createElement("p");
+        reportedByUsernameParagraph.textContent = `Reported By Username: ${reportedByUsername}`;
+
+        const messageParagraph = document.createElement("p");
+        messageParagraph.textContent = `Message: ${message}`;
+
+        const showMessageButton = document.createElement("button");
+        showMessageButton.textContent = "Show Message";
+
+        const banButton = document.createElement("button");
+        banButton.textContent = "Ban";
+
+        const unbanButton = document.createElement("button");
+        unbanButton.textContent = "Unban";
+
+        const userEmailToBan = reportedByEmail;
+
+        showMessageButton.addEventListener("click", () => {
+          if (messageParagraph.style.display === "none") {
+            messageParagraph.style.display = "block";
+          } else {
+            messageParagraph.style.display = "none";
+          }
+        });
+
+        banButton.addEventListener("click", () => {
+          console.log(`Banning user with email: ${userEmailToBan}`);
+        });
+
+        unbanButton.addEventListener("click", () => {
+          console.log(`Unbanning user with email: ${userEmailToBan}`);
+        });
+
+        resultDiv.appendChild(reportedByEmailParagraph);
+        resultDiv.appendChild(reportedByUsernameParagraph);
+        resultDiv.appendChild(messageParagraph);
+        resultDiv.appendChild(showMessageButton);
+        resultDiv.appendChild(banButton);
+        resultDiv.appendChild(unbanButton);
+
+        ResultsFetched.appendChild(resultDiv);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching reports:", error);
+    });
+}
+ContactusButton.addEventListener("click", function () {
+  fetchContactUsResults("");
+});
+
+ReportButton.addEventListener("click", function () {
+  FetchReports("");
 });
 
 SearchResults.addEventListener("keydown", () => {

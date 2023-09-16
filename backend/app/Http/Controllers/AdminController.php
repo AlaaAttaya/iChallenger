@@ -86,18 +86,29 @@ class AdminController extends Controller
     public function getReports(Request $request)
     {
         $user = Auth::user();
-    
-        $reports = Report::with('reportedUser');
-    
-        if ($request->has('search_username')) {
-            $reports->whereHas('reportedUser', 'like',  $request->input('search_username') . '%');
+        $search = $request->input('search');
+        
+        $reports = Report::with('user', 'reportedUser');
+        
+        if ($search) {
+            $reports->where(function ($query) use ($search) {
+                $query->where(function ($subquery) use ($search) {
+                    $subquery->where('username', 'like', $search . '%')
+                            ->orWhere('email', 'like', $search . '%');
+                })->orWhere(function ($subquery) use ($search) {
+                    $subquery->where('reported_user.username', 'like', $search . '%')
+                            ->orWhere('reported_user.email', 'like', $search . '%');
+                });
+            });
         }
-    
+        
         return response()->json([
             'status' => 'Success',
             'data' => $reports->get(),
         ]);
     }
+    
+
   
     //Create Game
     public function createGame(Request $request)
