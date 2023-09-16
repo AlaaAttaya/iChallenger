@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css?family=Rubik&display=swap");
+
+.navbar {
+  background-color: #111111;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+.nav-burgermenu {
+  display: none;
+  margin-right: 20px;
+}
+.nav-logo img {
+  height: 80px;
+  width: 80px;
+}
+.nav-searchbar {
+}
+.nav-buttons {
+}
+.nav-login {
+}
+.nav-circle-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+.nav-leftelements {
+  margin-left: 20px;
+}
+
+.nav-rightelements {
+  margin-right: 20px;
+}
