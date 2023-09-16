@@ -114,29 +114,32 @@ function FetchReports(searchText) {
   axios(apiUrl, requestData)
     .then((response) => {
       const reportsData = response.data.data;
-      console.log(reportsData);
+
       ResultsFetched.innerHTML = "";
 
       reportsData.forEach((item) => {
         const resultDiv = document.createElement("div");
         resultDiv.classList.add("fetchedresults-reports");
         const reportedByEmail = item.user.email;
-        const reportedByUsername = item.reported_user.username;
+        const reportedByUsername = item.user.username;
         const reportedEmail = item.reported_user.email;
         const reportedUsername = item.reported_user.username;
         const message = item.message;
+        const TotalReports = item.reports_count;
+        const is_banned = item.reported_user.is_banned;
 
         const reportedEmailParagraph = document.createElement("p");
-        reportedEmailParagraph.textContent = `Reported  Email: ${reportedByEmail}`;
+        reportedEmailParagraph.textContent = `Email: ${reportedEmail}`;
         const reportedUsernameParagraph = document.createElement("p");
-        reportedUsernameParagraph.textContent = `Reported  Username: ${reportedByUsername}`;
+        reportedUsernameParagraph.textContent = `Username: ${reportedUsername}`;
 
         const reportedByEmailParagraph = document.createElement("p");
         reportedByEmailParagraph.textContent = `Reported By Email: ${reportedByEmail}`;
 
         const reportedByUsernameParagraph = document.createElement("p");
         reportedByUsernameParagraph.textContent = `Reported By Username: ${reportedByUsername}`;
-
+        const totalreportsParagraph = document.createElement("p");
+        totalreportsParagraph.textContent = `User Reported ${TotalReports} Times`;
         const showMessageButton = document.createElement("button");
         showMessageButton.textContent = "Show Message";
 
@@ -144,11 +147,14 @@ function FetchReports(searchText) {
         messageParagraph.textContent = `Message: ${message}`;
         messageParagraph.style.display = "none";
 
-        const banButton = document.createElement("button");
-        banButton.textContent = "Ban";
-
-        const unbanButton = document.createElement("button");
-        unbanButton.textContent = "Unban";
+        const banunbanButton = document.createElement("button");
+        if (is_banned === 0) {
+          banunbanButton.textContent = "Ban";
+          banunbanButton.classList.add("ban");
+        } else {
+          banunbanButton.textContent = "Unban";
+          banunbanButton.classList.add("unban");
+        }
 
         const userEmailToBan = reportedByEmail;
 
@@ -164,21 +170,19 @@ function FetchReports(searchText) {
           }
         });
 
-        banButton.addEventListener("click", () => {
-          console.log(`Banning user with email: ${userEmailToBan}`);
-        });
-
-        unbanButton.addEventListener("click", () => {
+        banunbanButton.addEventListener("click", () => {
           console.log(`Unbanning user with email: ${userEmailToBan}`);
         });
-        resultDiv.appendChild(reportedEmailParagraph);
+
         resultDiv.appendChild(reportedUsernameParagraph);
-        resultDiv.appendChild(reportedByEmailParagraph);
+        resultDiv.appendChild(reportedEmailParagraph);
+
         resultDiv.appendChild(reportedByUsernameParagraph);
-        resultDiv.appendChild(banButton);
-        resultDiv.appendChild(unbanButton);
+        resultDiv.appendChild(reportedByEmailParagraph);
+        resultDiv.appendChild(totalreportsParagraph);
         resultDiv.appendChild(messageParagraph);
         resultDiv.appendChild(showMessageButton);
+        resultDiv.appendChild(banunbanButton);
 
         ResultsFetched.appendChild(resultDiv);
       });

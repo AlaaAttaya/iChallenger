@@ -83,13 +83,13 @@ class AdminController extends Controller
         return response()->json(['message' => $response]);
     }
     
-        public function getReports(Request $request)
+    public function getReports(Request $request)
     {
         $user = Auth::user();
         $search = $request->input('search');
-
+    
         $reports = Report::with('user', 'reportedUser');
-
+    
         if ($search) {
             $reports->where(function ($query) use ($search) {
                 $query->whereHas('user', function ($subquery) use ($search) {
@@ -101,12 +101,34 @@ class AdminController extends Controller
                 });
             });
         }
-        $reports->withCount('reportedUser as reportedUserReports');
+    
+        $reportsData = $reports->get();
+    
+        
+        $reportCounts = [];
+    
+        foreach ($reportsData as $report) {
+            $reportedUserId = $report->reportedUser->id;
+    
+            if (!isset($reportCounts[$reportedUserId])) {
+                $reportCounts[$reportedUserId] = 0;
+            }
+    
+            $reportCounts[$reportedUserId]++;
+        }
+    
+       
+        foreach ($reportsData as $report) {
+            $reportedUserId = $report->reportedUser->id;
+            $report->reports_count = $reportCounts[$reportedUserId];
+        }
+    
         return response()->json([
             'status' => 'Success',
-            'data' => $reports->get(),
+            'data' => $reportsData,
         ]);
     }
+    
 
     
 
