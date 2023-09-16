@@ -158,23 +158,7 @@ class AuthController extends Controller
     
     //Contact us
 
-    public function getContactUs(Request $request)
-    {
-        $search = $request->input('search');
-    
-        $query = ContactUs::query();
-    
-        if ($search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('name', 'like', $search . '%')
-                    ->orWhere('email', 'like', $search . '%');
-            });
-        }
-    
-        $messages = $query->get();
-    
-        return response()->json(['data' => $messages]);
-    }
+  
 
     public function submitContactUs(Request $request)
     {

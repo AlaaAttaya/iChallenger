@@ -13,6 +13,7 @@ use App\Http\Controllers\EmailController;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\ContactUs;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\GameMode;
@@ -403,5 +404,22 @@ public function updateGame(Request $request)
             'tournaments' => $tournaments,
             'games' => $games,
         ];
+    }
+    public function getContactUs(Request $request)
+    {
+        $search = $request->input('search');
+    
+        $query = ContactUs::query();
+    
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', $search . '%')
+                    ->orWhere('email', 'like', $search . '%');
+            });
+        }
+    
+        $messages = $query->get();
+    
+        return response()->json(['data' => $messages]);
     }
 }

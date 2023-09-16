@@ -75,8 +75,10 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
 
+        Route::get("contactus", [AuthController::class, "getContactus"]);
         Route::get('getreports', [AdminController::class, 'getReports']);
         Route::get('getdatacards',[AdminController::class,'getData']);
+        
         Route::get('tournamentsbygame', [AdminController::class, 'getTournamentsByGame']);
         Route::get('usersbycountry', [AdminController::class, 'getUsersByCountry']);
         Route::get('searchentities', [AdminController::class, 'searchEntities']);
@@ -104,7 +106,7 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("register", [AuthController::class, "register"]);
 
     Route::post("submitcontactus", [AuthController::class, "submitContactus"]);
-    Route::get("contactus", [AuthController::class, "getContactus"]);
+   
 
     Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
     Route::post("verifycode", [AuthController::class, "verifyCode"]); 
