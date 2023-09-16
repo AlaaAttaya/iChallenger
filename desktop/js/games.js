@@ -138,7 +138,7 @@ addGameModeButton.addEventListener("click", () => {
   const gameModeInput = document.createElement("div");
   gameModeInput.classList.add("gamemodeinputs");
   gameModeInput.innerHTML = `
-        
+  <div class="gamemode-labels">Name & Team Count</div>
         <input type="text" class="game-mode-name" placeholder="Name" />
         <input type="number" class="team-count" placeholder="Team Count" />
         <button class="remove-game-mode">Remove</button>
@@ -241,7 +241,7 @@ updateGameModeButton.addEventListener("click", () => {
   const gameModeInput = document.createElement("div");
   gameModeInput.classList.add("gamemodeinputs");
   gameModeInput.innerHTML = `
-          
+  <div class="gamemode-labels">Name & Team Count</div>
           <input type="text" class="game-mode-name" placeholder="Name" />
           <input type="number" class="team-count" placeholder="Team Count" />
           <button class="remove-game-mode">Remove</button>
