@@ -1,13 +1,16 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Layout from "./components/Layout";
 const App = () => {
   return (
     <>
       <BrowserRouter>
-        <div className="app">asdaasdasdsadasdasd</div>
+        <div className="app">
+          <Routes>
+            <Route path="/" element={<Layout />} />
+          </Routes>
+        </div>
       </BrowserRouter>
-      {console.log("|test")}
     </>
   );
 };
