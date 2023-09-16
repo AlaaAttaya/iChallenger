@@ -139,6 +139,8 @@ function FetchReports(searchText) {
         const reportedUsername = item.reported_user.username;
         const message = item.message;
         const TotalReports = item.reports_count;
+        const FetchedDate = item.created_at;
+        const CreatedDate = new Date(FetchedDate).toLocaleString();
         const is_banned = item.reported_user.is_banned;
 
         const reportedEmailParagraph = document.createElement("p");
@@ -153,6 +155,8 @@ function FetchReports(searchText) {
         reportedByUsernameParagraph.textContent = `Reported By Username: ${reportedByUsername}`;
         const totalreportsParagraph = document.createElement("p");
         totalreportsParagraph.textContent = `User Reported ${TotalReports} Times`;
+        const createdDateParagraph = document.createElement("p");
+        createdDateParagraph.textContent = `User Reported at ${CreatedDate}`;
         const showMessageButton = document.createElement("button");
         showMessageButton.textContent = "Show Message";
 
@@ -221,8 +225,11 @@ function FetchReports(searchText) {
 
         resultDiv.appendChild(reportedByUsernameParagraph);
         resultDiv.appendChild(reportedByEmailParagraph);
+
         resultDiv.appendChild(totalreportsParagraph);
+        resultDiv.appendChild(createdDateParagraph);
         resultDiv.appendChild(messageParagraph);
+
         resultDiv.appendChild(showMessageButton);
         resultDiv.appendChild(banunbanButton);
 
