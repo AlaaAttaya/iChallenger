@@ -12,16 +12,38 @@ document.getElementById("searchusers").addEventListener("blur", function () {
   document.getElementById("searchusersbar").style.border = "3px solid #9e9e9e ";
 });
 //Contactus List
-function FetchContactus() {
-  ContactusButton.style.borderBottom = "3px solid #2fd671";
-  ReportButton.style.borderBottom = "3px solid #989898";
-  ContactusButton.style.color = "#2fd671";
-  ReportButton.style.color = "#000000";
+function fetchContactUsResults(searchText) {
+  const apiUrl = `${base_url}admin/contactus`;
+
+  const requestData = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (searchText && searchText.trim() !== "") {
+    requestData.params = {
+      search: searchText,
+    };
+  }
+
+  axios(apiUrl, requestData)
+    .then((response) => {
+      const contactUsData = response.data.data;
+      ResultsFetched.innerHTML = "";
+    })
+    .catch((error) => {
+      console.error("Error fetching contactus data:", error);
+    });
 }
-FetchContactus();
+
+fetchContactUsResults();
+
 //Report List
 function FetchReports() {}
-ContactusButton.addEventListener("click", FetchContactus);
+ContactusButton.addEventListener("click", fetchContactUsResults);
 ReportButton.addEventListener("click", function () {
   ReportButton.style.borderBottom = "3px solid #2fd671";
   ContactusButton.style.borderBottom = "3px solid #989898";

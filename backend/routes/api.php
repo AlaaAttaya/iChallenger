@@ -75,10 +75,10 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('unbanuser', [AdminController::class, 'unbanUser']);
         Route::post('sendemail',[AdminController::class, 'sendEmail']);
 
-        Route::get("contactus", [AuthController::class, "getContactus"]);
+        Route::get("contactus", [AdminController::class, "getContactus"]);
         Route::get('getreports', [AdminController::class, 'getReports']);
         Route::get('getdatacards',[AdminController::class,'getData']);
-        
+
         Route::get('tournamentsbygame', [AdminController::class, 'getTournamentsByGame']);
         Route::get('usersbycountry', [AdminController::class, 'getUsersByCountry']);
         Route::get('searchentities', [AdminController::class, 'searchEntities']);

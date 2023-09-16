@@ -166,6 +166,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'subject'=> 'required|string',
             'message' => 'required|string',
         ]);
     
@@ -173,6 +174,7 @@ class AuthController extends Controller
         $contactUs = new ContactUs();
         $contactUs->name = $request->name;
         $contactUs->email = $request->email;
+        $contactUs->subject=$request->subject;
         $contactUs->message = $request->message;
     
         
