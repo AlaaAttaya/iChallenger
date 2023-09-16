@@ -177,7 +177,19 @@ body {
   border-radius: 5px;
   background-color: #2fd671 !important;
 }
+.message-popup {
+  display: none;
+  position: fixed;
+  top: 0px;
+  right: 0px;
 
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 @media screen and (max-width: 400px) {
   .pages {
     margin-right: 0px;

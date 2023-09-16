@@ -3,6 +3,7 @@ const ContactusButton = document.getElementById("contactus");
 const ReportButton = document.getElementById("reportsbutton");
 const ResultsFetched = document.getElementById("fetchresults");
 const SearchResults = document.getElementById("searchusers");
+const messagePopup = document.getElementById("messages-popup");
 let activePage;
 let searchTimeout;
 document.getElementById("searchusers").addEventListener("focus", function () {
@@ -14,6 +15,18 @@ document.getElementById("searchusers").addEventListener("blur", function () {
   document.getElementById("searchusers-icon").style.fill = "#9e9e9e";
   document.getElementById("searchusersbar").style.border = "3px solid #9e9e9e ";
 });
+function showMessage(message) {
+  messagePopup.innerText = message;
+  messagePopup.style.display = "block";
+  messagePopup.style.opacity = 1;
+
+  setTimeout(() => {
+    messagePopup.style.opacity = 0;
+    setTimeout(() => {
+      messagePopup.style.display = "none";
+    }, 400);
+  }, 2000);
+}
 //Contactus List
 function fetchContactUsResults(searchText) {
   activePage = "contactus";
@@ -156,8 +169,6 @@ function FetchReports(searchText) {
           banunbanButton.classList.add("unban");
         }
 
-        const userEmailToBan = reportedByEmail;
-
         showMessageButton.addEventListener("click", () => {
           if (messageParagraph.style.display === "none") {
             messageParagraph.style.display = "block";
@@ -171,7 +182,38 @@ function FetchReports(searchText) {
         });
 
         banunbanButton.addEventListener("click", () => {
-          console.log(`Unbanning user with email: ${userEmailToBan}`);
+          const isBanned = is_banned === 1;
+          const action = isBanned ? "unban" : "ban";
+          const identifier = reportedEmail;
+          const Url = `${base_url}admin/${action}user`;
+          const requestData = {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify({
+              identifier: identifier,
+            }),
+          };
+
+          axios(Url, requestData)
+            .then((response) => {
+              if (action === "ban") {
+                banunbanButton.textContent = "Unban";
+                banunbanButton.classList.remove("ban");
+                banunbanButton.classList.add("unban");
+              } else {
+                banunbanButton.textContent = "Ban";
+                banunbanButton.classList.remove("unban");
+                banunbanButton.classList.add("ban");
+              }
+              showMessage(response.data.message);
+              FetchReports(searchText);
+            })
+            .catch(() => {
+              showMessage(`Error ${action}ning user.`);
+            });
         });
 
         resultDiv.appendChild(reportedUsernameParagraph);
@@ -200,7 +242,7 @@ ReportButton.addEventListener("click", function () {
   FetchReports("");
 });
 
-SearchResults.addEventListener("keydown", () => {
+SearchResults.addEventListener("input", () => {
   clearTimeout(searchTimeout);
 
   searchTimeout = setTimeout(() => {

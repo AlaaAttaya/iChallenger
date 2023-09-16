@@ -28,32 +28,34 @@ class AdminController extends Controller
 {
     public function banUser(Request $request)
     {   
-        $identifier=$request->input('user_id');
-        $user = User::find($identifier);
-    
+        $identifier = $request->input('identifier'); 
+        $user = User::where('email', $identifier)->orWhere('username', $identifier)->first();
+        
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);
         }
-    
+        
         $user->is_banned = 1;
         $user->save();
-    
+        
         return response()->json(['message' => 'User has been banned.']);
     }
+    
     public function unbanUser(Request $request)
     {   
-        $identifier=$request->input('user_id');
-        $user = User::find($identifier);
-    
+        $identifier = $request->input('identifier'); 
+        $user = User::where('email', $identifier)->orWhere('username', $identifier)->first();
+        
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);
         }
-    
+        
         $user->is_banned = 0;
         $user->save();
-    
+        
         return response()->json(['message' => 'User has been unbanned.']);
     }
+    
     public function sendEmail(Request $request)
     {
         
