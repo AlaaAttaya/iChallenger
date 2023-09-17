@@ -110,6 +110,9 @@ const Navbar = () => {
             />
           </svg>
         </div>
+        <div className="leftnavbar-logo">
+          <img src={Logo} alt="ichallenger-logo"></img>
+        </div>
         <div className="search-leftnavbar-wrapper">
           <div
             className={`search-leftnavbar ${isInputFocused ? "focused" : ""}`}

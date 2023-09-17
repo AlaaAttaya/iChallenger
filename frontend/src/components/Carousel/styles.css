@@ -1,0 +1,19 @@
+.dot {
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 5px !important;
+}
+
+.dot:hover {
+  width: 16px !important;
+  height: 16px !important;
+  background-color: #2fd671 !important;
+}
+
+.dot.selected {
+  width: 16px !important;
+  height: 16px !important;
+  background-color: #2fd671 !important;
+}

@@ -1,7 +1,3 @@
-import React from "react";
-
-const LandingPage = () => {
-  return <div className="LandingPage">This is the landingpage stuff</div>;
-};
-
-export default LandingPage;
+.hero-section {
+  background-color: #111;
+}

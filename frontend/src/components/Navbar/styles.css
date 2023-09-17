@@ -14,15 +14,16 @@
   font-family: "Rubik", sans-serif;
 }
 .nav-burgermenu {
-  margin-right: 20px;
+  margin-right: 10px;
   display: none;
   cursor: pointer;
 }
-
+.nav-logo {
+  margin-left: 30px;
+}
 .nav-logo img {
   height: 80px;
   width: 80px;
-  margin-right: 20px;
 }
 .nav-searchbar {
   display: flex;
@@ -66,7 +67,7 @@
   border: 2px solid #ffffff;
 }
 .nav-leftelements {
-  margin-left: 40px;
+  margin-left: 10px;
   display: flex;
   align-items: center;
 }
@@ -141,6 +142,14 @@
   fill: #2fd671;
   animation: neon-shine 0.3s ease-in-out infinite alternate;
 }
+.leftnavbar-logo {
+  display: flex;
+  justify-content: center;
+}
+.leftnavbar-logo img {
+  width: 100px;
+  height: 100px;
+}
 @keyframes neon-shine {
   0% {
     fill: #37ff87;
@@ -170,6 +179,9 @@
 
   .nav-login {
     margin-right: 0px;
+  }
+  .nav-logo {
+    margin-left: 0px;
   }
 }
 @media screen and (max-width: 500px) {
