@@ -3,25 +3,33 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import "./styles.css";
 
-const ContentCarousel = ({ images, showArrows, showIndicators }) => {
+const HeroCarousel = ({ images, showArrows, showIndicators }) => {
   return (
     <Carousel
       autoPlay
       infiniteLoop
+      swipeable={true}
       showStatus={false}
       showThumbs={false}
-      interval={10000}
+      interval={6000}
       emulateTouch={true}
       showArrows={showArrows}
       showIndicators={showIndicators}
     >
-      {images.map((image, index) => (
+      {images.map((imageData, index) => (
         <div key={index}>
-          <img src={image} alt={`Image ${index + 1}`} />
+          <img
+            src={imageData.src}
+            alt={imageData.alt || `Image ${index + 1}`}
+            style={{
+              width: imageData.width,
+              height: imageData.height,
+            }}
+          />
         </div>
       ))}
     </Carousel>
   );
 };
 
-export default ContentCarousel;
+export default HeroCarousel;
