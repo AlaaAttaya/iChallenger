@@ -82,12 +82,29 @@ const Navbar = () => {
           <button id="Signin">Signin</button>
         </div>
       </div>
-      {isSidebarOpen && (
-        <div className="navbar-burgermenu">
-          test test test test test test test test test test test test test test
-          test test
+
+      <div className={`navbar-burgermenu${isSidebarOpen ? " show" : ""}`}>
+        <div
+          class="close-leftnavbar"
+          id="closeleftnavbar"
+          onClick={toggleSidebar}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 30 30"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M11.8371 14.9998L0 26.8371L3.16275 30L15 18.1627L26.8371 30L30 26.8371L18.1629 14.9998L29.9997 3.16279L26.8368 0L15 11.8369L3.16311 0L0.000356889 3.16279L11.8371 14.9998Z"
+              fill="#2FD671"
+            />
+          </svg>
         </div>
-      )}
+      </div>
     </div>
   );
 };

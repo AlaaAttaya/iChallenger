@@ -5,7 +5,7 @@
   display: flex;
   width: 100%;
   align-items: center;
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 100;
   justify-content: space-between;
@@ -77,17 +77,19 @@
 .navbar-burgermenu {
   position: fixed;
   top: 0;
-  left: -300px; /* Start off-screen on the left */
-  width: 300px;
+  left: -300px;
+  width: 200px;
   height: 100%;
-  background-color: #111111;
+  background-color: #202020;
   color: #fff;
-  transition: left 0.3s ease-in-out; /* Add a smooth transition effect */
-  z-index: 100; /* Ensure the sidebar is above other content */
-  overflow-y: auto; /* Add scroll if content exceeds the screen */
+  transition: left 0.3s ease-in-out;
+  z-index: 100;
+  overflow-y: auto;
 }
 
-/* Show the sidebar when isSidebarOpen is true */
 .navbar-burgermenu.show {
   left: 0;
+}
+.close-leftnavbar {
+  cursor: pointer;
 }
