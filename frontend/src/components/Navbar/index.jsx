@@ -110,7 +110,7 @@ const Navbar = () => {
             />
           </svg>
         </div>
-        <div class="search-leftnavbar-wrapper">
+        <div className="search-leftnavbar-wrapper">
           <div
             className={`search-leftnavbar ${isInputFocused ? "focused" : ""}`}
           >
@@ -132,6 +132,8 @@ const Navbar = () => {
 
             <input
               type="text"
+              id="leftnavbar-searchinput"
+              name="leftnavbar-searchinput"
               className={`searchinput ${isInputFocused ? "focused" : ""}`}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
