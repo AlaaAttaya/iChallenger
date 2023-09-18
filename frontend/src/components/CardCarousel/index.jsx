@@ -43,7 +43,8 @@ const CardCarousel = ({ cards, setwidth, setheight, carouseltitle }) => {
   const settings = {
     infinite: true,
     slidesToShow: slidesToShow,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
+
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
   };
