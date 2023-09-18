@@ -110,12 +110,11 @@ const LandingPage = () => {
       </section>
       <section className="content-section">
         <div className="forumscarousel">
-          <h1>Game Forums</h1>
-          <CardCarousel cards={cardData} />
-          <h1>Tournaments</h1>
-          <CardCarousel cards={cardData} />
-          <h1>Live Streams</h1>
-          <CardCarousel cards={cardData} />
+          <CardCarousel cards={cardData} carouseltitle={"Game Forums"} />
+          <hr></hr>
+          <CardCarousel cards={cardData} carouseltitle={"Tournaments"} />
+          <hr></hr>
+          <CardCarousel cards={cardData} carouseltitle={"Live Streams"} />
         </div>
       </section>
     </div>

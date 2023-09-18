@@ -38,7 +38,7 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
-const CardCarousel = ({ cards, setwidth, setheight }) => {
+const CardCarousel = ({ cards, setwidth, setheight, carouseltitle }) => {
   const settings = {
     infinite: true,
     slidesToShow: 4,
@@ -49,6 +49,8 @@ const CardCarousel = ({ cards, setwidth, setheight }) => {
 
   return (
     <div className="carousel-container">
+      <h1>{carouseltitle}</h1>
+
       <Slider {...settings}>
         {cards.map((card, index) => (
           <div
