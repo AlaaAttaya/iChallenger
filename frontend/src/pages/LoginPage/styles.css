@@ -163,6 +163,9 @@
   .login-title-wrapper {
     gap: 20px;
   }
+  .login-title {
+    font-size: 26px;
+  }
   .login-container {
     min-width: 250px;
   }

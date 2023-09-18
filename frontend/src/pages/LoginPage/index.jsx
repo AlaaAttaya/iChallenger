@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
 import config from "../../config";
 import axios from "axios";
@@ -68,9 +69,13 @@ const LoginPage = () => {
     axios
       .post(`${config.base_url}/api/guest/login`, loginFormData)
       .then((response) => {
-        console.log("Login successful:", response.data);
+        if (response.data.data.is_banned == 1) {
+          setLoginErrorMessage("User is banned.");
+        } else {
+          console.log("Login successful:", response.data);
+        }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoginErrorMessage("Login failed. Please check your credentials.");
       });
   };
@@ -106,7 +111,10 @@ const LoginPage = () => {
       setSignupErrorMessage("Password is required");
       return;
     }
-
+    if (signupData.signuppassword.length < 8) {
+      setSignupErrorMessage("Password must be at least 8 characters");
+      return;
+    }
     if (signupData.signuppassword !== signupData.signupconfirmpassword) {
       setSignupErrorMessage("Passwords do not match");
       return;
@@ -127,8 +135,8 @@ const LoginPage = () => {
       .then((response) => {
         console.log("Registration successful:", response.data);
       })
-      .catch((error) => {
-        setSignupErrorMessage("Registration failed. Please try again.");
+      .catch(() => {
+        setSignupErrorMessage("Username or Email Taken.");
       });
   };
 
@@ -198,7 +206,9 @@ const LoginPage = () => {
             >
               Login
             </button>
-            <div className="forgotpassword">Forgot Password ?</div>
+            <Link to="/ForgotPassword">
+              <div className="forgotpassword">Forgot Password ?</div>
+            </Link>
           </div>
 
           <div className="google-button-wrapper">
