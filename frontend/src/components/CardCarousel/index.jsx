@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -39,13 +39,35 @@ const CustomNextArrow = ({ onClick }) => (
 );
 
 const CardCarousel = ({ cards, setwidth, setheight, carouseltitle }) => {
+  const [slidesToShow, setSlidesToShow] = useState(4);
   const settings = {
     infinite: true,
-    slidesToShow: 4,
+    slidesToShow: slidesToShow,
     slidesToScroll: 3,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
   };
+  const handleResize = () => {
+    if (window.innerWidth <= 800) {
+      setSlidesToShow(1);
+    } else if (window.innerWidth >= 800 && window.innerWidth <= 1150) {
+      setSlidesToShow(2);
+    } else if (window.innerWidth >= 1150 && window.innerWidth <= 1550) {
+      setSlidesToShow(3);
+    } else {
+      setSlidesToShow(4);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="carousel-container">
