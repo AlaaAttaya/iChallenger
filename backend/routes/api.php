@@ -18,8 +18,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('connectauth', [AuthController::class, 'connectauth']);
         Route::post('disconnectauth', [AuthController::class, 'disconnectauth']);
 
-        Route::get("countries", [UserController::class, "getCountries"]);
-        Route::get("regions", [UserController::class, "getRegions"]);
+      
 
         Route::post('changeprofilepic', [UserController::class, "changeProfilePic"]);
         Route::post('changecoverpic', [UserController::class, "changeCoverPic"]);
@@ -106,7 +105,9 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("register", [AuthController::class, "register"]);
 
     Route::post("submitcontactus", [AuthController::class, "submitContactus"]);
-   
+    
+    Route::get("countries", [AuthController::class, "getCountries"]);
+    Route::get("regions", [AuthController::class, "getRegions"]);
 
     Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
     Route::post("verifycode", [AuthController::class, "verifyCode"]); 

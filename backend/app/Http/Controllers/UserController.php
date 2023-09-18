@@ -146,25 +146,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function getCountries()
-    {
-        $countries = Country::all();
-
-        return response()->json([
-            'status' => 'Success',
-            'data' => $countries,
-        ]);
-    }
-
-    public function getRegions()
-    {
-        $regions = Region::all();
-
-        return response()->json([
-            'status' => 'Success',
-            'data' => $regions,
-        ]);
-    }
+ 
     
 
     //Follow
