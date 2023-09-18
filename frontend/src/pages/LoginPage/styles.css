@@ -1,0 +1,145 @@
+.LoginPage {
+  background-color: #252525;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.login-container {
+  background-color: #00000030;
+  min-width: 400px;
+  padding-top: 30px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 30px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.login-title-wrapper {
+  display: flex;
+
+  gap: 50px;
+  padding-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.login-title {
+  color: #fff;
+  font-family: "Rubik", sans-serif;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 120%;
+
+  cursor: pointer;
+}
+.login-title:hover {
+  color: #32ff83;
+}
+.login-title.selected {
+  color: #32ff83;
+  text-decoration-line: underline;
+}
+.login-span {
+  color: #fff;
+  font-family: "Rubik", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 550;
+  line-height: 120%;
+}
+.login-form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.login-input {
+  padding: 8px;
+}
+.login-input:focus {
+  outline: 2px solid #c0ffc7;
+}
+.login-button {
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 110px;
+  padding-right: 110px;
+  border-radius: 7px;
+  background-color: #2fd671;
+  color: #202020;
+  border: none;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #269c55;
+  color: #ffffff;
+}
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.rule {
+  display: flex;
+  flex-direction: row;
+  color: #32ff83;
+}
+.google-button-wrapper {
+  background-color: transparent;
+}
+.google-button {
+  cursor: pointer;
+  border-radius: 20px;
+}
+.google-button-container {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+.forgotpassword {
+  color: #777;
+  cursor: pointer;
+}
+.forgotpassword:hover {
+  color: #ffffff;
+  cursor: pointer;
+}
+.rule {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.line {
+  flex-grow: 1;
+  height: 0.1px;
+  background-color: #32ff83;
+  margin: 0 10px;
+}
+
+.or-text {
+  color: #32ff83;
+  font-weight: 550;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 500px) {
+  .login-title-wrapper {
+    gap: 20px;
+  }
+}
