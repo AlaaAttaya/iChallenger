@@ -4,10 +4,26 @@ import config from "../../config";
 import axios from "axios";
 const LoginPage = () => {
   const [activeForm, setActiveForm] = useState("login");
+  const [loginerrorMessage, setLoginErrorMessage] = useState("");
+  const [signuperrorMessage, setSignupErrorMessage] = useState("");
   const [countries, setCountries] = useState([]);
+  const [loginData, setLoginData] = useState({
+    loginidentifier: "",
+    loginpassword: "",
+  });
+  const [signupData, setSignupData] = useState({
+    signupname: "",
+    signupusername: "",
+    signupemail: "",
+    signupcountry: "",
+    signuppassword: "",
+    signupconfirmpassword: "",
+  });
+
   const toggleForm = (form) => {
     setActiveForm(form);
   };
+
   useEffect(() => {
     if (activeForm === "signup") {
       axios
@@ -20,6 +36,85 @@ const LoginPage = () => {
         });
     }
   }, [activeForm]);
+
+  const handleLoginSubmit = () => {
+    if (!loginData.loginidentifier) {
+      setLoginErrorMessage("Email or username is required");
+      return;
+    }
+
+    if (!loginData.loginpassword) {
+      setLoginErrorMessage("Password is required");
+      return;
+    }
+
+    setLoginErrorMessage("");
+
+    const loginFormData = {
+      identifier: loginData.loginidentifier,
+      password: loginData.loginpassword,
+    };
+
+    axios
+      .post(`${config.base_url}/api/guest/login`, loginFormData)
+      .then((response) => {
+        console.log("Login successful:", response.data);
+      })
+      .catch((error) => {
+        setLoginErrorMessage("Login failed. Please check your credentials.");
+      });
+  };
+
+  const handleSignupSubmit = () => {
+    if (!signupData.signupname) {
+      setSignupErrorMessage("Name is required");
+      return;
+    }
+
+    if (!signupData.signupusername) {
+      setSignupErrorMessage("Username is required");
+      return;
+    }
+
+    if (!signupData.signupemail) {
+      setSignupErrorMessage("Email is required");
+      return;
+    }
+
+    if (!signupData.signupcountry) {
+      setSignupErrorMessage("Country is required");
+      return;
+    }
+
+    if (!signupData.signuppassword) {
+      setSignupErrorMessage("Password is required");
+      return;
+    }
+
+    if (signupData.signuppassword !== signupData.signupconfirmpassword) {
+      setSignupErrorMessage("Passwords do not match");
+      return;
+    }
+
+    setSignupErrorMessage("");
+
+    const signupFormData = {
+      name: signupData.signupname,
+      username: signupData.signupusername,
+      email: signupData.signupemail,
+      country: signupData.signupcountry,
+      password: signupData.signuppassword,
+    };
+
+    axios
+      .post(`${config.base_url}/api/guest/register`, signupFormData)
+      .then((response) => {
+        console.log("Registration successful:", response.data);
+      })
+      .catch((error) => {
+        setSignupErrorMessage("Registration failed. Please try again.");
+      });
+  };
 
   return (
     <div className="LoginPage">
@@ -54,6 +149,13 @@ const LoginPage = () => {
             id="loginidentifier"
             name="loginidentifier"
             placeholder="Email or Username"
+            value={loginData.loginidentifier}
+            onChange={(e) =>
+              setLoginData({
+                ...loginData,
+                loginidentifier: e.target.value,
+              })
+            }
           />
           <span className="login-span">Password</span>
           <input
@@ -62,10 +164,20 @@ const LoginPage = () => {
             id="loginpassword"
             name="loginpassword"
             placeholder="Password"
+            value={loginData.loginpassword}
+            onChange={(e) =>
+              setLoginData({ ...loginData, loginpassword: e.target.value })
+            }
           />
           <div className="button-wrapper">
-            <span className="errormsg" id="loginerrormsg"></span>
-            <button className="login-button" id="submitlogin">
+            <span className="errormsg" id="loginerrormsg">
+              {loginerrorMessage}
+            </span>
+            <button
+              className="login-button"
+              id="submitlogin"
+              onClick={handleLoginSubmit}
+            >
               Login
             </button>
             <div className="forgotpassword">Forgot Password ?</div>
@@ -125,7 +237,6 @@ const LoginPage = () => {
           className={`login-form ${activeForm === "signup" ? "active" : ""}`}
           id="signupform"
         >
-          {" "}
           <span className="login-span">Name</span>
           <input
             className="login-input"
@@ -133,6 +244,13 @@ const LoginPage = () => {
             id="signupname"
             name="signupname"
             placeholder="Name"
+            value={signupData.signupname}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                signupname: e.target.value,
+              })
+            }
           />
           <span className="login-span">Username</span>
           <input
@@ -141,6 +259,13 @@ const LoginPage = () => {
             id="signupusername"
             name="signupusername"
             placeholder="Username"
+            value={signupData.signupusername}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                signupusername: e.target.value,
+              })
+            }
           />
           <span className="login-span">Email</span>
           <input
@@ -149,15 +274,30 @@ const LoginPage = () => {
             id="signupemail"
             name="signupemail"
             placeholder="Email"
+            value={signupData.signupemail}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                signupemail: e.target.value,
+              })
+            }
           />
           <span className="login-span">Country</span>
           <select
             className="login-input options-container"
             id="signupcountry"
             name="signupcountry"
+            value={signupData.signupcountry}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                signupcountry: e.target.value,
+              })
+            }
           >
+            <option value="">Select a Country</option>
             {countries.map((country) => (
-              <option key={country.id} value={country.id}>
+              <option key={country.id} value={country.name}>
                 {country.name}
               </option>
             ))}
@@ -169,6 +309,13 @@ const LoginPage = () => {
             id="signuppassword"
             name="signuppassword"
             placeholder="Password"
+            value={signupData.signuppassword}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                signuppassword: e.target.value,
+              })
+            }
           />
           <span className="login-span">Confirm Password</span>
           <input
@@ -177,10 +324,23 @@ const LoginPage = () => {
             id="signupconfirmpassword"
             name="signupconfirmpassword"
             placeholder="Confirm Password"
+            value={signupData.signupconfirmpassword}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                signupconfirmpassword: e.target.value,
+              })
+            }
           />
           <div className="button-wrapper">
-            <span className="errormsg" id="signuperrormsg"></span>
-            <button className="login-button" id="submitsignup">
+            <span className="errormsg" id="signuperrormsg">
+              {signuperrorMessage}
+            </span>
+            <button
+              className="login-button"
+              id="submitsignup"
+              onClick={handleSignupSubmit}
+            >
               Signup
             </button>
           </div>
