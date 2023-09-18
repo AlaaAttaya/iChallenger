@@ -66,6 +66,8 @@ const LoginPage = () => {
   };
 
   const handleSignupSubmit = () => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
     if (!signupData.signupname) {
       setSignupErrorMessage("Name is required");
       return;
@@ -78,6 +80,10 @@ const LoginPage = () => {
 
     if (!signupData.signupemail) {
       setSignupErrorMessage("Email is required");
+      return;
+    }
+    if (!emailPattern.test(signupData.signupemail)) {
+      setSignupErrorMessage("Invalid email address");
       return;
     }
 
