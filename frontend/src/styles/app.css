@@ -6,7 +6,7 @@ html {
 
   font-family: "Rubik", sans-serif;
 }
-.layout {
+.app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -15,4 +15,6 @@ html {
 main {
   flex-grow: 1;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
