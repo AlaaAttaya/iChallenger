@@ -59,15 +59,7 @@ const CardCarousel = ({ cards, setwidth, setheight }) => {
               height: setheight,
             }}
           >
-            <img
-              src={card.image}
-              alt={card.alt || `Image ${index + 1}`}
-              className="card-image"
-            />
-            <div className="card-content">
-              <h3>{card.title}</h3>
-              <p>{card.description}</p>
-            </div>
+            {card}
           </div>
         ))}
       </Slider>

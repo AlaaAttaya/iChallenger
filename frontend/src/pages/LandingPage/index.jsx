@@ -4,7 +4,7 @@ import "./styles.css";
 import HeroCarousel from "../../components/HeroCarousel";
 import CardCarousel from "../../components/CardCarousel";
 import Image from "../../assets/images/UploadImage.png";
-
+import GameCard from "../../components/GameCard";
 const LandingPage = () => {
   const heroImages = [
     {
@@ -34,75 +34,69 @@ const LandingPage = () => {
   ];
 
   const cardData = [
-    {
-      title: "Card 1",
-      description: "This is card 1.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-      alt: "Hello",
-    },
-    {
-      title: "Card 2",
-      description: "This is card 2.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-      alt: "Hello",
-    },
-    {
-      title: "Card 3",
-      description: "This is card 3.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-      alt: "Hello",
-    },
-    {
-      title: "Card 4",
-      description: "This is card 4.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-      alt: "Hello",
-    },
-    {
-      title: "Card 4",
-      description: "This is card 4.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-      alt: "Hello",
-    },
-    {
-      title: "Card 4",
-      description: "This is card 4.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-      alt: "Hello",
-    },
-    {
-      title: "Card 4",
-      description: "This is card 4.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-    },
-    {
-      title: "Card 8",
-      description: "This is card 4.",
-      image: Image,
-      width: "200px",
-      height: "200px",
-    },
-    {
-      title: "Card 9",
-      description: "This is card 4.",
-      image: Image,
-      width: "250px",
-      height: "250px",
-    },
+    <GameCard
+      key="1"
+      title="Card 1"
+      description="This is card 1."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
+    <GameCard
+      key="2"
+      title="Card 2"
+      description="This is card 2."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
+    <GameCard
+      key="3"
+      title="Card 2"
+      description="This is card 2."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
+    <GameCard
+      key="4"
+      title="Card 4"
+      description="This is card 2."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
+    <GameCard
+      key="5"
+      title="Card 4"
+      description="This is card 2."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
+    <GameCard
+      key="6"
+      title="Card 4"
+      description="This is card 2."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
+    <GameCard
+      key="7"
+      title="Card 7"
+      description="This is card 2."
+      image={Image}
+      width="200px"
+      height="200px"
+      alt="Hello"
+    />,
   ];
 
   return (
@@ -116,6 +110,11 @@ const LandingPage = () => {
       </section>
       <section className="content-section">
         <div className="forumscarousel">
+          <h1>Game Forums</h1>
+          <CardCarousel cards={cardData} />
+          <h1>Tournaments</h1>
+          <CardCarousel cards={cardData} />
+          <h1>Live Streams</h1>
           <CardCarousel cards={cardData} />
         </div>
       </section>
