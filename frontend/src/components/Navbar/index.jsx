@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 import Logo from "../../assets/images/iChallenger-Black.svg";
+import { Link } from "react-router-dom";
 import DefaultProfilepic from "../../assets/images/profilepic.png";
 import "../../styles/global.css";
 
@@ -50,8 +51,11 @@ const Navbar = () => {
             />
           </svg>
         </div>
+
         <div className="nav-logo">
-          <img src={Logo} alt="ichallenger-logo"></img>
+          <Link to="/Home">
+            <img src={Logo} alt="ichallenger-logo"></img>
+          </Link>
         </div>
       </div>
       <div className="nav-rightelements">
@@ -72,7 +76,9 @@ const Navbar = () => {
           </svg>
         </div>
         <div className="nav-buttons">
-          <button id="Home">Home</button>
+          <Link to="/Home">
+            <button id="Home">Home</button>
+          </Link>
           <button id="Tournaments">Tournaments</button>
           <button id="Community">Community</button>
           <button id="About">About</button>
@@ -88,7 +94,9 @@ const Navbar = () => {
             src={DefaultProfilepic}
             alt="profilepic"
           ></img>
-          <button id="Signin">Signin</button>
+          <Link to="/login">
+            <button id="Signin">Signin</button>
+          </Link>
         </div>
       </div>
 

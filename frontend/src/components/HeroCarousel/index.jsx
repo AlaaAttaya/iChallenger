@@ -20,7 +20,7 @@ const HeroCarousel = ({ images, showArrows, showIndicators }) => {
         <div key={index}>
           <img
             src={imageData.src}
-            alt={imageData.alt || `Image ${index + 1}`}
+            alt={imageData.alt || `Hero ${index + 1}`}
             style={{
               width: imageData.width,
               height: imageData.height,

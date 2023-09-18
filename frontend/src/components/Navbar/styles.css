@@ -49,6 +49,9 @@
 }
 .nav-login {
   margin-right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .nav-login button {
   font-family: "Rubik", sans-serif;
