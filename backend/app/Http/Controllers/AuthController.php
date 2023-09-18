@@ -242,7 +242,7 @@ class AuthController extends Controller
         
         $emailController = new EmailController();
         $hashedCode = bcrypt($code);
-        $user->temporary_code = $code;
+        $user->temporary_code = $hashedCode;
         $user->temporary_code_expiration = now()->addMinutes(15);
         $user->save();
 
@@ -261,27 +261,27 @@ class AuthController extends Controller
 
     public function verifyCode(Request $request)
     {
-        $user = Auth::user();
-
         $request->validate([
             'code' => 'required|digits:6',
+            'email' => 'required|email|exists:users,email',
         ]);
-
-       
+    
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    
         if (!password_verify($request->code, $user->temporary_code)) {
             return response()->json(['message' => 'Invalid code'], 400);
         }
-
     
         if ($user->temporary_code_expiration <= now()) {
             return response()->json(['message' => 'Code has expired'], 400);
         }
-
-      
-
+    
         return response()->json(['message' => 'Code verified successfully']);
     }
- 
 
     public function resetPassword(Request $request)
     {
