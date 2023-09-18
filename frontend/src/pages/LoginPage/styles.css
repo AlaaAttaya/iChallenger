@@ -51,11 +51,18 @@
   line-height: 120%;
 }
 .login-form {
+  display: none;
   margin-top: 50px;
-  display: flex;
+
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.login-form.active {
+  display: flex;
+  opacity: 1;
 }
 .login-input {
   padding: 10px;
@@ -100,6 +107,7 @@
 }
 .google-button-wrapper {
   background-color: transparent;
+  /* display: none; */
 }
 .google-button {
   cursor: pointer;
@@ -137,9 +145,28 @@
   font-weight: 550;
   font-size: 16px;
 }
+.errormsg {
+  color: #ff4b4b;
+}
+
+.options-container {
+  cursor: pointer;
+}
+.options-container option {
+  cursor: pointer !important;
+}
+.options-container option:hover {
+  background-color: #32ff83 !important;
+}
 
 @media screen and (max-width: 500px) {
   .login-title-wrapper {
     gap: 20px;
+  }
+  .login-container {
+    min-width: 250px;
+  }
+  .google-button svg {
+    width: 250px;
   }
 }

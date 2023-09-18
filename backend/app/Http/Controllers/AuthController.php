@@ -10,6 +10,8 @@ use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\ContactUs;
 use App\Models\UserAuthentication;
+use App\Models\Country;
+use App\Models\Regions;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller

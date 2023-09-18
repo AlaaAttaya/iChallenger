@@ -1,15 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
+import config from "../../config";
+import axios from "axios";
 const LoginPage = () => {
+  const [activeForm, setActiveForm] = useState("login");
+  const [countries, setCountries] = useState([]);
+  const toggleForm = (form) => {
+    setActiveForm(form);
+  };
+  useEffect(() => {
+    if (activeForm === "signup") {
+      axios
+        .get(`${config.base_url}/api/guest/countries`)
+        .then((response) => {
+          setCountries(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching countries:", error);
+        });
+    }
+  }, [activeForm]);
+
   return (
     <div className="LoginPage">
       <div className="login-container">
         <div className="login-title-wrapper">
-          <div className="login-title">LOGIN</div>
-          <div className="login-title">SIGN UP</div>
+          <div
+            className={`login-title ${
+              activeForm === "login" ? "selected" : ""
+            }`}
+            onClick={() => toggleForm("login")}
+          >
+            LOGIN
+          </div>
+          <div
+            className={`login-title ${
+              activeForm === "signup" ? "selected" : ""
+            }`}
+            onClick={() => toggleForm("signup")}
+          >
+            SIGN UP
+          </div>
         </div>
 
-        <div className="login-form" id="loginform">
+        <div
+          className={`login-form ${activeForm === "login" ? "active" : ""}`}
+          id="loginform"
+        >
           <span className="login-span">Email or Username</span>
           <input
             className="login-input"
@@ -27,6 +64,7 @@ const LoginPage = () => {
             placeholder="Password"
           />
           <div className="button-wrapper">
+            <span className="errormsg" id="loginerrormsg"></span>
             <button className="login-button" id="submitlogin">
               Login
             </button>
@@ -39,6 +77,7 @@ const LoginPage = () => {
               <span className="or-text">OR</span>
               <hr className="line" />
             </div>
+
             <div className="google-button-container">
               <button className="google-button">
                 <svg
@@ -80,6 +119,70 @@ const LoginPage = () => {
                 </svg>
               </button>
             </div>
+          </div>
+        </div>
+        <div
+          className={`login-form ${activeForm === "signup" ? "active" : ""}`}
+          id="signupform"
+        >
+          {" "}
+          <span className="login-span">Name</span>
+          <input
+            className="login-input"
+            type="text"
+            id="signupname"
+            name="signupname"
+            placeholder="Name"
+          />
+          <span className="login-span">Username</span>
+          <input
+            className="login-input"
+            type="text"
+            id="signupusername"
+            name="signupusername"
+            placeholder="Username"
+          />
+          <span className="login-span">Email</span>
+          <input
+            className="login-input"
+            type="text"
+            id="signupemail"
+            name="signupemail"
+            placeholder="Email"
+          />
+          <span className="login-span">Country</span>
+          <select
+            className="login-input options-container"
+            id="signupcountry"
+            name="signupcountry"
+          >
+            {countries.map((country) => (
+              <option key={country.id} value={country.id}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+          <span className="login-span">Password</span>
+          <input
+            className="login-input"
+            type="password"
+            id="signuppassword"
+            name="signuppassword"
+            placeholder="Password"
+          />
+          <span className="login-span">Confirm Password</span>
+          <input
+            className="login-input"
+            type="password"
+            id="signupconfirmpassword"
+            name="signupconfirmpassword"
+            placeholder="Confirm Password"
+          />
+          <div className="button-wrapper">
+            <span className="errormsg" id="signuperrormsg"></span>
+            <button className="login-button" id="submitsignup">
+              Signup
+            </button>
           </div>
         </div>
       </div>
