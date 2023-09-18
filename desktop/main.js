@@ -5,8 +5,8 @@ const path = require("path");
 let win;
 function createWindow() {
   win = new BrowserWindow({
-    width: 1024,
-    height: 720,
+    width: 1280,
+    height: 800,
 
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -46,8 +46,8 @@ ipcMain.on("open-website-window", () => {
     websiteWindow.close();
   } else {
     websiteWindow = new BrowserWindow({
-      width: 1024,
-      height: 720,
+      width: 1280,
+      height: 800,
       webPreferences: {
         nodeIntegration: true,
       },

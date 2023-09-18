@@ -28,7 +28,8 @@
   color: #32ff83;
   font-family: "Rubik", sans-serif;
   font-size: 30px;
-  font-weight: 600;
+  cursor: pointer;
+  font-weight: 550;
   line-height: 120%;
 }
 .forgotpassword-form {
@@ -91,6 +92,9 @@
   position: absolute;
   left: -20px;
   cursor: pointer;
+}
+.errormsg {
+  color: #ff4b4b;
 }
 @media screen and (max-width: 500px) {
   .forgotpassword-container {
