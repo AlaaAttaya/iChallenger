@@ -23,6 +23,16 @@ const LoginPage = () => {
   const toggleForm = (form) => {
     setActiveForm(form);
   };
+  const handleloginKeyPress = (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("submitlogin").click();
+    }
+  };
+  const handlesignupKeyPress = (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("submitsignup").click();
+    }
+  };
 
   useEffect(() => {
     if (activeForm === "signup") {
@@ -162,6 +172,7 @@ const LoginPage = () => {
                 loginidentifier: e.target.value,
               })
             }
+            onKeyDown={handleloginKeyPress}
           />
           <span className="login-span">Password</span>
           <input
@@ -174,6 +185,7 @@ const LoginPage = () => {
             onChange={(e) =>
               setLoginData({ ...loginData, loginpassword: e.target.value })
             }
+            onKeyDown={handleloginKeyPress}
           />
           <div className="button-wrapper">
             <span className="errormsg" id="loginerrormsg">
@@ -257,6 +269,7 @@ const LoginPage = () => {
                 signupname: e.target.value,
               })
             }
+            onKeyDown={handlesignupKeyPress}
           />
           <span className="login-span">Username</span>
           <input
@@ -272,6 +285,7 @@ const LoginPage = () => {
                 signupusername: e.target.value,
               })
             }
+            onKeyDown={handlesignupKeyPress}
           />
           <span className="login-span">Email</span>
           <input
@@ -287,6 +301,7 @@ const LoginPage = () => {
                 signupemail: e.target.value,
               })
             }
+            onKeyDown={handlesignupKeyPress}
           />
           <span className="login-span">Country</span>
           <select
@@ -300,6 +315,7 @@ const LoginPage = () => {
                 signupcountry: e.target.value,
               })
             }
+            onKeyDown={handlesignupKeyPress}
           >
             <option value="">Select a Country</option>
             {countries.map((country) => (
@@ -322,6 +338,7 @@ const LoginPage = () => {
                 signuppassword: e.target.value,
               })
             }
+            onKeyDown={handlesignupKeyPress}
           />
           <span className="login-span">Confirm Password</span>
           <input
@@ -337,6 +354,7 @@ const LoginPage = () => {
                 signupconfirmpassword: e.target.value,
               })
             }
+            onKeyDown={handlesignupKeyPress}
           />
           <div className="button-wrapper">
             <span className="errormsg" id="signuperrormsg">
