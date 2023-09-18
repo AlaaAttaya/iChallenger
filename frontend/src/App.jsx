@@ -5,10 +5,12 @@ import Footer from "./components/Footer";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import LoadingHOC from "./components/LoadingHOC";
+import ContactusPage from "./pages/ContactusPage";
 import "./styles/app.css";
 import "./styles/global.css";
 const WrappedLandingPage = LoadingHOC(LandingPage);
 const WrappedLoginPage = LoadingHOC(LoginPage);
+const WrappedContactusPage = LoadingHOC(ContactusPage);
 const App = () => {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<WrappedLandingPage />} />
             <Route path="/Home" element={<WrappedLandingPage />} />
+            <Route path="/Contactus" element={<WrappedContactusPage />} />
+
             <Route path="/Login" element={<WrappedLoginPage />} />
           </Routes>
         </main>

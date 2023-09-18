@@ -1,0 +1,87 @@
+.ContactusPage {
+  background-color: #252525;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.contactus-container {
+  background-color: #00000030;
+  min-width: 400px;
+  padding-top: 30px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 30px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.contactus-title-wrapper {
+  display: flex;
+
+  padding-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.contactus-title {
+  color: #32ff83;
+  font-family: "Rubik", sans-serif;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 120%;
+
+  cursor: pointer;
+}
+.contactus-form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.contactus-span {
+  color: #fff;
+  font-family: "Rubik", sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 550;
+  line-height: 120%;
+}
+.contactus-input {
+  padding: 10px;
+}
+.contactus-input:focus {
+  outline: 2px solid #c0ffc7;
+}
+.contactus-button {
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 7px;
+  background-color: #2fd671;
+  color: #202020;
+  border: none;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contactus-button:hover {
+  background-color: #269c55;
+  color: #ffffff;
+}
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
