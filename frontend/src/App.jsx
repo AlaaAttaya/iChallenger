@@ -9,7 +9,7 @@ import LandingPage from "./pages/LandingPage";
 import ContactusPage from "./pages/ContactusPage";
 import LoginPage from "./pages/LoginPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-
+import ProfileComponent from "./services/auth.jsx";
 const WrappedLandingPage = LoadingHOC(LandingPage);
 const WrappedContactusPage = LoadingHOC(ContactusPage);
 const WrappedLoginPage = LoadingHOC(LoginPage);
@@ -21,16 +21,17 @@ const App = () => {
       <div className="app">
         <Navbar />
         <main>
+          <ProfileComponent />
           <Routes>
             <Route path="/" element={<WrappedLandingPage />} />
             <Route path="/Home" element={<WrappedLandingPage />} />
             <Route path="/Contactus" element={<WrappedContactusPage />} />
-
             <Route path="/Login" element={<WrappedLoginPage />} />
             <Route
               path="/ForgotPassword"
               element={<WrappedForgotPasswordPage />}
             />
+            <Route path="/Profile" element={<WrappedLoginPage />} />
           </Routes>
         </main>
         <Footer />
