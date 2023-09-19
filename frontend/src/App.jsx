@@ -84,7 +84,7 @@ const App = () => {
         <Loading />
       ) : (
         <div className="app">
-          <Navbar userProfile={userProfile} />
+          <Navbar userProfile={userProfile} setUserProfile={setUserProfile} />
           <main>
             {" "}
             <Routes>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import "../../styles/global.css";
 import config from "../../services/config.js";
@@ -7,12 +7,12 @@ import Logo from "../../assets/images/iChallenger-Black.svg";
 import DefaultProfilepic from "../../assets/images/profilepic.png";
 import ProfileDropdown from "../ProfileDropdown";
 
-const Navbar = ({ userProfile }) => {
+const Navbar = ({ userProfile, setUserProfile }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (userProfile) {
       setProfilePic(config.base_url + userProfile.profileimage);
@@ -34,10 +34,21 @@ const Navbar = ({ userProfile }) => {
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    setUserProfile(null);
+    localStorage.clear();
 
-  const handleSettings = () => {};
-  const handleProfilePage = () => {};
+    navigate("/Login");
+  };
+
+  const handleSettings = () => {
+    navigate("/Settings");
+  };
+
+  const handleProfilePage = () => {
+    navigate("/Profile");
+  };
+
   return (
     <div className="navbar">
       <div className="nav-leftelements">
@@ -122,7 +133,7 @@ const Navbar = ({ userProfile }) => {
                 <ProfileDropdown
                   onLogout={handleLogout}
                   onSettings={handleSettings}
-                  onProfile={handleProfilePage}
+                  onProfilePage={handleProfilePage}
                 />
               )}
             </>
