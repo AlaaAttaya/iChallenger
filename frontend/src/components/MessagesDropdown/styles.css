@@ -1,0 +1,47 @@
+.MessagesDropdown {
+  position: absolute;
+  top: 70px;
+  background-color: #111111;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dropdown-button {
+  padding: 10px;
+  width: 100%;
+  color: white;
+  background-color: #111111;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  transition: font-size 0.3s;
+}
+
+.dropdown-button svg {
+  margin-right: 10px;
+}
+
+.dropdown-button:hover {
+  background-color: #28ac5d;
+  border-radius: 5px;
+}
+@media screen and (max-width: 1350px) {
+  .MessagesDropdown {
+    padding: 5px;
+    right: 0px;
+  }
+  .dropdown-button {
+    font-size: 12px;
+  }
+  .dropdown-button svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+}
