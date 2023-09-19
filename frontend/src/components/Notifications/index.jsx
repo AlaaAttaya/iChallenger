@@ -3,7 +3,7 @@ import "./styles.css";
 
 const NotificationsDropdown = ({}) => {
   return (
-    <div className="TournamentsDropdown">
+    <div className="NotificationsDropdown">
       <div>Notifications</div>
     </div>
   );

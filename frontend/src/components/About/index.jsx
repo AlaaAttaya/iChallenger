@@ -8,7 +8,7 @@ const AboutDropdown = ({
   onUserAgreement,
 }) => {
   return (
-    <div className="TournamentsDropdown">
+    <div className="AboutDropdown">
       <button className="dropdown-button" onClick={onFAQS}>
         Contactus
       </button>

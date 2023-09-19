@@ -3,7 +3,7 @@ import "./styles.css";
 
 const MessagesDropdown = ({ onChatgptBot, onMyMessages }) => {
   return (
-    <div className="TournamentsDropdown">
+    <div className="MessagesDropdown">
       <button className="dropdown-button" onClick={onChatgptBot}>
         Chatgpt Bot
       </button>
