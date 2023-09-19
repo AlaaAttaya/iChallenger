@@ -1,4 +1,4 @@
-.CommunityDropdown {
+.AboutDropdown {
   position: absolute;
   top: 70px;
   background-color: #111111;
@@ -32,7 +32,7 @@
   border-radius: 5px;
 }
 @media screen and (max-width: 1350px) {
-  .CommunityDropdown {
+  .AboutDropdown {
     padding: 5px;
     right: 0px;
   }

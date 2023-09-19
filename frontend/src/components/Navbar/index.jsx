@@ -7,6 +7,11 @@ import Logo from "../../assets/images/iChallenger-Black.svg";
 import DefaultProfilepic from "../../assets/images/profilepic.png";
 import ProfileDropdown from "../ProfileDropdown";
 import TournamentsDropdown from "../TournamentsDropdown";
+import AboutDropdown from "../AboutDropdown";
+import CommunityDropdown from "../CommunityDropdown";
+import NotificationsDropdown from "../NotificationsDropdown";
+import MessagesDropdown from "../MessagesDropdown";
+import FollowingDropdown from "../FollowingDropdown";
 const Navbar = ({ userProfile, setUserProfile }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
@@ -14,7 +19,12 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isTournamentsDropdownOpen, setIsTournamentsDropdownOpen] =
     useState(false);
-
+  const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
+  const [isMessagesDropdownOpen, setIsMessagesDropdownOpen] = useState(false);
+  const [isNotificationsDropdownOpen, setIsNotificationsDropdownOpen] =
+    useState(false);
+  const [isFollowingDropdownOpen, setIsFollowingDropdownOpen] = useState(false);
+  const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,9 +36,23 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const toggleProfileDropdown = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
-
-  const toggleTournamentsDropdown = () => {
+  const toggleTournamentDropdown = () => {
     setIsTournamentsDropdownOpen(!isTournamentsDropdownOpen);
+  };
+  const toggleAboutDropdown = () => {
+    setIsAboutDropdownOpen(!isAboutDropdownOpen);
+  };
+  const toggleMessagesDropdown = () => {
+    setIsMessagesDropdownOpen(!isMessagesDropdownOpen);
+  };
+  const toggleNotificationsDropdown = () => {
+    setIsNotificationsDropdownOpen(!isNotificationsDropdownOpen);
+  };
+  const toggleFollowingDropdown = () => {
+    setIsFollowingDropdownOpen(!isFollowingDropdownOpen);
+  };
+  const toggleCommunityDropdown = () => {
+    setIsCommunityDropdownOpen(!isCommunityDropdownOpen);
   };
 
   const handleInputFocus = () => {
@@ -57,6 +81,12 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     navigate("/Profile");
   };
 
+  const handleFindTournaments = () => {
+    navigate("/Tournaments");
+  };
+  const handleLeaderboard = () => {
+    navigate("/Leaderboard");
+  };
   return (
     <div className="navbar">
       <div className="nav-leftelements">
@@ -116,8 +146,38 @@ const Navbar = ({ userProfile, setUserProfile }) => {
           <Link to="/Home">
             <button id="Home">Home</button>
           </Link>
-          <button id="Tournaments">Tournaments</button>
-          <button id="Community">Community</button>
+
+          <div
+            className="buttondropdown-wrapper"
+            onMouseEnter={toggleTournamentDropdown}
+            onMouseLeave={toggleTournamentDropdown}
+          >
+            <Link to="/Tournaments">
+              <button id="Tournaments">Tournaments</button>
+            </Link>
+            {isTournamentsDropdownOpen && (
+              <TournamentsDropdown
+                onFindTournaments={handleFindTournaments}
+                onLeaderboard={handleLeaderboard}
+              />
+            )}
+          </div>
+          <div
+            className="buttondropdown-wrapper"
+            onMouseEnter={toggleCommunityDropdown}
+            onMouseLeave={toggleCommunityDropdown}
+          >
+            <Link to="/Community">
+              <button id="Community">Community</button>
+            </Link>
+            {isTournamentsDropdownOpen && (
+              <TournamentsDropdown
+                onFindTournaments={handleFindTournaments}
+                onLeaderboard={handleLeaderboard}
+              />
+            )}
+          </div>
+
           <button id="About">About</button>
           {userProfile && (
             <>
