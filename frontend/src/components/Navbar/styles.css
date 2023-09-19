@@ -105,7 +105,19 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 10px;
+  cursor: pointer;
 }
+.dropdowns-leftnavbar-items {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff10;
+  padding: 10px;
+}
+.dropdown-item {
+  padding: 10px 0px;
+  cursor: pointer;
+}
+
 .dropdown {
   margin-right: 10px;
 }

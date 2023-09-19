@@ -10,7 +10,7 @@ const AboutDropdown = ({
   return (
     <div className="AboutDropdown">
       <button className="dropdown-button" onClick={onContactus}>
-        Contactus
+        Contact us
       </button>
       <button className="dropdown-button" onClick={onFAQS}>
         FAQS

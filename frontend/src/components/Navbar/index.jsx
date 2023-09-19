@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./styles.css";
 import "../../styles/global.css";
 import config from "../../services/config.js";
@@ -14,8 +14,10 @@ import MessagesDropdown from "../MessagesDropdown";
 import FollowingDropdown from "../FollowingDropdown";
 const Navbar = ({ userProfile, setUserProfile }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
+  //topnavbar
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isTournamentsDropdownOpen, setIsTournamentsDropdownOpen] =
@@ -29,6 +31,22 @@ const Navbar = ({ userProfile, setUserProfile }) => {
 
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  //leftnavbar
+  const [isTournamentsleftnavbarOpen, setIsTournamentsleftnavbarOpen] =
+    useState(false);
+  const [isCommunityleftnavbarOpen, setIsCommunityleftnavbarOpen] =
+    useState(false);
+  const [isAboutleftnavbarOpen, setIsAboutleftnavbarOpen] = useState(false);
+  const [isNotificationsleftnavbarOpen, setIsNotificationsleftnavbarOpen] =
+    useState(false);
+  const [isMessagesleftnavbarOpen, setIsMessagesleftnavbarOpen] =
+    useState(false);
+  const [isFollowingleftnavbarOpen, setIsFollowingleftnavbarOpen] =
+    useState(false);
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+  //topnavbar
   useEffect(() => {
     if (userProfile) {
       setProfilePic(config.base_url + userProfile.profileimage);
@@ -56,6 +74,28 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const toggleCommunityDropdown = () => {
     setIsCommunityDropdownOpen(!isCommunityDropdownOpen);
   };
+  //leftnavbar
+
+  const toggleTournamentleftnavbar = () => {
+    setIsTournamentsleftnavbarOpen(!isTournamentsleftnavbarOpen);
+  };
+  const toggleAboutleftnavbar = () => {
+    setIsAboutleftnavbarOpen(!isAboutleftnavbarOpen);
+  };
+  const toggleMessagesleftnavbar = () => {
+    setIsMessagesleftnavbarOpen(!isMessagesleftnavbarOpen);
+  };
+  const toggleNotificationsleftnavbar = () => {
+    setIsNotificationsleftnavbarOpen(!isNotificationsleftnavbarOpen);
+  };
+  const toggleFollowingleftnavbar = () => {
+    setIsFollowingleftnavbarOpen(!isFollowingleftnavbarOpen);
+  };
+  const toggleCommunityleftnavbar = () => {
+    setIsCommunityleftnavbarOpen(!isCommunityleftnavbarOpen);
+  };
+
+  //
 
   const handleInputFocus = () => {
     setInputFocused(true);
@@ -377,7 +417,10 @@ const Navbar = ({ userProfile, setUserProfile }) => {
           </svg>
         </div>
         <div className="leftnavbar-logo">
-          <img src={Logo} alt="ichallenger-logo"></img>
+          <Link to="/Home">
+            {" "}
+            <img src={Logo} alt="ichallenger-logo"></img>
+          </Link>
         </div>
         <div className="search-leftnavbar-wrapper">
           <div
@@ -410,24 +453,16 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             />
           </div>
         </div>
-        <div className="dropdowns-leftnavbar" id="home-dropdown">
-          <div>Home</div>{" "}
-          <div className="dropdown">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="9"
-              viewBox="0 0 14 9"
-              fill="none"
-            >
-              <path
-                d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                fill="white"
-              />
-            </svg>
+        <Link to="/Home" style={{ color: "white" }}>
+          <div className="dropdowns-leftnavbar" id="home-dropdown">
+            <div>Home</div>
           </div>
-        </div>
-        <div className="dropdowns-leftnavbar" id="tournaments-dropdown">
+        </Link>
+        <div
+          className="dropdowns-leftnavbar"
+          id="tournaments-dropdown"
+          onClick={toggleTournamentleftnavbar}
+        >
           <div>Tournaments</div>{" "}
           <div className="dropdown">
             <svg
@@ -436,6 +471,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               height="9"
               viewBox="0 0 14 9"
               fill="none"
+              style={{
+                transform: isTournamentsleftnavbarOpen ? "scaleY(-1)" : "none",
+              }}
             >
               <path
                 d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
@@ -444,7 +482,21 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             </svg>
           </div>
         </div>
-        <div className="dropdowns-leftnavbar" id="community-dropdown">
+        {isTournamentsleftnavbarOpen && (
+          <div className="dropdowns-leftnavbar-items">
+            <div className="dropdown-item" onClick={handleFindTournaments}>
+              Tournaments
+            </div>
+            <div className="dropdown-item" onClick={handleLeaderboard}>
+              Leaderboards
+            </div>
+          </div>
+        )}
+        <div
+          className="dropdowns-leftnavbar"
+          id="community-dropdown"
+          onClick={toggleCommunityleftnavbar}
+        >
           <div>Community </div>
           <div className="dropdown">
             <svg
@@ -453,6 +505,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               height="9"
               viewBox="0 0 14 9"
               fill="none"
+              style={{
+                transform: isCommunityleftnavbarOpen ? "scaleY(-1)" : "none",
+              }}
             >
               <path
                 d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
@@ -461,7 +516,24 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             </svg>
           </div>
         </div>
-        <div className="dropdowns-leftnavbar" id="about-dropdown">
+        {isCommunityleftnavbarOpen && (
+          <div className="dropdowns-leftnavbar-items">
+            <div className="dropdown-item" onClick={handleActivity}>
+              Activity
+            </div>
+            <div className="dropdown-item" onClick={handleForums}>
+              Forums
+            </div>
+            <div className="dropdown-item" onClick={handleStreams}>
+              Streams
+            </div>
+          </div>
+        )}
+        <div
+          className="dropdowns-leftnavbar"
+          id="about-dropdown"
+          onClick={toggleAboutleftnavbar}
+        >
           <div>About </div>
           <div className="dropdown">
             <svg
@@ -470,6 +542,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               height="9"
               viewBox="0 0 14 9"
               fill="none"
+              style={{
+                transform: isAboutleftnavbarOpen ? "scaleY(-1)" : "none",
+              }}
             >
               <path
                 d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
@@ -478,62 +553,129 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             </svg>
           </div>
         </div>
-        {userProfile && (
-          <div className="dropdowns-leftnavbar" id="notifications-dropdown">
-            <div> Notifications </div>
-            <div className="dropdown">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="9"
-                viewBox="0 0 14 9"
-                fill="none"
-              >
-                <path
-                  d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                  fill="white"
-                />
-              </svg>
+        {isAboutleftnavbarOpen && (
+          <div className="dropdowns-leftnavbar-items">
+            <div className="dropdown-item" onClick={handleContactus}>
+              Contact us
             </div>
-          </div>
-        )}{" "}
-        {userProfile && (
-          <div className="dropdowns-leftnavbar" id="messages-dropdown">
-            <div> Messages </div>
-            <div className="dropdown">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="9"
-                viewBox="0 0 14 9"
-                fill="none"
-              >
-                <path
-                  d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                  fill="white"
-                />
-              </svg>
+            <div className="dropdown-item" onClick={handleFAQS}>
+              FAQS
+            </div>
+            <div className="dropdown-item" onClick={handlePrivacyPolicy}>
+              Privacy Policy
+            </div>
+            <div className="dropdown-item" onClick={handleUserAgreement}>
+              User Agreement
             </div>
           </div>
         )}
         {userProfile && (
-          <div className="dropdowns-leftnavbar" id="following-dropdown">
-            <div>Following</div>
-            <div className="dropdown">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="9"
-                viewBox="0 0 14 9"
-                fill="none"
-              >
-                <path
-                  d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                  fill="white"
-                />
-              </svg>
+          <>
+            <div
+              className="dropdowns-leftnavbar"
+              id="notifications-dropdown"
+              onClick={toggleNotificationsleftnavbar}
+            >
+              <div> Notifications </div>
+              <div className="dropdown">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="9"
+                  viewBox="0 0 14 9"
+                  fill="none"
+                  style={{
+                    transform: isNotificationsleftnavbarOpen
+                      ? "scaleY(-1)"
+                      : "none",
+                  }}
+                >
+                  <path
+                    d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+            {isNotificationsleftnavbarOpen && (
+              <div className="dropdowns-leftnavbar-items">
+                <div className="dropdown-item">Notifications Search</div>
+              </div>
+            )}
+          </>
+        )}{" "}
+        {userProfile && (
+          <>
+            <div
+              className="dropdowns-leftnavbar"
+              id="messages-dropdown"
+              onClick={toggleMessagesleftnavbar}
+            >
+              <div> Messages </div>
+              <div className="dropdown">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="9"
+                  viewBox="0 0 14 9"
+                  fill="none"
+                  style={{
+                    transform: isMessagesleftnavbarOpen ? "scaleY(-1)" : "none",
+                  }}
+                >
+                  <path
+                    d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+            </div>
+            {isMessagesleftnavbarOpen && (
+              <div className="dropdowns-leftnavbar-items">
+                <div className="dropdown-item" onClick={handleChatgptBot}>
+                  Chatgpt Bot
+                </div>
+                <div className="dropdown-item" onClick={handleMyMessages}>
+                  My Messages
+                </div>
+              </div>
+            )}
+          </>
+        )}
+        {userProfile && (
+          <>
+            <div
+              className="dropdowns-leftnavbar"
+              id="following-dropdown"
+              onClick={toggleFollowingleftnavbar}
+            >
+              <div>Following</div>
+              <div className="dropdown">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="9"
+                  viewBox="0 0 14 9"
+                  fill="none"
+                  style={{
+                    transform: isFollowingleftnavbarOpen
+                      ? "scaleY(-1)"
+                      : "none",
+                  }}
+                >
+                  <path
+                    d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+            </div>
+            {isFollowingleftnavbarOpen && (
+              <div className="dropdowns-leftnavbar-items">
+                <div className="dropdown-item">Following search</div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
