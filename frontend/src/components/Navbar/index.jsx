@@ -13,6 +13,7 @@ import NotificationsDropdown from "../NotificationsDropdown";
 import MessagesDropdown from "../MessagesDropdown";
 import FollowingDropdown from "../FollowingDropdown";
 const Navbar = ({ userProfile, setUserProfile }) => {
+  const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
@@ -25,8 +26,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     useState(false);
   const [isFollowingDropdownOpen, setIsFollowingDropdownOpen] = useState(false);
   const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
-  const navigate = useNavigate();
 
+  const [isSearchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     if (userProfile) {
       setProfilePic(config.base_url + userProfile.profileimage);
@@ -61,6 +63,16 @@ const Navbar = ({ userProfile, setUserProfile }) => {
 
   const handleInputBlur = () => {
     setInputFocused(false);
+  };
+  const handleSearchClick = () => {
+    setSearchOpen(true);
+  };
+  const handleCloseClick = () => {
+    setSearchOpen(false);
+    setSearchQuery("");
+  };
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   const toggleSidebar = () => {
@@ -154,20 +166,77 @@ const Navbar = ({ userProfile, setUserProfile }) => {
       </div>
       <div className="nav-rightelements">
         <div className="nav-searchbar">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 35 35"
-            fill="none"
-            className="search-iconsvg"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M13.9589 0C6.24175 0 0 6.09868 0 13.639C0 21.1793 6.24175 27.2779 13.9589 27.2779C16.7142 27.2779 19.2641 26.4882 21.426 25.1469L31.5103 35L35 31.5903L25.044 21.8875C26.8338 19.5935 27.9179 16.751 27.9179 13.639C27.9179 6.09868 21.6761 0 13.9589 0ZM13.9589 3.20917C19.8703 3.20917 24.6334 7.86309 24.6334 13.639C24.6334 19.4148 19.8703 24.0688 13.9589 24.0688C8.04756 24.0688 3.28446 19.4148 3.28446 13.639C3.28446 7.86309 8.04756 3.20917 13.9589 3.20917Z"
-              className="search-icon"
-              id="search-icon"
-            />
-          </svg>
+          {!isSearchOpen ? (
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 35 35"
+              fill="none"
+              className="search-iconsvg cursor-pointer"
+              xmlns="http://www.w3.org/2000/svg"
+              onClick={handleSearchClick}
+            >
+              <path
+                d="M13.9589 0C6.24175 0 0 6.09868 0 13.639C0 21.1793 6.24175 27.2779 13.9589 27.2779C16.7142 27.2779 19.2641 26.4882 21.426 25.1469L31.5103 35L35 31.5903L25.044 21.8875C26.8338 19.5935 27.9179 16.751 27.9179 13.639C27.9179 6.09868 21.6761 0 13.9589 0ZM13.9589 3.20917C19.8703 3.20917 24.6334 7.86309 24.6334 13.639C24.6334 19.4148 19.8703 24.0688 13.9589 24.0688C8.04756 24.0688 3.28446 19.4148 3.28446 13.639C3.28446 7.86309 8.04756 3.20917 13.9589 3.20917Z"
+                className="search-icon"
+                id="search-icon"
+              />
+            </svg>
+          ) : (
+            <div className="navbarsearch-wrapper">
+              <div
+                className={`navbarsearch ${isInputFocused ? "focused" : ""}`}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 35 35"
+                  fill="none"
+                  className="navbarsearch-iconsvg"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.9589 0C6.24175 0 0 6.09868 0 13.639C0 21.1793 6.24175 27.2779 13.9589 27.2779C16.7142 27.2779 19.2641 26.4882 21.426 25.1469L31.5103 35L35 31.5903L25.044 21.8875C26.8338 19.5935 27.9179 16.751 27.9179 13.639C27.9179 6.09868 21.6761 0 13.9589 0ZM13.9589 3.20917C19.8703 3.20917 24.6334 7.86309 24.6334 13.639C24.6334 19.4148 19.8703 24.0688 13.9589 24.0688C8.04756 24.0688 3.28446 19.4148 3.28446 13.639C3.28446 7.86309 8.04756 3.20917 13.9589 3.20917Z"
+                    className="navbarsearch-icon"
+                    id="navbarsearch-icon"
+                    fill="#fff"
+                  />
+                </svg>
+
+                <input
+                  type="text"
+                  id="searchinput"
+                  name="searchinput"
+                  className={`navbarsearchinput ${
+                    isInputFocused ? "focused" : ""
+                  }`}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  placeholder="Find Players"
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                />
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="13"
+                  height="13"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  className="cursor-pointer"
+                  onClick={handleCloseClick}
+                  style={{ marginTop: "2px" }}
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M11.8371 14.9998L0 26.8371L3.16275 30L15 18.1627L26.8371 30L30 26.8371L18.1629 14.9998L29.9997 3.16279L26.8368 0L15 11.8369L3.16311 0L0.000356889 3.16279L11.8371 14.9998Z"
+                    fill="#2FD671"
+                  />
+                </svg>
+              </div>
+            </div>
+          )}
         </div>
         <div className="nav-buttons">
           <Link to="/Home">

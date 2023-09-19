@@ -21,6 +21,7 @@
   cursor: pointer;
   text-align: left;
   display: flex;
+  font-size: 16px !important;
   align-items: center;
   transition: font-size 0.3s;
 }
@@ -39,7 +40,7 @@
     right: 0px;
   }
   .dropdown-button {
-    font-size: 12px;
+    font-size: 14px !important;
   }
   .dropdown-button svg {
     width: 20px;
