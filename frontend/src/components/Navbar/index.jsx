@@ -149,13 +149,13 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     navigate("/Streams");
   };
   const handleFAQS = () => {
-    navigate("/Home");
+    navigate("/FAQS");
   };
   const handlePrivacyPolicy = () => {
-    navigate("/Home");
+    navigate("/PrivacyPolicy");
   };
   const handleUserAgreement = () => {
-    navigate("/Home");
+    navigate("/UserAgreement");
   };
   const handleContactus = () => {
     navigate("/Contactus");
@@ -279,17 +279,29 @@ const Navbar = ({ userProfile, setUserProfile }) => {
           )}
         </div>
         <div className="nav-buttons">
-          <Link to="/Home">
-            <button id="Home">Home</button>
-          </Link>
-
+          <div className="buttondropdown-wrapper">
+            <Link to="/Home">
+              <button id="Home" className={isActive("/Home") ? "active" : ""}>
+                Home
+              </button>
+            </Link>
+          </div>
           <div
             className="buttondropdown-wrapper"
             onMouseEnter={toggleTournamentDropdown}
             onMouseLeave={toggleTournamentDropdown}
           >
             <Link to="/Tournaments">
-              <button id="Tournaments">Tournaments</button>
+              <button
+                id="Tournaments"
+                className={
+                  isActive("/Tournaments") || isActive("/Leaderboards")
+                    ? "active"
+                    : ""
+                }
+              >
+                Tournaments
+              </button>
             </Link>
             {isTournamentsDropdownOpen && (
               <TournamentsDropdown
@@ -304,7 +316,19 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             onMouseLeave={toggleCommunityDropdown}
           >
             <Link to="/Community">
-              <button id="Community">Community</button>
+              <button
+                id="Community"
+                className={
+                  isActive("/Activity") ||
+                  isActive("/Forums") ||
+                  isActive("/Streams") ||
+                  isActive("/Community")
+                    ? "active"
+                    : ""
+                }
+              >
+                Community
+              </button>
             </Link>
             {isCommunityDropdownOpen && (
               <CommunityDropdown
@@ -321,7 +345,19 @@ const Navbar = ({ userProfile, setUserProfile }) => {
           >
             {" "}
             <Link to="/Contactus">
-              <button id="About">About</button>
+              <button
+                id="About"
+                className={
+                  isActive("/Contactus") ||
+                  isActive("/FAQS") ||
+                  isActive("/PrivacyPolicy") ||
+                  isActive("/UserAgreement")
+                    ? "active"
+                    : ""
+                }
+              >
+                About
+              </button>
             </Link>
             {isAboutDropdownOpen && (
               <AboutDropdown

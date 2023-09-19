@@ -117,6 +117,18 @@
   padding: 10px 0px;
   cursor: pointer;
 }
+.nav-buttons button:hover {
+  background-color: #ffffff10;
+  color: #32ff83;
+  border-radius: 7px;
+  padding: 10px 15px;
+}
+.active {
+  background-color: #ffffff10 !important;
+  color: #32ff83 !important;
+  border-radius: 7px;
+  padding: 10px 15px;
+}
 
 .dropdown {
   margin-right: 10px;
