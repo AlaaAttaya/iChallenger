@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import config from "../../services/config";
 import axios from "axios";
+
 const LoginPage = () => {
+  localStorage.clear();
   const [activeForm, setActiveForm] = useState("login");
   const [loginerrorMessage, setLoginErrorMessage] = useState("");
   const [signuperrorMessage, setSignupErrorMessage] = useState("");
   const [countries, setCountries] = useState([]);
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     loginidentifier: "",
     loginpassword: "",
@@ -73,6 +76,7 @@ const LoginPage = () => {
           setLoginErrorMessage("User is banned.");
         } else {
           localStorage.setItem("token", response.data.data.token);
+          navigate("/Profile");
         }
       })
       .catch(() => {
@@ -134,6 +138,7 @@ const LoginPage = () => {
       .post(`${config.base_url}/api/guest/register`, signupFormData)
       .then((response) => {
         localStorage.setItem("token", response.data.data.token);
+        navigate("/Profile");
       })
       .catch(() => {
         setSignupErrorMessage("Username or Email Taken.");
