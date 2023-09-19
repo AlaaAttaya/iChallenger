@@ -108,6 +108,12 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const handleContactus = () => {
     navigate("/Contactus");
   };
+  const handleChatgptBot = () => {
+    navigate("/Contactus");
+  };
+  const handleMyMessages = () => {
+    navigate("/Contactus");
+  };
   return (
     <div className="navbar">
       <div className="nav-leftelements">
@@ -226,6 +232,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                 onMouseLeave={toggleNotificationsDropdown}
               >
                 <button id="Notifications">Notifications</button>
+                {isNotificationsDropdownOpen && <NotificationsDropdown />}
               </div>{" "}
               <div
                 className="buttondropdown-wrapper"
@@ -233,6 +240,12 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                 onMouseLeave={toggleMessagesDropdown}
               >
                 <button id="Messages">Messages</button>
+                {isMessagesDropdownOpen && (
+                  <MessagesDropdown
+                    onChatgptBot={handleChatgptBot}
+                    onMyMessages={handleMyMessages}
+                  />
+                )}
               </div>{" "}
               <div
                 className="buttondropdown-wrapper"
