@@ -20,13 +20,15 @@ const WrappedProfilePage = LoadingHOC(ProfilePage);
 
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
-
+  const [userProfile, setUserProfile] = useState(null);
   const handleTokenVerification = async () => {
     try {
       const userData = await verifyToken();
       if (!userData) {
         localStorage.clear();
         window.location.href = "/Login";
+      } else {
+        setUserProfile(userData);
       }
     } catch (error) {
       localStorage.clear();
@@ -44,6 +46,8 @@ const App = () => {
       window.location.href = "/Login";
     } else if (currentPath === "/Profile" && userSignedIn) {
       handleTokenVerification();
+    } else {
+      setUserProfile(null);
     }
   };
 
@@ -78,18 +82,24 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className="app">
-        <Navbar />
+        <Navbar userProfile={userProfile} />
         <main>
           <Routes>
             <Route path="/" element={<WrappedLandingPage />} />
             <Route path="/Home" element={<WrappedLandingPage />} />
             <Route path="/Contactus" element={<WrappedContactusPage />} />
-            <Route path="/Login" element={<WrappedLoginPage />} />
+            <Route
+              path="/Login"
+              element={<WrappedLoginPage setUserProfile={setUserProfile} />}
+            />
             <Route
               path="/ForgotPassword"
               element={<WrappedForgotPasswordPage />}
             />
-            <Route path="/Profile" element={<WrappedProfilePage />} />
+            <Route
+              path="/Profile"
+              element={<WrappedProfilePage userProfile={userProfile} />}
+            />
           </Routes>
         </main>
         <Footer />

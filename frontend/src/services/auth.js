@@ -17,7 +17,7 @@ export const refreshToken = async () => {
     if (response.ok) {
       const data = await response.json();
       const newToken = data.data.token;
-      console.log(newToken);
+
       localStorage.setItem("token", newToken);
       return newToken;
     } else {
@@ -46,7 +46,7 @@ export const verifyToken = async () => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data.data);
+
       return data.data;
     } else {
       throw new Error("Token verification failed");

@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import DefaultProfilepic from "../../assets/images/profilepic.png";
 import "../../styles/global.css";
 
-const Navbar = () => {
+const Navbar = ({ userProfile }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
+  console.log(userProfile);
 
   const handleInputFocus = () => {
     setInputFocused(true);
@@ -82,21 +83,29 @@ const Navbar = () => {
           <button id="Tournaments">Tournaments</button>
           <button id="Community">Community</button>
           <button id="About">About</button>
-          <button id="Notifications">Notifications</button>
-          <button id="Messages">Messages</button>
-          <button id="Following">Following</button>
+          {userProfile && (
+            <>
+              <button id="Notifications">Notifications</button>
+              <button id="Messages">Messages</button>
+              <button id="Following">Following</button>
+            </>
+          )}
         </div>
         <div className="nav-login">
-          {" "}
-          <img
-            className="nav-circle-img"
-            id="profilepic"
-            src={DefaultProfilepic}
-            alt="profilepic"
-          ></img>
-          <Link to="/login">
-            <button id="Signin">Signin</button>
-          </Link>
+          {userProfile ? (
+            <>
+              <img
+                className="nav-circle-img"
+                id="profilepic"
+                src={DefaultProfilepic}
+                alt="profilepic"
+              />
+            </>
+          ) : (
+            <Link to="/login">
+              <button id="Signin">Signin</button>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -220,57 +229,63 @@ const Navbar = () => {
             </svg>
           </div>
         </div>
-        <div className="dropdowns-leftnavbar" id="notifications-dropdown">
-          <div> Notifications </div>
-          <div className="dropdown">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="9"
-              viewBox="0 0 14 9"
-              fill="none"
-            >
-              <path
-                d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                fill="white"
-              />
-            </svg>
+        {userProfile && (
+          <div className="dropdowns-leftnavbar" id="notifications-dropdown">
+            <div> Notifications </div>
+            <div className="dropdown">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="9"
+                viewBox="0 0 14 9"
+                fill="none"
+              >
+                <path
+                  d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-        <div className="dropdowns-leftnavbar" id="messages-dropdown">
-          <div> Messages </div>
-          <div className="dropdown">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="9"
-              viewBox="0 0 14 9"
-              fill="none"
-            >
-              <path
-                d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                fill="white"
-              />
-            </svg>
+        )}{" "}
+        {userProfile && (
+          <div className="dropdowns-leftnavbar" id="messages-dropdown">
+            <div> Messages </div>
+            <div className="dropdown">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="9"
+                viewBox="0 0 14 9"
+                fill="none"
+              >
+                <path
+                  d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-        <div className="dropdowns-leftnavbar" id="following-dropdown">
-          <div>Following</div>
-          <div className="dropdown">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="9"
-              viewBox="0 0 14 9"
-              fill="none"
-            >
-              <path
-                d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
-                fill="white"
-              />
-            </svg>
+        )}
+        {userProfile && (
+          <div className="dropdowns-leftnavbar" id="following-dropdown">
+            <div>Following</div>
+            <div className="dropdown">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="9"
+                viewBox="0 0 14 9"
+                fill="none"
+              >
+                <path
+                  d="M7 9L0 2.2496L2.33443 0L7 4.50079L11.6656 0L14 2.2496L7 9Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

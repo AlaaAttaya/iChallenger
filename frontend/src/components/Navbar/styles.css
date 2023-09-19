@@ -63,11 +63,11 @@
   cursor: pointer;
 }
 .nav-circle-img {
-  display: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 2px solid #ffffff;
+  cursor: pointer;
 }
 .nav-leftelements {
   margin-left: 10px;

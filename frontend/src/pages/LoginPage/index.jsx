@@ -4,7 +4,7 @@ import "./styles.css";
 import config from "../../services/config";
 import axios from "axios";
 
-const LoginPage = () => {
+const LoginPage = ({ setUserProfile }) => {
   localStorage.clear();
   const [activeForm, setActiveForm] = useState("login");
   const [loginerrorMessage, setLoginErrorMessage] = useState("");
@@ -76,6 +76,8 @@ const LoginPage = () => {
           setLoginErrorMessage("User is banned.");
         } else {
           localStorage.setItem("token", response.data.data.token);
+
+          setUserProfile(response.data.data);
           navigate("/Profile");
         }
       })
@@ -138,6 +140,7 @@ const LoginPage = () => {
       .post(`${config.base_url}/api/guest/register`, signupFormData)
       .then((response) => {
         localStorage.setItem("token", response.data.data.token);
+        setUserProfile(response.data.data);
         navigate("/Profile");
       })
       .catch(() => {
