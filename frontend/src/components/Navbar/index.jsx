@@ -6,12 +6,15 @@ import config from "../../services/config.js";
 import Logo from "../../assets/images/iChallenger-Black.svg";
 import DefaultProfilepic from "../../assets/images/profilepic.png";
 import ProfileDropdown from "../ProfileDropdown";
-
+import TournamentsDropdown from "../TournamentsDropdown";
 const Navbar = ({ userProfile, setUserProfile }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isTournamentsDropdownOpen, setIsTournamentsDropdownOpen] =
+    useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +23,12 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     }
   }, [userProfile]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  };
+
+  const toggleTournamentsDropdown = () => {
+    setIsTournamentsDropdownOpen(!isTournamentsDropdownOpen);
   };
 
   const handleInputFocus = () => {
@@ -124,16 +131,18 @@ const Navbar = ({ userProfile, setUserProfile }) => {
           {userProfile ? (
             <div
               className="profilepic-wrapper"
-              onMouseEnter={toggleDropdown}
-              onMouseLeave={toggleDropdown}
+              onMouseEnter={toggleProfileDropdown}
+              onMouseLeave={toggleProfileDropdown}
             >
-              <img
-                className="nav-circle-img"
-                id="profilepic"
-                src={profilepic}
-                alt="profilepic"
-              />
-              {isDropdownOpen && (
+              <Link to="/Profile">
+                <img
+                  className="nav-circle-img"
+                  id="profilepic"
+                  src={profilepic}
+                  alt="profilepic"
+                />
+              </Link>
+              {isProfileDropdownOpen && (
                 <ProfileDropdown
                   onLogout={handleLogout}
                   onSettings={handleSettings}
