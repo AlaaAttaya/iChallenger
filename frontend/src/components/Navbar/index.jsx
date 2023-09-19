@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 import Logo from "../../assets/images/iChallenger-Black.svg";
 import { Link } from "react-router-dom";
 import DefaultProfilepic from "../../assets/images/profilepic.png";
 import "../../styles/global.css";
-
+import config from "../../services/config.js";
 const Navbar = ({ userProfile }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
+  const [profilepic, setProfilePic] = useState(DefaultProfilepic);
   console.log(userProfile);
+  useEffect(() => {
+    if (userProfile) {
+      setProfilePic(config.base_url + userProfile.profileimage);
+    }
+  }, [userProfile]);
 
   const handleInputFocus = () => {
     setInputFocused(true);
@@ -97,7 +103,7 @@ const Navbar = ({ userProfile }) => {
               <img
                 className="nav-circle-img"
                 id="profilepic"
-                src={DefaultProfilepic}
+                src={profilepic}
                 alt="profilepic"
               />
             </>
