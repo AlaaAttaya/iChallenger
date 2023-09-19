@@ -9,10 +9,10 @@ const AboutDropdown = ({
 }) => {
   return (
     <div className="AboutDropdown">
-      <button className="dropdown-button" onClick={onFAQS}>
+      <button className="dropdown-button" onClick={onContactus}>
         Contactus
       </button>
-      <button className="dropdown-button" onClick={onContactus}>
+      <button className="dropdown-button" onClick={onFAQS}>
         FAQS
       </button>
       <button className="dropdown-button" onClick={onPrivacyPolicy}>

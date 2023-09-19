@@ -96,6 +96,18 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const handleStreams = () => {
     navigate("/Streams");
   };
+  const handleFAQS = () => {
+    navigate("/Home");
+  };
+  const handlePrivacyPolicy = () => {
+    navigate("/Home");
+  };
+  const handleUserAgreement = () => {
+    navigate("/Home");
+  };
+  const handleContactus = () => {
+    navigate("/Contactus");
+  };
   return (
     <div className="navbar">
       <div className="nav-leftelements">
@@ -187,13 +199,48 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               />
             )}
           </div>
-
-          <button id="About">About</button>
+          <div
+            className="buttondropdown-wrapper"
+            onMouseEnter={toggleAboutDropdown}
+            onMouseLeave={toggleAboutDropdown}
+          >
+            {" "}
+            <Link to="/Contactus">
+              <button id="About">About</button>
+            </Link>
+            {isAboutDropdownOpen && (
+              <AboutDropdown
+                onFAQS={handleFAQS}
+                onContactus={handleContactus}
+                onPrivacyPolicy={handlePrivacyPolicy}
+                onUserAgreement={handleUserAgreement}
+              />
+            )}
+          </div>
           {userProfile && (
             <>
-              <button id="Notifications">Notifications</button>
-              <button id="Messages">Messages</button>
-              <button id="Following">Following</button>
+              {" "}
+              <div
+                className="buttondropdown-wrapper"
+                onMouseEnter={toggleNotificationsDropdown}
+                onMouseLeave={toggleNotificationsDropdown}
+              >
+                <button id="Notifications">Notifications</button>
+              </div>{" "}
+              <div
+                className="buttondropdown-wrapper"
+                onMouseEnter={toggleMessagesDropdown}
+                onMouseLeave={toggleMessagesDropdown}
+              >
+                <button id="Messages">Messages</button>
+              </div>{" "}
+              <div
+                className="buttondropdown-wrapper"
+                onMouseEnter={toggleFollowingDropdown}
+                onMouseLeave={toggleFollowingDropdown}
+              >
+                <button id="Following">Following</button>
+              </div>
             </>
           )}
         </div>

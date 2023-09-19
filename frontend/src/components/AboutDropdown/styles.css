@@ -1,6 +1,6 @@
 .AboutDropdown {
   position: absolute;
-  top: 70px;
+  top: 60px;
   background-color: #111111;
   border-radius: 5px;
   z-index: 100;
@@ -17,9 +17,10 @@
   background-color: #111111;
   border: none;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   display: flex;
   align-items: center;
+
   transition: font-size 0.3s;
 }
 
