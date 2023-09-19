@@ -253,6 +253,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                 onMouseLeave={toggleFollowingDropdown}
               >
                 <button id="Following">Following</button>
+                {isFollowingDropdownOpen && <FollowingDropdown />}
               </div>
             </>
           )}
