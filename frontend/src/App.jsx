@@ -31,7 +31,7 @@ const App = () => {
 
     if (currentPath === "/Profile" && !token) {
       window.location.href = "/Login";
-    } else if (currentPath === "/Profile" && userSignedIn) {
+    } else if (userSignedIn) {
       try {
         const userData = await verifyToken();
         if (!userData) {
