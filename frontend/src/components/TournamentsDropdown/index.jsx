@@ -5,7 +5,7 @@ const TournamentsDropdown = ({ onFindTournaments, onLeaderboard }) => {
   return (
     <div className="TournamentsDropdown">
       <button className="dropdown-button" onClick={onFindTournaments}>
-        Find Tournaments
+        Tournaments
       </button>
       <button className="dropdown-button" onClick={onLeaderboard}>
         Leaderboard

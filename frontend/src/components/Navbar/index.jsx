@@ -87,6 +87,15 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const handleLeaderboard = () => {
     navigate("/Leaderboard");
   };
+  const handleActivity = () => {
+    navigate("/Activity");
+  };
+  const handleForums = () => {
+    navigate("/Forums");
+  };
+  const handleStreams = () => {
+    navigate("/Streams");
+  };
   return (
     <div className="navbar">
       <div className="nav-leftelements">
@@ -170,10 +179,11 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             <Link to="/Community">
               <button id="Community">Community</button>
             </Link>
-            {isTournamentsDropdownOpen && (
-              <TournamentsDropdown
-                onFindTournaments={handleFindTournaments}
-                onLeaderboard={handleLeaderboard}
+            {isCommunityDropdownOpen && (
+              <CommunityDropdown
+                onActivity={handleActivity}
+                onForums={handleForums}
+                onStreams={handleStreams}
               />
             )}
           </div>
