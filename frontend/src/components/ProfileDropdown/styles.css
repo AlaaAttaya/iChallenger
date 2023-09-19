@@ -20,6 +20,7 @@
   text-align: left;
   display: flex;
   align-items: center;
+  transition: font-size 0.3s;
 }
 
 .dropdown-button svg {
@@ -29,4 +30,18 @@
 .dropdown-button:hover {
   background-color: #28ac5d;
   border-radius: 5px;
+}
+@media screen and (max-width: 1350px) {
+  .ProfileDropdown {
+    padding: 5px;
+    right: 0px;
+  }
+  .dropdown-button {
+    font-size: 12px;
+  }
+  .dropdown-button svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
 }

@@ -1,0 +1,8 @@
+.ProfilePage {
+  background-color: #252525;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

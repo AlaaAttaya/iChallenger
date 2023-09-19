@@ -153,6 +153,12 @@
   width: 100px;
   height: 100px;
 }
+.profilepic-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 @keyframes neon-shine {
   0% {
     fill: #37ff87;

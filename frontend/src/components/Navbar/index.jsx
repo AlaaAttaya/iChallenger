@@ -13,6 +13,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (userProfile) {
       setProfilePic(config.base_url + userProfile.profileimage);
@@ -121,13 +122,16 @@ const Navbar = ({ userProfile, setUserProfile }) => {
         </div>
         <div className="nav-login">
           {userProfile ? (
-            <>
+            <div
+              className="profilepic-wrapper"
+              onMouseEnter={toggleDropdown}
+              onMouseLeave={toggleDropdown}
+            >
               <img
                 className="nav-circle-img"
                 id="profilepic"
                 src={profilepic}
                 alt="profilepic"
-                onClick={toggleDropdown}
               />
               {isDropdownOpen && (
                 <ProfileDropdown
@@ -136,7 +140,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                   onProfilePage={handleProfilePage}
                 />
               )}
-            </>
+            </div>
           ) : (
             <Link to="/login">
               <button id="Signin">Signin</button>
