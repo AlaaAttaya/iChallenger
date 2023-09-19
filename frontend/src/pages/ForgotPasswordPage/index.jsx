@@ -143,6 +143,7 @@ const ForgotPasswordPage = () => {
         <div className="forgotpassword-form" id="forgotpasswordform">
           {(step === 1 || step === 2) && (
             <>
+              <p>Enter your email, and we'll send a verification code.</p>
               <span className="forgotpassword-span">Email</span>
               <input
                 className="forgotpassword-input"

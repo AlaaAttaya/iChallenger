@@ -4,7 +4,7 @@ import "./styles.css";
 const Loading = () => {
   return (
     <div id="loading">
-      <span class="spinner"></span>
+      <span className="spinner"></span>
     </div>
   );
 };

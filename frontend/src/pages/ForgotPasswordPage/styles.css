@@ -96,6 +96,10 @@
 .errormsg {
   color: #ff4b4b;
 }
+p {
+  color: white;
+  font-size: 16px;
+}
 @media screen and (max-width: 500px) {
   .forgotpassword-container {
     min-width: 250px;

@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css";
-import Logo from "../../assets/images/iChallenger-Black.svg";
 import { Link } from "react-router-dom";
-import DefaultProfilepic from "../../assets/images/profilepic.png";
+import "./styles.css";
 import "../../styles/global.css";
 import config from "../../services/config.js";
+import Logo from "../../assets/images/iChallenger-Black.svg";
+import DefaultProfilepic from "../../assets/images/profilepic.png";
+import ProfileDropdown from "../ProfileDropdown";
+
 const Navbar = ({ userProfile }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
-  console.log(userProfile);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   useEffect(() => {
     if (userProfile) {
       setProfilePic(config.base_url + userProfile.profileimage);
     }
   }, [userProfile]);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const handleInputFocus = () => {
     setInputFocused(true);
@@ -27,6 +34,10 @@ const Navbar = ({ userProfile }) => {
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
+  const handleLogout = () => {};
+
+  const handleSettings = () => {};
+  const handleProfilePage = () => {};
   return (
     <div className="navbar">
       <div className="nav-leftelements">
@@ -105,7 +116,15 @@ const Navbar = ({ userProfile }) => {
                 id="profilepic"
                 src={profilepic}
                 alt="profilepic"
+                onClick={toggleDropdown}
               />
+              {isDropdownOpen && (
+                <ProfileDropdown
+                  onLogout={handleLogout}
+                  onSettings={handleSettings}
+                  onProfile={handleProfilePage}
+                />
+              )}
             </>
           ) : (
             <Link to="/login">

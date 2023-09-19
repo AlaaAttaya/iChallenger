@@ -8,6 +8,7 @@ import LoadingHOC from "./components/LoadingHOC";
 import LandingPage from "./pages/LandingPage";
 import ContactusPage from "./pages/ContactusPage";
 import LoginPage from "./pages/LoginPage";
+import Loading from "./components/Loading";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ProfilePage from "./pages/ProfilePage";
 import { refreshToken, verifyToken } from "./services/auth";
@@ -21,45 +22,43 @@ const WrappedProfilePage = LoadingHOC(ProfilePage);
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
-  const handleTokenVerification = async () => {
-    try {
-      const userData = await verifyToken();
-      if (!userData) {
-        localStorage.clear();
-        window.location.href = "/Login";
-      } else {
-        setUserProfile(userData);
-      }
-    } catch (error) {
-      localStorage.clear();
-      window.location.href = "/Login";
-    }
-  };
-
-  const handleTokenChange = () => {
+  const [verificationInProgress, setVerificationInProgress] = useState(false);
+  const handleTokenChange = async () => {
     const token = localStorage.getItem("token");
     setUserSignedIn(!!token);
-
+    setVerificationInProgress(true);
     const currentPath = window.location.pathname;
 
     if (currentPath === "/Profile" && !token) {
       window.location.href = "/Login";
     } else if (currentPath === "/Profile" && userSignedIn) {
-      handleTokenVerification();
+      try {
+        const userData = await verifyToken();
+        if (!userData) {
+          localStorage.clear();
+        } else {
+          setUserProfile(userData);
+        }
+      } catch (error) {
+        console.error("Token verification failed:", error);
+      }
     } else {
       setUserProfile(null);
     }
+    setVerificationInProgress(false);
   };
 
   useEffect(() => {
     handleTokenChange();
-
     const refreshInterval = setInterval(() => {
       if (userSignedIn) {
         refreshToken()
           .then((newToken) => {
             if (!newToken) {
+              localStorage.clear();
               clearInterval(refreshInterval);
+            } else {
+              localStorage.setItem("token", newToken);
             }
           })
           .catch((error) => {
@@ -81,29 +80,34 @@ const App = () => {
   });
   return (
     <BrowserRouter>
-      <div className="app">
-        <Navbar userProfile={userProfile} />
-        <main>
-          <Routes>
-            <Route path="/" element={<WrappedLandingPage />} />
-            <Route path="/Home" element={<WrappedLandingPage />} />
-            <Route path="/Contactus" element={<WrappedContactusPage />} />
-            <Route
-              path="/Login"
-              element={<WrappedLoginPage setUserProfile={setUserProfile} />}
-            />
-            <Route
-              path="/ForgotPassword"
-              element={<WrappedForgotPasswordPage />}
-            />
-            <Route
-              path="/Profile"
-              element={<WrappedProfilePage userProfile={userProfile} />}
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      {verificationInProgress ? (
+        <Loading />
+      ) : (
+        <div className="app">
+          <Navbar userProfile={userProfile} />
+          <main>
+            {" "}
+            <Routes>
+              <Route path="/" element={<WrappedLandingPage />} />
+              <Route path="/Home" element={<WrappedLandingPage />} />
+              <Route path="/Contactus" element={<WrappedContactusPage />} />
+              <Route
+                path="/Login"
+                element={<WrappedLoginPage setUserProfile={setUserProfile} />}
+              />
+              <Route
+                path="/ForgotPassword"
+                element={<WrappedForgotPasswordPage />}
+              />
+              <Route
+                path="/Profile"
+                element={<WrappedProfilePage userProfile={userProfile} />}
+              />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      )}
     </BrowserRouter>
   );
 };
