@@ -107,7 +107,7 @@
 }
 .google-button-wrapper {
   background-color: transparent;
-  /* display: none; */
+  display: none;
 }
 .google-button {
   cursor: pointer;

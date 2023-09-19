@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
-import config from "../../config";
+import config from "../../services/config";
 import axios from "axios";
 const LoginPage = () => {
   const [activeForm, setActiveForm] = useState("login");
@@ -72,7 +72,7 @@ const LoginPage = () => {
         if (response.data.data.is_banned == 1) {
           setLoginErrorMessage("User is banned.");
         } else {
-          console.log("Login successful:", response.data);
+          localStorage.setItem("token", response.data.data.token);
         }
       })
       .catch(() => {
@@ -133,7 +133,7 @@ const LoginPage = () => {
     axios
       .post(`${config.base_url}/api/guest/register`, signupFormData)
       .then((response) => {
-        console.log("Registration successful:", response.data);
+        localStorage.setItem("token", response.data.data.token);
       })
       .catch(() => {
         setSignupErrorMessage("Username or Email Taken.");

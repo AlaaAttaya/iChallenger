@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import config from "../../config";
+import config from "../../services/config";
 import axios from "axios";
 import "./styles.css";
 

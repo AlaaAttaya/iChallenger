@@ -1,9 +1,8 @@
 import React, { useState, useRef } from "react";
 import "./styles.css";
 import axios from "axios";
-import config from "../../config";
+import config from "../../services/config";
 const ContactusPage = () => {
-  const base_url = "https://localhost:8000/api";
   const messagePopupRef = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
