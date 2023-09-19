@@ -4,7 +4,7 @@ import "./styles.css";
 const NotificationsDropdown = ({}) => {
   return (
     <div className="NotificationsDropdown">
-      <div>Notifications</div>
+      <div className="dropdown-title">Notifications</div>
     </div>
   );
 };

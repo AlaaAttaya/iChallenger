@@ -1,6 +1,6 @@
 .NotificationsDropdown {
   position: absolute;
-  top: 60px;
+  top: 55px;
   background-color: #111111;
   border-radius: 5px;
   z-index: 100;
@@ -9,7 +9,9 @@
   flex-direction: column;
   align-items: flex-start;
 }
-
+.dropdown-title {
+  color: white;
+}
 .dropdown-button {
   padding: 10px;
   width: 100%;
