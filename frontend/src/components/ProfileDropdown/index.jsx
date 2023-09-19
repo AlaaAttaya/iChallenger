@@ -8,7 +8,7 @@ const ProfileDropdown = ({ onLogout, onSettings, onProfilePage }) => {
         {" "}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="14"
+          width="20"
           height="20"
           viewBox="0 0 14 20"
           fill="none"
@@ -42,8 +42,8 @@ const ProfileDropdown = ({ onLogout, onSettings, onProfilePage }) => {
       <button className="dropdown-button" onClick={onLogout}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="30"
-          height="25"
+          width="20"
+          height="20"
           viewBox="0 0 30 25"
           fill="none"
         >
