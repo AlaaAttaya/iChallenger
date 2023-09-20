@@ -30,7 +30,8 @@ class AuthController extends Controller
     public function profile(Request $request)
     {
         $user = Auth::user();
-    
+        
+        $user->followers_count = $user->followers()->count();
     
         return response()->json([
             'status' => 'Success',
@@ -143,13 +144,18 @@ class AuthController extends Controller
     
     public function getAllUsers(Request $request)
     {
-        $searchUsername = $request->input('username','');
+        $searchUsername = $request->input('username', '');
         $query = User::query();
-        $users = [];
+    
         if ($searchUsername !== null) {
             $query->where('username', 'like', '%' . $searchUsername . '%');
             $query->where('user_role_id', '!=', 1);
-            $users = $query->get();
+        }
+    
+        $users = $query->get();
+    
+        foreach ($users as $user) {
+            $user->followers_count = $user->followers()->count();
         }
     
         return response()->json([
