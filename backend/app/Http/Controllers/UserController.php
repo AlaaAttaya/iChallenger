@@ -52,7 +52,10 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->country = $request->country;
         $user->save();
-        $user->followers_count = $user->followers()->count();
+        $user->followers = $user->followers()->get();
+        $user->following = $user->following()->get();
+        $user->followers_count = $user->followers->count();
+        $user->following_count = $user->following->count();
         return response()->json([
             'status' => 'Success',
             'data' => $user
@@ -76,7 +79,10 @@ class UserController extends Controller
         
             $user->profileimage = $imagePath;
             $user->save();
-            $user->followers_count = $user->followers()->count();
+            $user->followers = $user->followers()->get();
+        $user->following = $user->following()->get();
+        $user->followers_count = $user->followers->count();
+        $user->following_count = $user->following->count();
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Profile picture changed successfully',
@@ -107,7 +113,10 @@ class UserController extends Controller
            
             $user->coverimage = $imagePath;
             $user->save();
-            $user->followers_count = $user->followers()->count();
+            $user->followers = $user->followers()->get();
+        $user->following = $user->following()->get();
+        $user->followers_count = $user->followers->count();
+        $user->following_count = $user->following->count();
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Cover picture changed successfully',

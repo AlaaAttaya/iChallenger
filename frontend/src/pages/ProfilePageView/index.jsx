@@ -72,7 +72,11 @@ const ProfilePageView = ({ userProfile }) => {
           }
         );
         console.log(response);
-        setIsFollowing(false);
+        if (response.status === 200) {
+          setIsFollowing(false);
+        } else {
+          console.error("Error toggling follow:", response.data.message);
+        }
       } else {
         const response = await axios.post(
           `${config.base_url}/api/user/follow`,
@@ -84,7 +88,11 @@ const ProfilePageView = ({ userProfile }) => {
           }
         );
         console.log(response);
-        setIsFollowing(true);
+        if (response.status === 200) {
+          setIsFollowing(true);
+        } else {
+          console.error("Error toggling follow:", response.data.message);
+        }
       }
     } catch (error) {
       console.error("Error toggling follow:", error);
@@ -143,7 +151,7 @@ const ProfilePageView = ({ userProfile }) => {
               </div>
               {isUserSignedinView ? (
                 <div className="profile-navbar-buttons buttons-right">
-                  <button className="viewbuttons">
+                  <button className="viewbuttons" onClick={toggleFollow}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="25"
@@ -153,13 +161,13 @@ const ProfilePageView = ({ userProfile }) => {
                     >
                       <path
                         d="M16.8167 2C20.515 2 23 5.81347 23 9.371C23 16.5756 12.6867 22.475 12.5 22.475C12.3133 22.475 2 16.5756 2 9.371C2 5.81347 4.485 2 8.18333 2C10.3067 2 11.695 3.16452 12.5 4.18827C13.305 3.16452 14.6933 2 16.8167 2Z"
-                        stroke="white"
+                        stroke={`${isFollowing ? "red" : "white"}`}
                         strokeWidth="3"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Follow
+                    {isFollowing ? "Unfollow" : "Follow"}
                   </button>
                   <button className="viewbuttons">
                     <svg
