@@ -114,7 +114,7 @@ const App = () => {
               />
               <Route
                 path="/Profile/:username"
-                element={<WrappedProfilePageView />}
+                element={<WrappedProfilePageView userProfile={userProfile} />}
               />
 
               <Route

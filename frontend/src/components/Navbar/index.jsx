@@ -34,6 +34,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
 
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchQueryLeftNavbar, setSearchQueryLeftNavbar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   //leftnavbar
   const [isTournamentsleftnavbarOpen, setIsTournamentsleftnavbarOpen] =
@@ -67,6 +68,13 @@ const Navbar = ({ userProfile, setUserProfile }) => {
       }
     }
   }, [searchQuery, isInputFocused]);
+
+  const handleKeyPressLeftNavbar = (event) => {
+    if (event.key === "Enter") {
+      window.location.href = `/Profile/${searchQueryLeftNavbar}`;
+    }
+  };
+
   const searchUsers = async (query) => {
     try {
       const response = await axios.get(
@@ -147,6 +155,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   };
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
+  };
+  const handleLeftNavbarInputChange = (e) => {
+    setSearchQueryLeftNavbar(e.target.value);
   };
 
   const toggleSidebar = () => {
@@ -543,6 +554,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               onFocus={handleLeftNavbarInputFocus}
               onBlur={handleLeftNavbarInputBlur}
               placeholder="Find Players"
+              value={searchQueryLeftNavbar}
+              onChange={handleLeftNavbarInputChange}
+              onKeyDown={handleKeyPressLeftNavbar}
             />
           </div>
         </div>

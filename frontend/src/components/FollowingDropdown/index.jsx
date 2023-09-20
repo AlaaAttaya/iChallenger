@@ -38,7 +38,7 @@ const FollowingDropdown = ({}) => {
             className={`searchinput ${isInputFocused ? "focused" : ""}`}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
-            placeholder="Find Players"
+            placeholder="Find Following"
           />
         </div>
       </div>

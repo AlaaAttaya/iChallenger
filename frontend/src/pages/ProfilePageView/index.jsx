@@ -4,13 +4,21 @@ import axios from "axios";
 import config from "../../services/config";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
 import DefaultCoverPic from "../../assets/images/coverpic.png";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
-const ProfilePageView = () => {
+const ProfilePageView = ({ userProfile }) => {
   const { username } = useParams();
   const [userProfileView, setUserProfileView] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userProfile && userProfile.username === username) {
+      navigate("/Profile");
+    } else {
+      setLoading(false);
+    }
+  }, [userProfile, username, navigate]);
 
   const fetchUserProfile = async () => {
     try {
