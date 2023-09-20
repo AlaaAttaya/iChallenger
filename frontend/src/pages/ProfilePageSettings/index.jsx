@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import axios from "axios";
@@ -12,9 +12,22 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
   const [isInformationOpen, setIsInformationOpen] = useState(true);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [isLinkAccountOpen, setIsLinkAccountOpen] = useState(false);
-
+  const [countries, setCountries] = useState([]);
   const profileImageInputRef = useRef(null);
   const coverImageInputRef = useRef(null);
+
+  useEffect(() => {
+    if (isInformationOpen) {
+      axios
+        .get(`${config.base_url}/api/guest/countries`)
+        .then((response) => {
+          setCountries(response.data.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching countries:", error);
+        });
+    }
+  }, [isInformationOpen]);
 
   const handleInformation = () => {
     setIsLinkAccountOpen(false);
@@ -274,39 +287,56 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
         {isInformationOpen && (
           <div>
             <div>
-              <span>Name</span>
-              <input type="text" />
+              <span className="info-span">Name</span>
+              <input type="text" className="info-textinput" />
             </div>
             <div>
-              <span>Username</span>
-              <input type="text" />
+              <span className="info-span">Username</span>
+              <input type="text" className="info-textinput" />
             </div>
             <div>
-              <span>Country</span>
-              <select></select>
+              <span className="info-span">Country</span>
+              <br></br>
+              <select
+                className="info-textinput cursor-pointer"
+                style={{ width: "95%" }}
+              >
+                <option value="">Select a Country</option>
+                {countries.map((country) => (
+                  <option key={country.id} value={country.name}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="saveinfo-wrapper">
+              <button className="saveinfo">Save</button>
             </div>
           </div>
         )}
         {isChangePasswordOpen && (
           <div>
             <div>
-              <span>Old Password</span>
-              <input type="password" />
+              <span className="info-span">Old Password</span>
+              <input type="password" className="info-textinput" />
             </div>
             <div>
-              <span>New Password</span>
-              <input type="password" />
+              <span className="info-span">New Password</span>
+              <input type="password" className="info-textinput" />
             </div>
             <div>
-              <span>Confirm New Password</span>
-              <input type="password" />
+              <span className="info-span">Confirm New Password</span>
+              <input type="password" className="info-textinput" />
+            </div>
+            <div className="saveinfo-wrapper">
+              <button className="saveinfo">Save</button>
             </div>
           </div>
         )}
         {isLinkAccountOpen && (
           <div>
             <div>
-              <span>Link...</span>
+              <span className="info-span">Link...</span>
             </div>
           </div>
         )}
