@@ -68,6 +68,10 @@
   color: #111111;
   background-color: #3cd679;
 }
+.shifter {
+  display: flex;
+  margin-right: 180px;
+}
 
 .user-info {
   display: flex;
@@ -115,6 +119,19 @@
   margin-top: 50px;
   font-size: 25px;
 }
+.Reportuser-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 @media screen and (min-width: 701px) and (max-width: 1000px) {
   .profile-navbar-buttons button {
     font-size: 16px;
@@ -159,6 +176,9 @@
     position: relative;
     width: 100%;
     height: 60px;
+  }
+  .shifter {
+    margin-right: 0px;
   }
   .user-info {
     margin-left: 65px;

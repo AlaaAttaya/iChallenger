@@ -14,6 +14,7 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 0;
+  margin-left: 7px;
 }
 
 .user-username {

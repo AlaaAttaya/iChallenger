@@ -1,0 +1,94 @@
+.report-container {
+  background-color: #111111;
+  color: #fff;
+  padding: 30px 50px;
+  border-radius: 13px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.report-form h2 {
+  font-size: 1.3em;
+}
+
+.reason {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 39px;
+}
+
+.reason label {
+  margin-bottom: 13px;
+}
+
+.report-reason {
+  background-color: #313131;
+  color: #fff;
+  border: none;
+  padding: 25px;
+  border-radius: 13px;
+  font-size: 1.2em;
+  resize: none;
+}
+
+.reportuser-button {
+  background-color: #ffffff1f;
+  color: #3cd679;
+  border: none;
+  padding: 19.5px 39px;
+  border-radius: 13px;
+  cursor: pointer;
+}
+
+.reportuser-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confirmation p {
+  margin-bottom: 39px;
+  font-size: 1.3em;
+}
+.confirmation-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yes-button,
+.no-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #3cd679;
+  border: none;
+  padding: 19.5px 39px;
+  border-radius: 13px;
+  cursor: pointer;
+  margin: 19.5px;
+}
+
+.yes-button:hover,
+.no-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.closeclick-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.closeclick-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
