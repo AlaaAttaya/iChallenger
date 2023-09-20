@@ -15,6 +15,7 @@ const ProfilePageView = ({ userProfile }) => {
   const [isreportopen, setIsReportOpen] = useState(false);
   const [isUserSignedinView, setIsUserSignedinView] = useState(false);
   const navigate = useNavigate();
+  const [isFollowing, setIsFollowing] = useState(false);
   useEffect(() => {
     if (userProfile && userProfile.username === username) {
       navigate("/Profile");
@@ -58,6 +59,38 @@ const ProfilePageView = ({ userProfile }) => {
   const handleCloseReportUser = () => {
     setIsReportOpen(false);
   };
+  const toggleFollow = async () => {
+    try {
+      if (isFollowing) {
+        const response = await axios.post(
+          `${config.base_url}/api/user/follow/unfollow`,
+          { user_id: userProfileView.id },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response);
+        setIsFollowing(false);
+      } else {
+        const response = await axios.post(
+          `${config.base_url}/api/user/follow`,
+          { user_id: userProfileView.id },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response);
+        setIsFollowing(true);
+      }
+    } catch (error) {
+      console.error("Error toggling follow:", error);
+    }
+  };
+
   return (
     <div className="ProfilePage">
       {loading ? (

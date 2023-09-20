@@ -150,20 +150,20 @@ class UserController extends Controller
 
     //Follow
 
-    public function followUser(Request $request)
-    {    $userId=$request->input('user_id');
+        public function followUser(Request $request)
+    {
+        $username = $request->input('username');
         $user = Auth::user();
-        $targetUser = User::find($userId);
+        $targetUser = User::where('username', $username)->first();
 
         if (!$targetUser) {
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        if ($user->id === $targetUser->id) {
+        if ($user->username === $targetUser->username) {
             return response()->json(['message' => 'You cannot follow yourself'], 400);
         }
 
-       
         if (!$user->isFollowing($targetUser)) {
             $user->follow($targetUser);
             return response()->json(['message' => 'You are now following ' . $targetUser->username]);
@@ -173,19 +173,19 @@ class UserController extends Controller
     }
 
     public function unfollowUser(Request $request)
-    {   $userId=$request->input('user_id');
+    {
+        $username = $request->input('username');
         $user = Auth::user();
-        $targetUser = User::find($userId);
+        $targetUser = User::where('username', $username)->first();
 
         if (!$targetUser) {
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        if ($user->id === $targetUser->id) {
+        if ($user->username === $targetUser->username) {
             return response()->json(['message' => 'You cannot unfollow yourself'], 400);
         }
 
-        
         if ($user->isFollowing($targetUser)) {
             $user->unfollow($targetUser);
             return response()->json(['message' => 'You have unfollowed ' . $targetUser->username]);
