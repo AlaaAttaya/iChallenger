@@ -32,8 +32,8 @@ class AuthController extends Controller
         $user = Auth::user();
         
      
-        $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
+        $user->followers = $user->followers;
+        $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
         return response()->json([
@@ -63,8 +63,8 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $user->token = $token;
-        $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
+        $user->followers = $user->followers;
+        $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
         return response()->json([
@@ -119,8 +119,8 @@ class AuthController extends Controller
 
         $token = Auth::login($user);
         $user->token = $token;
-        $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
+        $user->followers = $user->followers;
+        $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
         return response()->json([
@@ -164,10 +164,10 @@ class AuthController extends Controller
         $users = $query->get();
     
         foreach ($users as $user) {
-        $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
-        $user->followers_count = $user->followers->count();
-        $user->following_count = $user->following->count();
+            $user->followers = $user->followers;
+            $user->following = $user->following;
+            $user->followers_count = $user->followers->count();
+            $user->following_count = $user->following->count();
         }
     
         return response()->json([

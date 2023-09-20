@@ -86,12 +86,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function followers()
     {
-        return $this->hasMany(Follower::class, 'user_id');
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'follower_id');
     }
-
     public function following()
     {
-        return $this->hasMany(Follower::class, 'follower_id');
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'user_id');
     }
     
     public function channel()
@@ -138,5 +137,11 @@ class User extends Authenticatable implements JWTSubject
         public function userPosts()
     {
         return $this->hasMany(Post::class);
+    }
+  
+        public function isFollowing(User $targetUser)
+    {
+    
+        return $this->following->contains($targetUser);
     }
 }

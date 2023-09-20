@@ -52,8 +52,8 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->country = $request->country;
         $user->save();
-        $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
+        $user->followers = $user->followers;
+        $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
         return response()->json([
@@ -79,10 +79,10 @@ class UserController extends Controller
         
             $user->profileimage = $imagePath;
             $user->save();
-            $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
-        $user->followers_count = $user->followers->count();
-        $user->following_count = $user->following->count();
+            $user->followers = $user->followers;
+            $user->following = $user->following;
+            $user->followers_count = $user->followers->count();
+            $user->following_count = $user->following->count();
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Profile picture changed successfully',
@@ -113,10 +113,10 @@ class UserController extends Controller
            
             $user->coverimage = $imagePath;
             $user->save();
-            $user->followers = $user->followers()->get();
-        $user->following = $user->following()->get();
-        $user->followers_count = $user->followers->count();
-        $user->following_count = $user->following->count();
+            $user->followers = $user->followers;
+            $user->following = $user->following;
+            $user->followers_count = $user->followers->count();
+            $user->following_count = $user->following->count();
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Cover picture changed successfully',
@@ -159,47 +159,58 @@ class UserController extends Controller
 
     //Follow
 
-        public function followUser(Request $request)
+    public function followUser(Request $request)
     {
         $username = $request->input('username');
         $user = Auth::user();
         $targetUser = User::where('username', $username)->first();
-
+    
         if (!$targetUser) {
             return response()->json(['message' => 'User not found'], 404);
         }
-
+    
         if ($user->username === $targetUser->username) {
             return response()->json(['message' => 'You cannot follow yourself'], 400);
         }
-
+    
         if (!$user->isFollowing($targetUser)) {
-            $user->follow($targetUser);
+          
+            $follower = new Follower();
+            $follower->user_id = $targetUser->id;
+            $follower->follower_id = $user->id;
+            $follower->save();
+    
             return response()->json(['message' => 'You are now following ' . $targetUser->username]);
         }
-
+    
         return response()->json(['message' => 'You are already following ' . $targetUser->username]);
     }
-
+    
     public function unfollowUser(Request $request)
     {
         $username = $request->input('username');
         $user = Auth::user();
         $targetUser = User::where('username', $username)->first();
-
+    
         if (!$targetUser) {
             return response()->json(['message' => 'User not found'], 404);
         }
-
+    
         if ($user->username === $targetUser->username) {
             return response()->json(['message' => 'You cannot unfollow yourself'], 400);
         }
-
+   
+  
         if ($user->isFollowing($targetUser)) {
-            $user->unfollow($targetUser);
+          
+            $follower = Follower::where('user_id', $targetUser->id)->where('follower_id', $user->id)->first();
+            if ($follower) {
+                $follower->delete();
+            }
+    
             return response()->json(['message' => 'You have unfollowed ' . $targetUser->username]);
         }
-
+    
         return response()->json(['message' => 'You are not following ' . $targetUser->username]);
     }
 
@@ -207,7 +218,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
     
-        $followersCount = $user->followers->count();
+        $followersCount = $user->followers;
         $followers = $user->followers;
     
         return response()->json(['followers_count' => $followersCount, 'followers' => $followers]);
@@ -217,7 +228,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
     
-        $followingCount = $user->following->count();
+        $followingCount = $user->following;
         $following = $user->following;
     
         return response()->json(['following_count' => $followingCount, 'following' => $following]);
