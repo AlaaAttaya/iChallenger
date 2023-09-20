@@ -281,7 +281,10 @@ const Navbar = ({ userProfile, setUserProfile }) => {
         <div className="nav-buttons">
           <div className="buttondropdown-wrapper">
             <Link to="/Home">
-              <button id="Home" className={isActive("/Home") ? "active" : ""}>
+              <button
+                id="Home"
+                className={isActive("/Home") ? "clicked-navbar" : ""}
+              >
                 Home
               </button>
             </Link>
@@ -296,7 +299,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                 id="Tournaments"
                 className={
                   isActive("/Tournaments") || isActive("/Leaderboards")
-                    ? "active"
+                    ? "clicked-navbar"
                     : ""
                 }
               >
@@ -323,7 +326,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                   isActive("/Forums") ||
                   isActive("/Streams") ||
                   isActive("/Community")
-                    ? "active"
+                    ? "clicked-navbar"
                     : ""
                 }
               >
@@ -352,7 +355,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                   isActive("/FAQS") ||
                   isActive("/PrivacyPolicy") ||
                   isActive("/UserAgreement")
-                    ? "active"
+                    ? "clicked-navbar"
                     : ""
                 }
               >

@@ -119,13 +119,13 @@
 }
 .nav-buttons button:hover {
   background-color: #ffffff10;
-  color: #32ff83;
+  color: #3cd679;
   border-radius: 7px;
   padding: 10px 15px;
 }
-.active {
+.clicked-navbar {
   background-color: #ffffff10 !important;
-  color: #32ff83 !important;
+  color: #3cd679 !important;
   border-radius: 7px;
   padding: 10px 15px;
 }

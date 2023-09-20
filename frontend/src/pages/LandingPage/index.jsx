@@ -9,14 +9,14 @@ const LandingPage = () => {
   const heroImages = [
     {
       src: Image,
-      width: "200px",
-      height: "200px",
+      width: "600px",
+      height: "500px",
       alt: "Image",
     },
     {
       src: Image,
-      width: "200px",
-      height: "200px",
+      width: "100%",
+      height: "500px",
       alt: "Image",
     },
     {

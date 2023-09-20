@@ -11,6 +11,8 @@ import LoginPage from "./pages/LoginPage";
 import Loading from "./components/Loading";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProfilePageView from "./pages/ProfilePageView";
+import ProfilePageSettings from "./pages/Settings";
 import { refreshToken, verifyToken } from "./services/auth";
 
 const WrappedLandingPage = LoadingHOC(LandingPage);
@@ -18,7 +20,8 @@ const WrappedContactusPage = LoadingHOC(ContactusPage);
 const WrappedLoginPage = LoadingHOC(LoginPage);
 const WrappedForgotPasswordPage = LoadingHOC(ForgotPasswordPage);
 const WrappedProfilePage = LoadingHOC(ProfilePage);
-
+const WrappedProfilePageView = LoadingHOC(ProfilePageView);
+const WrappedProfilePageSettings = LoadingHOC(ProfilePageSettings);
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
@@ -41,6 +44,7 @@ const App = () => {
         }
       } catch (error) {
         console.error("Token verification failed:", error);
+        setUserProfile(null);
       }
     } else {
       setUserProfile(null);
@@ -102,6 +106,15 @@ const App = () => {
               <Route
                 path="/Profile"
                 element={<WrappedProfilePage userProfile={userProfile} />}
+              />
+              <Route
+                path="/Profile/:username"
+                element={<WrappedProfilePageView />}
+              />
+
+              <Route
+                path="/Settings"
+                element={<WrappedProfilePageSettings />}
               />
             </Routes>
           </main>
