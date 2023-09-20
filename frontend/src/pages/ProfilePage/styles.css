@@ -26,7 +26,7 @@
 .profileImageContainer {
   position: absolute;
   top: 50%;
-  left: 40px;
+
   transform: translate(-50%, -50%);
 }
 
@@ -35,8 +35,8 @@
   width: 100px;
   height: 100px;
   position: absolute;
-  top: 10px;
-  left: 20px;
+  top: 14px;
+  left: 40px;
 }
 
 .profile-navbar-buttons-container {
@@ -59,6 +59,8 @@
   background-color: transparent;
   border: none;
   font-size: 20px;
+  align-items: center;
+  display: flex;
   cursor: pointer;
 }
 
@@ -66,18 +68,21 @@
   color: #111111;
   background-color: #32ff83;
 }
-
-.profile-navbar-buttons-wrapper {
-  display: flex;
-
-  align-items: center;
-  margin-left: auto;
+.hoversettings {
+  margin-right: 10px;
 }
-
+.hoversettings:hover {
+  color: #111111;
+  background-color: transparent !important;
+}
+.hoversettings:hover svg path {
+  fill: #32ff83;
+}
 .user-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 150px;
 }
 
 .username-profile {
@@ -89,15 +94,60 @@
   color: #cbcbcb;
   font-size: 16px;
 }
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+  .profile-navbar-buttons button {
+    font-size: 16px;
+    padding: 10px;
+  }
+  .user-info {
+    margin-left: 90px;
+  }
+  .profileImage {
+    width: 80px;
+    height: 80px;
 
-.buttons-middle {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
+    top: 25px;
+    left: 0px;
+  }
+  .username-profile {
+    font-size: 20px;
+  }
+
+  .followerscount-profile {
+    font-size: 14px;
+  }
 }
+@media screen and (max-width: 700px) {
+  .coverPhotoContainer {
+    position: relative;
+    width: 100%;
+    height: 60px;
+  }
+  .user-info {
+    margin-left: 65px;
+  }
+  .profileImage {
+    width: 60px;
+    height: 60px;
 
-.buttons-right {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    top: -14px;
+    left: 0px;
+  }
+  .profile-navbar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .profile-navbar-buttons button {
+    font-size: 11px;
+    padding: 5px;
+  }
+
+  .username-profile {
+    font-size: 14px;
+  }
+
+  .followerscount-profile {
+    font-size: 11px;
+  }
 }
