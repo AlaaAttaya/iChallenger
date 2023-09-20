@@ -1,4 +1,4 @@
-.ProfilePage {
+.ProfilePageSettings {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -98,10 +98,9 @@
   align-items: center;
   display: flex;
   cursor: pointer;
-  margin-right: 200px;
 }
 
-.dropdown-button {
+.dropdown-button-settings {
   padding: 10px;
   width: 90%;
   color: white;
@@ -114,12 +113,50 @@
   font-size: 16px !important;
   transition: font-size 0.3s;
 }
-
-.dropdown-button svg {
+.dropdown-button-settings:hover {
+  background-color: #28ac5d;
+  border-radius: 5px;
+}
+.dropdown-button-settings svg {
   margin-right: 10px;
 }
 .inputfile {
   display: none;
+}
+
+.pages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pageopen {
+  color: #2fd671 !important;
+  border-bottom: 3px solid #2fd671 !important;
+}
+.pages button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  color: #000000;
+  border: none;
+  font-family: "Rubik", sans-serif;
+  font-size: large;
+  font-weight: 700;
+  background-color: transparent;
+  border-bottom: 3px solid #989898;
+}
+.changepictures-buttons-wrapper {
+  margin-right: 70px;
 }
 @media screen and (min-width: 701px) and (max-width: 1000px) {
   .profile-navbar-buttons button {
@@ -142,6 +179,9 @@
 
   .followerscount-profile {
     font-size: 14px;
+  }
+  .changepictures-button {
+    font-size: 16px;
   }
 }
 @media screen and (max-width: 700px) {
@@ -181,6 +221,13 @@
     top: 110px;
   }
   .changepictures-button {
-    margin-right: 100px;
+    font-size: 16px;
+  }
+  .pages {
+    margin-right: 0px;
+  }
+  .pages button {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

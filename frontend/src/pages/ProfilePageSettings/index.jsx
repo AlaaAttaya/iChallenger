@@ -9,9 +9,28 @@ import DefaultCoverPic from "../../assets/images/coverpic.png";
 const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
   const [isChangePicturesDropdownOpen, setIsChangePicturesDropdownOpen] =
     useState(false);
+  const [isInformationOpen, setIsInformationOpen] = useState(true);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isLinkAccountOpen, setIsLinkAccountOpen] = useState(false);
 
   const profileImageInputRef = useRef(null);
   const coverImageInputRef = useRef(null);
+
+  const handleInformation = () => {
+    setIsLinkAccountOpen(false);
+    setIsChangePasswordOpen(false);
+    setIsInformationOpen(true);
+  };
+  const handleChangePassword = () => {
+    setIsLinkAccountOpen(false);
+    setIsChangePasswordOpen(true);
+    setIsInformationOpen(false);
+  };
+  const handleLinkAccount = () => {
+    setIsLinkAccountOpen(true);
+    setIsChangePasswordOpen(false);
+    setIsInformationOpen(false);
+  };
 
   const toggleChangePicturesDropdown = () => {
     setIsChangePicturesDropdownOpen(!isChangePicturesDropdownOpen);
@@ -116,9 +135,14 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
         <div className="profile-navbar-buttons-container">
           <div className="user-info">
             <span className="username-profile">
-              {userProfile ? userProfile.username : ""}
+              {userProfile ? userProfile.username : "username"}
             </span>
-            <span className="followerscount-profile">Count Followers</span>
+            <span className="followerscount-profile">
+              {" "}
+              {userProfile
+                ? userProfile.followers_count + " Followers"
+                : "0 Followers"}
+            </span>
           </div>
 
           <div className="changepictures-buttons-wrapper">
@@ -146,7 +170,7 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
               {isChangePicturesDropdownOpen && (
                 <div className="changepictures">
                   <div
-                    className="dropdown-button"
+                    className="dropdown-button-settings"
                     onClick={handleProfileImageClick}
                   >
                     <svg
@@ -186,7 +210,7 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
                     Change Avatar
                   </div>
                   <div
-                    className="dropdown-button"
+                    className="dropdown-button-settings"
                     onClick={handleCoverImageClick}
                   >
                     <svg
@@ -222,6 +246,70 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="pages">
+        <button
+          id="Information"
+          className={isInformationOpen ? "pageopen" : ""}
+          onClick={handleInformation}
+        >
+          Information
+        </button>
+        <button
+          id="changepassword"
+          className={isChangePasswordOpen ? "pageopen" : ""}
+          onClick={handleChangePassword}
+        >
+          Change Password
+        </button>
+        <button
+          id="LinkAccount"
+          className={isLinkAccountOpen ? "pageopen" : ""}
+          onClick={handleLinkAccount}
+        >
+          Link Account
+        </button>
+      </div>
+      <div className="page-container">
+        {isInformationOpen && (
+          <div>
+            <div>
+              <span>Name</span>
+              <input type="text" />
+            </div>
+            <div>
+              <span>Username</span>
+              <input type="text" />
+            </div>
+            <div>
+              <span>Country</span>
+              <select></select>
+            </div>
+          </div>
+        )}
+        {isChangePasswordOpen && (
+          <div>
+            <div>
+              <span>Old Password</span>
+              <input type="password" />
+            </div>
+            <div>
+              <span>New Password</span>
+              <input type="password" />
+            </div>
+            <div>
+              <span>Confirm New Password</span>
+              <input type="password" />
+            </div>
+          </div>
+        )}
+        {isLinkAccountOpen && (
+          <div>
+            <div>
+              <span>Link...</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

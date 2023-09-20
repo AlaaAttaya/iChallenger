@@ -35,8 +35,16 @@ const ProfilePageView = () => {
 
         <div className="profile-navbar-buttons-container">
           <div className="user-info">
-            <span className="username-profile">Maria</span>
-            <span className="followerscount-profile">Followers Count</span>
+            <span className="username-profile">
+              {" "}
+              {userProfileView ? userProfileView.username : "username"}
+            </span>
+            <span className="followerscount-profile">
+              {" "}
+              {userProfileView
+                ? userProfileView.followers_count + " Followers"
+                : "0 Followers"}
+            </span>
           </div>
           <div className="profile-navbar-buttons buttons-middle">
             <button>Overview</button>

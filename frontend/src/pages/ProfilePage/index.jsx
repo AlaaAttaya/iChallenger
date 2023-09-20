@@ -38,7 +38,12 @@ const ProfilePage = ({ userProfile }) => {
             <span className="username-profile">
               {userProfile ? userProfile.username : ""}
             </span>
-            <span className="followerscount-profile">Count Followers</span>
+            <span className="followerscount-profile">
+              {" "}
+              {userProfile
+                ? userProfile.followers_count + " Followers"
+                : "0 Followers"}
+            </span>
           </div>
           <div
             className="profile-navbar-buttons "
