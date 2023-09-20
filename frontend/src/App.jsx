@@ -12,7 +12,7 @@ import Loading from "./components/Loading";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProfilePageView from "./pages/ProfilePageView";
-
+import ProfilePageSettings from "./pages/ProfilePageSettings";
 import { refreshToken, verifyToken } from "./services/auth";
 
 const WrappedLandingPage = LoadingHOC(LandingPage);
@@ -21,7 +21,7 @@ const WrappedLoginPage = LoadingHOC(LoginPage);
 const WrappedForgotPasswordPage = LoadingHOC(ForgotPasswordPage);
 const WrappedProfilePage = LoadingHOC(ProfilePage);
 const WrappedProfilePageView = LoadingHOC(ProfilePageView);
-
+const WrappedProfilePageSettings = LoadingHOC(ProfilePageSettings);
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
@@ -32,7 +32,10 @@ const App = () => {
     setVerificationInProgress(true);
     const currentPath = window.location.pathname;
 
-    if (currentPath === "/Profile" && !token) {
+    if (
+      (currentPath === "/Profile" && !token) ||
+      (currentPath === "/Settings" && !token)
+    ) {
       window.location.href = "/Login";
     } else if (userSignedIn) {
       try {
@@ -110,6 +113,16 @@ const App = () => {
               <Route
                 path="/Profile/:username"
                 element={<WrappedProfilePageView />}
+              />
+
+              <Route
+                path="/Settings"
+                element={
+                  <WrappedProfilePageSettings
+                    userProfile={userProfile}
+                    setUserProfile={setUserProfile}
+                  />
+                }
               />
             </Routes>
           </main>
