@@ -172,18 +172,22 @@ class UserController extends Controller
         if ($user->username === $targetUser->username) {
             return response()->json(['message' => 'You cannot follow yourself'], 400);
         }
-    
+        $user->followers = $user->followers;
+        $user->following = $user->following;
+        $user->followers_count = $user->followers->count();
+        $user->following_count = $user->following->count();
+
         if (!$user->isFollowing($targetUser)) {
-          
+    
             $follower = new Follower();
             $follower->user_id = $targetUser->id;
             $follower->follower_id = $user->id;
             $follower->save();
     
-            return response()->json(['message' => 'You are now following ' . $targetUser->username]);
+            return response()->json(['message' => 'You are now following ' . $targetUser->username, 'user' => $user]);
         }
     
-        return response()->json(['message' => 'You are already following ' . $targetUser->username]);
+        return response()->json(['message' => 'You are already following ' . $targetUser->username, 'user' => $user]);
     }
     
     public function unfollowUser(Request $request)
@@ -199,20 +203,25 @@ class UserController extends Controller
         if ($user->username === $targetUser->username) {
             return response()->json(['message' => 'You cannot unfollow yourself'], 400);
         }
-   
-  
+
+        $user->followers = $user->followers;
+        $user->following = $user->following;
+        $user->followers_count = $user->followers->count();
+        $user->following_count = $user->following->count();
+
         if ($user->isFollowing($targetUser)) {
-          
+    
             $follower = Follower::where('user_id', $targetUser->id)->where('follower_id', $user->id)->first();
             if ($follower) {
                 $follower->delete();
             }
     
-            return response()->json(['message' => 'You have unfollowed ' . $targetUser->username]);
+            return response()->json(['message' => 'You have unfollowed ' . $targetUser->username, 'user' => $user]);
         }
     
-        return response()->json(['message' => 'You are not following ' . $targetUser->username]);
+        return response()->json(['message' => 'You are not following ' . $targetUser->username, 'user' => $user]);
     }
+    
 
     public function getUserFollowers()
     {

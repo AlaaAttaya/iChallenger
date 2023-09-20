@@ -7,7 +7,7 @@ import DefaultCoverPic from "../../assets/images/coverpic.png";
 import { useParams, useNavigate } from "react-router-dom";
 import ReportUser from "../../components/ReportUser";
 import Loading from "../../components/Loading";
-const ProfilePageView = ({ userProfile }) => {
+const ProfilePageView = ({ userProfile, setUserProfile }) => {
   const { username } = useParams();
   const [userProfileView, setUserProfileView] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,7 @@ const ProfilePageView = ({ userProfile }) => {
       const isFollowingUser = userProfile.following.some((user) => {
         return user.username === username;
       });
-      console.log(isFollowingUser);
+
       setIsFollowing(isFollowingUser);
     }
   }, [userProfile, username, navigate]);
@@ -78,8 +78,9 @@ const ProfilePageView = ({ userProfile }) => {
             },
           }
         );
-        console.log(response);
+
         if (response.status === 200) {
+          setUserProfile(response.data.user);
           setIsFollowing(false);
         } else {
           console.error("Error toggling follow:", response.data.message);
@@ -94,8 +95,9 @@ const ProfilePageView = ({ userProfile }) => {
             },
           }
         );
-        console.log(response);
+
         if (response.status === 200) {
+          setUserProfile(response.data.user);
           setIsFollowing(true);
         } else {
           console.error("Error toggling follow:", response.data.message);
