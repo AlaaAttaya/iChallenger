@@ -312,7 +312,14 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               {isInputFocused && (
                 <div className="search-results">
                   {searchResults.map((user) => (
-                    <UserCard key={user.id} user={user} />
+                    <Link
+                      key={user.id}
+                      to={`/Profile/${user.username}`}
+                      className="linkusercardsearchinputnavbar"
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      <UserCard key={user.id} user={user} />
+                    </Link>
                   ))}
                 </div>
               )}
