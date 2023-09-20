@@ -11,7 +11,7 @@ Route::group(["middleware" => "auth:api"], function () {
 
     Route::group(["prefix" => "user"], function () {
 
-        Route::get("search", [AuthController::class, "getAllUsers"]);
+     
         Route::get("profile", [AuthController::class, "profile"]);
         Route::post("logout", [AuthController::class, "logout"]);
         Route::post("refresh", [AuthController::class, "refresh"]);
@@ -112,5 +112,7 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
     Route::post("verifycode", [AuthController::class, "verifyCode"]); 
     Route::post("resetpassword", [AuthController::class, "resetPassword"]);
+    
+    Route::get("search", [AuthController::class, "getAllUsers"]);
 
 });

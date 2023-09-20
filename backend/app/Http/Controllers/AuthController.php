@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $user->token = $token;
-
+        $user->followers_count = $user->followers()->count();
         return response()->json([
             'status' => 'Success',
             'data' => $user
@@ -113,7 +113,7 @@ class AuthController extends Controller
 
         $token = Auth::login($user);
         $user->token = $token;
-
+        $user->followers_count = $user->followers()->count();
         return response()->json([
         'status' => 'Success',
         'data' => $user,

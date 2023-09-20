@@ -66,7 +66,7 @@
 
 .profile-navbar-buttons button:hover {
   color: #111111;
-  background-color: #32ff83;
+  background-color: #3cd679;
 }
 .hoversettings {
   margin-right: 10px;
@@ -76,7 +76,7 @@
   background-color: transparent !important;
 }
 .hoversettings:hover svg path {
-  fill: #32ff83;
+  fill: #3cd679;
 }
 .user-info {
   display: flex;
