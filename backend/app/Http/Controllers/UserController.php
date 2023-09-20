@@ -76,7 +76,7 @@ class UserController extends Controller
         
             $user->profileimage = $imagePath;
             $user->save();
-    
+            $user->followers_count = $user->followers()->count();
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Profile picture changed successfully',
@@ -107,7 +107,7 @@ class UserController extends Controller
            
             $user->coverimage = $imagePath;
             $user->save();
-    
+            $user->followers_count = $user->followers()->count();
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Cover picture changed successfully',

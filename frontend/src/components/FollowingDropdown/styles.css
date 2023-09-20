@@ -57,17 +57,3 @@
 .search.focused svg path {
   fill: #2fd671;
 }
-@media screen and (max-width: 1350px) {
-  .FollowingDropdown {
-    padding: 5px;
-    right: 0px;
-  }
-  .dropdown-button {
-    font-size: 14px !important;
-  }
-  .dropdown-button svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-  }
-}
