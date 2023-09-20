@@ -225,6 +225,16 @@
 .navbarsearch.focused svg path {
   fill: #2fd671;
 }
+.search-results {
+  background-color: #202020;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  max-height: 200px;
+  overflow: auto;
+}
 
 @media screen and (min-width: 1251px) and (max-width: 1450px) {
   .nav-buttons {

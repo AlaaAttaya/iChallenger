@@ -12,11 +12,14 @@ import CommunityDropdown from "../CommunityDropdown";
 import NotificationsDropdown from "../NotificationsDropdown";
 import MessagesDropdown from "../MessagesDropdown";
 import FollowingDropdown from "../FollowingDropdown";
+import UserCard from "../../components/UserCard";
+import axios from "axios";
 const Navbar = ({ userProfile, setUserProfile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
+  const [isLeftNavbarInputFocused, setLeftNavbarInputFocused] = useState(false);
   //topnavbar
   const [profilepic, setProfilePic] = useState(DefaultProfilepic);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -31,6 +34,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
 
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   //leftnavbar
   const [isTournamentsleftnavbarOpen, setIsTournamentsleftnavbarOpen] =
     useState(false);
@@ -46,12 +50,35 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const isActive = (path) => {
     return location.pathname === path;
   };
+
   //topnavbar
+
   useEffect(() => {
     if (userProfile) {
       setProfilePic(config.base_url + userProfile.profileimage);
     }
   }, [userProfile]);
+  useEffect(() => {
+    if (isInputFocused) {
+      if (searchQuery.trim() !== "") {
+        searchUsers(searchQuery);
+      } else {
+        setSearchResults([]);
+      }
+    }
+  }, [searchQuery, isInputFocused]);
+  const searchUsers = async (query) => {
+    try {
+      const response = await axios.get(
+        `${config.base_url}/api/guest/search?username=${query}`
+      );
+      const users = response.data.data;
+
+      setSearchResults(users);
+    } catch (error) {
+      console.error("Error searching for users:", error);
+    }
+  };
 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
@@ -103,6 +130,13 @@ const Navbar = ({ userProfile, setUserProfile }) => {
 
   const handleInputBlur = () => {
     setInputFocused(false);
+  };
+  const handleLeftNavbarInputFocus = () => {
+    setLeftNavbarInputFocused(true);
+  };
+
+  const handleLeftNavbarInputBlur = () => {
+    setLeftNavbarInputFocused(false);
   };
   const handleSearchClick = () => {
     setSearchOpen(true);
@@ -275,6 +309,13 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                   />
                 </svg>
               </div>
+              {isInputFocused && (
+                <div className="search-results">
+                  {searchResults.map((user) => (
+                    <UserCard key={user.id} user={user} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -465,7 +506,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
         </div>
         <div className="search-leftnavbar-wrapper">
           <div
-            className={`search-leftnavbar ${isInputFocused ? "focused" : ""}`}
+            className={`search-leftnavbar ${
+              isLeftNavbarInputFocused ? "focused" : ""
+            }`}
           >
             <svg
               width="16"
@@ -487,9 +530,11 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               type="text"
               id="leftnavbar-searchinput"
               name="leftnavbar-searchinput"
-              className={`searchinput ${isInputFocused ? "focused" : ""}`}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
+              className={`searchinput ${
+                isLeftNavbarInputFocused ? "focused" : ""
+              }`}
+              onFocus={handleLeftNavbarInputFocus}
+              onBlur={handleLeftNavbarInputBlur}
               placeholder="Find Players"
             />
           </div>

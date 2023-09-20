@@ -148,7 +148,7 @@ class AuthController extends Controller
         $query = User::query();
     
         if ($searchUsername !== null) {
-            $query->where('username', 'like', '%' . $searchUsername . '%');
+            $query->where('username', 'like',  $searchUsername . '%');
             $query->where('user_role_id', '!=', 1);
         }
     
