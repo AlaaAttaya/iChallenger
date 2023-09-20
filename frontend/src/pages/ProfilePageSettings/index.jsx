@@ -21,6 +21,11 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
     username: userProfile ? userProfile.username : "",
     country: userProfile ? userProfile.country : "",
   });
+  const [passwordData, setPasswordData] = useState({
+    oldpassword: "",
+    newpassword: "",
+    confirmnewpassword: "",
+  });
 
   useEffect(() => {
     if (isInformationOpen) {
@@ -34,6 +39,69 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
         });
     }
   }, [isInformationOpen]);
+
+  const handleOldPasswordChange = (e) => {
+    const { value } = e.target;
+    setPasswordData({ ...passwordData, oldpassword: value });
+  };
+  const handleNewPasswordChange = (e) => {
+    const { value } = e.target;
+    setPasswordData({ ...passwordData, newpassword: value });
+  };
+  const handleConfirmNewPasswordChange = (e) => {
+    const { value } = e.target;
+    setPasswordData({ ...passwordData, confirmnewpassword: value });
+  };
+  const handleSavePasswordKeyPress = (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("savepassword").click();
+    }
+  };
+  const handleSaveInfoKeyPress = (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("saveinfo").click();
+    }
+  };
+
+  const handleSavePassword = () => {
+    if (passwordData.newpassword.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (passwordData.newpassword !== passwordData.confirmnewpassword) {
+      setErrorMessage("Password & Confirm Password do not match.");
+      return;
+    }
+
+    if (
+      !passwordData.oldpassword ||
+      !passwordData.newpassword ||
+      !passwordData.confirmnewpassword
+    ) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
+
+    axios
+      .post(`${config.base_url}/api/user/changepassword`, passwordData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.message === "Incorrect old password") {
+          setErrorMessage("Wrong Old Password.");
+        } else {
+          setErrorMessage("Success.");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage("Wrong Old Password.");
+      });
+  };
 
   const handleNameChange = (e) => {
     const { value } = e.target;
@@ -335,6 +403,7 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
                 value={editedData.name}
                 onChange={handleNameChange}
                 placeholder="Name"
+                onKeyDown={handleSaveInfoKeyPress}
               />
             </div>
             <div>
@@ -345,6 +414,7 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
                 placeholder="Username"
                 value={editedData.username}
                 onChange={handleUsernameChange}
+                onKeyDown={handleSaveInfoKeyPress}
               />
             </div>
             <div>
@@ -363,11 +433,14 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
                   </option>
                 ))}
               </select>
-              <span className="errormsg">{errormessage}</span>
             </div>
-
+            <span className="errormsg">{errormessage}</span>
             <div className="saveinfo-wrapper">
-              <button className="saveinfo" onClick={handleSaveInfo}>
+              <button
+                className="saveinfo"
+                id="saveinfo"
+                onClick={handleSaveInfo}
+              >
                 Save
               </button>
             </div>
@@ -377,18 +450,43 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
           <div>
             <div>
               <span className="info-span">Old Password</span>
-              <input type="password" className="info-textinput" />
+              <input
+                type="password"
+                className="info-textinput"
+                value={passwordData.oldpassword}
+                onChange={handleOldPasswordChange}
+                onKeyDown={handleSavePasswordKeyPress}
+              />
             </div>
             <div>
               <span className="info-span">New Password</span>
-              <input type="password" className="info-textinput" />
+              <input
+                type="password"
+                className="info-textinput"
+                value={passwordData.newpassword}
+                onChange={handleNewPasswordChange}
+                onKeyDown={handleSavePasswordKeyPress}
+              />
             </div>
             <div>
               <span className="info-span">Confirm New Password</span>
-              <input type="password" className="info-textinput" />
+              <input
+                type="password"
+                className="info-textinput"
+                value={passwordData.confirmnewpassword}
+                onChange={handleConfirmNewPasswordChange}
+                onKeyDown={handleSavePasswordKeyPress}
+              />
             </div>
+            <span className="errormsg">{errormessage}</span>
             <div className="saveinfo-wrapper">
-              <button className="saveinfo">Save</button>
+              <button
+                className="saveinfo"
+                id="savepassword"
+                onClick={handleSavePassword}
+              >
+                Save
+              </button>
             </div>
           </div>
         )}
