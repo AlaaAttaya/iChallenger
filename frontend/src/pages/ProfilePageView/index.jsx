@@ -45,16 +45,7 @@ const ProfilePageView = () => {
       {loading ? (
         <Loading />
       ) : error ? (
-        <span
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "25px",
-          }}
-        >
-          Error: {error}
-        </span>
+        <span className="errorloadinguser">Error: {error}</span>
       ) : (
         <div className="Profile-navbar">
           <div className="coverPhotoContainer">

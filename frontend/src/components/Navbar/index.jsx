@@ -283,7 +283,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             <Link to="/Home">
               <button
                 id="Home"
-                className={isActive("/Home") ? "clicked-navbar" : ""}
+                className={
+                  isActive("/Home") || isActive("/") ? "clicked-navbar" : ""
+                }
               >
                 Home
               </button>
