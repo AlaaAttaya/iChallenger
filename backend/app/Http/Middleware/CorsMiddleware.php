@@ -9,7 +9,7 @@ class CorsMiddleware
     public function handle($request, Closure $next)
     {
         $allowedOrigins = [
-            'http://localhost:3000',
+            'https://localhost:3000',
         ];
 
         $requestOrigin = $request->header('Origin');
