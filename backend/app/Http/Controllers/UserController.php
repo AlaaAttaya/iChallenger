@@ -43,17 +43,16 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'email' => 'required|string|max:255|unique:users,email,' . $user->id,
+            
             'country' => 'required|string',
         ]);
 
 
         $user->name = $request->name;
         $user->username = $request->username;
-        $user->email = $request->email;
         $user->country = $request->country;
         $user->save();
-
+        $user->followers_count = $user->followers()->count();
         return response()->json([
             'status' => 'Success',
             'data' => $user

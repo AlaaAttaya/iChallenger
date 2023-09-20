@@ -15,6 +15,12 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
   const [countries, setCountries] = useState([]);
   const profileImageInputRef = useRef(null);
   const coverImageInputRef = useRef(null);
+  const [errormessage, setErrorMessage] = useState("");
+  const [editedData, setEditedData] = useState({
+    name: userProfile ? userProfile.name : "",
+    username: userProfile ? userProfile.username : "",
+    country: userProfile ? userProfile.country : "",
+  });
 
   useEffect(() => {
     if (isInformationOpen) {
@@ -29,20 +35,55 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
     }
   }, [isInformationOpen]);
 
+  const handleNameChange = (e) => {
+    const { value } = e.target;
+    setEditedData({ ...editedData, name: value });
+  };
+
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    setEditedData({ ...editedData, username: value });
+  };
+
+  const handleCountryChange = (e) => {
+    const { value } = e.target;
+    setEditedData({ ...editedData, country: value });
+  };
+
+  const handleSaveInfo = () => {
+    axios
+      .post(`${config.base_url}/api/user/editprofile`, editedData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setUserProfile(response.data.data);
+        setErrorMessage("Changes saved.");
+      })
+      .catch((error) => {
+        console.error("Error saving profile:", error);
+        setErrorMessage("Error updating changes.");
+      });
+  };
+
   const handleInformation = () => {
     setIsLinkAccountOpen(false);
     setIsChangePasswordOpen(false);
     setIsInformationOpen(true);
+    setErrorMessage("");
   };
   const handleChangePassword = () => {
     setIsLinkAccountOpen(false);
     setIsChangePasswordOpen(true);
     setIsInformationOpen(false);
+    setErrorMessage("");
   };
   const handleLinkAccount = () => {
     setIsLinkAccountOpen(true);
     setIsChangePasswordOpen(false);
     setIsInformationOpen(false);
+    setErrorMessage("");
   };
 
   const toggleChangePicturesDropdown = () => {
@@ -288,11 +329,23 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
           <div>
             <div>
               <span className="info-span">Name</span>
-              <input type="text" className="info-textinput" />
+              <input
+                type="text"
+                className="info-textinput"
+                value={editedData.name}
+                onChange={handleNameChange}
+                placeholder="Name"
+              />
             </div>
             <div>
               <span className="info-span">Username</span>
-              <input type="text" className="info-textinput" />
+              <input
+                type="text"
+                className="info-textinput"
+                placeholder="Username"
+                value={editedData.username}
+                onChange={handleUsernameChange}
+              />
             </div>
             <div>
               <span className="info-span">Country</span>
@@ -300,6 +353,8 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
               <select
                 className="info-textinput cursor-pointer"
                 style={{ width: "95%" }}
+                value={editedData.country}
+                onChange={handleCountryChange}
               >
                 <option value="">Select a Country</option>
                 {countries.map((country) => (
@@ -308,9 +363,13 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
                   </option>
                 ))}
               </select>
+              <span className="errormsg">{errormessage}</span>
             </div>
+
             <div className="saveinfo-wrapper">
-              <button className="saveinfo">Save</button>
+              <button className="saveinfo" onClick={handleSaveInfo}>
+                Save
+              </button>
             </div>
           </div>
         )}

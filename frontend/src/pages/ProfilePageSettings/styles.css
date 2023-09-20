@@ -219,6 +219,9 @@
   .username-profile {
     font-size: 20px;
   }
+  .errormsg {
+    color: #ff4b4b;
+  }
 
   .followerscount-profile {
     font-size: 14px;
