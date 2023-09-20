@@ -110,11 +110,21 @@ const App = () => {
               />
               <Route
                 path="/Profile"
-                element={<WrappedProfilePage userProfile={userProfile} />}
+                element={
+                  <WrappedProfilePage
+                    userProfile={userProfile}
+                    setUserProfile={setUserProfile}
+                  />
+                }
               />
               <Route
                 path="/Profile/:username"
-                element={<WrappedProfilePageView userProfile={userProfile} />}
+                element={
+                  <WrappedProfilePageView
+                    userProfile={userProfile}
+                    setUserProfile={setUserProfile}
+                  />
+                }
               />
 
               <Route

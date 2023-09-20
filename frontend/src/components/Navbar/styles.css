@@ -234,11 +234,15 @@
   gap: 5px;
   max-height: 200px;
   min-width: 290px;
-  padding: 10px 5px;
+  padding-top: 10px;
+  padding-bottom: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
   overflow: auto;
   position: absolute;
   top: auto;
 }
+
 .linkusercardsearchinputnavbar {
   text-decoration: none;
   width: 280px;

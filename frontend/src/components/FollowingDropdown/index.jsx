@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./styles.css";
-
-const FollowingDropdown = ({}) => {
+import config from "../../services/config";
+import axios from "axios";
+const FollowingDropdown = ({ userProfile, setUserProfile }) => {
   const [isInputFocused, setInputFocused] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const handleInputFocus = () => {
     setInputFocused(true);
   };
@@ -10,6 +12,14 @@ const FollowingDropdown = ({}) => {
   const handleInputBlur = () => {
     setInputFocused(false);
   };
+
+  const handleInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredFollowing = userProfile.following.filter((user) =>
+    user.username.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <div className="FollowingDropdown">
@@ -40,6 +50,28 @@ const FollowingDropdown = ({}) => {
             onBlur={handleInputBlur}
             placeholder="Find Following"
           />
+        </div>
+
+        <div className="following-list">
+          {filteredFollowing.length > 0 ? (
+            <div>
+              {filteredFollowing.map((user) => (
+                <div key={user.id} className="followinguser-usercard">
+                  <div className="filteredusers-container">
+                    <img
+                      src={config.base_url + user.profileimage}
+                      alt={`${user.username}'s Profile`}
+                      className="followinguser-avatar"
+                    />
+                    <h2 className="followinguser-username">{user.username}</h2>
+                  </div>
+                  <button className="follow-list-button">Unfollow</button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <span>No following users found.</span>
+          )}
         </div>
       </div>
     </div>
