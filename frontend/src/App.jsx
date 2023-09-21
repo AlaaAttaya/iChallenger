@@ -14,6 +14,8 @@ import ProfilePage from "./pages/ProfilePage";
 import ProfilePageView from "./pages/ProfilePageView";
 import ProfilePageSettings from "./pages/ProfilePageSettings";
 import NotFound from "./components/NotFound";
+import Forums from "./pages/Forums";
+import Tournaments from "./pages/Tournaments";
 import { refreshToken, verifyToken } from "./services/auth";
 
 const WrappedLandingPage = LoadingHOC(LandingPage);
@@ -24,6 +26,8 @@ const WrappedProfilePage = LoadingHOC(ProfilePage);
 const WrappedProfilePageView = LoadingHOC(ProfilePageView);
 const WrappedProfilePageSettings = LoadingHOC(ProfilePageSettings);
 const WrappedNotFound = LoadingHOC(NotFound);
+const WrappedForums = LoadingHOC(Forums);
+const WrappedTournaments = LoadingHOC(Tournaments);
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
@@ -136,6 +140,8 @@ const App = () => {
                   />
                 }
               />
+              <Route path="/Forums" element={<WrappedForums />} />
+              <Route path="/Tournaments" element={<WrappedTournaments />} />
               <Route path="*" element={<WrappedNotFound />} />
             </Routes>
           </main>
