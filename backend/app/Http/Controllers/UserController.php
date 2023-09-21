@@ -349,11 +349,10 @@ class UserController extends Controller
                 $filePath = "/storage" . str_replace('public', '', $filePath);
 
                 $postUpload = new PostUpload([
-                    'post_id' => $post->id,
                     'file_path' => $filePath,
                 ]);
-
-                $postUpload->save();
+                $post->postUploads()->save($postUpload);
+              
             }
         }
 

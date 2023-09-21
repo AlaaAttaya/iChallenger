@@ -208,6 +208,9 @@
   margin-bottom: 25px;
   font-weight: 550;
 }
+.error-postuploadmessage {
+  color: #ff4848;
+}
 
 @media screen and (max-width: 700px) {
   .game-forum-container {

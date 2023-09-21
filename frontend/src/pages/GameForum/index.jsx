@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import config from "../../services/config";
 import Loading from "../../components/Loading";
@@ -16,10 +16,14 @@ const GameForum = ({ userProfile }) => {
   const [postDescription, setPostDescription] = useState("");
   const [gameforum, setGameForum] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [postuploaderrormessage, setPostUploadErrorMessage] = useState("");
+  const navigate = useNavigate();
   const toggleUploadDivision = () => {
     setUploadVisible(!uploadVisible);
   };
+
   const handleFileUpload = (event) => {
+    setPostUploadErrorMessage("");
     const files = event.target.files;
 
     const newFiles = Array.from(files).filter(
@@ -34,11 +38,22 @@ const GameForum = ({ userProfile }) => {
     const updatedFiles = uploadedFiles.filter(
       (file) => file.name !== fileToRemove.name
     );
-
+    setPostUploadErrorMessage("");
     setUploadedFiles(updatedFiles);
   };
   const handlePostClick = async () => {
     try {
+      if (uploadedFiles.length === 0) {
+        setPostUploadErrorMessage("Please select at least one file.");
+        return;
+      }
+      if (postDescription.trim() === "") {
+        setPostUploadErrorMessage("Please enter a description.");
+        return;
+      }
+
+      setPostUploadErrorMessage("");
+
       const formData = new FormData();
       formData.append("description", postDescription);
       formData.append("game_forum_id", gameforum.id);
@@ -46,7 +61,7 @@ const GameForum = ({ userProfile }) => {
       uploadedFiles.forEach((file, index) => {
         formData.append(`uploads[${index}]`, file);
       });
-      console.log(formData);
+
       const response = await axios.post(
         `${config.base_url}/api/user/createpost`,
         formData,
@@ -57,12 +72,13 @@ const GameForum = ({ userProfile }) => {
           },
         }
       );
-      console.log(response);
+
       if (response.status === 200) {
         console.log("Post created successfully!");
 
         setPostDescription("");
         setUploadedFiles([]);
+        navigate(`/Forums/${gameforum.name}/${response.data.data.id}`);
       } else {
         console.error("Error creating post:", response.data.message);
       }
@@ -302,6 +318,9 @@ const GameForum = ({ userProfile }) => {
                       </Carousel>
                     </>
                   )}
+                </div>
+                <div className="error-postuploadmessage">
+                  {postuploaderrormessage}
                 </div>
               </div>
             </div>
