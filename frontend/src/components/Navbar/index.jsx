@@ -182,7 +182,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     navigate("/Tournaments");
   };
   const handleLeaderboard = () => {
-    navigate("/Leaderboard");
+    navigate("/Leaderboards");
   };
   const handleActivity = () => {
     navigate("/Activity");
@@ -380,14 +380,13 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             onMouseEnter={toggleCommunityDropdown}
             onMouseLeave={toggleCommunityDropdown}
           >
-            <Link to="/Community">
+            <Link to="/Forums">
               <button
                 id="Community"
                 className={
                   isActive("/Activity") ||
                   isActive("/Forums") ||
-                  isActive("/Streams") ||
-                  isActive("/Community")
+                  isActive("/Streams")
                     ? "clicked-navbar"
                     : ""
                 }

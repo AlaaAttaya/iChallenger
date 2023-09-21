@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./styles.css";
-const ForumsPage = () => {
+const ActivityPage = () => {
   return (
     <div className="ForumsPage">
       <div className="navcommunity">
@@ -12,4 +12,4 @@ const ForumsPage = () => {
     </div>
   );
 };
-export default ForumsPage;
+export default ActivityPage;
