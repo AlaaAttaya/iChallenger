@@ -85,12 +85,14 @@ const ForumsPage = () => {
       {searchResults.length > 0 && (
         <div className="searchgames-results">
           {searchResults.map((game) => (
-            <GameCard
-              key={game.id}
-              title={game.name}
-              image={config.base_url + game.gameimage}
-              alt={game.name}
-            />
+            <Link to={`/Forums/${game.name}`}>
+              <GameCard
+                key={game.id}
+                title={game.name}
+                image={config.base_url + game.gameimage}
+                alt={game.name}
+              />
+            </Link>
           ))}
         </div>
       )}
