@@ -399,7 +399,7 @@ class UserController extends Controller
         ]);
     }
     
-    public function likePost(Request $request)
+        public function likePost(Request $request)
     {
         $postId = $request->input('postId');
         $user = Auth::user();
@@ -413,12 +413,23 @@ class UserController extends Controller
             ], 404);
         }
 
-        $like = new PostLike([
-            'user_id' => $user->id,
-            'post_id' => $postId,
-        ]);
+       
+        $existingLike = PostLike::where('user_id', $user->id)
+            ->where('post_id', $postId)
+            ->first();
 
-        $like->save();
+        if (!$existingLike) {
+            $like = new PostLike([
+                'user_id' => $user->id,
+                'post_id' => $postId,
+            ]);
+
+            $like->save();
+        } else {
+        
+            $existingLike->is_liked = true;
+            $existingLike->save();
+        }
 
         return response()->json([
             'status' => 'Success',
@@ -426,7 +437,46 @@ class UserController extends Controller
         ]);
     }
 
-        public function unlikePost(Request $request)
+        public function dislikePost(Request $request)
+    {
+        $postId = $request->input('postId');
+        $user = Auth::user();
+
+        $post = Post::find($postId);
+
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404);
+        }
+
+      
+        $existingLike = PostLike::where('user_id', $user->id)
+            ->where('post_id', $postId)
+            ->first();
+
+        if (!$existingLike) {
+            $like = new PostLike([
+                'user_id' => $user->id,
+                'post_id' => $postId,
+                'is_liked' => false, 
+            ]);
+
+            $like->save();
+        } else {
+           
+            $existingLike->is_liked = false; 
+            $existingLike->save();
+        }
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post disliked successfully',
+        ]);
+    }
+
+    public function unlikePost(Request $request)
     {
         $postId = $request->input('postId');
         $user = Auth::user();
@@ -446,7 +496,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 'Success',
-            'message' => 'Post unliked successfully',
+            'message' => 'Like or dislike removed successfully',
         ]);
     }
 
