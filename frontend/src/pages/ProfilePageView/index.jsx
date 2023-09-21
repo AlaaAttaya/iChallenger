@@ -31,16 +31,23 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
     } else {
       setLoading(false);
     }
+  }, [userProfile, username, navigate]);
+  useEffect(() => {
+    if (userProfile && userProfile.username === username) {
+      navigate("/Profile");
+    } else {
+      setLoading(false);
+    }
     if (userProfile) {
       setIsUserSignedinView(true);
-      console.log(userProfile.following);
+
       const isFollowingUser = userProfile.following.some((user) => {
         return user.username === username;
       });
 
       setIsFollowing(isFollowingUser);
     }
-  }, [userProfile, username, navigate]);
+  }, []);
 
   const fetchUserProfile = async () => {
     try {
@@ -66,6 +73,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
   const handleCloseReportUser = () => {
     setIsReportOpen(false);
   };
+
   const toggleFollow = async () => {
     try {
       if (isFollowing) {
@@ -80,8 +88,11 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
         );
 
         if (response.status === 200) {
+          setIsFollowing(!isFollowing);
+          const updatedUserProfileView = { ...userProfileView };
+          updatedUserProfileView.followers_count -= 1;
+          setUserProfileView(updatedUserProfileView);
           setUserProfile(response.data.user);
-          setIsFollowing(false);
         } else {
           console.error("Error toggling follow:", response.data.message);
         }
@@ -97,8 +108,11 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
         );
 
         if (response.status === 200) {
+          setIsFollowing(!isFollowing);
+          const updatedUserProfileView = { ...userProfileView };
+          updatedUserProfileView.followers_count += 1;
+          setUserProfileView(updatedUserProfileView);
           setUserProfile(response.data.user);
-          setIsFollowing(true);
         } else {
           console.error("Error toggling follow:", response.data.message);
         }

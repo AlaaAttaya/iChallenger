@@ -300,6 +300,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                   placeholder="Find Players"
                   value={searchQuery}
                   onChange={handleInputChange}
+                  autoComplete="off"
                 />
 
                 <svg
@@ -562,6 +563,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               value={searchQueryLeftNavbar}
               onChange={handleLeftNavbarInputChange}
               onKeyDown={handleKeyPressLeftNavbar}
+              autoComplete="off"
             />
           </div>
         </div>

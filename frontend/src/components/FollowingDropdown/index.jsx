@@ -5,22 +5,24 @@ import axios from "axios";
 const FollowingDropdown = ({ userProfile, setUserProfile }) => {
   const [isInputFocused, setInputFocused] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const handleInputFocus = () => {
+  const handleFilteredInputFocus = () => {
     setInputFocused(true);
   };
 
-  const handleInputBlur = () => {
+  const handleFilteredInputBlur = () => {
     setInputFocused(false);
   };
 
-  const handleInputChange = (e) => {
+  const handleFilteredInputChange = (e) => {
     setSearchText(e.target.value);
   };
+  const handleFilteredUnfollow = () => {};
 
   const filteredFollowing = userProfile.following.filter((user) =>
-    user.username.toLowerCase().includes(searchText.toLowerCase())
+    user.username.toLowerCase().startsWith(searchText.toLowerCase())
   );
-
+  const displayFollowing =
+    searchText === "" ? userProfile.following : filteredFollowing;
   return (
     <div className="FollowingDropdown">
       <div className="search-wrapper">
@@ -43,12 +45,15 @@ const FollowingDropdown = ({ userProfile, setUserProfile }) => {
 
           <input
             type="text"
-            id="searchinput"
-            name="searchinput"
+            id="searchinputfiltered"
+            name="searchinputfiltered"
             className={`searchinput ${isInputFocused ? "focused" : ""}`}
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
+            onFocus={handleFilteredInputFocus}
+            onBlur={handleFilteredInputBlur}
             placeholder="Find Following"
+            value={searchText}
+            onChange={handleFilteredInputChange}
+            autoComplete="off"
           />
         </div>
 
@@ -65,12 +70,17 @@ const FollowingDropdown = ({ userProfile, setUserProfile }) => {
                     />
                     <h2 className="followinguser-username">{user.username}</h2>
                   </div>
-                  <button className="follow-list-button">Unfollow</button>
+                  <button
+                    className="follow-list-button"
+                    onClick={handleFilteredUnfollow}
+                  >
+                    Unfollow
+                  </button>
                 </div>
               ))}
             </div>
           ) : (
-            <span>No following users found.</span>
+            <span className="following-span">No following users found.</span>
           )}
         </div>
       </div>
