@@ -1,8 +1,8 @@
 import React from "react";
 
-const GameCard = ({ title, description, image, width, height, alt }) => {
+const Card = ({ title, description, image, width, height, alt }) => {
   return (
-    <div className="carousel-card">
+    <div className="carousel-card-content">
       <div
         className="card"
         style={{
@@ -20,4 +20,4 @@ const GameCard = ({ title, description, image, width, height, alt }) => {
   );
 };
 
-export default GameCard;
+export default Card;

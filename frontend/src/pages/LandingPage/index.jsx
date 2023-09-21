@@ -4,7 +4,7 @@ import "./styles.css";
 import HeroCarousel from "../../components/HeroCarousel";
 import CardCarousel from "../../components/CardCarousel";
 import Image from "../../assets/images/UploadImage.png";
-import GameCard from "../../components/GameCard";
+import Card from "../../components/Card";
 const LandingPage = () => {
   const heroImages = [
     {
@@ -34,16 +34,16 @@ const LandingPage = () => {
   ];
 
   const cardData = [
-    <GameCard
+    <Card
       key="1"
       title="Card 1"
       description="This is card 1."
       image={Image}
-      width="200px"
-      height="200px"
+      width="400px"
+      height="400px"
       alt="Hello"
     />,
-    <GameCard
+    <Card
       key="2"
       title="Card 2"
       description="This is card 2."
@@ -52,7 +52,7 @@ const LandingPage = () => {
       height="200px"
       alt="Hello"
     />,
-    <GameCard
+    <Card
       key="3"
       title="Card 2"
       description="This is card 2."
@@ -61,7 +61,7 @@ const LandingPage = () => {
       height="200px"
       alt="Hello"
     />,
-    <GameCard
+    <Card
       key="4"
       title="Card 4"
       description="This is card 2."
@@ -70,7 +70,7 @@ const LandingPage = () => {
       height="200px"
       alt="Hello"
     />,
-    <GameCard
+    <Card
       key="5"
       title="Card 4"
       description="This is card 2."
@@ -79,7 +79,7 @@ const LandingPage = () => {
       height="200px"
       alt="Hello"
     />,
-    <GameCard
+    <Card
       key="6"
       title="Card 4"
       description="This is card 2."
@@ -88,7 +88,7 @@ const LandingPage = () => {
       height="200px"
       alt="Hello"
     />,
-    <GameCard
+    <Card
       key="7"
       title="Card 7"
       description="This is card 2."
