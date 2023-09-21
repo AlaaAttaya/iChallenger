@@ -190,9 +190,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const handleForums = () => {
     navigate("/Forums");
   };
-  const handleStreams = () => {
-    navigate("/Streams");
-  };
+
   const handleFAQS = () => {
     navigate("/FAQS");
   };
@@ -398,7 +396,6 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               <CommunityDropdown
                 onActivity={handleActivity}
                 onForums={handleForums}
-                onStreams={handleStreams}
               />
             )}
           </div>
@@ -636,9 +633,6 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             </div>
             <div className="dropdown-item" onClick={handleForums}>
               Forums
-            </div>
-            <div className="dropdown-item" onClick={handleStreams}>
-              Streams
             </div>
           </div>
         )}

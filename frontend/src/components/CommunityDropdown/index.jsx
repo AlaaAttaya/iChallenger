@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-const CommunityDropdown = ({ onActivity, onForums, onStreams }) => {
+const CommunityDropdown = ({ onActivity, onForums }) => {
   return (
     <div className="TournamentsDropdown">
       <button className="dropdown-button" onClick={onActivity}>
@@ -9,9 +9,6 @@ const CommunityDropdown = ({ onActivity, onForums, onStreams }) => {
       </button>
       <button className="dropdown-button" onClick={onForums}>
         Forums
-      </button>
-      <button className="dropdown-button" onClick={onStreams}>
-        Streams
       </button>
     </div>
   );

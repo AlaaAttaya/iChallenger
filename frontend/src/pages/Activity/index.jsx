@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
 const ActivityPage = () => {
   return (
     <div className="ForumsPage">
       <div className="navcommunity">
-        <button>Activity</button>
-        <button>Live Streams</button>
-        <button>Forums</button>
+        <Link to="/Activity">
+          <button className="thispage">Activity</button>
+        </Link>
+        <Link to="/Forums">
+          <button>Forums</button>
+        </Link>
       </div>
       test
     </div>

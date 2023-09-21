@@ -17,3 +17,6 @@
 .navcommunity button:hover {
   background-color: #393939;
 }
+.thispage {
+  background-color: #393939 !important;
+}

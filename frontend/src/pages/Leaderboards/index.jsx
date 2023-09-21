@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
 const LeaderboardsPage = () => {
   const [isInputFocused, setInputFocused] = useState(false);
@@ -14,8 +15,12 @@ const LeaderboardsPage = () => {
   return (
     <div className="ForumsPage">
       <div className="navcommunity">
-        <button>Find Tournaments</button>
-        <button>Leaderboards</button>
+        <Link to="/Tournaments">
+          <button>Find Tournaments</button>
+        </Link>
+        <Link to="/Leaderboards">
+          <button className="thispage">Leaderboards</button>
+        </Link>
       </div>
       <div className="searchleaderboards-container">
         <div

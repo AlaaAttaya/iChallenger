@@ -80,3 +80,6 @@
 .searchtournaments-icon.focused {
   fill: #269c55;
 }
+.thispage {
+  background-color: #393939 !important;
+}

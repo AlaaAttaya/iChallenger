@@ -127,7 +127,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
       {loading ? (
         <Loading />
       ) : error ? (
-        <span className="errorloadinguser">Error: {error}</span>
+        <h1 className="errorloadinguser">{error}</h1>
       ) : (
         <>
           <div className="Profile-navbar">
@@ -170,7 +170,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
               </div>
               <div className="profile-navbar-buttons buttons-middle">
                 <button>Overview</button>
-                <button>Activity</button> <button>Stream</button>
+                <button>Activity</button>
               </div>
               {isUserSignedinView ? (
                 <div className="profile-navbar-buttons buttons-right">

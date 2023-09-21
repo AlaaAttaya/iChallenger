@@ -50,7 +50,7 @@ const ProfilePage = ({ userProfile }) => {
             style={{ marginRight: "80px" }}
           >
             <button>Overview</button>
-            <button>Activity</button> <button>Stream</button>
+            <button>Activity</button>
           </div>
 
           <div className="profile-navbar-buttons">

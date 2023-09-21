@@ -148,6 +148,7 @@ const App = () => {
               <Route path="/Forums" element={<WrappedForums />} />
               <Route path="/Tournaments" element={<WrappedTournaments />} />
               <Route path="/Leaderboards" element={<WrappedLeaderboards />} />
+
               <Route path="*" element={<WrappedNotFound />} />
             </Routes>
           </main>
