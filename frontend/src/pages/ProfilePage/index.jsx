@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import axios from "axios";
@@ -6,6 +6,13 @@ import config from "../../services/config";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
 import DefaultCoverPic from "../../assets/images/coverpic.png";
 const ProfilePage = ({ userProfile }) => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/Login";
+    }
+  }, []);
+
   return (
     <div className="ProfilePage">
       <div className="Profile-navbar">

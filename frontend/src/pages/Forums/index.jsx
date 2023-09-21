@@ -25,12 +25,12 @@ const ForumsPage = () => {
     setSearchText(searchText);
     setIsLoading(true);
     try {
-      const response = await axios.get(`${config.base_url}/api/user/getgames`, {
-        params: { search: searchText },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getgames`,
+        {
+          params: { search: searchText },
+        }
+      );
 
       if (response.status === 200) {
         setSearchResults(response.data.data);

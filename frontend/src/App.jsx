@@ -98,6 +98,7 @@ const App = () => {
       handleTokenChange();
     }
   });
+
   return (
     <BrowserRouter>
       {verificationInProgress ? (
@@ -149,7 +150,10 @@ const App = () => {
               />
               <Route path="/Activity" element={<WrappedFollowingActivity />} />
               <Route path="/Forums" element={<WrappedForums />} />
-              <Route path="/Forums/:gamename" element={<WrappedGameForum />} />
+              <Route
+                path="/Forums/:gamename"
+                element={<WrappedGameForum userProfile={userProfile} />}
+              />
               <Route path="/Tournaments" element={<WrappedTournaments />} />
               <Route path="/Leaderboards" element={<WrappedLeaderboards />} />
 
