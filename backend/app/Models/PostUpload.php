@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PostUpload extends Model
 {
     use HasFactory;
-    
+    protected $fillable = [
+        'file_path',
+    ];
+
     public function post()
     {
         return $this->belongsTo(Post::class);

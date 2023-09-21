@@ -324,7 +324,7 @@ class UserController extends Controller
 
         public function createPost(Request $request)
     {   
-    
+     $user=Auth::user();
         $request->validate([
             'description' => 'required|string|max:255',
             'game_forum_id' => 'required|exists:game_forums,id',
@@ -334,7 +334,7 @@ class UserController extends Controller
 
     
         $post = new Post([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
             'game_forum_id' => $request->input('game_forum_id'),
             'description' => $request->input('description'),
         ]);

@@ -13,6 +13,7 @@ const GameForum = ({ userProfile }) => {
   const [uploadVisible, setUploadVisible] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const uploadInputRef = useRef(null);
+  const [postDescription, setPostDescription] = useState("");
   const [gameforum, setGameForum] = useState(null);
   const [loading, setLoading] = useState(true);
   const toggleUploadDivision = () => {
@@ -35,6 +36,39 @@ const GameForum = ({ userProfile }) => {
     );
 
     setUploadedFiles(updatedFiles);
+  };
+  const handlePostClick = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("description", postDescription);
+      formData.append("game_forum_id", gameforum.id);
+
+      uploadedFiles.forEach((file, index) => {
+        formData.append(`uploads[${index}]`, file);
+      });
+      console.log(formData);
+      const response = await axios.post(
+        `${config.base_url}/api/user/createpost`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        console.log("Post created successfully!");
+
+        setPostDescription("");
+        setUploadedFiles([]);
+      } else {
+        console.error("Error creating post:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
   useEffect(() => {
@@ -173,7 +207,12 @@ const GameForum = ({ userProfile }) => {
                     />
                   </div>
                   <div className="profile-textvisible">
-                    <input type="text" className="profile-text-inputvisible" />
+                    <input
+                      type="text"
+                      className="profile-text-inputvisible"
+                      value={postDescription}
+                      onChange={(e) => setPostDescription(e.target.value)}
+                    />
                   </div>
                   <div className="profile-buttonsvisible">
                     <button
@@ -193,7 +232,12 @@ const GameForum = ({ userProfile }) => {
                         />
                       </svg>
                     </button>
-                    <button className="post-button-visible">Post</button>
+                    <button
+                      className="post-button-visible"
+                      onClick={handlePostClick}
+                    >
+                      Post
+                    </button>
                     <input
                       type="file"
                       id="fileInput"
