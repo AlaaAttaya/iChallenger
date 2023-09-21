@@ -4,6 +4,8 @@ import axios from "axios";
 import config from "../../services/config";
 import Loading from "../../components/Loading";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./styles.css";
 
 const GameForum = ({ userProfile }) => {
@@ -13,13 +15,26 @@ const GameForum = ({ userProfile }) => {
   const uploadInputRef = useRef(null);
   const [gameforum, setGameForum] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const toggleUploadDivision = () => {
     setUploadVisible(!uploadVisible);
   };
   const handleFileUpload = (event) => {
     const files = event.target.files;
-    setUploadedFiles([...uploadedFiles, ...files]);
+
+    const newFiles = Array.from(files).filter(
+      (file) =>
+        !uploadedFiles.some((existingFile) => existingFile.name === file.name)
+    );
+
+    setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
+  };
+
+  const removeFile = (fileToRemove) => {
+    const updatedFiles = uploadedFiles.filter(
+      (file) => file.name !== fileToRemove.name
+    );
+
+    setUploadedFiles(updatedFiles);
   };
 
   useEffect(() => {
@@ -134,6 +149,7 @@ const GameForum = ({ userProfile }) => {
                     height="14"
                     viewBox="0 0 22 22"
                     fill="none"
+                    onClick={toggleUploadDivision}
                   >
                     <path
                       fillRule="evenodd"
@@ -143,6 +159,7 @@ const GameForum = ({ userProfile }) => {
                     />
                   </svg>
                 </div>
+                <span className="title-PostUpload">Upload Post</span>
                 <div className="profile-uploadvisible-container">
                   <div className="profile-imagevisible">
                     <img
@@ -181,13 +198,67 @@ const GameForum = ({ userProfile }) => {
                       type="file"
                       id="fileInput"
                       multiple
-                      onChange={(e) => handleFileUpload(e.target.files)}
+                      onChange={(e) => handleFileUpload(e)}
                       style={{ display: "none" }}
                       ref={uploadInputRef}
                     />
                   </div>
                 </div>
-                <div class="files-carousel"></div>
+
+                <div className="files-carousel">
+                  {uploadedFiles.length > 0 && (
+                    <>
+                      <Carousel
+                        infiniteLoop
+                        swipeable={true}
+                        showStatus={false}
+                        showThumbs={false}
+                        emulateTouch={true}
+                      >
+                        {uploadedFiles.map((file, index) => (
+                          <div key={`${file.name}-${index}`}>
+                            {file.type.startsWith("image/") ? (
+                              <>
+                                <img
+                                  src={URL.createObjectURL(file)}
+                                  alt={`Uploaded ${file.type}`}
+                                />
+
+                                <button
+                                  key={`${file.name}-${index}`}
+                                  className="remove-button-files"
+                                  onClick={() => removeFile(file)}
+                                >
+                                  Remove
+                                </button>
+                              </>
+                            ) : file.type.startsWith("video/") ? (
+                              <>
+                                <video controls>
+                                  <source
+                                    src={URL.createObjectURL(file)}
+                                    type={file.type}
+                                  />
+                                  Your browser does not support the video tag.
+                                </video>
+
+                                <button
+                                  key={`${file.name}-${index}`}
+                                  className="remove-button-files"
+                                  onClick={() => removeFile(file)}
+                                >
+                                  Remove
+                                </button>
+                              </>
+                            ) : (
+                              <p>Unsupported file type: {file.type}</p>
+                            )}
+                          </div>
+                        ))}
+                      </Carousel>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           )}
