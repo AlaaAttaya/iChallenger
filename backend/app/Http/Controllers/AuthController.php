@@ -12,6 +12,7 @@ use App\Models\ContactUs;
 use App\Models\UserAuthentication;
 use App\Models\Country;
 use App\Models\Regions;
+use App\Models\Game;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -337,6 +338,22 @@ class AuthController extends Controller
             'status' => 'Success',
             'data' => $regions,
         ]);
+    }
+
+    public function getGames(Request $request)
+    {
+        $search = $request->input('search');
+
+        $games = Game::query();
+
+        if (!empty($search)) {
+            
+            $games->where('name', 'like', $search . '%');
+        }
+        $games->with('gameModes');
+        $games = $games->get();
+
+        return response()->json(['status' => 'Success', 'data' => $games]);
     }
 
 }

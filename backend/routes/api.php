@@ -112,7 +112,9 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("resetpasswordcode", [AuthController::class, "resetPasswordCode"]); 
     Route::post("verifycode", [AuthController::class, "verifyCode"]); 
     Route::post("resetpassword", [AuthController::class, "resetPassword"]);
-    
+
     Route::get("search", [AuthController::class, "getAllUsers"]);
 
+
+    Route::get('getgames', [AuthController::class, 'getGames']);
 });
