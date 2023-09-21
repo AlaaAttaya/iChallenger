@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/global.css";
 import "./styles.css";
 import HeroCarousel from "../../components/HeroCarousel";
 import CardCarousel from "../../components/CardCarousel";
 import Image from "../../assets/images/UploadImage.png";
 import Card from "../../components/Card";
+import config from "../../services/config";
+import axios from "axios";
+import Loading from "../../components/Loading";
+
 const LandingPage = () => {
   const heroImages = [
     {
@@ -33,74 +37,44 @@ const LandingPage = () => {
     },
   ];
 
-  const cardData = [
+  const [gameData, setGameData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchGameData = async () => {
+    try {
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getgames`,
+        {
+          params: { search: "" },
+        }
+      );
+
+      if (response.status === 200) {
+        setGameData(response.data.data);
+        setLoading(false);
+      } else {
+        console.error("Error fetching game data:", response.data.message);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error fetching game data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchGameData();
+  }, []);
+
+  const cardComponents = gameData.map((game) => (
     <Card
-      key="1"
-      title="Card 1"
-      description="This is card 1."
-      image={Image}
-      width="400px"
-      height="400px"
-      alt="Hello"
-      cardlink={`/Forums/test`}
-    />,
-    <Card
-      key="2"
-      title="Card 2"
-      description="This is card 2."
-      image={Image}
-      width="200px"
-      height="200px"
-      alt="Hello"
-      cardlink={`/Forums/test`}
-    />,
-    <Card
-      key="3"
-      title="Card 2"
-      description="This is card 2."
-      image={Image}
-      width="200px"
-      height="200px"
-      alt="Hello"
-    />,
-    <Card
-      key="4"
-      title="Card 4"
-      description="This is card 2."
-      image={Image}
-      width="200px"
-      height="200px"
-      alt="Hello"
-      cardlink={`/Forums/test`}
-    />,
-    <Card
-      key="5"
-      title="Card 4"
-      description="This is card 2."
-      image={Image}
-      width="200px"
-      height="200px"
-      alt="Hello"
-    />,
-    <Card
-      key="6"
-      title="Card 4"
-      description="This is card 2."
-      image={Image}
-      width="200px"
-      height="200px"
-      alt="Hello"
-    />,
-    <Card
-      key="7"
-      title="Card 7"
-      description="This is card 2."
-      image={Image}
-      width="200px"
-      height="200px"
-      alt="Hello"
-    />,
-  ];
+      key={game.id}
+      title={game.name}
+      image={`${config.base_url}${game.gameimage}`}
+      alt={game.name}
+      cardlink={`/Forums/${game.name}`}
+    />
+  ));
 
   return (
     <div className="LandingPage">
@@ -113,9 +87,21 @@ const LandingPage = () => {
       </section>
       <section className="content-section">
         <div className="forumscarousel">
-          <CardCarousel cards={cardData} carouseltitle={"Game Forums"} />
-          <hr></hr>
-          <CardCarousel cards={cardData} carouseltitle={"Tournaments"} />
+          {loading ? (
+            <Loading />
+          ) : (
+            <>
+              <CardCarousel
+                cards={cardComponents}
+                carouseltitle={"Game Forums"}
+              />
+              <hr />
+              <CardCarousel
+                cards={cardComponents}
+                carouseltitle={"Tournaments"}
+              />
+            </>
+          )}
         </div>
       </section>
     </div>

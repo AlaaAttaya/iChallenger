@@ -15,7 +15,23 @@
   height: 20px;
 }
 .card-image {
-  width: 350px;
+  width: 315px;
+  height: 330px;
+}
+.card-content {
+  width: 315px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  width: 315px;
+  border: 3px solid #252525;
+  box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.1);
+}
+.carousel-card-content {
+  margin-bottom: 20px;
 }
 .carousel-container {
   position: relative;
