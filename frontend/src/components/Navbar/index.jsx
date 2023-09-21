@@ -786,7 +786,26 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             </div>
             {isFollowingleftnavbarOpen && (
               <div className="dropdowns-leftnavbar-items">
-                <div className="dropdown-item">Following search</div>
+                {" "}
+                {userProfile.following.map((user) => (
+                  <div
+                    key={user.id}
+                    className="dropdown-items leftnavbar-followinguser-wrapper"
+                  >
+                    <a key={user.id} href={`/Profile/${user.username}`}>
+                      <div className="leftnavbar-imgusername-container">
+                        <img
+                          src={config.base_url + user.profileimage}
+                          alt={`${user.username}'s Profile`}
+                          className="leftnavbar-following-user-avatar"
+                        />
+                        <h2 className="leftnavbar-following-user-username">
+                          {user.username}
+                        </h2>
+                      </div>
+                    </a>
+                  </div>
+                ))}
               </div>
             )}
           </>
