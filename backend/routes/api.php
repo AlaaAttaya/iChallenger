@@ -117,4 +117,5 @@ Route::group(["prefix" => "guest"], function () {
 
 
     Route::get('getgames', [AuthController::class, 'getGames']);
+    Route::get('getgameforum', [AuthController::class, 'getGameForum']);
 });

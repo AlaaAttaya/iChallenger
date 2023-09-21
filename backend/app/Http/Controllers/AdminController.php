@@ -180,45 +180,52 @@ class AdminController extends Controller
    
 
     
-public function updateGame(Request $request)
-{$id=$request->input('id');
-    $request->validate([
-        'name' => 'required|string|unique:games,name,' . $id,
-        'game_modes' => 'required|json',
-        'gameimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    public function updateGame(Request $request)
+    {
+        $id = $request->input('id');
+        $request->validate([
+            'name' => 'required|string|unique:games,name,' . $id,
+            'game_modes' => 'required|json',
+            'gameimage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $game = Game::find($id);
+        $game = Game::find($id);
 
-    if (!$game) {
-        return response()->json(['status' => 'Error', 'message' => 'Game not found'], 404);
-    }
+        if (!$game) {
+            return response()->json(['status' => 'Error', 'message' => 'Game not found'], 404);
+        }
+
+        
+        $newName = $request->input('name');
+        $game->name = $newName;
 
     
-    $game->name = $request->input('name');
+        $gameForum = $game->forum;
+        if ($gameForum) {
+            $gameForum->name = $newName;
+            $gameForum->save();
+        }
 
-   
-    $requestedGameModes = json_decode($request->input('game_modes'), true);
-    $game->gameModes()->delete(); 
+        $requestedGameModes = json_decode($request->input('game_modes'), true);
+        $game->gameModes()->delete();
 
-    foreach ($requestedGameModes as $requestedGameMode) {
-        $gameMode = new GameMode([
-            'name' => $requestedGameMode['name'],
-            'max_players_per_team' => $requestedGameMode['max_players_per_team'],
-        ]);
-        $game->gameModes()->save($gameMode);
+        foreach ($requestedGameModes as $requestedGameMode) {
+            $gameMode = new GameMode([
+                'name' => $requestedGameMode['name'],
+                'max_players_per_team' => $requestedGameMode['max_players_per_team'],
+            ]);
+            $game->gameModes()->save($gameMode);
+        }
+
+        if ($request->hasFile('gameimage')) {
+            $gameImagePath = $request->file('gameimage')->store('public/games/');
+            $game->gameimage = "/storage" . str_replace('public', '', $gameImagePath);
+        }
+
+        $game->save();
+
+        return response()->json(['status' => 'Success', 'message' => 'Game updated successfully', 'data' => $game]);
     }
-
-   
-    if ($request->hasFile('gameimage')) {
-        $gameImagePath = $request->file('gameimage')->store('public/games/');
-        $game->gameimage = "/storage" . str_replace('public', '', $gameImagePath);
-    }
-
-    $game->save();
-
-    return response()->json(['status' => 'Success', 'message' => 'Game updated successfully', 'data' => $game]);
-}
 
 
 

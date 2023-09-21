@@ -13,6 +13,7 @@ use App\Models\UserAuthentication;
 use App\Models\Country;
 use App\Models\Regions;
 use App\Models\Game;
+use App\Models\GameForum;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -354,6 +355,20 @@ class AuthController extends Controller
         $games = $games->get();
 
         return response()->json(['status' => 'Success', 'data' => $games]);
+    }
+    public function getGameForum(Request $request)
+    {   $forumName=$request->input('name');
+        $gameForum = GameForum::where('name', $forumName)
+            ->with('game')
+            ->with('forumPosts') 
+            ->first();
+
+        if (!$gameForum) {
+           
+            return response()->json(['message' => 'Gameforum not found'], 404);
+        }
+
+        return response()->json(['data' => $gameForum], 200);
     }
 
 }
