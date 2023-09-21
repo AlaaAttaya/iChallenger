@@ -1,25 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Card from "../../components/Card";
+import config from "../../services/config";
+import axios from "axios";
 import "./styles.css";
 const ForumsPage = () => {
   const [isInputFocused, setInputFocused] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const handleSearchResultsFocus = () => {
     setInputFocused(true);
   };
+  useEffect(() => {
+    handleSearchInputChange({ target: { value: searchText } });
+  }, []);
 
   const handleSearchResultsBlur = () => {
     setInputFocused(false);
   };
+  const handleSearchInputChange = async (e) => {
+    const searchText = e.target.value;
+    setSearchText(searchText);
 
+    try {
+      const response = await axios.get(`${config.base_url}/api/user/getgames`, {
+        params: { search: searchText },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setSearchResults(response.data.data);
+      } else {
+        console.error("Error fetching search results:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
   return (
     <div className="ForumsPage">
       <div className="navcommunity">
         <Link to="/Activity">
-          <button>Activity</button>
+          <button>Following Activity</button>
         </Link>
         <Link to="/Forums">
-          <button className="thispage">Forums</button>
+          <button className="thispage">Game Forums</button>
         </Link>
       </div>
       <div className="searchgames-container">
@@ -49,11 +76,26 @@ const ForumsPage = () => {
             className={`searchgamesinput ${isInputFocused ? "focused" : ""}`}
             onFocus={handleSearchResultsFocus}
             onBlur={handleSearchResultsBlur}
+            value={searchText}
+            onChange={handleSearchInputChange}
             required
           />
         </div>
       </div>
-      <div className="searchgames-results">asds</div>
+      {searchResults.length > 0 && (
+        <div className="searchgames-results">
+          {searchResults.map((game) => (
+            <Card
+              key={game.id}
+              title={game.name}
+              image={config.base_url + game.gameimage}
+              width="300px"
+              height="200px"
+              alt={game.name}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

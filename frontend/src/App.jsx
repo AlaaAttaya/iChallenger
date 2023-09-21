@@ -16,7 +16,7 @@ import ProfilePageSettings from "./pages/ProfilePageSettings";
 import NotFound from "./components/NotFound";
 import Forums from "./pages/Forums";
 import Tournaments from "./pages/Tournaments";
-import Activity from "./pages/Activity";
+import FollowingActivity from "./pages/FollowingActivity";
 import Leaderboards from "./pages/Leaderboards";
 import { refreshToken, verifyToken } from "./services/auth";
 
@@ -30,7 +30,7 @@ const WrappedProfilePageSettings = LoadingHOC(ProfilePageSettings);
 const WrappedNotFound = LoadingHOC(NotFound);
 const WrappedForums = LoadingHOC(Forums);
 const WrappedTournaments = LoadingHOC(Tournaments);
-const WrappedActivity = LoadingHOC(Activity);
+const WrappedFollowingActivity = LoadingHOC(FollowingActivity);
 const WrappedLeaderboards = LoadingHOC(Leaderboards);
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
@@ -144,7 +144,7 @@ const App = () => {
                   />
                 }
               />
-              <Route path="/Activity" element={<WrappedActivity />} />
+              <Route path="/Activity" element={<WrappedFollowingActivity />} />
               <Route path="/Forums" element={<WrappedForums />} />
               <Route path="/Tournaments" element={<WrappedTournaments />} />
               <Route path="/Leaderboards" element={<WrappedLeaderboards />} />

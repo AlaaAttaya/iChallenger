@@ -113,8 +113,6 @@ const LandingPage = () => {
           <CardCarousel cards={cardData} carouseltitle={"Game Forums"} />
           <hr></hr>
           <CardCarousel cards={cardData} carouseltitle={"Tournaments"} />
-          <hr></hr>
-          <CardCarousel cards={cardData} carouseltitle={"Live Streams"} />
         </div>
       </section>
     </div>
