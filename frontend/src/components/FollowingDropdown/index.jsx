@@ -91,7 +91,7 @@ const FollowingDropdown = ({ userProfile, setUserProfile }) => {
             <div>
               {filteredFollowing.map((user) => (
                 <div key={user.id} className="followinguser-usercard">
-                  <Link key={user.id} to={`/Profile/${user.username}`}>
+                  <a key={user.id} href={`/Profile/${user.username}`}>
                     <div className="filteredusers-container">
                       <img
                         src={config.base_url + user.profileimage}
@@ -102,7 +102,7 @@ const FollowingDropdown = ({ userProfile, setUserProfile }) => {
                         {user.username}
                       </h2>
                     </div>
-                  </Link>
+                  </a>
                   <button
                     className="follow-list-button"
                     onClick={() => {

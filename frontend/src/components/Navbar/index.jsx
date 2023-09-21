@@ -191,15 +191,6 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     navigate("/Forums");
   };
 
-  const handleFAQS = () => {
-    navigate("/FAQS");
-  };
-  const handlePrivacyPolicy = () => {
-    navigate("/PrivacyPolicy");
-  };
-  const handleUserAgreement = () => {
-    navigate("/UserAgreement");
-  };
   const handleContactus = () => {
     navigate("/Contactus");
   };
@@ -322,14 +313,14 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               {isInputFocused && (
                 <div className="search-results">
                   {searchResults.map((user) => (
-                    <Link
+                    <a
                       key={user.id}
-                      to={`/Profile/${user.username}`}
+                      href={`/Profile/${user.username}`}
                       className="linkusercardsearchinputnavbar"
                       onMouseDown={(e) => e.preventDefault()}
                     >
                       <UserCard key={user.id} user={user} />
-                    </Link>
+                    </a>
                   ))}
                 </div>
               )}
@@ -421,12 +412,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               </button>
             </Link>
             {isAboutDropdownOpen && (
-              <AboutDropdown
-                onFAQS={handleFAQS}
-                onContactus={handleContactus}
-                onPrivacyPolicy={handlePrivacyPolicy}
-                onUserAgreement={handleUserAgreement}
-              />
+              <AboutDropdown onContactus={handleContactus} />
             )}
           </div>
           {userProfile && (
@@ -665,15 +651,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             <div className="dropdown-item" onClick={handleContactus}>
               Contact us
             </div>
-            <div className="dropdown-item" onClick={handleFAQS}>
-              FAQS
-            </div>
-            <div className="dropdown-item" onClick={handlePrivacyPolicy}>
-              Privacy Policy
-            </div>
-            <div className="dropdown-item" onClick={handleUserAgreement}>
-              User Agreement
-            </div>
+            <div className="dropdown-item">FAQS</div>
+            <div className="dropdown-item">Privacy Policy</div>
+            <div className="dropdown-item">User Agreement</div>
           </div>
         )}
         {userProfile && (

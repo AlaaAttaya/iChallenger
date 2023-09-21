@@ -42,6 +42,7 @@ const LandingPage = () => {
       width="400px"
       height="400px"
       alt="Hello"
+      cardlink={`/Forums/test`}
     />,
     <Card
       key="2"
@@ -51,6 +52,7 @@ const LandingPage = () => {
       width="200px"
       height="200px"
       alt="Hello"
+      cardlink={`/Forums/test`}
     />,
     <Card
       key="3"
@@ -69,6 +71,7 @@ const LandingPage = () => {
       width="200px"
       height="200px"
       alt="Hello"
+      cardlink={`/Forums/test`}
     />,
     <Card
       key="5"

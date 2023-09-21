@@ -106,7 +106,7 @@ const ContactusPage = () => {
           />
           <span className="contactus-span">Message</span>
           <textarea
-            className="contactus-input"
+            className="contactus-inputtextarea"
             id="contactusmessage"
             name="message"
             value={formData.message}

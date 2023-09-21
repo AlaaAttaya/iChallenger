@@ -15,7 +15,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-socialmedia">
-          <Link to="/Home">
+          <Link>
             <div className="socialmedia-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@ const Footer = () => {
               </svg>
             </div>
           </Link>
-          <Link to="/Home">
+          <Link>
             <div className="socialmedia-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ const Footer = () => {
               </svg>
             </div>
           </Link>
-          <Link to="/Home">
+          <Link>
             <div className="socialmedia-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ const Footer = () => {
               </svg>
             </div>
           </Link>
-          <Link to="/Home">
+          <Link>
             <div className="socialmedia-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,28 +87,28 @@ const Footer = () => {
         <div className="footer-menu-container">
           <div className="footer-menu">
             <div className="footer-title">Explore</div>
-            <Link to="/Home">
+            <Link>
               <div>Community</div>
             </Link>
-            <Link to="/Home">
+            <Link>
               <div>Tournaments</div>
             </Link>
-            <Link to="/Home">
+            <Link>
               <div>Leaderboards</div>
             </Link>
           </div>
           <div className="footer-menu">
             <div className="footer-title">Policies</div>
-            <Link to="/Home">
+            <Link>
               <div>Privacy Policy</div>
             </Link>
-            <Link to="/Home">
+            <Link>
               <div>User Agreement</div>
             </Link>
           </div>
           <div className="footer-menu">
             <div className="footer-title">About us</div>
-            <Link to="/Home">
+            <Link>
               <div>FAQS</div>
             </Link>
             <Link to="/Contactus">

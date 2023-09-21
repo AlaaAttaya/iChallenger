@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import GameCard from "../../components/GameCard";
 import config from "../../services/config";
 import axios from "axios";
+import Loading from "../../components/Loading";
 import "./styles.css";
 const ForumsPage = () => {
   const [isInputFocused, setInputFocused] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSearchResultsFocus = () => {
     setInputFocused(true);
   };
@@ -21,7 +23,7 @@ const ForumsPage = () => {
   const handleSearchInputChange = async (e) => {
     const searchText = e.target.value;
     setSearchText(searchText);
-
+    setIsLoading(true);
     try {
       const response = await axios.get(`${config.base_url}/api/user/getgames`, {
         params: { search: searchText },
@@ -37,6 +39,8 @@ const ForumsPage = () => {
       }
     } catch (error) {
       console.error("Error fetching search results:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -82,10 +86,12 @@ const ForumsPage = () => {
           />
         </div>
       </div>
-      {searchResults.length > 0 && (
+      {isLoading ? (
+        <Loading />
+      ) : searchResults.length > 0 ? (
         <div className="searchgames-results">
           {searchResults.map((game) => (
-            <Link to={`/Forums/${game.name}`}>
+            <Link key={game.id} to={`/Forums/${game.name}`}>
               <GameCard
                 key={game.id}
                 title={game.name}
@@ -94,6 +100,10 @@ const ForumsPage = () => {
               />
             </Link>
           ))}
+        </div>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          <h3>No results found</h3>
         </div>
       )}
     </div>

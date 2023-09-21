@@ -1,26 +1,15 @@
 import React from "react";
 import "./styles.css";
 
-const AboutDropdown = ({
-  onFAQS,
-  onContactus,
-  onPrivacyPolicy,
-  onUserAgreement,
-}) => {
+const AboutDropdown = ({ onContactus }) => {
   return (
     <div className="AboutDropdown">
       <button className="dropdown-button" onClick={onContactus}>
         Contact us
       </button>
-      <button className="dropdown-button" onClick={onFAQS}>
-        FAQS
-      </button>
-      <button className="dropdown-button" onClick={onPrivacyPolicy}>
-        Privacy Policy
-      </button>
-      <button className="dropdown-button" onClick={onUserAgreement}>
-        User Agreement
-      </button>
+      <button className="dropdown-button">FAQS</button>
+      <button className="dropdown-button">Privacy Policy</button>
+      <button className="dropdown-button">User Agreement</button>
     </div>
   );
 };
