@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Card from "../../components/Card";
+import GameCard from "../../components/GameCard";
 import config from "../../services/config";
 import axios from "axios";
 import "./styles.css";
@@ -85,12 +85,10 @@ const ForumsPage = () => {
       {searchResults.length > 0 && (
         <div className="searchgames-results">
           {searchResults.map((game) => (
-            <Card
+            <GameCard
               key={game.id}
               title={game.name}
               image={config.base_url + game.gameimage}
-              width="300px"
-              height="200px"
               alt={game.name}
             />
           ))}
