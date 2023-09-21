@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
+
 import config from "../../services/config";
 import axios from "axios";
 const FollowingDropdown = ({ userProfile, setUserProfile }) => {
   const [isInputFocused, setInputFocused] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [unfollowUsername, setUnfollowUsername] = useState("");
   const handleFilteredInputFocus = () => {
     setInputFocused(true);
   };
@@ -16,7 +19,33 @@ const FollowingDropdown = ({ userProfile, setUserProfile }) => {
   const handleFilteredInputChange = (e) => {
     setSearchText(e.target.value);
   };
-  const handleFilteredUnfollow = () => {};
+  const handleFilteredUnfollow = async (username) => {
+    try {
+      const response = await axios.post(
+        `${config.base_url}/api/user/unfollow`,
+        { username },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const updatedUserProfile = {
+          ...userProfile,
+          following: userProfile.following.filter(
+            (user) => user.username !== username
+          ),
+        };
+        setUserProfile(updatedUserProfile);
+      } else {
+        console.error("Error unfollowing user:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+    }
+  };
 
   const filteredFollowing = userProfile.following.filter((user) =>
     user.username.toLowerCase().startsWith(searchText.toLowerCase())
@@ -62,17 +91,24 @@ const FollowingDropdown = ({ userProfile, setUserProfile }) => {
             <div>
               {filteredFollowing.map((user) => (
                 <div key={user.id} className="followinguser-usercard">
-                  <div className="filteredusers-container">
-                    <img
-                      src={config.base_url + user.profileimage}
-                      alt={`${user.username}'s Profile`}
-                      className="followinguser-avatar"
-                    />
-                    <h2 className="followinguser-username">{user.username}</h2>
-                  </div>
+                  <Link key={user.id} to={`/Profile/${user.username}`}>
+                    <div className="filteredusers-container">
+                      <img
+                        src={config.base_url + user.profileimage}
+                        alt={`${user.username}'s Profile`}
+                        className="followinguser-avatar"
+                      />
+                      <h2 className="followinguser-username">
+                        {user.username}
+                      </h2>
+                    </div>
+                  </Link>
                   <button
                     className="follow-list-button"
-                    onClick={handleFilteredUnfollow}
+                    onClick={() => {
+                      setUnfollowUsername(user.username);
+                      handleFilteredUnfollow(user.username);
+                    }}
                   >
                     Unfollow
                   </button>
