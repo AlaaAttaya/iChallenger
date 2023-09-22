@@ -4,14 +4,8 @@ import config from "../../services/config";
 import { Carousel } from "react-responsive-carousel";
 import "./styles.css";
 
-const PostCard = ({
-  alt,
-  posterimg,
-  forumname,
-  commentscount,
-  post,
-  postid,
-}) => {
+const PostCard = ({ post, gameforum }) => {
+  const formattedDate = new Date(post.created_at).toLocaleDateString();
   return (
     <div className="PostCard">
       <div className="vote-wrapper">
@@ -63,28 +57,57 @@ const PostCard = ({
       <div className="postcontent-container">
         <div className="post-header">
           <div className="userinfo-post">
-            <img src={posterimg} alt={alt} />
+            <img src={post.img} alt={post.alt} />
 
             <div className="poster-info">
               {" "}
               <div className="poster-info-child">
                 <div className="poster-username">username</div>
                 <div className="post-forumlink">
-                  &nbsp; - &nbsp;<a className="postlinks">Forum/{forumname}</a>
+                  &nbsp; - &nbsp;
+                  <a className="postlinks" href={`/Forums/${gameforum.name}`}>
+                    Forum/{gameforum.name}
+                  </a>
                 </div>
               </div>
-              <div className="post-date">Date</div>
+              <div className="post-date">{formattedDate}</div>
             </div>
           </div>
           <div className="post-description-wrapper">
-            <div className="post-description">Description</div>
+            <div className="post-description">{post.description}</div>
           </div>
         </div>
         <div className="display-carousel">
-          <div className="displayfiles-carousel"></div>
+          <div className="displayfiles-carousel">
+            <Carousel>
+              {post.post_uploads.map((upload, index) =>
+                upload.type === "image" ? (
+                  <div key={index}>
+                    <img
+                      src={config.base_url + upload.url}
+                      alt={`Upload ${index}`}
+                    />
+                  </div>
+                ) : (
+                  <div key={index}>
+                    <video controls>
+                      <source
+                        src={config.base_url + upload.url}
+                        type={`video/${upload.type}`}
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                )
+              )}
+            </Carousel>
+          </div>
         </div>
         <div className="post-interactions">
-          <Link to={`/Forums/${forumname}/${postid}`} className="postlinks">
+          <Link
+            to={`/Forums/${gameforum.name}/${post.id}`}
+            className="postlinks"
+          >
             <div className="comments-wrapper">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +122,9 @@ const PostCard = ({
                   fillOpacity="0.75"
                 />
               </svg>
-              <div className="interactions-info">{commentscount} Comment</div>
+              <div className="interactions-info">
+                {post.comment_count} Comment
+              </div>
             </div>
           </Link>
           <div className="share-wrapper">

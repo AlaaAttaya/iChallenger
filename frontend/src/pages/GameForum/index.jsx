@@ -18,6 +18,7 @@ const GameForum = ({ userProfile }) => {
   const [gameforum, setGameForum] = useState(null);
   const [loading, setLoading] = useState(true);
   const [postuploaderrormessage, setPostUploadErrorMessage] = useState("");
+  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const toggleUploadDivision = () => {
     setUploadVisible(!uploadVisible);
@@ -99,6 +100,7 @@ const GameForum = ({ userProfile }) => {
 
       if (response.status === 200) {
         console.log("Forum posts:", response.data);
+        setPosts(response.data.data);
       } else {
         console.error("Error fetching forum posts:", response.data.message);
       }
@@ -170,44 +172,55 @@ const GameForum = ({ userProfile }) => {
             </div>
           </div>
           {userProfile && (
-            <div className="profile-upload-wrapper">
-              <div
-                className="profile-upload-container"
-                onClick={toggleUploadDivision}
-              >
-                <div className="profile-image">
-                  <img
-                    src={
-                      userProfile
-                        ? config.base_url + userProfile.profileimage ||
-                          DefaultProfilePic
-                        : DefaultProfilePic
-                    }
-                    alt="ProfileImage"
-                  />
-                </div>
-                <div className="profile-text">
-                  <input type="text" className="profile-text-input" />
-                </div>
-                <div className="profile-buttons">
-                  <button className="upload-button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 18 23"
-                      fill="none"
-                    >
-                      <path
-                        d="M5.59894 17.211H12.7651V9.37471H17.5425L9.182 0.232422L0.821533 9.37471H5.59894V17.211ZM0.821533 19.823H17.5425V22.4351H0.821533V19.823Z"
-                        fill="white"
-                      />
-                    </svg>
-                  </button>
-                  <button className="post-button">Post</button>
-                </div>
+            <>
+              <div className="profile-upload-wrapper">
+                <div
+                  className="profile-upload-container"
+                  onClick={toggleUploadDivision}
+                >
+                  <div className="profile-image">
+                    <img
+                      src={
+                        userProfile
+                          ? config.base_url + userProfile.profileimage ||
+                            DefaultProfilePic
+                          : DefaultProfilePic
+                      }
+                      alt="ProfileImage"
+                    />
+                  </div>
+                  <div className="profile-text">
+                    <input type="text" className="profile-text-input" />
+                  </div>
+                  <div className="profile-buttons">
+                    <button className="upload-button">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 18 23"
+                        fill="none"
+                      >
+                        <path
+                          d="M5.59894 17.211H12.7651V9.37471H17.5425L9.182 0.232422L0.821533 9.37471H5.59894V17.211ZM0.821533 19.823H17.5425V22.4351H0.821533V19.823Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </button>
+                    <button className="post-button">Post</button>
+                  </div>
+                </div>{" "}
               </div>
-            </div>
+              <div className="gameforumposts-list">
+                {posts.length === 0 ? (
+                  <h3 style={{ color: "white" }}>No posts found.</h3>
+                ) : (
+                  posts.map((post) => (
+                    <PostCard key={post.id} post={post} gameforum={gameforum} />
+                  ))
+                )}
+              </div>
+            </>
           )}
           {uploadVisible && (
             <div className="profile-uploadvisible-wrapper">
