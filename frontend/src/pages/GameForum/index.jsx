@@ -164,12 +164,7 @@ const GameForum = ({ userProfile }) => {
             <div className="game-forum-container-navigation">
               <h2 className="game-forum-name">{gameforum.name}</h2>
             </div>
-            <div className="game-forum-container-navigation">
-              <select>
-                <option>Top</option>
-                <option>New</option>
-              </select>
-            </div>
+            <div className="game-forum-container-navigation"></div>
           </div>
           {userProfile && (
             <>

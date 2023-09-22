@@ -371,43 +371,53 @@ class AuthController extends Controller
 
         return response()->json(['data' => $gameForum], 200);
     }
-        public function getGameForumPosts(Request $request)
+    public function getGameForumPosts(Request $request)
     {
         $forumId = $request->input('ForumId');
-
+    
         $forum = GameForum::find($forumId);
-
+    
         if (!$forum) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Game forum not found.',
             ], 404);
         }
-
+    
         $posts = $forum->forumPosts()
-            ->with(['user', 'postLikes', 'postComments.user', 'postUploads'])
+            ->with([
+                'user',
+                'postLikes',
+                'postComments.user', 
+                'postUploads'
+            ])
             ->get();
-
+    
         foreach ($posts as $post) {
             $likedCount = $post->postLikes->where('is_liked', 1)->count();
             $dislikedCount = $post->postLikes->where('is_liked', 0)->count();
             $post->like_count = $likedCount - $dislikedCount;
             $post->comment_count = $post->postComments->count();
         }
-
+    
         return response()->json([
             'status' => 'Success',
             'message' => 'Game forum posts retrieved successfully.',
             'data' => $posts,
         ]);
     }
+    
 
     public function getPost(Request $request)
     {
         $postId = $request->input('postId');
     
-        $post = Post::with(['user', 'postLikes', 'postComments.user', 'postUploads'])
-            ->find($postId);
+        $post = Post::with([
+            'user',
+            'postLikes',
+            'postComments.user', 
+            'postUploads'
+        ])->find($postId);
     
         if (!$post) {
             return response()->json([
@@ -427,6 +437,7 @@ class AuthController extends Controller
             'data' => $post,
         ]);
     }
+    
     
     
     

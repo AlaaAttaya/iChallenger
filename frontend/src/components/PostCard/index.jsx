@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import config from "../../services/config";
 import axios from "axios";
@@ -6,11 +6,36 @@ import { Carousel } from "react-responsive-carousel";
 import "./styles.css";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
 const PostCard = ({ post, gameforum, show, userProfile }) => {
-  console.log("here", post.id);
+  console.log(post);
   console.log(userProfile);
   const [isUpvoted, setIsUpvoted] = useState(false);
   const [isDownvoted, setIsDownvoted] = useState(false);
   const formattedDate = new Date(post.created_at).toLocaleDateString();
+  const [likeCount, setLikeCount] = useState(post.like_count);
+  const [commentText, setCommentText] = useState("");
+  const [commentCount, setCommentCount] = useState(post.comment_count);
+  const [comments, setComments] = useState(post.post_comments);
+  useEffect(() => {
+    if (userProfile && post.post_likes) {
+      const userLike = post.post_likes.find(
+        (like) => like.id === userProfile.id
+      );
+
+      if (userLike) {
+        if (userLike.is_liked === 1) {
+          setIsUpvoted(true);
+          setIsDownvoted(false);
+        } else {
+          setIsUpvoted(false);
+          setIsDownvoted(true);
+        }
+      } else {
+        setIsUpvoted(false);
+        setIsDownvoted(false);
+      }
+    }
+  }, [userProfile, post]);
+
   const handleShareClick = async () => {
     if (navigator.share) {
       try {
@@ -28,28 +53,43 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
     }
   };
   const handleUpvote = async () => {
+    if (!userProfile) {
+      window.location.href = "/Login";
+    }
     if (isUpvoted) {
       try {
-        await axios.post(`${config.base_url}/api/user/unlikepost`, {
-          postId: post.id,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        await axios.post(
+          `${config.base_url}/api/user/unlikepost`,
+          {
+            postId: post.id,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setLikeCount(likeCount - 1);
         setIsUpvoted(false);
       } catch (error) {
         console.error("Error unliking the post:", error);
       }
     } else {
       try {
-        await axios.post(`${config.base_url}/api/user/likepost`, {
-          postId: post.id,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        await axios.post(
+          `${config.base_url}/api/user/likepost`,
+          {
+            postId: post.id,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         setIsUpvoted(true);
+        setLikeCount(likeCount + 1);
         setIsDownvoted(false);
       } catch (error) {
         console.error("Error liking the post:", error);
@@ -58,17 +98,23 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
   };
 
   const handleDownvote = async () => {
+    if (!userProfile) {
+      window.location.href = "/Login";
+    }
     if (isDownvoted) {
       try {
         const response = await axios.post(
           `${config.base_url}/api/user/unlikepost`,
           {
             postId: post.id,
+          },
+          {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
+        setLikeCount(likeCount + 1);
         setIsDownvoted(false);
       } catch (error) {
         console.error("Error removing downvote:", error);
@@ -79,6 +125,8 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
           `${config.base_url}/api/user/dislikepost`,
           {
             postId: post.id,
+          },
+          {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -86,8 +134,41 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
         );
         setIsDownvoted(true);
         setIsUpvoted(false);
+        setLikeCount(likeCount - 1);
       } catch (error) {
         console.error("Error downvoting the post:", error);
+      }
+    }
+  };
+  const handleCommentKeyPress = async (e) => {
+    if (e.key === "Enter" && commentText.trim() !== "") {
+      try {
+        const response = await axios.post(
+          `${config.base_url}/api/user/createcomment`,
+          {
+            postId: post.id,
+            comment: commentText,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        setCommentText("");
+        setCommentCount(commentCount + 1);
+        const newComment = {
+          user: {
+            profileimage: userProfile.profileimage,
+            username: userProfile.username,
+          },
+          comment: commentText,
+        };
+
+        setComments((prevComments) => [...prevComments, newComment]);
+      } catch (error) {
+        console.error("Error creating comment:", error);
       }
     }
   };
@@ -117,7 +198,7 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
             </svg>
           </div>
 
-          <div className="votecount">{post.like_count}</div>
+          <div className="votecount">{likeCount}</div>
           <div className="downvote" onClick={handleDownvote}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -143,12 +224,15 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
       <div className="postcontent-container">
         <div className="post-header">
           <div className="userinfo-post">
-            <img src={post.img} alt={post.alt} />
+            <img
+              src={config.base_url + post.user.profileimage}
+              alt={post.alt}
+            />
 
             <div className="poster-info">
               {" "}
               <div className="poster-info-child">
-                <div className="poster-username">username</div>
+                <div className="poster-username">{post.user.username}</div>
                 <div className="post-forumlink">
                   &nbsp; - &nbsp;
                   <a className="postlinks" href={`/Forums/${gameforum.name}`}>
@@ -229,9 +313,7 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
                   fillOpacity="0.75"
                 />
               </svg>
-              <div className="interactions-info">
-                {post.comment_count} Comment
-              </div>
+              <div className="interactions-info">{commentCount} Comment</div>
             </div>
           </Link>
           <div className="share-wrapper" onClick={handleShareClick}>
@@ -271,27 +353,40 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
                 className="profilepicimage"
                 alt="ProfileImage"
               />
+
               <input
                 type="text"
                 className="postcomment-input"
                 placeholder="Comment.."
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                onKeyDown={handleCommentKeyPress}
               />
             </div>
-            <div className="border-left">
-              {" "}
-              {/* <img
-                src={
-                  post.post_comments.user.profileimage
-                    ? config.base_url + userProfile.profileimage ||
-                      DefaultProfilePic
-                    : DefaultProfilePic
-                }
-                className="profilepicimage"
-                alt="ProfileImage"
-              /> */}
-              {/* <span clasName="comment-span">comment</span> */}
-            </div>
-            <div className="border-left"> this is a comment</div>
+            {comments.reverse().map((comment, index) => (
+              <div className="border-left" key={index}>
+                <div className="profilepicloadedcomment-wrapper">
+                  <div className="profilepicloadedcomment">
+                    <img
+                      src={
+                        comment.user.profileimage
+                          ? config.base_url + comment.user.profileimage ||
+                            DefaultProfilePic
+                          : DefaultProfilePic
+                      }
+                      className="profilepicimage"
+                      alt="ProfileImage"
+                    />
+                    <div className="comment-span-wrapper">
+                      <span className="comment-name-span">
+                        {comment.user.username}
+                      </span>
+                      <span className="comment-span">{comment.comment}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
