@@ -401,5 +401,28 @@ class AuthController extends Controller
             'data' => $posts,
         ]);
     }
+    public function getPost(Request $request)
+    { $postId=$request->input('postId');
+     
+        $post = Post::with(['user', 'postLikes', 'postComments.user', 'postUploads'])
+            ->find($postId);
+    
+        if (!$post) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Post not found.',
+            ], 404);
+        }
+    
+      
+        $post->like_count = $post->postLikes->count();
+        $post->comment_count = $post->postComments->count();
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Post retrieved successfully.',
+            'data' => $post,
+        ]);
+    }
     
 }
