@@ -32,7 +32,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('unfollow', [UserController::class, "unfollowUser"]);
         Route::get('followers', [UserController::class, "getUserFollowers"]);
         Route::get('following', [UserController::class, "getUserFollowing"]);
-
+        Route::get('getfollowingposts', [AuthController::class, 'getFollowingPosts']);
         Route::post('report', [UserController::class, 'reportUser']);
 
 
@@ -53,7 +53,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::delete('deletecomment', [UserController::class, 'deleteComment']);
         Route::get('getpostcomments', [UserController::class, 'getPostComments']);
         Route::get('getpostlikes', [UserController::class, 'getPostLikes']);
-        Route::get('getuserposts', [UserController::class, 'getUserPosts']);
+     
        
 
         Route::post('channel/banuser', [UserController::class, 'banUserFromChannel']);
@@ -124,4 +124,5 @@ Route::group(["prefix" => "guest"], function () {
     Route::get('getgameforumposts', [AuthController::class, 'getGameForumPosts']);
 
     Route::get('getpost', [AuthController::class, 'getPost']);
+    Route::get('getuserposts', [AuthController::class, 'getUserPosts']);
 });

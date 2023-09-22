@@ -440,5 +440,43 @@ class AuthController extends Controller
     
     
     
+    public function getUserPosts(Request $request)
+    {
+        $username = $request->input('username');
+    
+       
+        $user = User::where('username', $username)
+            ->with([
+                'userPosts.user',
+                'userPosts.postLikes',
+                'userPosts.postComments.user',
+                'userPosts.postUploads',
+            ])
+            ->first();
+    
+        if (!$user) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+    
+      
+        $userPosts = $user->userPosts;
+    
+       
+        foreach ($userPosts as $post) {
+            $likedCount = $post->postLikes->where('is_liked', 1)->count();
+            $dislikedCount = $post->postLikes->where('is_liked', 0)->count();
+            $post->like_count = $likedCount - $dislikedCount;
+            $post->comment_count = $post->postComments->count();
+        }
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'User posts retrieved successfully.',
+            'data' => $userPosts,
+        ]);
+    }
     
 }
