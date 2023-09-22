@@ -5,6 +5,7 @@ import config from "../../services/config";
 import Loading from "../../components/Loading";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
 import { Carousel } from "react-responsive-carousel";
+import PostCard from "../../components/PostCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./styles.css";
 
@@ -331,6 +332,9 @@ const GameForum = ({ userProfile }) => {
           <h2>Gameforum not found</h2>
         </div>
       )}
+      <div style={{ backgroundColor: "white" }}>
+        <PostCard />
+      </div>
     </div>
   );
 };

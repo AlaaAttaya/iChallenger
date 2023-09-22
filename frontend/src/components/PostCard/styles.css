@@ -1,0 +1,143 @@
+.PostCard {
+  background-color: #ffffff77;
+  display: flex;
+  width: 500px;
+  height: 500px;
+}
+.vote-wrapper {
+  background-color: #111;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 10%;
+  height: 100%;
+}
+.postcontent-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.post-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 20%;
+  gap: 10px;
+  padding-left: 10px;
+  background-color: #252525;
+}
+.userinfo-post {
+  display: flex;
+  flex-direction: row;
+
+  gap: 5px;
+}
+.poster-info {
+  display: flex;
+  flex-direction: column;
+}
+.display-carousel {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 10px;
+  background-color: #252525;
+}
+.post-interactions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  background-color: #252525;
+  height: 20%;
+}
+.comments-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.share-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.vote-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Rubik", sans-serif;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  align-content: center;
+}
+.votecount {
+  color: white;
+  font-family: "Rubik", sans-serif;
+}
+.userinfo-post img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.poster-info-child {
+  display: flex;
+}
+.poster-username {
+  color: white;
+  font-size: 18px;
+  font-family: "'Rubik'", sans-serif;
+  font-weight: 500;
+}
+.post-forumlink {
+  color: #898787;
+}
+.post-forumlink a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #898787;
+}
+.post-date {
+  color: #898787;
+  font-size: 12px;
+  font-family: "'Rubik'", sans-serif;
+}
+.post-description {
+  color: #ffffffbd;
+}
+.interactions-info {
+  color: #ffffffbd;
+}
+.postlinks {
+  text-decoration: none;
+  cursor: pointer;
+  color: #ffffffbd;
+}
+.display-carousel {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 460px;
+
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.carousel-root {
+  width: 100%;
+  height: 100%;
+}
+.carousel {
+  width: 100%;
+  height: 100%;
+}
+.display-carousel img,
+.display-carousel video {
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
