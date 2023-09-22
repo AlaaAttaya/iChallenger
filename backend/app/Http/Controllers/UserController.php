@@ -872,12 +872,16 @@ class UserController extends Controller
 
     public function getUserPosts(Request $request)
     {
-        
         $username = $request->input('username');
     
-        
+       
         $user = User::where('username', $username)
-            ->with('userPosts.userLikes', 'userPosts.userComments')
+            ->with([
+                'userPosts.user',
+                'userPosts.postLikes',
+                'userPosts.postComments.user',
+                'userPosts.postUploads',
+            ])
             ->first();
     
         if (!$user) {
@@ -887,13 +891,15 @@ class UserController extends Controller
             ], 404);
         }
     
-       
+        // Get the user's posts
         $userPosts = $user->userPosts;
     
-        
+        // Calculate like and comment counts for each post
         foreach ($userPosts as $post) {
-            $post->like_count = $post->userLikes->count();
-            $post->comment_count = $post->userComments->count();
+            $likedCount = $post->postLikes->where('is_liked', 1)->count();
+            $dislikedCount = $post->postLikes->where('is_liked', 0)->count();
+            $post->like_count = $likedCount - $dislikedCount;
+            $post->comment_count = $post->postComments->count();
         }
     
         return response()->json([
