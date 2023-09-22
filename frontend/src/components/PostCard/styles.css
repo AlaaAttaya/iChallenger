@@ -13,6 +13,7 @@
   align-items: center;
   width: 10%;
   height: 100%;
+  padding: 0px 5px;
 }
 .postcontent-container {
   display: flex;
@@ -64,6 +65,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
 }
 .vote-container {
   margin-top: 20px;
@@ -144,4 +146,10 @@
   max-width: 100%;
   display: block;
   margin: 0 auto;
+}
+.upvote {
+  cursor: pointer;
+}
+.downvote {
+  cursor: pointer;
 }

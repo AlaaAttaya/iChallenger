@@ -6,6 +6,22 @@ import "./styles.css";
 
 const PostCard = ({ post, gameforum }) => {
   const formattedDate = new Date(post.created_at).toLocaleDateString();
+  const handleShareClick = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.description,
+          text: "Check out my post on iChallenger!",
+          url: window.location.href,
+        });
+        console.log("Shared successfully");
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      console.log("Native sharing not supported.");
+    }
+  };
   return (
     <div className="PostCard">
       <div className="vote-wrapper">
@@ -31,7 +47,7 @@ const PostCard = ({ post, gameforum }) => {
             </svg>
           </div>
 
-          <div className="votecount">vote</div>
+          <div className="votecount">{post.like_count}</div>
           <div className="downvote">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +143,7 @@ const PostCard = ({ post, gameforum }) => {
               </div>
             </div>
           </Link>
-          <div className="share-wrapper">
+          <div className="share-wrapper" onClick={handleShareClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
