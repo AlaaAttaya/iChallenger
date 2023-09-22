@@ -1,9 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import config from "../../services/config";
+import { Carousel } from "react-responsive-carousel";
 import "./styles.css";
 
-const PostCard = ({ alt, posterimg, forumname, commentscount, postid }) => {
+const PostCard = ({
+  alt,
+  posterimg,
+  forumname,
+  commentscount,
+  post,
+  postid,
+}) => {
   return (
     <div className="PostCard">
       <div className="vote-wrapper">
@@ -72,7 +80,9 @@ const PostCard = ({ alt, posterimg, forumname, commentscount, postid }) => {
             <div className="post-description">Description</div>
           </div>
         </div>
-        <div className="display-carousel">1</div>
+        <div className="display-carousel">
+          <div className="displayfiles-carousel"></div>
+        </div>
         <div className="post-interactions">
           <Link to={`/Forums/${forumname}/${postid}`} className="postlinks">
             <div className="comments-wrapper">

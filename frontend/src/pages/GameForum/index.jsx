@@ -88,28 +88,47 @@ const GameForum = ({ userProfile }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${config.base_url}/api/guest/getgameforum`,
-          {
-            params: { name: gamename },
-          }
-        );
-
-        if (response.status === 200) {
-          setGameForum(response.data.data.game);
-        } else {
-          console.error("Error fetching game forum:", response.data.message);
+  const fetchForumPosts = async (gameforum) => {
+    try {
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getgameforumposts`,
+        {
+          params: { ForumId: gameforum.id },
         }
+      );
 
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching game forum:", error);
+      if (response.status === 200) {
+        console.log("Forum posts:", response.data);
+      } else {
+        console.error("Error fetching forum posts:", response.data.message);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching forum posts:", error);
+    }
+  };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getgameforum`,
+        {
+          params: { name: gamename },
+        }
+      );
+
+      if (response.status === 200) {
+        setGameForum(response.data.data.game);
+        fetchForumPosts(response.data.data.game);
+      } else {
+        console.error("Error fetching game forum:", response.data.message);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching game forum:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, [gamename]);
 
@@ -332,9 +351,6 @@ const GameForum = ({ userProfile }) => {
           <h2>Gameforum not found</h2>
         </div>
       )}
-      <div style={{ backgroundColor: "white" }}>
-        <PostCard />
-      </div>
     </div>
   );
 };

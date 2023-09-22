@@ -116,7 +116,7 @@
   cursor: pointer;
   color: #ffffffbd;
 }
-.display-carousel {
+.displayfiles-carousel {
   margin-top: 10px;
   display: flex;
   justify-content: center;
@@ -134,8 +134,8 @@
   width: 100%;
   height: 100%;
 }
-.display-carousel img,
-.display-carousel video {
+.displayfiles-carousel img,
+.displayfiles-carousel video {
   max-height: 100%;
   max-width: 100%;
   display: block;
