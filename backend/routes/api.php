@@ -44,7 +44,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('createpost', [UserController::class, 'createPost']);
         Route::delete('deletepost', [UserController::class, 'deletePost']);
         Route::get('getallposts', [UserController::class, 'getAllPosts']);
-        
+
         Route::post('likepost', [UserController::class, 'likePost']);
         Route::post('unlikepost', [UserController::class, 'unlikePost']);
         Route::post('dislikepost', [UserController::class, 'dislikePost']);
@@ -54,7 +54,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('getpostcomments', [UserController::class, 'getPostComments']);
         Route::get('getpostlikes', [UserController::class, 'getPostLikes']);
         Route::get('getuserposts', [UserController::class, 'getUserPosts']);
-        Route::get('getgameforumposts', [UserController::class, 'getGameForumPosts']);
+       
 
         Route::post('channel/banuser', [UserController::class, 'banUserFromChannel']);
         Route::post('channel/unbanuser', [UserController::class, 'unbanUserFromChannel']);
@@ -121,4 +121,5 @@ Route::group(["prefix" => "guest"], function () {
 
     Route::get('getgames', [AuthController::class, 'getGames']);
     Route::get('getgameforum', [AuthController::class, 'getGameForum']);
+    Route::get('getgameforumposts', [AuthController::class, 'getGameForumPosts']);
 });

@@ -905,37 +905,7 @@ class UserController extends Controller
     
     
 
-    public function getGameForumPosts(Request $request)
-    {
-        $forumId = $request->input('ForumId');
-    
-       
-        $forum = GameForum::find($forumId);
-    
-        if (!$forum) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Game forum not found.',
-            ], 404);
-        }
-    
-        
-        $posts = $forum->forumPosts()
-            ->with(['user', 'userLikes', 'userComments'])
-            ->get();
-    
-        
-        foreach ($posts as $post) {
-            $post->user->like_count = $post->userLikes->count();
-            $post->user->comment_count = $post->userComments->count();
-        }
-    
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Game forum posts retrieved successfully.',
-            'data' => $posts,
-        ]);
-    }
+  
     
     
     

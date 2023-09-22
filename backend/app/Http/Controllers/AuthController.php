@@ -14,6 +14,7 @@ use App\Models\Country;
 use App\Models\Regions;
 use App\Models\Game;
 use App\Models\GameForum;
+use App\Models\Post;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -370,5 +371,35 @@ class AuthController extends Controller
 
         return response()->json(['data' => $gameForum], 200);
     }
-
+    public function getGameForumPosts(Request $request)
+    {
+        $forumId = $request->input('ForumId');
+    
+    
+        $forum = GameForum::find($forumId);
+    
+        if (!$forum) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Game forum not found.',
+            ], 404);
+        }
+    
+     
+        $posts = $forum->forumPosts()
+            ->with(['user', 'postLikes', 'postComments.user', 'postUploads'])
+            ->get();
+    
+        foreach ($posts as $post) {
+            $post->like_count = $post->postLikes->count();
+            $post->comment_count = $post->postComments->count();
+        }
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Game forum posts retrieved successfully.',
+            'data' => $posts,
+        ]);
+    }
+    
 }
