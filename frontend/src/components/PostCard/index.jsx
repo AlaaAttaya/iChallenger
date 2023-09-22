@@ -4,7 +4,7 @@ import config from "../../services/config";
 import { Carousel } from "react-responsive-carousel";
 import "./styles.css";
 
-const PostCard = ({ post, gameforum }) => {
+const PostCard = ({ post, gameforum, show }) => {
   const formattedDate = new Date(post.created_at).toLocaleDateString();
   const handleShareClick = async () => {
     if (navigator.share) {

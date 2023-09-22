@@ -1,0 +1,229 @@
+.GameForum {
+  background-color: #000000;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.game-forum-container {
+  background-color: #252525;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  gap: 100px;
+}
+
+.game-forum-image {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.game-forum-name {
+  font-size: 24px;
+
+  color: #2fd671;
+}
+.profile-upload-container {
+  background-color: #252525;
+  display: flex;
+  align-items: center;
+  padding: 13px 13px;
+  cursor: pointer;
+  margin-left: 60px;
+}
+.profile-upload-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.profile-image img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-text-input {
+  color: white;
+  margin: 0;
+}
+.profile-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.upload-button {
+  background-color: #ffffff77;
+  color: white;
+  border: none;
+  padding: 13px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.profile-text-input {
+  padding: 11px 40px;
+  border-radius: 7px;
+  background-color: #ffffff77;
+  size: 20px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.post-button {
+  background-color: #ffffff77;
+  color: white;
+  border: none;
+  padding: 15px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.profile-uploadvisible-container {
+  background-color: #252525;
+  display: flex;
+  align-items: center;
+  padding: 13px 13px;
+}
+
+.profile-imagevisible img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-text-inputvisible {
+  color: white;
+  margin: 0;
+}
+.profile-buttonsvisible {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.upload-buttonvisible {
+  background-color: #ffffff77;
+  color: white;
+  border: none;
+  padding: 13px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.profile-text-inputvisible {
+  padding: 11px 40px;
+  border-radius: 7px;
+  background-color: #ffffff77;
+  size: 20px;
+  color: rgb(255, 255, 255);
+}
+
+.post-button-visible {
+  background-color: #ffffff77;
+  color: white;
+  border: none;
+  padding: 15px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.profile-uploadvisible-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.682);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.postforum-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  min-height: 50%;
+  padding: 10px 20px;
+  background-color: #111;
+}
+.close-postforum {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+.close-postforum svg {
+  margin: 15px;
+  cursor: pointer;
+}
+.close-postforum svg:hover path {
+  fill: #3eff8b;
+}
+.files-carousel {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 460px;
+
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.carousel-root {
+  width: 100%;
+  height: 100%;
+}
+.carousel {
+  width: 100%;
+  height: 100%;
+}
+.files-carousel img,
+.files-carousel video {
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.remove-button-files {
+  background-color: #ffffff10;
+  padding: 10px 20px;
+  border-radius: 7px;
+  color: #ff4848;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+.title-PostUpload {
+  color: #ffffffbd;
+  font-size: x-large;
+  margin-bottom: 25px;
+  font-weight: 550;
+}
+.error-postuploadmessage {
+  color: #ff4848;
+}
+.gameforumposts-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 700px) {
+  .game-forum-container {
+    background-color: #252525;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    gap: 30px;
+  }
+}

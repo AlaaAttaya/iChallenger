@@ -16,6 +16,7 @@ import ProfilePageSettings from "./pages/ProfilePageSettings";
 import NotFound from "./components/NotFound";
 import Forums from "./pages/Forums";
 import GameForum from "./pages/GameForum";
+import PostPage from "./pages/PostPage";
 import Tournaments from "./pages/Tournaments";
 import FollowingActivity from "./pages/FollowingActivity";
 import Leaderboards from "./pages/Leaderboards";
@@ -34,7 +35,7 @@ const WrappedTournaments = LoadingHOC(Tournaments);
 const WrappedFollowingActivity = LoadingHOC(FollowingActivity);
 const WrappedLeaderboards = LoadingHOC(Leaderboards);
 const WrappedGameForum = LoadingHOC(GameForum);
-
+const WrappedPostPage = LoadingHOC(PostPage);
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
@@ -153,6 +154,10 @@ const App = () => {
               <Route
                 path="/Forums/:gamename"
                 element={<WrappedGameForum userProfile={userProfile} />}
+              />
+              <Route
+                path="/Forums/:gamename/:post"
+                element={<WrappedPostPage userProfile={userProfile} />}
               />
               <Route path="/Tournaments" element={<WrappedTournaments />} />
               <Route path="/Leaderboards" element={<WrappedLeaderboards />} />
