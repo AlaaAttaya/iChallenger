@@ -1,0 +1,225 @@
+.ProfilePageView {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Profile-navbar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.coverPhotoContainer {
+  position: relative;
+  width: 100%;
+  height: 180px;
+}
+
+.coverPhoto {
+  width: 100%;
+  height: 100%;
+}
+
+.profileImageContainer {
+  position: absolute;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.profileImage {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 14px;
+  left: 40px;
+}
+
+.profile-navbar-buttons-container {
+  background-color: #111111;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile-navbar-buttons {
+  display: flex;
+}
+
+.profile-navbar-buttons button {
+  color: white;
+  padding: 20px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 550;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+}
+
+.profile-navbar-buttons button:hover {
+  color: #111111;
+  background-color: #3cd679;
+}
+.shifter {
+  display: flex;
+  margin-right: 180px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 150px;
+}
+
+.username-profile {
+  color: white;
+  font-size: 26px;
+}
+
+.followerscount-profile {
+  color: #cbcbcb;
+  font-size: 16px;
+}
+.viewbuttons {
+  background-color: #2fd671 !important;
+  color: rgb(0, 0, 0) !important;
+  border-radius: 7px !important;
+  padding: 10px !important;
+  gap: 5px !important;
+  font-family: "Rubik", sans-serif !important;
+  font-weight: 500 !important;
+  margin: 10px !important;
+  border: none !important;
+  font-size: 20px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  cursor: pointer !important;
+}
+
+.report-button {
+  color: #faff0e !important;
+}
+.report-button:hover {
+  background-color: transparent !important;
+}
+.errorloadinguser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 25px;
+}
+.Reportuser-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+  .profile-navbar-buttons button {
+    font-size: 16px;
+    padding: 10px;
+  }
+  .user-info {
+    margin-left: 90px;
+  }
+  .profileImage {
+    width: 80px;
+    height: 80px;
+
+    top: 25px;
+    left: 0px;
+  }
+  .username-profile {
+    font-size: 20px;
+  }
+
+  .followerscount-profile {
+    font-size: 14px;
+  }
+  .viewbuttons {
+    font-size: 12px !important;
+    margin: 5px !important;
+    padding: 5px !important;
+  }
+  .viewbuttons svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .report-button {
+    font-size: 12px !important;
+  }
+  .report-button svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+}
+@media screen and (max-width: 700px) {
+  .coverPhotoContainer {
+    position: relative;
+    width: 100%;
+    height: 60px;
+  }
+  .shifter {
+    margin-right: 0px;
+  }
+  .user-info {
+    margin-left: 65px;
+  }
+  .profileImage {
+    width: 60px;
+    height: 60px;
+
+    top: -14px;
+    left: 0px;
+  }
+  .profile-navbar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .profile-navbar-buttons button {
+    font-size: 11px;
+    padding: 5px;
+  }
+
+  .username-profile {
+    font-size: 14px;
+  }
+
+  .followerscount-profile {
+    font-size: 11px;
+  }
+  .viewbuttons {
+    font-size: 8px !important;
+    margin: 1px !important;
+    padding: 5px !important;
+  }
+  .viewbuttons svg {
+    width: 8px !important;
+    height: 8px !important;
+  }
+  .report-button {
+    font-size: 8px !important;
+  }
+  .report-button svg {
+    width: 8px !important;
+    height: 8px !important;
+  }
+}

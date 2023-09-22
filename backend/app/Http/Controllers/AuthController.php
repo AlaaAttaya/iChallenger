@@ -414,7 +414,7 @@ class AuthController extends Controller
             ], 404);
         }
     
-      
+     
         $post->like_count = $post->postLikes->count();
         $post->comment_count = $post->postComments->count();
     

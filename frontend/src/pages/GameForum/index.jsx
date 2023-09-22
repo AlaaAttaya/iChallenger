@@ -216,7 +216,13 @@ const GameForum = ({ userProfile }) => {
                   <h3 style={{ color: "white" }}>No posts found.</h3>
                 ) : (
                   posts.map((post) => (
-                    <PostCard key={post.id} post={post} gameforum={gameforum} />
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      gameforum={gameforum}
+                      userProfile={userProfile}
+                      show={false}
+                    />
                   ))
                 )}
               </div>

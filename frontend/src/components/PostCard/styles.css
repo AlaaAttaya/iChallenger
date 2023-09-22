@@ -1,8 +1,8 @@
 .PostCard {
   background-color: #ffffff77;
   display: flex;
-  width: 500px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
 }
 .vote-wrapper {
   background-color: #111;
@@ -152,4 +152,44 @@
 }
 .downvote {
   cursor: pointer;
+}
+.post-commentslist {
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  background-color: #252525;
+  height: 100%;
+}
+.post-comment-add {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.border-left {
+  padding: 20px;
+  margin-left: 10px;
+  border-left: 3px solid grey;
+}
+.profilepicimage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.postcomment-input {
+  padding: 10px 5px;
+  border-radius: 7px;
+  background-color: #ffffff77;
+  size: 20px;
+  color: rgb(255, 255, 255);
+
+  width: 90%;
+}
+.postcomment-input::placeholder {
+  color: #ffffff;
+}
+.comment-span {
+  color: rgb(255, 255, 255);
 }

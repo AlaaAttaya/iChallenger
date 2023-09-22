@@ -399,9 +399,9 @@ class UserController extends Controller
     }
     
         public function likePost(Request $request)
-    {
+    {   $user = Auth::user();
         $postId = $request->input('postId');
-        $user = Auth::user();
+     
 
         $post = Post::find($postId);
 

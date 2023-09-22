@@ -10,97 +10,22 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./styles.css";
 
 const PostPage = ({ userProfile }) => {
-  const { gamename } = useParams();
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const uploadInputRef = useRef(null);
-  const [postDescription, setPostDescription] = useState("");
+  const { gamename, post } = useParams();
+
   const [gameforum, setGameForum] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [postuploaderrormessage, setPostUploadErrorMessage] = useState("");
+
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate();
-  const toggleUploadDivision = () => {
-    setUploadVisible(!uploadVisible);
-  };
 
-  const handleFileUpload = (event) => {
-    setPostUploadErrorMessage("");
-    const files = event.target.files;
-
-    const newFiles = Array.from(files).filter(
-      (file) =>
-        !uploadedFiles.some((existingFile) => existingFile.name === file.name)
-    );
-
-    setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
-  };
-
-  const removeFile = (fileToRemove) => {
-    const updatedFiles = uploadedFiles.filter(
-      (file) => file.name !== fileToRemove.name
-    );
-    setPostUploadErrorMessage("");
-    setUploadedFiles(updatedFiles);
-  };
-  const handlePostClick = async () => {
+  const fetchForumPost = async (post) => {
     try {
-      if (uploadedFiles.length === 0) {
-        setPostUploadErrorMessage("Please select at least one file.");
-        return;
-      }
-      if (postDescription.trim() === "") {
-        setPostUploadErrorMessage("Please enter a description.");
-        return;
-      }
-
-      setPostUploadErrorMessage("");
-
-      const formData = new FormData();
-      formData.append("description", postDescription);
-      formData.append("game_forum_id", gameforum.id);
-
-      uploadedFiles.forEach((file, index) => {
-        formData.append(`uploads[${index}]`, file);
+      const response = await axios.get(`${config.base_url}/api/guest/getpost`, {
+        params: { postId: post },
       });
-
-      const response = await axios.post(
-        `${config.base_url}/api/user/createpost`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Post created successfully!");
-
-        setPostDescription("");
-        setUploadedFiles([]);
-        navigate(`/Forums/${gameforum.name}/${response.data.data.id}`);
-      } else {
-        console.error("Error creating post:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error creating post:", error);
-    }
-  };
-
-  const fetchForumPosts = async (gameforum) => {
-    try {
-      const response = await axios.get(
-        `${config.base_url}/api/guest/getgameforumposts`,
-        {
-          params: { ForumId: gameforum.id },
-        }
-      );
 
       if (response.status === 200) {
         console.log("Forum posts:", response.data);
-        setPosts(response.data.data);
+        setPosts([response.data.data]);
       } else {
         console.error("Error fetching forum posts:", response.data.message);
       }
@@ -120,7 +45,7 @@ const PostPage = ({ userProfile }) => {
 
       if (response.status === 200) {
         setGameForum(response.data.data.game);
-        fetchForumPosts(response.data.data.game);
+        fetchForumPost(post);
       } else {
         console.error("Error fetching game forum:", response.data.message);
       }
@@ -132,7 +57,7 @@ const PostPage = ({ userProfile }) => {
   };
   useEffect(() => {
     fetchData();
-  }, [gamename]);
+  }, [gamename, post]);
 
   return (
     <div className="GameForum">
@@ -141,7 +66,7 @@ const PostPage = ({ userProfile }) => {
       ) : gameforum ? (
         <>
           <div className="game-forum-container">
-            <Link to="/Forums">
+            <Link to={`/Forums/${gamename}`}>
               <div className="game-forum-container-navigation">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -181,6 +106,7 @@ const PostPage = ({ userProfile }) => {
                       post={post}
                       gameforum={gameforum}
                       show={true}
+                      userProfile={userProfile}
                     />
                   ))
                 )}
