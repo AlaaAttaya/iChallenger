@@ -32,7 +32,7 @@ use App\Models\TournamentType;
 use App\Models\TournamentWinner;
 use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Log; 
-
+use App\Events\MessageSent;
 class UserController extends Controller
 {
    
@@ -280,7 +280,7 @@ class UserController extends Controller
 
 
 
-    public function sendMessage(Request $request)
+    public function storeMessage(Request $request)
     {
         $request->validate([
             'recipient_id' => 'required|exists:users,id',
@@ -298,8 +298,9 @@ class UserController extends Controller
         $message->save();
 
     
-        broadcast(new MessageSentEvent($message, $request->recipient_id));
+      
 
+        event(new MessageSent($message, $request->recipient_id));
 
         return response()->json([
             'status' => 'Success',
@@ -307,6 +308,45 @@ class UserController extends Controller
             'data' => $message,
         ]);
     }
+   
+    public function getMessages(Request $request)
+    {
+        $username = $request->input('username');
+        $user = Auth::user();
+    
+        $otherUser = User::where('username', $username)->first();
+    
+        if (!$otherUser) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+    
+     
+        $isBlocked = $user->blockedUsers->contains($otherUser);
+    
+     
+        $sentMessages = $user->sentMessages()
+            ->where('recipient_id', $otherUser->id)
+            ->get();
+    
+      
+        $receivedMessages = $user->receivedMessages()
+            ->where('sender_id', $otherUser->id)
+            ->get();
+    
+   
+        $response = [
+            'status' => 'Success',
+            'sentMessages' => $sentMessages,
+            'receivedMessages' => $receivedMessages,
+            'blocked' => $isBlocked,
+        ];
+    
+        return response()->json($response);
+    }
+    
 
     public function getGames(Request $request)
     {

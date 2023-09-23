@@ -6,8 +6,9 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
 
-class MessageSentEvent implements ShouldBroadcast
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
