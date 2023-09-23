@@ -13,6 +13,7 @@ import NotificationsDropdown from "../NotificationsDropdown";
 import MessagesDropdown from "../MessagesDropdown";
 import FollowingDropdown from "../FollowingDropdown";
 import UserCard from "../../components/UserCard";
+import Message from "../../components/Message";
 import axios from "axios";
 const Navbar = ({ userProfile, setUserProfile }) => {
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchQueryLeftNavbar, setSearchQueryLeftNavbar] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
+  const [isMessageOpen, setMessageOpen] = useState(false);
   //leftnavbar
   const [isTournamentsleftnavbarOpen, setIsTournamentsleftnavbarOpen] =
     useState(false);
@@ -195,10 +198,10 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     navigate("/Contactus");
   };
   const handleChatgptBot = () => {
-    navigate("/Contactus");
+    setMessageOpen(!isMessageOpen);
   };
   const handleMyMessages = () => {
-    navigate("/Contactus");
+    setMessageOpen(!isMessageOpen);
   };
   return (
     <div className="navbar">
@@ -784,6 +787,9 @@ const Navbar = ({ userProfile, setUserProfile }) => {
           </>
         )}
       </div>
+      {isMessageOpen && (
+        <Message onCloseMessages={handleMyMessages} userProfile={userProfile} />
+      )}
     </div>
   );
 };

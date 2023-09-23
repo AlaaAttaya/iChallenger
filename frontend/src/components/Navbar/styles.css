@@ -278,7 +278,11 @@
   padding: 10px;
   border-radius: 5px;
 }
-
+.message-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 @media screen and (min-width: 1251px) and (max-width: 1450px) {
   .nav-buttons {
     gap: 5px;

@@ -1,0 +1,164 @@
+.message-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: auto;
+  margin-right: 10px;
+}
+
+.message-card {
+  background-color: #ffffff;
+  box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+
+  width: 280px;
+  height: 100%;
+}
+
+.message-content {
+  height: 250px;
+  overflow: auto;
+  display: flex;
+  align-content: center;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #202020;
+}
+.messages-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #202020;
+  padding: 10px;
+}
+.close-button {
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.messages-title {
+  display: flex;
+  padding-left: 18px;
+  color: #2fd671;
+  padding-left: 36px;
+}
+.close-button:hover {
+  background-color: #cc0000;
+}
+.close-minimize-settings {
+  display: flex;
+  gap: 5px;
+}
+.messages-svg-icon {
+  cursor: pointer;
+}
+.chatgptbot-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.chatgptbot-section {
+  display: flex;
+  width: 140px;
+  align-items: center;
+  gap: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+}
+.mymessages-section {
+  display: flex;
+  width: 140px;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: "Rubik", sans-serif;
+}
+.blockedusers-section {
+  display: flex;
+  width: 140px;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: "Rubik", sans-serif;
+}
+.findplayers-section {
+  display: flex;
+  width: 140px;
+  cursor: pointer;
+  align-items: center;
+  color: #ffffff;
+  gap: 5px;
+  font-family: "Rubik", sans-serif;
+}
+
+.messages-navbarsearch-wrapper {
+  padding: 10px;
+}
+.messages-navbarsearch {
+  display: flex;
+  background-color: #ffffff10;
+  padding: 15px;
+
+  border-radius: 7px;
+}
+.messages-navbarsearch svg path {
+  fill: #a4a3a3;
+}
+.messages-navbarsearchinput {
+  background-color: transparent;
+  border: none;
+  color: #a4a3a3;
+  width: 100%;
+  margin-left: 5px;
+}
+.messages-navbarsearchinput.focused {
+  outline: 2px solid #2fd67200;
+}
+.messages-navbarsearch.focused svg path {
+  fill: #2fd671;
+}
+.messages-search-results {
+  background-color: #202020;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  max-height: 200px;
+  min-width: 290px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-y: scroll;
+  position: absolute;
+  top: auto;
+}
+.messageslinkusercardsearchinputnavbar {
+  text-decoration: none;
+  width: 100px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.findplayers-page {
+  height: 250px;
+  overflow: auto;
+  display: flex;
+  align-content: center;
+  gap: 10px;
+  flex-direction: column;
+
+  background-color: #202020;
+}
