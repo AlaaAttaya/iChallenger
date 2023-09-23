@@ -4,13 +4,15 @@ import config from "../../services/config";
 import chatgptbotimage from "../../assets/images/chatgptbot.png";
 import UserCard from "../UserCard";
 import axios from "axios";
+
 const Message = ({ onCloseMessages, userProfile }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [activeSection, setActiveSection] = useState("MainMessages");
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
-  const [activeuser, setActiveUser] = useState([]);
+  const [activeuser, setActiveUser] = useState("");
+
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
   };
@@ -47,18 +49,35 @@ const Message = ({ onCloseMessages, userProfile }) => {
   };
   const setActive = (section) => {
     setActiveSection(section);
+    if (section === "ChatGPTBot") {
+      const chatgpt = {
+        chatgptimage: chatgptbotimage,
+        username: "ChatGPT",
+      };
+
+      setActiveUser(chatgpt);
+    }
   };
   const backbutton = () => {
-    if (activeSection !== "MainMessages" && activeSection !== "Chat") {
+    if (
+      activeSection !== "MainMessages" &&
+      activeSection !== "Chat" &&
+      activeSection !== "ChatGPTBot"
+    ) {
       setActiveSection("MainMessages");
     } else if (activeSection === "Chat") {
       setActiveSection("MyMessages");
+      setActiveUser("");
+    } else if (activeSection === "ChatGPTBot") {
+      setActiveSection("MainMessages");
+      setActiveUser("");
     }
   };
   const handleUserChat = (user) => {
     setActiveUser(user);
     setActive("Chat");
   };
+
   return (
     <div className="message-container">
       <div className={`message-card ${isMinimized ? "minimized" : ""}`}>
@@ -84,7 +103,26 @@ const Message = ({ onCloseMessages, userProfile }) => {
               </svg>
             </div>
           </div>
-          <div className="messages-title">Messages</div>
+          <div className={activeuser ? "activeuser-title" : "messages-title"}>
+            {" "}
+            {activeuser ? (
+              <>
+                <img
+                  className="titleimage"
+                  src={
+                    activeuser.profileimage !== undefined &&
+                    activeuser.profileimage !== null
+                      ? config.base_url + activeuser.profileimage
+                      : activeuser.chatgptimage
+                  }
+                  alt={activeuser.username}
+                />
+                <span>{activeuser.username}</span>
+              </>
+            ) : (
+              "Messages"
+            )}
+          </div>
           <div className="close-minimize-settings">
             <div className="minimize-toggle" onClick={toggleMinimize}>
               <svg
@@ -279,8 +317,11 @@ const Message = ({ onCloseMessages, userProfile }) => {
             )}
 
             {activeSection === "ChatGPTBot" && (
-              <div className="message-content">
-                <div className="chatgptbot-page">{/* ... */}</div>
+              <div className="chat-content">
+                <div className="chat-page"></div>
+                <div className="chat-text-input">
+                  <input type="text" className="chat-input" />
+                </div>
               </div>
             )}
 

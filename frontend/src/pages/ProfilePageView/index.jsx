@@ -8,6 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ReportUser from "../../components/ReportUser";
 import Loading from "../../components/Loading";
 import PostCard from "../../components/PostCard";
+import Message from "../../components/Message";
 const ProfilePageView = ({ userProfile, setUserProfile }) => {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -21,6 +22,11 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
   const [activeButton, setActiveButton] = useState("Overview");
   const [userPosts, setUserPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showMessageComponent, setShowMessageComponent] = useState(false);
+
+  const handleOpenMessage = () => {
+    setShowMessageComponent(true);
+  };
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
 
@@ -241,7 +247,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
                     </svg>
                     {isFollowing ? "Unfollow" : "Follow"}
                   </button>
-                  <button className="viewbuttons">
+                  <button className="viewbuttons" onClick={handleOpenMessage}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="25"
@@ -322,6 +328,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
               />
             </div>
           )}
+          {showMessageComponent && <Message userProfile={userProfile} />}
         </>
       )}
     </div>
