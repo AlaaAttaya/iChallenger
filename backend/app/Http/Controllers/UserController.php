@@ -287,10 +287,8 @@ class UserController extends Controller
             'content' => 'required|string',
         ]);
 
-    
         $sender = Auth::user();
 
-        
         $message = new Message([
             'sender_id' => $sender->id,
             'recipient_id' => $request->recipient_id,
@@ -298,6 +296,10 @@ class UserController extends Controller
         ]);
 
         $message->save();
+
+    
+        broadcast(new MessageSentEvent($message, $request->recipient_id));
+
 
         return response()->json([
             'status' => 'Success',
@@ -603,31 +605,36 @@ class UserController extends Controller
         ]);
     }
     
-        public function sendNotification($type, $message)
+    public function sendNotification($type, $message)
     {
         $user = Auth::user();
-
-        if ($user) {
-            $notification = new Notification([
-                'user_id' => $user->id,
-                'type' => $type,
-                'message' => $message,
-            ]);
-
-            $notification->save();
-
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'Notification sent successfully',
-                'data' => $notification,
-            ]);
-        } else {
+    
+        if (!$user) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'User not authenticated',
             ], 401);
         }
+    
+      
+        $notification = new Notification([
+            'user_id' => $user->id,
+            'type' => $type,
+            'message' => $message,
+        ]);
+    
+        
+        $notification->save();
+    
+        event(new NotificationSentEvent($notification));
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Notification sent successfully',
+            'data' => $notification,
+        ]);
     }
+    
 
         public function banUserFromChannel(Request $request)
     {
