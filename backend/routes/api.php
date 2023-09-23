@@ -56,7 +56,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('getpostlikes', [UserController::class, 'getPostLikes']);
      
        
-
+       
         Route::post('channel/banuser', [UserController::class, 'banUserFromChannel']);
         Route::post('channel/unbanuser', [UserController::class, 'unbanUserFromChannel']);
         Route::post('channel/addmoderator', [UserController::class, 'addModeratorToChannel']);
@@ -73,6 +73,9 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('blockuser', [UserController::class, 'blockUser']);
         Route::get('getblockedusers', [UserController::class, 'getBlockedUsers']);
         Route::post('unblockuser', [UserController::class, 'unblockUser']);
+
+
+        Route::post('generateresponse',[UserController::class,'generateResponse']);
 
     });
 

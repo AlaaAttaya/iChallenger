@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log; 
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Region;
@@ -31,8 +32,8 @@ use App\Models\Tournament;
 use App\Models\TournamentType;
 use App\Models\TournamentWinner;
 use App\Models\BlockedUser;
-use Illuminate\Support\Facades\Log; 
 use App\Events\MessageSent;
+use GuzzleHttp\Client;
 class UserController extends Controller
 {
    
@@ -1067,5 +1068,49 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User unblocked successfully.']);
     }
+    public function generateResponse(Request $request)
+    {   $user=Auth::user();
+        $userMessage = $request->input('user_message', '');
+        $maxTokenCount = 50; 
+        $temperature = 0.2;
     
+        $messages = [
+            [
+                'role' => 'system',
+                'content' => 'You are a gaming tournament expert.',
+            ],
+            [
+                'role' => 'user',
+                'content' => $userMessage,
+            ],
+        ];
+    
+        $client = new Client();
+    
+        $response = $client->post('https://api.openai.com/v1/engines/text-davinci-002/completions', [
+         
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+            ],
+            'json' => [
+                'prompt' => implode("\n", array_column($messages, 'content')),
+                'max_tokens' => $maxTokenCount, 
+                'temperature' => $temperature, 
+            ],
+         
+        ]);
+    
+        $responseData = json_decode($response->getBody(), true);
+    
+        $generatedText = $responseData['choices'][0]['text'];
+        $tokenCount = $responseData['usage']['total_tokens'];
+    
+        return response()->json([
+            'generated_text' => $generatedText,
+            'token_count' => $tokenCount,
+        ]);
+    }
+    
+
 }
