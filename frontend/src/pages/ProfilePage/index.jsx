@@ -35,7 +35,7 @@ const ProfilePage = ({ userProfile }) => {
           },
         }
       );
-      console.log(response.data.data);
+
       if (response.status === 200) {
         setUserPosts(response.data.data);
       } else {
@@ -127,16 +127,15 @@ const ProfilePage = ({ userProfile }) => {
           </div>
         </div>
       </div>
-      <div className="profile-pages-info">
+      <div className={activeButton === "Activity" ? "profile-pages-info" : ""}>
         {activeButton === "Overview" && (
           <div className="overview-container">Overview content</div>
         )}
         {activeButton === "Activity" && (
           <div className="profile-activity">
-            {" "}
             {isLoading ? (
               <Loading />
-            ) : (
+            ) : userPosts.length > 0 ? (
               userPosts.map((post) => (
                 <PostCard
                   key={post.id}
@@ -145,6 +144,8 @@ const ProfilePage = ({ userProfile }) => {
                   userProfile={userProfile}
                 />
               ))
+            ) : (
+              <h3 style={{ color: "white" }}>No posts found.</h3>
             )}
           </div>
         )}
