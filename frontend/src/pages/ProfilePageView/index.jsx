@@ -7,15 +7,27 @@ import DefaultCoverPic from "../../assets/images/coverpic.png";
 import { useParams, useNavigate } from "react-router-dom";
 import ReportUser from "../../components/ReportUser";
 import Loading from "../../components/Loading";
+import PostCard from "../../components/PostCard";
 const ProfilePageView = ({ userProfile, setUserProfile }) => {
   const { username } = useParams();
+  const navigate = useNavigate();
   const [userProfileView, setUserProfileView] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isreportopen, setIsReportOpen] = useState(false);
   const [isUserSignedinView, setIsUserSignedinView] = useState(false);
-  const navigate = useNavigate();
+
   const [isFollowing, setIsFollowing] = useState(false);
+  const [activeButton, setActiveButton] = useState("Overview");
+  const [userPosts, setUserPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleButtonClick = (buttonName) => {
+    setActiveButton(buttonName);
+
+    if (buttonName === "Activity" && userPosts.length === 0) {
+      fetchUserPosts();
+    }
+  };
   useEffect(() => {
     if (!username) {
       setError("Username not found.");
@@ -121,6 +133,29 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
       console.error("Error toggling follow:", error);
     }
   };
+  const fetchUserPosts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getuserposts`,
+        {
+          params: {
+            username: username,
+          },
+        }
+      );
+      console.log(response.data.data);
+      if (response.status === 200) {
+        setUserPosts(response.data.data);
+      } else {
+        console.error("Error fetching user posts:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching user posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="ProfilePage">
@@ -169,8 +204,22 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
                 </span>
               </div>
               <div className="profile-navbar-buttons buttons-middle">
-                <button>Overview</button>
-                <button>Activity</button>
+                <button
+                  className={
+                    activeButton === "Overview" ? "profilepageactive" : ""
+                  }
+                  onClick={() => handleButtonClick("Overview")}
+                >
+                  Overview
+                </button>
+                <button
+                  className={
+                    activeButton === "Activity" ? "profilepageactive" : ""
+                  }
+                  onClick={() => handleButtonClick("Activity")}
+                >
+                  Activity
+                </button>
               </div>
               {isUserSignedinView ? (
                 <div className="profile-navbar-buttons buttons-right">
@@ -239,6 +288,31 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
                 </>
               )}
             </div>
+          </div>{" "}
+          <div
+            className={activeButton === "Activity" ? "profile-pages-info" : ""}
+          >
+            {activeButton === "Overview" && (
+              <div className="overview-container">Overview content</div>
+            )}
+            {activeButton === "Activity" && (
+              <div className="profile-activity">
+                {isLoading ? (
+                  <Loading />
+                ) : userPosts.length > 0 ? (
+                  userPosts.map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      gameforum={post.game_forum}
+                      userProfile={userProfile}
+                    />
+                  ))
+                ) : (
+                  <h3 style={{ color: "white" }}>No posts found.</h3>
+                )}
+              </div>
+            )}
           </div>
           {isreportopen && (
             <div className="Reportuser-wrapper">
