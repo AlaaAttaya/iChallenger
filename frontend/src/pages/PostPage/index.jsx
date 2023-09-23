@@ -60,7 +60,7 @@ const PostPage = ({ userProfile }) => {
   }, [gamename, post]);
 
   return (
-    <div className="GameForum">
+    <div className="PostPage">
       {loading ? (
         <Loading />
       ) : gameforum ? (

@@ -87,13 +87,13 @@ const Footer = () => {
         <div className="footer-menu-container">
           <div className="footer-menu">
             <div className="footer-title">Explore</div>
-            <Link>
+            <Link to="/Forums">
               <div>Community</div>
             </Link>
-            <Link>
+            <Link to="/Tournaments">
               <div>Tournaments</div>
             </Link>
-            <Link>
+            <Link to="/Leaderboards">
               <div>Leaderboards</div>
             </Link>
           </div>
