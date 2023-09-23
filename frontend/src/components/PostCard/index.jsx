@@ -233,7 +233,14 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
             <div className="poster-info">
               {" "}
               <div className="poster-info-child">
-                <div className="poster-username">{post.user.username}</div>
+                <div className="poster-username">
+                  <a
+                    href={`/Profile/${post.user.username}`}
+                    className="hrefusername"
+                  >
+                    {post.user.username}
+                  </a>
+                </div>
                 <div className="post-forumlink">
                   &nbsp; - &nbsp;
                   <a className="postlinks" href={`/Forums/${gameforum.name}`}>
