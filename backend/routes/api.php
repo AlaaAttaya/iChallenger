@@ -68,6 +68,11 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('tournaments', [UserController::class, 'getAllTournaments']);
         Route::get('filtertournaments', [UserController::class, 'filterTournaments']);
 
+
+        Route::post('blockuser', [UserController::class, 'blockUser']);
+        Route::get('getblockedusers', [UserController::class, 'getBlockedUsers']);
+        Route::post('unblockuser', [UserController::class, 'unblockUser']);
+
     });
 
 
