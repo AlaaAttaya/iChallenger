@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./styles.css";
 import config from "../../services/config";
 import chatgptbotimage from "../../assets/images/chatgptbot.png";
 import UserCard from "../UserCard";
 import axios from "axios";
-
+import Pusher from "pusher-js";
 const Message = ({ onCloseMessages, userProfile }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [activeSection, setActiveSection] = useState("MainMessages");
@@ -12,6 +12,165 @@ const Message = ({ onCloseMessages, userProfile }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
   const [activeuser, setActiveUser] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const chatContainerRef = useRef(null);
+  const [latestMessagesUsers, setLatestMessagesUsers] = useState([]);
+
+  if (!localStorage.getItem("token")) {
+    onCloseMessages();
+  }
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  useEffect(() => {
+    setMessages([]);
+  }, [activeuser]);
+  const pusher = new Pusher("527edb0870fce1976587", {
+    cluster: "eu",
+    encrypted: true,
+  });
+  const channelName = `private-chat.${userProfile.id}`;
+  const channel = pusher.subscribe(channelName);
+
+  useEffect(() => {
+    const handleNewMessage = (data) => {
+      console.log("New message received:", data);
+    };
+
+    channel.bind("client-new-message", handleNewMessage);
+
+    return () => {
+      channel.unbind("client-new-message", handleNewMessage);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      pusher.unsubscribe(channelName);
+    };
+  }, [channelName, pusher]);
+
+  const getMessages = (user) => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`${config.base_url}/api/user/getmessages`, {
+        params: {
+          username: user.username,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const data = response.data;
+
+        const sentMessages = data.sentMessages;
+        const receivedMessages = data.receivedMessages;
+
+        const allMessages = [...sentMessages, ...receivedMessages];
+        allMessages.sort(
+          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        );
+
+        const updatedMessages = allMessages.map((message) => ({
+          content: message.content,
+          messageowner:
+            message.sender_id === user.id
+              ? user.username
+              : userProfile.username,
+        }));
+
+        setMessages(updatedMessages);
+
+        console.log("getmessages", response);
+      })
+      .catch((error) => {
+        console.error("Error fetching messages:", error);
+      });
+  };
+  const getLatestMessagesUsers = () => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get(`${config.base_url}/api/user/getlatestmessagesusers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const data = response.data;
+
+        const latestUsers = data.sendersWithLatestMessages;
+
+        setLatestMessagesUsers(latestUsers);
+      })
+      .catch((error) => {
+        console.error("Error fetching latest messages users:", error);
+      });
+  };
+  const sendMessage = () => {
+    const token = localStorage.getItem("token");
+    const messageData = {
+      recipient_id: activeuser.id,
+      content: newMessage,
+    };
+
+    const temporaryMessage = {
+      content: newMessage,
+      messageowner: userProfile.username,
+    };
+
+    setMessages((prevMessages) => [...prevMessages, temporaryMessage]);
+
+    axios
+      .post(`${config.base_url}/api/user/storemessage`, messageData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("stored", response);
+
+        const newMessage = response.data.data;
+
+        setMessages((prevMessages) =>
+          prevMessages.map((message) =>
+            message === temporaryMessage
+              ? {
+                  content: newMessage.content,
+                  messageowner: userProfile.username,
+                }
+              : message
+          )
+        );
+      })
+      .catch((error) => {
+        console.error("Error sending message:", error);
+
+        setMessages((prevMessages) =>
+          prevMessages.filter((message) => message !== temporaryMessage)
+        );
+      });
+
+    channel.trigger("client-new-message", { message: temporaryMessage });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      sendMessage();
+    }
+  };
+
+  //////////////////
 
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
@@ -56,6 +215,8 @@ const Message = ({ onCloseMessages, userProfile }) => {
       };
 
       setActiveUser(chatgpt);
+    } else if (section === "MyMessages") {
+      getLatestMessagesUsers();
     }
   };
   const backbutton = () => {
@@ -76,6 +237,7 @@ const Message = ({ onCloseMessages, userProfile }) => {
   const handleUserChat = (user) => {
     setActiveUser(user);
     setActive("Chat");
+    getMessages(user);
   };
 
   return (
@@ -145,23 +307,7 @@ const Message = ({ onCloseMessages, userProfile }) => {
                 />
               </svg>
             </div>
-            <div className="messages-settings-button">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 21 21"
-                fill="none"
-                className="messages-svg-icon"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M8.86747 1.25866C9.21347 0.621822 9.77492 0 10.4997 0C11.2247 0 11.7863 0.622245 12.1322 1.25939C12.1699 1.32872 12.2107 1.39651 12.2547 1.46255C12.5431 1.89578 12.9532 2.23401 13.4334 2.43469L14.1291 2.72344C14.6106 2.92102 15.1398 2.97174 15.6501 2.86921C15.7281 2.85354 15.8052 2.83439 15.881 2.81189C16.5757 2.60574 17.4124 2.56278 17.9248 3.07519C18.4372 3.5876 18.3943 4.4243 18.1881 5.11901C18.1656 5.19485 18.1465 5.27187 18.1308 5.34986C18.0283 5.86016 18.079 6.38939 18.2766 6.87094L18.5653 7.56656C18.766 8.04678 19.1042 8.45691 19.5374 8.74534C19.6036 8.78936 19.6715 8.83026 19.7409 8.86794C20.3779 9.21374 21 9.77517 21 10.5C21 11.2248 20.3779 11.7863 19.7409 12.1321C19.6715 12.1697 19.6036 12.2106 19.5374 12.2547C19.1042 12.5431 18.766 12.9532 18.5653 13.4334L18.2766 14.1291C18.0791 14.6107 18.0286 15.14 18.1314 15.6503C18.147 15.7279 18.1661 15.8045 18.1885 15.88C18.3948 16.5753 18.4378 17.4128 17.9248 17.9255C17.4123 18.4376 16.5759 18.3946 15.8813 18.1885C15.8056 18.166 15.7286 18.1469 15.6507 18.1312C15.1407 18.0287 14.6117 18.0793 14.1304 18.2766L13.4334 18.5653C12.9532 18.766 12.5431 19.1042 12.2547 19.5374C12.2107 19.6035 12.1699 19.6713 12.1322 19.7406C11.7863 20.3778 11.2247 21 10.4997 21C9.77492 21 9.21347 20.3782 8.86747 19.7413C8.82981 19.672 8.78896 19.6042 8.74497 19.5382C8.45656 19.1052 8.04657 18.7672 7.56656 18.5666L6.87094 18.2779C6.38955 18.08 5.86035 18.0289 5.35002 18.1312C5.27208 18.1469 5.19511 18.166 5.11932 18.1884C4.42441 18.3943 3.58758 18.4372 3.07509 17.9247C2.56268 17.4123 2.60554 16.5756 2.81129 15.8808C2.83369 15.8052 2.85274 15.7284 2.86834 15.6506C2.97063 15.1405 2.91976 14.6116 2.72212 14.1304L2.43338 13.4334C2.23279 12.9534 1.89475 12.5434 1.46178 12.255C1.3958 12.2111 1.32805 12.1702 1.25878 12.1326C0.621894 11.7865 0 11.225 0 10.5002C0 9.77521 0.622053 9.21336 1.25931 8.86767C1.77794 8.58634 2.19914 8.13359 2.43338 7.56656L2.72212 6.87094C2.92004 6.38955 2.97107 5.86035 2.86876 5.35002C2.85315 5.2721 2.83406 5.19516 2.81162 5.1194C2.60577 4.42444 2.56282 3.58755 3.07534 3.07503C3.58774 2.56263 4.42435 2.60542 5.11914 2.81127C5.195 2.83375 5.27205 2.85287 5.35007 2.86851C5.86037 2.9708 6.38952 2.91987 6.87094 2.72212L7.56656 2.43338C8.04657 2.23279 8.45656 1.89475 8.74497 1.46178C8.78896 1.39576 8.82981 1.32797 8.86747 1.25866ZM4.7294 8.58732C4.22234 9.81203 4.22234 11.188 4.7294 12.4127L5.06638 13.2266C5.57387 14.4523 6.54767 15.4261 7.7734 15.9336L8.58705 16.2705C9.81192 16.7776 11.1881 16.7775 12.4129 16.2703L13.2263 15.9334C14.4514 15.426 15.4248 14.4528 15.9324 13.2277L16.2696 12.4138C16.7773 11.1884 16.7773 9.81156 16.2696 8.5862L15.9324 7.77229C15.4248 6.54723 14.4514 5.57396 13.2263 5.06658L12.4129 4.72971C11.1881 4.22245 9.81192 4.22238 8.58705 4.72951L7.7734 5.06639C6.54767 5.57387 5.57387 6.54767 5.06638 7.7734L4.7294 8.58732Z"
-                  fill="#2FD671"
-                />
-              </svg>
-            </div>
+
             <div className="messages-close-button" onClick={onCloseMessages}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -228,33 +374,6 @@ const Message = ({ onCloseMessages, userProfile }) => {
                   </svg>
 
                   <div>My Messages</div>
-                </div>
-                <div
-                  className="blockedusers-section"
-                  onClick={() => setActive("BlockedUsers")}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 25 25"
-                    fill="none"
-                  >
-                    <g clipPath="url(#clip0_178_2132)">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12.5 0C10.0277 0 7.61099 0.733112 5.55538 2.10663C3.49976 3.48015 1.89761 5.43238 0.951511 7.71646C0.00541608 10.0005 -0.242126 12.5139 0.24019 14.9386C0.722505 17.3634 1.91301 19.5907 3.66117 21.3388C5.40933 23.087 7.63661 24.2775 10.0614 24.7598C12.4861 25.2421 14.9995 24.9946 17.2835 24.0485C19.5676 23.1024 21.5199 21.5002 22.8934 19.4446C24.2669 17.389 25 14.9723 25 12.5C25 9.18479 23.683 6.00537 21.3388 3.66116C18.9946 1.31696 15.8152 0 12.5 0ZM12.5 2.08333C14.8913 2.08005 17.21 2.90449 19.0625 4.41667L4.41667 19.0625C3.17489 17.535 2.39159 15.6869 2.15761 13.7323C1.92363 11.7777 2.24858 9.79684 3.09474 8.01945C3.94091 6.24206 5.27363 4.74098 6.93833 3.69031C8.60302 2.63964 10.5315 2.08244 12.5 2.08333ZM12.5 22.9167C10.0828 22.9189 7.74027 22.0791 5.87501 20.5417L20.5417 5.875C21.798 7.39933 22.595 9.24946 22.8397 11.2096C23.0844 13.1697 22.7667 15.1589 21.9237 16.9454C21.0808 18.7318 19.7472 20.2417 18.0787 21.299C16.4101 22.3562 14.4753 22.9173 12.5 22.9167Z"
-                        fill="white"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_178_2132">
-                        <rect width="25" height="25" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  <div>Blocked Users</div>
                 </div>
               </div>
             )}
@@ -328,22 +447,58 @@ const Message = ({ onCloseMessages, userProfile }) => {
               </div>
             )}
 
-            {activeSection === "BlockedUsers" && (
-              <div className="message-content">
-                <div className="blockedusers-page">{/* ... */}</div>
-              </div>
-            )}
-
             {activeSection === "MyMessages" && (
-              <div className="message-content">
-                <div className="mymessages-page">{/* ... */}</div>
+              <div className="mymessages-page">
+                {latestMessagesUsers.map((info, index) => (
+                  <div
+                    key={index}
+                    className="latestuser-message"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleUserChat(info.sender);
+                    }}
+                  >
+                    <div className="latestuser-message-container">
+                      <img
+                        src={config.base_url + info.sender.profileimage}
+                        alt={info.sender.username}
+                        className="latestuser-img"
+                      />
+
+                      <div className="latestuser-details">
+                        <div className="usernamelatestmessage">
+                          {info.sender.username}
+                        </div>
+                        <div className="infolatestmessage">
+                          {info.latestMessage.content}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
             {activeSection === "Chat" && (
               <div className="chat-content">
-                <div className="chat-page"></div>
+                <div className="chat-page" ref={chatContainerRef}>
+                  {" "}
+                  {messages.map((message, index) => (
+                    <div key={index} className="Message-sentreceived">
+                      <span className="messageowner">
+                        {message.messageowner}:
+                      </span>
+                      {message.content}
+                    </div>
+                  ))}
+                </div>
                 <div className="chat-text-input">
-                  <input type="text" className="chat-input" />
+                  <input
+                    type="text"
+                    className="chat-input"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={handleKeyPress}
+                  />
                 </div>
               </div>
             )}
