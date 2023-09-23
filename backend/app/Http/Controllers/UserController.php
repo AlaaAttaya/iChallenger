@@ -887,6 +887,7 @@ class UserController extends Controller
                 'postLikes',
                 'postComments.user',
                 'postUploads',
+                'gameForum',
             ])
             ->get();
     
