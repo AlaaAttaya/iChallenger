@@ -32,7 +32,7 @@ const FollowingActivityPage = ({ userProfile }) => {
           },
         }
       );
-      console.log(response.data.data);
+
       if (response.status === 200) {
         setFollowingPosts(response.data.data);
       } else {
@@ -54,7 +54,7 @@ const FollowingActivityPage = ({ userProfile }) => {
     setSearchText(searchText);
 
     const filteredPosts = followingPosts.filter((post) =>
-      post.title.toLowerCase().includes(searchText.toLowerCase())
+      post.description.toLowerCase().includes(searchText.toLowerCase())
     );
 
     setSearchResults(filteredPosts);
@@ -102,24 +102,27 @@ const FollowingActivityPage = ({ userProfile }) => {
       <div className="post-list">
         {isLoading ? (
           <Loading />
-        ) : searchResults.length > 0 ? (
-          searchResults.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              gameforum={post.game_forum}
-              userProfile={userProfile}
-            />
-          ))
+        ) : searchResults.length > 0 || followingPosts.length > 0 ? (
+          <>
+            {searchResults.map((post) => (
+              <PostCard
+                key={post.id}
+                post={post}
+                gameforum={post.game_forum}
+                userProfile={userProfile}
+              />
+            ))}
+            {followingPosts.map((post) => (
+              <PostCard
+                key={post.id}
+                post={post}
+                gameforum={post.game_forum}
+                userProfile={userProfile}
+              />
+            ))}
+          </>
         ) : (
-          followingPosts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              gameforum={post.game_forum}
-              userProfile={userProfile}
-            />
-          ))
+          <h3 style={{ color: "white" }}>No posts found.</h3>
         )}
       </div>
     </div>

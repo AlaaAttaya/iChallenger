@@ -1,18 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import axios from "axios";
 import config from "../../services/config";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
 import DefaultCoverPic from "../../assets/images/coverpic.png";
+import PostCard from "../../components/PostCard";
+import Loading from "../../components/Loading";
 const ProfilePage = ({ userProfile }) => {
+  const [activeButton, setActiveButton] = useState("Overview");
+  const [userPosts, setUserPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleButtonClick = (buttonName) => {
+    setActiveButton(buttonName);
+
+    if (buttonName === "Activity" && userPosts.length === 0) {
+      fetchUserPosts();
+    }
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "/Login";
     }
   }, []);
-
+  const fetchUserPosts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getuserposts`,
+        {
+          params: {
+            username: userProfile.username,
+          },
+        }
+      );
+      console.log(response.data.data);
+      if (response.status === 200) {
+        setUserPosts(response.data.data);
+      } else {
+        console.error("Error fetching user posts:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching user posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="ProfilePage">
       <div className="Profile-navbar">
@@ -56,8 +90,18 @@ const ProfilePage = ({ userProfile }) => {
             className="profile-navbar-buttons "
             style={{ marginRight: "80px" }}
           >
-            <button>Overview</button>
-            <button>Activity</button>
+            <button
+              className={activeButton === "Overview" ? "profilepageactive" : ""}
+              onClick={() => handleButtonClick("Overview")}
+            >
+              Overview
+            </button>
+            <button
+              className={activeButton === "Activity" ? "profilepageactive" : ""}
+              onClick={() => handleButtonClick("Activity")}
+            >
+              Activity
+            </button>
           </div>
 
           <div className="profile-navbar-buttons">
@@ -82,6 +126,28 @@ const ProfilePage = ({ userProfile }) => {
             </Link>
           </div>
         </div>
+      </div>
+      <div className="profile-pages-info">
+        {activeButton === "Overview" && (
+          <div className="overview-container">Overview content</div>
+        )}
+        {activeButton === "Activity" && (
+          <div className="profile-activity">
+            {" "}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              userPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  gameforum={post.game_forum}
+                  userProfile={userProfile}
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
