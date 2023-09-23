@@ -872,39 +872,38 @@ class UserController extends Controller
 
   
         
-        public function getFollowingPosts(Request $request)
+    public function getFollowingPosts(Request $request)
     {
-    
+      
         $user = Auth::user();
-
     
-        $followingPosts = $user->followedUsers()
+       
+        $followingUsers = $user->following;
+    
+       
+        $followingPosts = Post::whereIn('user_id', $followingUsers->pluck('id'))
             ->with([
-                'userPosts.user',
-                'userPosts.postLikes',
-                'userPosts.postComments.user',
-                'userPosts.postUploads',
+                'user',
+                'postLikes',
+                'postComments.user',
+                'postUploads',
             ])
-            ->get()
-            ->flatMap(function ($followedUser) {
-                return $followedUser->userPosts;
-            });
-
+            ->get();
     
-        foreach ($followingPosts as $post) {
+     
+        $followingPosts->each(function ($post) {
             $likedCount = $post->postLikes->where('is_liked', 1)->count();
             $dislikedCount = $post->postLikes->where('is_liked', 0)->count();
             $post->like_count = $likedCount - $dislikedCount;
             $post->comment_count = $post->postComments->count();
-        }
-
+        });
+    
         return response()->json([
             'status' => 'Success',
             'message' => 'Following posts retrieved successfully.',
             'data' => $followingPosts,
         ]);
     }
-
 
   
     

@@ -32,7 +32,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('unfollow', [UserController::class, "unfollowUser"]);
         Route::get('followers', [UserController::class, "getUserFollowers"]);
         Route::get('following', [UserController::class, "getUserFollowing"]);
-        Route::get('getfollowingposts', [AuthController::class, 'getFollowingPosts']);
+        Route::get('getfollowingposts', [UserController::class, 'getFollowingPosts']);
         Route::post('report', [UserController::class, 'reportUser']);
 
 
