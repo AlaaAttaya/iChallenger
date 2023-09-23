@@ -39,6 +39,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('storemessage', [UserController::class, 'storeMessage']);
         Route::post('sendnotification', [UserController::class, 'sendNotification']);
         Route::get('getmessages', [UserController::class, 'getMessages']);
+        Route::get('getlatestmessagesusers', [UserController::class, 'getLatestMessagesUsers']);
         Route::get('getgames', [UserController::class, 'getGames']);
 
         Route::post('createpost', [UserController::class, 'createPost']);

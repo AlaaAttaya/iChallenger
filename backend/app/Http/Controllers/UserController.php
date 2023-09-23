@@ -347,7 +347,55 @@ class UserController extends Controller
         return response()->json($response);
     }
     
-
+    public function getLatestMessagesUsers()
+    {
+        $user = Auth::user();
+    
+       
+        $uniqueSenders = $user->receivedMessages()
+            ->groupBy('sender_id')
+            ->pluck('sender_id');
+    
+      
+        $latestMessages = Message::whereIn('sender_id', $uniqueSenders)
+            ->where('recipient_id', $user->id)
+            ->latest('created_at')
+            ->get();
+    
+       
+        $blockedUserIds = $user->blockedUsers()->pluck('blocked_user_id')->toArray();
+    
+      
+        $senders = User::whereIn('id', $uniqueSenders)->get();
+    
+      
+        $latestMessagesBySender = [];
+        foreach ($latestMessages as $message) {
+            $senderId = $message->sender_id;
+            $latestMessagesBySender[$senderId] = $message;
+        }
+    
+   
+        $sendersWithLatestMessages = [];
+        foreach ($senders as $sender) {
+            $message = $latestMessagesBySender[$sender->id] ?? null;
+    
+            $isBlocked = in_array($sender->id, $blockedUserIds);
+    
+            $sendersWithLatestMessages[] = [
+                'sender' => $sender,
+                'latestMessage' => $message,
+                'blocked' => $isBlocked,
+            ];
+        }
+    
+        return response()->json([
+            'status' => 'Success',
+            'sendersWithLatestMessages' => $sendersWithLatestMessages,
+        ]);
+    }
+    
+    
     public function getGames(Request $request)
     {
         $search = $request->input('search');
