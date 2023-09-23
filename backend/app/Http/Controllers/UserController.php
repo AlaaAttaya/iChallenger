@@ -30,7 +30,7 @@ use App\Models\TeamMember;
 use App\Models\Tournament;
 use App\Models\TournamentType;
 use App\Models\TournamentWinner;
-
+use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Log; 
 
 class UserController extends Controller
@@ -907,7 +907,70 @@ class UserController extends Controller
     }
 
   
+        public function blockUser(Request $request)
+    {
+        $user = Auth::user();
+
+        
+        $request->validate([
+            'username' => 'required|string',
+        ]);
+
+        $usernameToBlock = $request->input('username');
+
     
+        $userToBlock = User::where('username', $usernameToBlock)->first();
+
     
+        if ($user->id === $userToBlock->id) {
+            return response()->json(['error' => 'You cannot block yourself.'], 400);
+        }
+
+
+        if ($user->blockedUsers->contains($userToBlock->id)) {
+            return response()->json(['error' => 'User is already blocked.'], 400);
+        }
+
+    
+        $user->blockedUsers()->attach($userToBlock->id);
+
+        return response()->json(['message' => 'User blocked successfully.']);
+    }
+    public function getBlockedUsers()
+    {
+        $user = Auth::user();
+        $blockedUsers = $user->blockedUsers;
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Blocked users retrieved successfully.',
+            'data' => $blockedUsers,
+        ]);
+    }
+        public function unblockUser(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'username' => 'required|string',
+        ]);
+
+        $usernameToUnblock = $request->input('username');
+
+        $userToUnblock = User::where('username', $usernameToUnblock)->first();
+
+        if (!$userToUnblock) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
+        if (!$user->blockedUsers->contains($userToUnblock->id)) {
+            return response()->json(['error' => 'User is not blocked.'], 400);
+        }
+
+        
+        $user->blockedUsers()->detach($userToUnblock->id);
+
+        return response()->json(['message' => 'User unblocked successfully.']);
+    }
     
 }
