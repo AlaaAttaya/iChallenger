@@ -148,6 +148,7 @@
   width: 100px;
   margin-left: 1px;
   margin-right: 1px;
+  cursor: pointer;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -161,4 +162,29 @@
   flex-direction: column;
 
   background-color: #202020;
+}
+.chat-content {
+  height: 250px;
+  overflow: auto;
+  display: flex;
+
+  flex-direction: column;
+
+  background-color: #202020;
+}
+.chat-page {
+  height: 100%;
+  background-color: #ffffff1b;
+  overflow: auto;
+}
+.chat-text-input {
+  margin: 5px;
+}
+.chat-input {
+  width: 100%;
+  border-radius: 2px;
+  outline: 1px solid #3cd679;
+  box-sizing: border-box;
+  background-color: #202020;
+  color: white;
 }

@@ -10,6 +10,7 @@ const Message = ({ onCloseMessages, userProfile }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
+  const [activeuser, setActiveUser] = useState([]);
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
   };
@@ -48,9 +49,15 @@ const Message = ({ onCloseMessages, userProfile }) => {
     setActiveSection(section);
   };
   const backbutton = () => {
-    if (setActive !== "MainMessages") {
-      setActive("MainMessages");
+    if (activeSection !== "MainMessages" && activeSection !== "Chat") {
+      setActiveSection("MainMessages");
+    } else if (activeSection === "Chat") {
+      setActiveSection("MyMessages");
     }
+  };
+  const handleUserChat = (user) => {
+    setActiveUser(user);
+    setActive("Chat");
   };
   return (
     <div className="message-container">
@@ -213,7 +220,7 @@ const Message = ({ onCloseMessages, userProfile }) => {
 
             {activeSection === "FindPlayers" && (
               <div className="findplayers-page">
-                <div className="navbarsearch-wrapper">
+                <div className="messages-navbarsearch-wrapper">
                   <div
                     className={`navbarsearch ${
                       isInputFocused ? "focused" : ""
@@ -257,6 +264,10 @@ const Message = ({ onCloseMessages, userProfile }) => {
                           key={user.id}
                           className="messageslinkusercardsearchinputnavbar"
                           onMouseDown={(e) => e.preventDefault()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleUserChat(user);
+                          }}
                         >
                           <UserCard key={user.id} user={user} />
                         </a>
@@ -282,6 +293,14 @@ const Message = ({ onCloseMessages, userProfile }) => {
             {activeSection === "MyMessages" && (
               <div className="message-content">
                 <div className="mymessages-page">{/* ... */}</div>
+              </div>
+            )}
+            {activeSection === "Chat" && (
+              <div className="chat-content">
+                <div className="chat-page"></div>
+                <div className="chat-text-input">
+                  <input type="text" className="chat-input" />
+                </div>
               </div>
             )}
           </>
