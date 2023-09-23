@@ -90,7 +90,7 @@ const App = () => {
             localStorage.clear();
           });
       }
-    }, 360000);
+    }, 180000);
 
     return () => {
       clearInterval(refreshInterval);

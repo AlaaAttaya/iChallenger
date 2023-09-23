@@ -18,7 +18,6 @@ export const refreshToken = async () => {
       const data = await response.json();
       const newToken = data.data.token;
 
-      localStorage.setItem("token", newToken);
       return newToken;
     } else {
       throw new Error("Token refresh failed");
