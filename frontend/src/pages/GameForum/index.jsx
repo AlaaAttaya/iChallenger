@@ -111,7 +111,6 @@ const GameForum = ({ userProfile }) => {
       );
 
       if (response.status === 200) {
-        console.log("Forum posts:", response.data);
         setPosts(response.data.data);
       } else {
         console.error("Error fetching forum posts:", response.data.message);
@@ -131,8 +130,8 @@ const GameForum = ({ userProfile }) => {
       );
 
       if (response.status === 200) {
-        setGameForum(response.data.data.game);
-        fetchForumPosts(response.data.data.game);
+        setGameForum(response.data.data);
+        fetchForumPosts(response.data.data);
       } else {
         console.error("Error fetching game forum:", response.data.message);
       }
