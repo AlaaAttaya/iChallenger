@@ -152,7 +152,10 @@ const App = () => {
                   />
                 }
               />
-              <Route path="/Activity" element={<WrappedFollowingActivity />} />
+              <Route
+                path="/Activity"
+                element={<WrappedFollowingActivity userProfile={userProfile} />}
+              />
               <Route path="/Forums" element={<WrappedForums />} />
               <Route
                 path="/Forums/:gamename"

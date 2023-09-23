@@ -6,8 +6,6 @@ import { Carousel } from "react-responsive-carousel";
 import "./styles.css";
 import DefaultProfilePic from "../../assets/images/profilepic.png";
 const PostCard = ({ post, gameforum, show, userProfile }) => {
-  console.log(post);
-  console.log(userProfile);
   const [isUpvoted, setIsUpvoted] = useState(false);
   const [isDownvoted, setIsDownvoted] = useState(false);
   const formattedDate = new Date(post.created_at).toLocaleDateString();

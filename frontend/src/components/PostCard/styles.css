@@ -215,3 +215,8 @@
   margin-top: 5px;
   margin-left: 5px;
 }
+.hrefusername {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
