@@ -4,7 +4,7 @@ import config from "../../services/config";
 import chatgptbotimage from "../../assets/images/chatgptbot.png";
 import UserCard from "../UserCard";
 import axios from "axios";
-import Pusher from "pusher-js";
+// import Pusher from "pusher-js";
 const Message = ({ onCloseMessages, userProfile }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [activeSection, setActiveSection] = useState("MainMessages");
@@ -14,8 +14,15 @@ const Message = ({ onCloseMessages, userProfile }) => {
   const [activeuser, setActiveUser] = useState("");
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [newchatgptmessage, setNewChatGPTMessage] = useState("");
   const chatContainerRef = useRef(null);
   const [latestMessagesUsers, setLatestMessagesUsers] = useState([]);
+  const [chatGPTMessages, setChatGPTMessages] = useState([
+    {
+      content: "What can I help you with?",
+      messageowner: "ChatGPT Bot",
+    },
+  ]);
 
   if (!localStorage.getItem("token")) {
     onCloseMessages();
@@ -26,36 +33,88 @@ const Message = ({ onCloseMessages, userProfile }) => {
         chatContainerRef.current.scrollHeight;
     }
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatGPTMessages]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
   useEffect(() => {
     setMessages([]);
   }, [activeuser]);
-  const pusher = new Pusher("527edb0870fce1976587", {
-    cluster: "eu",
-    encrypted: true,
-  });
-  const channelName = `private-chat.${userProfile.id}`;
-  const channel = pusher.subscribe(channelName);
+  //   const pusher = new Pusher("527edb0870fce1976587", {
+  //     cluster: "eu",
+  //     encrypted: true,
+  //   });
+  //   const channelName = `private-chat.${userProfile.id}`;
+  //   const channel = pusher.subscribe(channelName);
 
-  useEffect(() => {
-    const handleNewMessage = (data) => {
-      console.log("New message received:", data);
-    };
+  //   useEffect(() => {
+  //     const handleNewMessage = (data) => {
+  //       console.log("New message received:", data);
+  //     };
 
-    channel.bind("client-new-message", handleNewMessage);
+  //     channel.bind("client-new-message", handleNewMessage);
 
-    return () => {
-      channel.unbind("client-new-message", handleNewMessage);
-    };
-  }, []);
+  //     return () => {
+  //       channel.unbind("client-new-message", handleNewMessage);
+  //     };
+  //   }, []);
 
-  useEffect(() => {
-    return () => {
-      pusher.unsubscribe(channelName);
-    };
-  }, [channelName, pusher]);
+  //   useEffect(() => {
+  //     return () => {
+  //       pusher.unsubscribe(channelName);
+  //     };
+  //   }, [channelName, pusher]);
+
+  const handleChatGptKeyPress = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      const userMessage = newchatgptmessage;
+
+      await generateResponse(userMessage);
+
+      setNewChatGPTMessage("");
+    }
+  };
+
+  const generateResponse = async (userMessage) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${config.base_url}/api/user/generateresponse`,
+        { user_message: userMessage },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const generatedText = response.data.generated_text;
+
+      setChatGPTMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          content: userMessage,
+          messageowner: userProfile.username,
+        },
+      ]);
+
+      setChatGPTMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          content: generatedText,
+          messageowner: "ChatGPT Bot",
+        },
+      ]);
+    } catch (error) {
+      console.error("Error generating response:", error);
+    }
+    setNewChatGPTMessage("");
+  };
 
   const getMessages = (user) => {
     const token = localStorage.getItem("token");
@@ -95,6 +154,7 @@ const Message = ({ onCloseMessages, userProfile }) => {
         console.error("Error fetching messages:", error);
       });
   };
+
   const getLatestMessagesUsers = () => {
     const token = localStorage.getItem("token");
 
@@ -158,8 +218,8 @@ const Message = ({ onCloseMessages, userProfile }) => {
           prevMessages.filter((message) => message !== temporaryMessage)
         );
       });
-
-    channel.trigger("client-new-message", { message: temporaryMessage });
+    setNewMessage("");
+    // channel.trigger("client-new-message", { message: temporaryMessage });
   };
 
   const handleKeyPress = (e) => {
@@ -169,8 +229,6 @@ const Message = ({ onCloseMessages, userProfile }) => {
       sendMessage();
     }
   };
-
-  //////////////////
 
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
@@ -440,42 +498,61 @@ const Message = ({ onCloseMessages, userProfile }) => {
 
             {activeSection === "ChatGPTBot" && (
               <div className="chat-content">
-                <div className="chat-page"></div>
+                <div className="chat-page" ref={chatContainerRef}>
+                  {chatGPTMessages.map((message, index) => (
+                    <div key={index} className="Message-sentreceived">
+                      <span className="messageowner">
+                        {message.messageowner}:
+                      </span>
+                      {message.content}
+                    </div>
+                  ))}
+                </div>
                 <div className="chat-text-input">
-                  <input type="text" className="chat-input" />
+                  <input
+                    type="text"
+                    className="chat-input"
+                    value={newchatgptmessage}
+                    onChange={(e) => setNewChatGPTMessage(e.target.value)}
+                    onKeyDown={handleChatGptKeyPress}
+                  />
                 </div>
               </div>
             )}
 
             {activeSection === "MyMessages" && (
               <div className="mymessages-page">
-                {latestMessagesUsers.map((info, index) => (
-                  <div
-                    key={index}
-                    className="latestuser-message"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleUserChat(info.sender);
-                    }}
-                  >
-                    <div className="latestuser-message-container">
-                      <img
-                        src={config.base_url + info.sender.profileimage}
-                        alt={info.sender.username}
-                        className="latestuser-img"
-                      />
+                {latestMessagesUsers.length > 0 ? (
+                  latestMessagesUsers.map((info, index) => (
+                    <div
+                      key={index}
+                      className="latestuser-message"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleUserChat(info.sender);
+                      }}
+                    >
+                      <div className="latestuser-message-container">
+                        <img
+                          src={config.base_url + info.sender.profileimage}
+                          alt={info.sender.username}
+                          className="latestuser-img"
+                        />
 
-                      <div className="latestuser-details">
-                        <div className="usernamelatestmessage">
-                          {info.sender.username}
-                        </div>
-                        <div className="infolatestmessage">
-                          {info.latestMessage.content}
+                        <div className="latestuser-details">
+                          <div className="usernamelatestmessage">
+                            {info.sender.username}
+                          </div>
+                          <div className="infolatestmessage">
+                            {info.latestMessage.content}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p>No messages</p>
+                )}
               </div>
             )}
             {activeSection === "Chat" && (
