@@ -451,6 +451,7 @@ class AuthController extends Controller
                 'userPosts.postLikes',
                 'userPosts.postComments.user',
                 'userPosts.postUploads',
+                'userPosts.gameForum'
             ])
             ->first();
     
