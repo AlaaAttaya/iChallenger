@@ -144,4 +144,8 @@ class User extends Authenticatable implements JWTSubject
     
         return $this->following->contains($targetUser);
     }
+        public function blockedUsers()
+    {
+        return $this->belongsToMany(User::class, 'blocked', 'user_id', 'blocked_user_id');
+    }
 }
