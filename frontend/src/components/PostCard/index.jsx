@@ -164,6 +164,7 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
             username: userProfile.username,
           },
           comment: commentText,
+          created_at: Date.now(),
         };
 
         setComments((prevComments) => [...prevComments, newComment]);
@@ -363,30 +364,34 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
                 onKeyDown={handleCommentKeyPress}
               />
             </div>
-            {comments.reverse().map((comment, index) => (
-              <div className="border-left" key={index}>
-                <div className="profilepicloadedcomment-wrapper">
-                  <div className="profilepicloadedcomment">
-                    <img
-                      src={
-                        comment.user.profileimage
-                          ? config.base_url + comment.user.profileimage ||
-                            DefaultProfilePic
-                          : DefaultProfilePic
-                      }
-                      className="profilepicimage"
-                      alt="ProfileImage"
-                    />
-                    <div className="comment-span-wrapper">
-                      <span className="comment-name-span">
-                        {comment.user.username}
-                      </span>
-                      <span className="comment-span">{comment.comment}</span>
+            {comments
+              .slice()
+              .reverse()
+              .map((comment, index) => (
+                <div className="border-left" key={index}>
+                  <div className="profilepicloadedcomment-wrapper">
+                    <div className="profilepicloadedcomment">
+                      <img
+                        src={
+                          comment.user.profileimage
+                            ? config.base_url + comment.user.profileimage ||
+                              DefaultProfilePic
+                            : DefaultProfilePic
+                        }
+                        className="profilepicimage"
+                        alt="ProfileImage"
+                      />
+                      <div className="comment-span-wrapper">
+                        <span className="comment-name-span">
+                          {comment.user.username} -{" "}
+                          {new Date(comment.created_at).toLocaleString()}
+                        </span>
+                        <span className="comment-span">{comment.comment}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         )}
       </div>
