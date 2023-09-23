@@ -103,7 +103,10 @@ const Message = ({ onCloseMessages, userProfile }) => {
               </svg>
             </div>
           </div>
-          <div className={activeuser ? "activeuser-title" : "messages-title"}>
+          <div
+            className={activeuser ? "activeuser-title" : "messages-title"}
+            onClick={toggleMinimize}
+          >
             {" "}
             {activeuser ? (
               <>

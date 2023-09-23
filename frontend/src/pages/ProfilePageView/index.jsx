@@ -25,7 +25,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
   const [showMessageComponent, setShowMessageComponent] = useState(false);
 
   const handleOpenMessage = () => {
-    setShowMessageComponent(true);
+    setShowMessageComponent(!showMessageComponent);
   };
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
@@ -328,7 +328,12 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
               />
             </div>
           )}
-          {showMessageComponent && <Message userProfile={userProfile} />}
+          {showMessageComponent && (
+            <Message
+              userProfile={userProfile}
+              onCloseMessages={handleOpenMessage}
+            />
+          )}
         </>
       )}
     </div>
