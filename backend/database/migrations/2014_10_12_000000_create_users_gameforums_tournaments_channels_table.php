@@ -282,7 +282,17 @@ return new class extends Migration
             $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
             $table->foreign('winner_id')->references('id')->on('teams')->onDelete('cascade');
         });
+        
+        Schema::create('blocked', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('blocked_user_id'); 
+            $table->timestamps();
 
+           
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('blocked_user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     
@@ -321,5 +331,6 @@ return new class extends Migration
         Schema::dropIfExists('invitations');
         Schema::dropIfExists('tournament_winners');
         Schema::dropIfExists('tournament_types');
+        Schema::dropIfExists('blocked');
     }
 };
