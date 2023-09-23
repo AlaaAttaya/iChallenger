@@ -50,7 +50,8 @@ const App = () => {
       (currentPath === "/Profile" && !token) ||
       (currentPath === "/Settings" && !token) ||
       (currentPath === "/Forum/:username" && !token) ||
-      (currentPath === "/Forum/:username/:post" && !token)
+      (currentPath === "/Forum/:username/:post" && !token) ||
+      (currentPath === "/Activity" && !token)
     ) {
       window.location.href = "/Login";
     } else if (userSignedIn) {
