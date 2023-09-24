@@ -64,7 +64,7 @@ Route::group(["middleware" => "auth:api"], function () {
 
 
        
-        Route::get('leaderboard', [UserController::class, 'getLeaderboard']);
+        Route::get('userleaderboard', [UserController::class, 'getUserLeaderboard']);
 
         Route::get('tournaments', [UserController::class, 'getAllTournaments']);
         Route::get('filtertournaments', [UserController::class, 'filterTournaments']);

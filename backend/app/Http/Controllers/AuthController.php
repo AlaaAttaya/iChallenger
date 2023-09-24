@@ -486,13 +486,25 @@ class AuthController extends Controller
             'data' => $userPosts,
         ]);
     }
-    public function getLeaderboard()
+        public function getLeaderboard(Request $request)
     {
-        $leaderboardData = Leaderboard::with('user')->get();
+        $searchQuery = $request->input('searchQuery');
+        
+        $query = Leaderboard::with('user');
+        
+        if ($searchQuery) {
+            $query->whereHas('user', function ($subquery) use ($searchQuery) {
+                $subquery->where('username', $searchQuery);
+            });
+        }
+        
+        $leaderboardData = $query->get();
 
         return response()->json([
             'status' => 'Success',
             'data' => $leaderboardData,
         ]);
     }
+
+    
 }

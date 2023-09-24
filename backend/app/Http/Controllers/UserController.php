@@ -883,7 +883,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function getLeaderboard(Request $request)
+    public function getUserLeaderboard(Request $request)
     {
         $searchUsername = $request->input('search');
     
