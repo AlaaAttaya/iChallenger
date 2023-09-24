@@ -106,7 +106,7 @@ class AuthController extends Controller
 
 
         if ($request->hasFile('profileimage')) {
-        $profileImagePath = $request->file('profileimage')->store('public/users/u_' . $user->id . '_' . $request->username . '/profile/');
+        $profileImagePath = $request->file('profileimage')->store('public/users/u_' . $user->id . '_' . $user->username . '/profile/');
         $user->profileimage = "/storage" . str_replace('public', '', $profileImagePath);
         } else {
         $user->profileimage = '/storage/images/profilepic.png';
@@ -486,5 +486,5 @@ class AuthController extends Controller
             'data' => $userPosts,
         ]);
     }
-    
+   
 }

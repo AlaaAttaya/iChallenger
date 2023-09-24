@@ -75,7 +75,7 @@ class UserController extends Controller
     
         if ($request->hasFile('profileimage')) {
            
-            $imagePath = $request->file('profileimage')->store('public/users/u_' . $user->id . '_' . $request->username . '/profile/');
+            $imagePath = $request->file('profileimage')->store('public/users/u_' . $user->id . '_' . $user->username . '/profile/');
             $imagePath = "/storage" . str_replace('public', '', $imagePath);
     
         
@@ -109,7 +109,7 @@ class UserController extends Controller
     
         if ($request->hasFile('coverimage')) {
             
-            $imagePath =  $request->file('coverimage')->store('public/users/u_' . $user->id . '_' . $request->username . '/cover/');
+            $imagePath =  $request->file('coverimage')->store('public/users/u_' . $user->id . '_' . $user->username . '/cover/');
             $imagePath = "/storage" . str_replace('public', '', $imagePath);
     
            
@@ -423,7 +423,7 @@ class UserController extends Controller
             'description' => 'required|string|max:255',
             'game_forum_id' => 'required|exists:game_forums,id',
             'uploads' => 'array',
-            'uploads.*' => 'file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:204800', 
+            'uploads.*' => 'file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:409600', 
         ]);
 
     
@@ -439,7 +439,7 @@ class UserController extends Controller
         if ($request->hasFile('uploads')) {
             foreach ($request->file('uploads') as $upload) {
                 
-                $filePath = $upload->store('public/users/u_' . $user->id . '_' . $request->username . '/posts/');
+                $filePath = $upload->store('public/users/u_' . $user->id . '_' . $user->username . '/posts/');
                 $filePath = "/storage" . str_replace('public', '', $filePath);
 
                 $postUpload = new PostUpload([
