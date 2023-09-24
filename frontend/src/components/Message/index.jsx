@@ -4,7 +4,7 @@ import config from "../../services/config";
 import chatgptbotimage from "../../assets/images/chatgptbot.png";
 import UserCard from "../UserCard";
 import axios from "axios";
-// import Pusher from "pusher-js";
+import Pusher from "pusher-js";
 const Message = ({ onCloseMessages, userProfile }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [activeSection, setActiveSection] = useState("MainMessages");
@@ -23,7 +23,6 @@ const Message = ({ onCloseMessages, userProfile }) => {
       messageowner: "ChatGPT Bot",
     },
   ]);
-
   if (!localStorage.getItem("token")) {
     onCloseMessages();
   }
@@ -44,30 +43,35 @@ const Message = ({ onCloseMessages, userProfile }) => {
   useEffect(() => {
     setMessages([]);
   }, [activeuser]);
-  //   const pusher = new Pusher("527edb0870fce1976587", {
-  //     cluster: "eu",
-  //     encrypted: true,
-  //   });
-  //   const channelName = `private-chat.${userProfile.id}`;
-  //   const channel = pusher.subscribe(channelName);
 
-  //   useEffect(() => {
-  //     const handleNewMessage = (data) => {
-  //       console.log("New message received:", data);
-  //     };
+  useEffect(() => {
+    const pusher = new Pusher("527edb0870fce1976587", {
+      cluster: "eu",
+      auth: {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+    });
+    if (userProfile) {
+      const channelName = `user.${userProfile.id}`;
+      const channel = pusher.subscribe(channelName);
 
-  //     channel.bind("client-new-message", handleNewMessage);
+      const handleNewMessage = (data) => {
+        console.log("New message received:", data);
+      };
 
-  //     return () => {
-  //       channel.unbind("client-new-message", handleNewMessage);
-  //     };
-  //   }, []);
+      channel.bind("client-new-message", handleNewMessage);
 
-  //   useEffect(() => {
-  //     return () => {
-  //       pusher.unsubscribe(channelName);
-  //     };
-  //   }, [channelName, pusher]);
+      return () => {
+        channel.unbind("client-new-message", handleNewMessage);
+
+        pusher.unsubscribe(channelName);
+
+        pusher.disconnect();
+      };
+    }
+  }, [userProfile]);
 
   const handleChatGptKeyPress = async (e) => {
     if (e.key === "Enter") {
@@ -219,7 +223,6 @@ const Message = ({ onCloseMessages, userProfile }) => {
         );
       });
     setNewMessage("");
-    // channel.trigger("client-new-message", { message: temporaryMessage });
   };
 
   const handleKeyPress = (e) => {
