@@ -490,24 +490,28 @@ class AuthController extends Controller
     public function getLeaderboard(Request $request)
     {
         $searchQuery = $request->input('searchQuery');
-    
-      
+        
         $query = Leaderboard::with('user')
             ->orderByDesc('points');
     
-        if ($searchQuery !== null) {
-            $query->whereHas('user', function ($subquery) use ($searchQuery) {
-                $subquery->where('username', 'like', $searchQuery . '%');
-            });
-        }
-    
         $leaderboardData = $query->get();
     
-      
         $leaderboardData->map(function ($entry, $index) {
             $entry->user->position = $index + 1;
             return $entry;
         });
+    
+        if ($searchQuery !== null) {
+    
+            $filteredData = $leaderboardData->filter(function ($entry) use ($searchQuery) {
+                return str_starts_with($entry->user->username, $searchQuery);
+            })->values(); 
+    
+            return response()->json([
+                'status' => 'Success',
+                'data' => $filteredData->isEmpty() ? [] : $filteredData->toArray(),
+            ]);
+        }
     
         if ($leaderboardData->isEmpty()) {
             return response()->json([
@@ -521,6 +525,11 @@ class AuthController extends Controller
             'data' => $leaderboardData,
         ]);
     }
+    
+
+    
+
+    
     
     
 

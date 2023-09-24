@@ -28,7 +28,6 @@ const LeaderboardsPage = ({ userProfile }) => {
       );
 
       if (response.data.status === "Success") {
-        console.log(response.data.data);
         setLeaderboardData(response.data.data);
       } else {
         setLeaderboardData([]);
@@ -39,7 +38,18 @@ const LeaderboardsPage = ({ userProfile }) => {
       setLoading(false);
     }
   };
-
+  const getPositionClassName = (position) => {
+    switch (position) {
+      case 1:
+        return "first";
+      case 2:
+        return "second";
+      case 3:
+        return "third";
+      default:
+        return "extras";
+    }
+  };
   useEffect(() => {
     fetchLeaderboardData();
   }, [searchQuery]);
@@ -147,13 +157,19 @@ const LeaderboardsPage = ({ userProfile }) => {
           <Loading />
         ) : (
           <div className="entries-wrapper">
-            {leaderboardData.length === 0 ? (
+            {Array.isArray(leaderboardData) && leaderboardData.length === 0 ? (
               <h3>No results found</h3>
             ) : (
               leaderboardData.map((entry) => (
                 <div key={entry.id} className="entries-leaderboard">
                   <div className="entry-imgusername">
-                    <div className="square first">#{entry.user.position}</div>
+                    <div
+                      className={`square ${getPositionClassName(
+                        entry.user.position
+                      )}`}
+                    >
+                      #{entry.user.position}
+                    </div>
                     <img
                       src={config.base_url + entry.user.profileimage}
                       className="image-leaderboard"
