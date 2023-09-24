@@ -486,5 +486,13 @@ class AuthController extends Controller
             'data' => $userPosts,
         ]);
     }
-   
+    public function getLeaderboard()
+    {
+        $leaderboardData = Leaderboard::with('user')->get();
+
+        return response()->json([
+            'status' => 'Success',
+            'data' => $leaderboardData,
+        ]);
+    }
 }

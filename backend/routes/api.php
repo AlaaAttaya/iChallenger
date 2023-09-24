@@ -134,4 +134,5 @@ Route::group(["prefix" => "guest"], function () {
 
     Route::get('getpost', [AuthController::class, 'getPost']);
     Route::get('getuserposts', [AuthController::class, 'getUserPosts']);
+    Route::get('getleaderboard', [AuthController::class, 'getLeaderboard']);
 });
