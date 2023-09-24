@@ -44,11 +44,13 @@ const GameForum = ({ userProfile }) => {
       (file) =>
         !uploadedFiles.some((existingFile) => existingFile.name === file.name)
     );
-
+    console.log(uploadedFiles);
+    console.log(newFiles);
     setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
   const removeFile = (fileToRemove) => {
+    console.log(fileToRemove);
     const updatedFiles = uploadedFiles.filter(
       (file) => file.name !== fileToRemove.name
     );

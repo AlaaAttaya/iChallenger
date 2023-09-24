@@ -83,3 +83,87 @@
 .thispage {
   background-color: #393939 !important;
 }
+.user-leaderboardinfo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-right: 100px;
+}
+.userleaderboard-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  gap: 10px;
+  font-size: 22px;
+  font-family: "Rubik", sans-serif;
+}
+.red {
+  color: #fc3d3d;
+}
+.green {
+  color: #00ff65;
+}
+.navcommunity-leaderboard-margin {
+  display: flex;
+  margin-right: 400px;
+}
+.navcommunity-leaderboard-noprofilemargin {
+  display: flex;
+}
+.navcommunity-Leaderboards-noprofile {
+  background-color: #252525;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.navcommunity-Leaderboards-noprofile button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #2fd671;
+  font-size: 20px;
+  padding: 20px 20px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+}
+.navcommunity-Leaderboards-noprofile button:hover {
+  background-color: #393939;
+}
+.navcommunity-Leaderboards {
+  background-color: #252525;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.navcommunity-Leaderboards button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #2fd671;
+  font-size: 20px;
+  padding: 20px 20px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+}
+.navcommunity-Leaderboards button:hover {
+  background-color: #393939;
+}
+@media screen and (max-width: 1200px) {
+  .navcommunity-leaderboard-margin {
+    display: flex;
+    margin-right: 0px;
+  }
+  .userleaderboard-info {
+    gap: 5px;
+    font-size: 16px;
+  }
+  .navcommunity-leaderboard-margin button {
+    font-size: 16px;
+  }
+  .user-leaderboardinfo-wrapper {
+    margin-right: 0px;
+  }
+}

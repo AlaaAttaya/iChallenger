@@ -1,22 +1,3 @@
-.navcommunity {
-  background-color: #252525;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-}
-.navcommunity button {
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  color: #2fd671;
-  font-size: 20px;
-  padding: 20px 20px;
-  font-family: "Rubik", sans-serif;
-  font-weight: 500;
-}
-.navcommunity button:hover {
-  background-color: #393939;
-}
 .TournamentsPage {
   flex-grow: 1;
   display: flex;
@@ -24,13 +5,19 @@
   align-items: center;
   height: 100%;
 }
-.navcommunity {
+.navcommunity-Leaderboards {
+  background-color: #252525;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.navcommunity-Leaderboards-noprofile {
   background-color: #252525;
   display: flex;
   justify-content: center;
   flex-direction: row;
 }
-.navcommunity button {
+.navcommunity-Leaderboards-noprofile button {
   cursor: pointer;
   border: none;
   background-color: transparent;
@@ -40,7 +27,21 @@
   font-family: "Rubik", sans-serif;
   font-weight: 500;
 }
-.navcommunity button:hover {
+.navcommunity-Leaderboards-noprofile button:hover {
+  background-color: #393939;
+}
+
+.navcommunity-Leaderboards button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #2fd671;
+  font-size: 20px;
+  padding: 20px 20px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+}
+.navcommunity-Leaderboards button:hover {
   background-color: #393939;
 }
 .searchleaderboards-container {
@@ -101,4 +102,122 @@
 }
 .thispage {
   background-color: #393939 !important;
+}
+.image-leaderboard {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.entries-leaderboard {
+  background-color: #292929;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.entries-wrapper {
+  width: 50%;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.first {
+  background-color: #fae20e;
+  color: #000000;
+}
+.second {
+  background-color: #7da6a9;
+  color: #000000;
+}
+.third {
+  background-color: #b67856;
+  color: #000000;
+}
+.extras {
+  background-color: #e0e0e0;
+  color: #000000;
+}
+.square {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+  height: 60px;
+  border-radius: 5px;
+}
+.user-leaderboardinfo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-right: 100px;
+}
+.userleaderboard-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  gap: 10px;
+  font-size: 22px;
+  font-family: "Rubik", sans-serif;
+}
+.red {
+  color: #fc3d3d;
+}
+.green {
+  color: #00ff65;
+}
+.navcommunity-leaderboard-margin {
+  display: flex;
+  margin-right: 400px;
+}
+.navcommunity-leaderboard-noprofilemargin {
+  display: flex;
+}
+.entry-imgusername {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.entry-username {
+  color: white;
+  font-size: 20px;
+  font-family: "Rubik", sans-serif;
+}
+.entry-score {
+  margin-right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  font-size: 20px;
+  font-family: "Rubik", sans-serif;
+}
+.entry-score div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+@media screen and (max-width: 1200px) {
+  .navcommunity-leaderboard-margin {
+    display: flex;
+    margin-right: 0px;
+  }
+  .userleaderboard-info {
+    gap: 5px;
+    font-size: 16px;
+  }
+  .navcommunity-leaderboard-margin button {
+    font-size: 16px;
+  }
+  .user-leaderboardinfo-wrapper {
+    margin-right: 0px;
+  }
 }

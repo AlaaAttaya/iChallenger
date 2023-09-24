@@ -165,8 +165,14 @@ const App = () => {
                 path="/Forums/:gamename/:post"
                 element={<WrappedPostPage userProfile={userProfile} />}
               />
-              <Route path="/Tournaments" element={<WrappedTournaments />} />
-              <Route path="/Leaderboards" element={<WrappedLeaderboards />} />
+              <Route
+                path="/Tournaments"
+                element={<WrappedTournaments userProfile={userProfile} />}
+              />
+              <Route
+                path="/Leaderboards"
+                element={<WrappedLeaderboards userProfile={userProfile} />}
+              />
 
               <Route path="*" element={<WrappedNotFound />} />
             </Routes>
