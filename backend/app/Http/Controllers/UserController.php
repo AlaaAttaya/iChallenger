@@ -57,6 +57,7 @@ class UserController extends Controller
         $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
+        $user->leaderboard = $user->leaderboard;
         return response()->json([
             'status' => 'Success',
             'data' => $user
@@ -177,6 +178,7 @@ class UserController extends Controller
         $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
+        $user->leaderboard = $user->leaderboard;
 
         if (!$user->isFollowing($targetUser)) {
     
@@ -209,6 +211,7 @@ class UserController extends Controller
         $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
+        $user->leaderboard = $user->leaderboard;
 
         if ($user->isFollowing($targetUser)) {
     

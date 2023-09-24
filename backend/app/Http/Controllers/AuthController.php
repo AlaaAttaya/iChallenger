@@ -15,6 +15,7 @@ use App\Models\Regions;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\Post;
+use App\Models\Leaderboard;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -39,6 +40,7 @@ class AuthController extends Controller
         $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
+        $user->leaderboard = $user->leaderboard;
         return response()->json([
             'status' => 'Success',
             'data' => $user,
@@ -70,6 +72,7 @@ class AuthController extends Controller
         $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
+        $user->leaderboard = $user->leaderboard;
         return response()->json([
             'status' => 'Success',
             'data' => $user
@@ -119,6 +122,9 @@ class AuthController extends Controller
 
         $user->save();
 
+       Leaderboard::firstOrCreate(['user_id' => $user->id]);
+        
+        
 
         $token = Auth::login($user);
         $user->token = $token;
@@ -126,6 +132,7 @@ class AuthController extends Controller
         $user->following = $user->following;
         $user->followers_count = $user->followers->count();
         $user->following_count = $user->following->count();
+        $user->leaderboard = $user->leaderboard;
         return response()->json([
         'status' => 'Success',
         'data' => $user,
