@@ -201,6 +201,9 @@
   background-color: #269c55;
   color: #ffffff;
 }
+#LinkAccount {
+  display: none;
+}
 @media screen and (min-width: 701px) and (max-width: 1000px) {
   .profile-navbar-buttons button {
     font-size: 16px;
