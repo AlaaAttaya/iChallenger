@@ -13,10 +13,11 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
   const [commentText, setCommentText] = useState("");
   const [commentCount, setCommentCount] = useState(post.comment_count);
   const [comments, setComments] = useState(post.post_comments);
+  const originalLikeCount = post.like_count;
   useEffect(() => {
     if (userProfile && post.post_likes) {
       const userLike = post.post_likes.find(
-        (like) => like.id === userProfile.id
+        (like) => like.user_id === userProfile.id
       );
 
       if (userLike) {
@@ -67,7 +68,8 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
             },
           }
         );
-        setLikeCount(likeCount - 1);
+
+        setLikeCount(originalLikeCount);
         setIsUpvoted(false);
       } catch (error) {
         console.error("Error unliking the post:", error);
@@ -87,7 +89,7 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
         );
 
         setIsUpvoted(true);
-        setLikeCount(likeCount + 1);
+        setLikeCount(originalLikeCount + 1);
         setIsDownvoted(false);
       } catch (error) {
         console.error("Error liking the post:", error);
@@ -101,7 +103,7 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
     }
     if (isDownvoted) {
       try {
-        const response = await axios.post(
+        await axios.post(
           `${config.base_url}/api/user/unlikepost`,
           {
             postId: post.id,
@@ -112,7 +114,8 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
             },
           }
         );
-        setLikeCount(likeCount + 1);
+
+        setLikeCount(originalLikeCount);
         setIsDownvoted(false);
       } catch (error) {
         console.error("Error removing downvote:", error);
@@ -130,9 +133,10 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
             },
           }
         );
+
         setIsDownvoted(true);
         setIsUpvoted(false);
-        setLikeCount(likeCount - 1);
+        setLikeCount(originalLikeCount - 1);
       } catch (error) {
         console.error("Error downvoting the post:", error);
       }
@@ -168,6 +172,35 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
         setComments((prevComments) => [...prevComments, newComment]);
       } catch (error) {
         console.error("Error creating comment:", error);
+      }
+    }
+  };
+
+  const handleDeletePost = async (e) => {
+    if (!userProfile) {
+      window.location.href = "/Login";
+    } else {
+      try {
+        const response = await axios.delete(
+          `${config.base_url}/api/user/deletepost`,
+          {
+            params: {
+              postId: post.id,
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Post deleted successfully");
+          window.location.reload();
+        } else {
+          console.error("Failed to delete post");
+        }
+      } catch (error) {
+        console.error("Error while deleting post:", error);
       }
     }
   };
@@ -222,6 +255,25 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
       </div>
       <div className="postcontent-container">
         <div className="post-header">
+          {userProfile && userProfile.id === post.user.id && (
+            <div className="delete-post" onClick={handleDeletePost}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 50 41"
+                fill="none"
+              >
+                <path
+                  d="M13 14.25L25.5 26.75M25.5 14.25L13 26.75M44.2305 25.3865L36.902 34.8865C36.0205 36.0288 35.58 36.6 35.0268 37.0118C34.5365 37.3763 33.9838 37.648 33.3958 37.8133C32.732 38 32.0105 38 30.5677 38H11C8.19972 38 6.7996 38 5.73005 37.455C4.78923 36.9757 4.02432 36.2108 3.54497 35.27C3 34.2005 3 32.8003 3 30V11C3 8.19975 3 6.7996 3.54497 5.73005C4.02432 4.78923 4.78923 4.02432 5.73005 3.54497C6.7996 3 8.19972 3 11 3H30.5677C32.0105 3 32.732 3 33.3958 3.18667C33.9838 3.35202 34.5365 3.62375 35.0268 3.98835C35.58 4.39995 36.0205 4.97115 36.902 6.11357L44.2305 15.6135C45.5795 17.3622 46.254 18.2368 46.5135 19.201C46.7422 20.0518 46.7422 20.9482 46.5135 21.799C46.254 22.7632 45.5795 23.6378 44.2305 25.3865Z"
+                  stroke="#FC3D3D"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          )}
           <div className="userinfo-post">
             <img
               src={config.base_url + post.user.profileimage}
@@ -301,27 +353,48 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
           </div>
         </div>
         <div className="post-interactions">
-          <Link
-            to={`/Forums/${gameforum.name}/${post.id}`}
-            className="postlinks"
-          >
-            <div className="comments-wrapper">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="21"
-                height="20"
-                viewBox="0 0 21 20"
-                fill="none"
-              >
-                <path
-                  d="M0 8.12183C0 3.63452 3.584 0 8.005 0H12.371C16.861 0 20.5 3.69543 20.5 8.25381C20.5 11.2589 18.893 14.0203 16.304 15.4721L8.25 20V16.2538H8.183C3.693 16.3553 0 12.6904 0 8.12183ZM8.005 2.03046C4.688 2.03046 2 4.76142 2 8.12183C2 11.5431 4.77 14.2944 8.138 14.2233L8.489 14.2132H10.25V16.5482L15.337 13.6954C17.288 12.599 18.5 10.5178 18.5 8.25381C18.5 4.81218 15.756 2.03046 12.371 2.03046H8.005Z"
-                  fill="white"
-                  fillOpacity="0.75"
-                />
-              </svg>
-              <div className="interactions-info">{commentCount} Comment</div>
-            </div>
-          </Link>
+          {!userProfile ? (
+            <a href="/login" className="postlinks">
+              <div className="comments-wrapper">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="20"
+                  viewBox="0 0 21 20"
+                  fill="none"
+                >
+                  <path
+                    d="M0 8.12183C0 3.63452 3.584 0 8.005 0H12.371C16.861 0 20.5 3.69543 20.5 8.25381C20.5 11.2589 18.893 14.0203 16.304 15.4721L8.25 20V16.2538H8.183C3.693 16.3553 0 12.6904 0 8.12183ZM8.005 2.03046C4.688 2.03046 2 4.76142 2 8.12183C2 11.5431 4.77 14.2944 8.138 14.2233L8.489 14.2132H10.25V16.5482L15.337 13.6954C17.288 12.599 18.5 10.5178 18.5 8.25381C18.5 4.81218 15.756 2.03046 12.371 2.03046H8.005Z"
+                    fill="white"
+                    fillOpacity="0.75"
+                  />
+                </svg>
+                <div className="interactions-info">{commentCount} Comment</div>
+              </div>
+            </a>
+          ) : (
+            <Link
+              to={`/Forums/${gameforum.name}/${post.id}`}
+              className="postlinks"
+            >
+              <div className="comments-wrapper">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="20"
+                  viewBox="0 0 21 20"
+                  fill="none"
+                >
+                  <path
+                    d="M0 8.12183C0 3.63452 3.584 0 8.005 0H12.371C16.861 0 20.5 3.69543 20.5 8.25381C20.5 11.2589 18.893 14.0203 16.304 15.4721L8.25 20V16.2538H8.183C3.693 16.3553 0 12.6904 0 8.12183ZM8.005 2.03046C4.688 2.03046 2 4.76142 2 8.12183C2 11.5431 4.77 14.2944 8.138 14.2233L8.489 14.2132H10.25V16.5482L15.337 13.6954C17.288 12.599 18.5 10.5178 18.5 8.25381C18.5 4.81218 15.756 2.03046 12.371 2.03046H8.005Z"
+                    fill="white"
+                    fillOpacity="0.75"
+                  />
+                </svg>
+                <div className="interactions-info">{commentCount} Comment</div>
+              </div>
+            </Link>
+          )}
           <div className="share-wrapper" onClick={handleShareClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

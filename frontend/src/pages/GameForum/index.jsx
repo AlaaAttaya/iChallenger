@@ -239,23 +239,24 @@ const GameForum = ({ userProfile }) => {
                   </div>
                 </div>{" "}
               </div>
-              <div className="gameforumposts-list">
-                {filteredPosts.length === 0 ? (
-                  <h3 style={{ color: "white" }}>No posts found.</h3>
-                ) : (
-                  filteredPosts.map((post) => (
-                    <PostCard
-                      key={post.id}
-                      post={post}
-                      gameforum={gameforum}
-                      userProfile={userProfile}
-                      show={false}
-                    />
-                  ))
-                )}
-              </div>
             </>
           )}
+          <div className="gameforumposts-list">
+            {filteredPosts.length === 0 ? (
+              <h3 style={{ color: "white" }}>No posts found.</h3>
+            ) : (
+              filteredPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  gameforum={gameforum}
+                  userProfile={userProfile}
+                  show={false}
+                />
+              ))
+            )}
+          </div>
+
           {uploadVisible && (
             <div className="profile-uploadvisible-wrapper">
               <div className="postforum-wrapper">
