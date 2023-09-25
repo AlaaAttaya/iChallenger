@@ -18,18 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         UserRole::create(['role' => 'Admin']);
         UserRole::create(['role' => 'Player']);
-        User::create([
-            'name' => 'Admin',
-            'username' => 'Admin',
-            'email' => 'admin@ichallenger.com',
-            'password' => Hash::make('admin123'),
-            'profileimage' => '/storage/images/adminpic.png', 
-            'coverimage' => '/storage/images/coverpic.png', 
-            'is_banned' => false,
-            'country' => 'Lebanon',
-            'user_role_id' => 1, 
-        ]);
-
+      
         $regions = [
             'Africa',
             'Asia',
