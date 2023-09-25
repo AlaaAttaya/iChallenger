@@ -11,11 +11,12 @@ use App\Models\User;
 use App\Models\ContactUs;
 use App\Models\UserAuthentication;
 use App\Models\Country;
-use App\Models\Regions;
+use App\Models\Region;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\Post;
 use App\Models\Leaderboard;
+use App\Models\TournamentType;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -527,9 +528,7 @@ class AuthController extends Controller
     }
     
 
-    
-
-    
+   
     
     
 

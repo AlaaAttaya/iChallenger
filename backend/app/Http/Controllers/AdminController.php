@@ -465,4 +465,20 @@ class AdminController extends Controller
     
         return response()->json(['data' => $messages]);
     }
+
+     
+    public function fetchTournamentData()
+    {
+        $tournamentTypes = TournamentType::all();
+        $regions = Region::all();
+        $games = Game::with('gameModes')->get();
+    
+        return response()->json([
+            'tournamentTypes' => $tournamentTypes,
+            'regions' => $regions,
+            'games' => $games,
+        ]);
+    }
+    
+
 }
