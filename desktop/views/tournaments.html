@@ -42,7 +42,12 @@
     <div class="createtournament-container" id="createtournamentcontainer">
       <div>
         <label class="form-label">Tournament Name:</label>
-        <input type="text" placeholder="Tournament Name" class="form-input" />
+        <input
+          type="text"
+          placeholder="Tournament Name"
+          class="form-input"
+          id="tournamentname"
+        />
       </div>
       <div>
         <label class="form-label">Tournament Size:</label>
@@ -50,40 +55,42 @@
           type="number"
           placeholder="Enter Number - max 128"
           max="128"
+          id="tournamentsize"
           class="form-input"
         />
       </div>
       <div>
         <label class="form-label">Tournament Type:</label>
-        <select class="form-select"></select>
+        <select class="form-select" id="tournamenttype"></select>
       </div>
       <div>
-        <label class="form-label">Location:</label>
-        <select class="form-select"></select>
+        <label class="form-label">Region:</label>
+        <select class="form-select" id="tournamentregion"></select>
       </div>
       <div>
         <label class="form-label">Game:</label>
-        <select class="form-select"></select>
+        <select class="form-select" id="tournamentgame"></select>
       </div>
       <div>
         <label class="form-label">GameMode:</label>
-        <select class="form-select"></select>
-      </div>
-      <div>
-        <label class="form-label">Match Format:</label>
-        <select class="form-select"></select>
+        <select class="form-select" id="tournamentgamemode"></select>
       </div>
       <div>
         <label class="form-label">Start Date:</label>
-        <input type="date" class="form-input" />
+        <input type="date" class="form-input" id="tournamentstartdate" />
       </div>
       <div>
         <label class="form-label">End Date:</label>
-        <input type="date" class="form-input" />
+        <input type="date" class="form-input" id="tournamentenddate" />
       </div>
       <div>
         <label class="form-label">Rules</label>
-        <textarea class="form-textarea"></textarea>
+        <textarea class="form-textarea" id="tournamentrules"></textarea>
+      </div>
+      <div>
+        <button class="tournament-create-button" id="createtournamentbutton">
+          Create
+        </button>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

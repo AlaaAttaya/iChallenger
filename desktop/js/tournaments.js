@@ -11,7 +11,11 @@ const CreateTournamentContainer = document.getElementById(
 const ListTournamentContainer = document.getElementById(
   "listtournamentcontainer"
 );
-
+const gameSelect = document.getElementById("tournamentgame");
+const gameModeSelect = document.getElementById("tournamentgamemode");
+const createtournamentButton = document.getElementById(
+  "createtournamentbutton"
+);
 let activePage;
 
 document
@@ -29,6 +33,17 @@ document
     document.getElementById("searchtournamentsbar").style.border =
       "3px solid #9e9e9e ";
   });
+
+function populateSelect(selectId, data) {
+  const selectElement = document.getElementById(selectId);
+  selectElement.innerHTML = "";
+  data.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.text = item.name;
+    selectElement.appendChild(option);
+  });
+}
 
 function fetchDataFromAPI() {
   const apiUrl = base_url + "admin/fetchtournamentdata";
@@ -48,9 +63,31 @@ function fetchDataFromAPI() {
       const regions = data.regions;
       const games = data.games;
 
-      console.log("Tournament Types:", tournamentTypes);
-      console.log("Regions:", regions);
-      console.log("Games:", games);
+      populateSelect("tournamenttype", tournamentTypes);
+      populateSelect("tournamentregion", regions);
+      populateSelect("tournamentgame", games);
+      const initialSelectedGameId = parseInt(gameSelect.value);
+      populateSelect(
+        "tournamentgamemode",
+        games.find((game) => game.id === initialSelectedGameId).game_modes
+      );
+
+      gameSelect.addEventListener("change", function () {
+        const selectedGameId = parseInt(gameSelect.value);
+
+        const selectedGame = games.find((game) => game.id === selectedGameId);
+        console.log(selectedGameId);
+        gameModeSelect.innerHTML = "";
+
+        if (selectedGame) {
+          selectedGame.game_modes.forEach((gameMode) => {
+            const option = document.createElement("option");
+            option.value = gameMode.id;
+            option.text = gameMode.name;
+            gameModeSelect.appendChild(option);
+          });
+        }
+      });
     })
     .catch((error) => {
       console.error("Error fetching data:", error);

@@ -96,7 +96,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 50%;
+  width: 60%;
 }
 .form-label {
   display: block;
@@ -115,6 +115,7 @@ body {
   margin-bottom: 15px;
   color: #000000;
 }
+
 .form-select {
   width: 230px;
 
@@ -124,10 +125,38 @@ body {
   margin-bottom: 15px;
   color: #000000;
 }
+
 .form-textarea {
   overflow: auto;
 }
+
 .form-input:focus,
 .form-textarea:focus {
   outline: 2px solid #269c55;
+}
+
+.tournament-create-button {
+  font-weight: 600;
+  margin-top: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.tournament-create-button {
+  font-family: "Rubik", sans-serif;
+  font-size: 13px;
+  border-radius: 7px;
+  background-color: #2fd671;
+  color: #202020;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tournament-create-button:hover {
+  background-color: #269c55;
+  color: #ffffff;
 }
