@@ -304,7 +304,7 @@ class UserController extends Controller
     
       
 
-        event(new MessageSent($message, $request->recipient_id));
+        event(new MessageSent($message, $request->recipient_id,$sender));
 
         return response()->json([
             'status' => 'Success',

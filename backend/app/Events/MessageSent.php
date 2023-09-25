@@ -14,12 +14,13 @@ class MessageSent implements ShouldBroadcast
 
     public $message;
     public $recipientId;
-
+    public $sender;
   
-    public function __construct($message, $recipientId)
+    public function __construct($message, $recipientId,$sender)
     {
         $this->message = $message;
         $this->recipientId = $recipientId;
+        $this->sender=$sender;
     }
 
     public function broadcastOn()
