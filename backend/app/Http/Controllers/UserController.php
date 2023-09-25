@@ -363,7 +363,7 @@ class UserController extends Controller
       
         $latestMessages = Message::whereIn('sender_id', $uniqueSenders)
             ->where('recipient_id', $user->id)
-            ->latest('created_at')
+            ->oldest('created_at')
             ->get();
     
        
