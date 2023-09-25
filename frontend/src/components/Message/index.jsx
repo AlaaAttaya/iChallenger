@@ -23,9 +23,28 @@ const Message = ({ onCloseMessages, userProfile }) => {
       messageowner: "ChatGPT Bot",
     },
   ]);
+  const messagePopupRef = useRef(null);
   if (!localStorage.getItem("token")) {
     onCloseMessages();
   }
+  const showMessage = (message) => {
+    if (messagePopupRef.current) {
+      messagePopupRef.current.innerText = message;
+      messagePopupRef.current.style.display = "block";
+      messagePopupRef.current.style.opacity = 1;
+
+      setTimeout(() => {
+        if (messagePopupRef.current) {
+          messagePopupRef.current.style.opacity = 0;
+          setTimeout(() => {
+            if (messagePopupRef.current) {
+              messagePopupRef.current.style.display = "none";
+            }
+          }, 400);
+        }
+      }, 4000);
+    }
+  };
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -45,33 +64,42 @@ const Message = ({ onCloseMessages, userProfile }) => {
   }, [activeuser]);
 
   useEffect(() => {
-    const pusher = new Pusher("527edb0870fce1976587", {
+    const pusher = new Pusher("52c459eed956d1bac55e", {
       cluster: "eu",
-      auth: {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      },
     });
-    if (userProfile) {
-      const channelName = `user.${userProfile.id}`;
-      const channel = pusher.subscribe(channelName);
 
-      const handleNewMessage = (data) => {
-        console.log("New message received:", data);
-      };
+    const channel = pusher.subscribe("user." + userProfile.id);
 
-      channel.bind("client-new-message", handleNewMessage);
+    channel.bind("App\\Events\\MessageSent", function (data) {
+      console.log("Received new message:", data);
+      const message = data.message.content;
+      const sender = data.sender;
 
-      return () => {
-        channel.unbind("client-new-message", handleNewMessage);
+      if (
+        activeuser &&
+        activeuser.id === sender.id &&
+        activeuser.id !== userProfile.id
+      ) {
+        const MessageReceived = {
+          content: message,
+          messageowner: sender.username,
+        };
+        setMessages((prevMessages) => [...prevMessages, MessageReceived]);
+      } else {
+        const NotifiedMessage = `${sender.username}:
+        ${message}
+      `;
 
-        pusher.unsubscribe(channelName);
+        showMessage(NotifiedMessage);
+      }
+    });
 
-        pusher.disconnect();
-      };
-    }
-  }, [userProfile]);
+    return () => {
+      channel.unbind();
+      pusher.unsubscribe("user." + userProfile.id);
+      pusher.disconnect();
+    };
+  }, [userProfile, activeuser]);
 
   const handleChatGptKeyPress = async (e) => {
     if (e.key === "Enter") {
@@ -289,6 +317,7 @@ const Message = ({ onCloseMessages, userProfile }) => {
       setActiveSection("MainMessages");
     } else if (activeSection === "Chat") {
       setActiveSection("MyMessages");
+      getLatestMessagesUsers();
       setActiveUser("");
     } else if (activeSection === "ChatGPTBot") {
       setActiveSection("MainMessages");
@@ -585,6 +614,11 @@ const Message = ({ onCloseMessages, userProfile }) => {
           </>
         )}
       </div>
+      <div
+        id="messages-popup"
+        className="message-popup"
+        ref={messagePopupRef}
+      ></div>
     </div>
   );
 };
