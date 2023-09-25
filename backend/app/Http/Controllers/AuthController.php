@@ -367,7 +367,8 @@ class AuthController extends Controller
         return response()->json(['status' => 'Success', 'data' => $games]);
     }
     public function getGameForum(Request $request)
-    {   $forumName=$request->input('name');
+    {  
+         $forumName=$request->input('name');
         $gameForum = GameForum::where('name', $forumName)
             ->with('game')
             ->with('forumPosts') 

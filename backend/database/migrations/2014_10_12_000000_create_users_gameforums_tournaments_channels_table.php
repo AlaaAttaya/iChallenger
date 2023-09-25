@@ -240,10 +240,16 @@ return new class extends Migration
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bracket_id');
+            $table->unsignedBigInteger('team1_id');
+            $table->unsignedBigInteger('team2_id'); 
             $table->date('match_date');
             $table->boolean('is_completed')->default(false);
             $table->unsignedBigInteger('winner_id')->nullable();
             $table->timestamps();
+        
+            $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
+            $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade');
         });
 
 
