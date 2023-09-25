@@ -39,10 +39,53 @@
       </div>
       <div class="fetchedresults-wrapper" id="fetchresultstournaments"></div>
     </div>
-    <div
-      class="createtournament-container"
-      id="createtournamentcontainer"
-    ></div>
+    <div class="createtournament-container" id="createtournamentcontainer">
+      <div>
+        <label class="form-label">Tournament Name:</label>
+        <input type="text" placeholder="Tournament Name" class="form-input" />
+      </div>
+      <div>
+        <label class="form-label">Tournament Size:</label>
+        <input
+          type="number"
+          placeholder="Enter Number - max 128"
+          max="128"
+          class="form-input"
+        />
+      </div>
+      <div>
+        <label class="form-label">Tournament Type:</label>
+        <select class="form-select"></select>
+      </div>
+      <div>
+        <label class="form-label">Location:</label>
+        <select class="form-select"></select>
+      </div>
+      <div>
+        <label class="form-label">Game:</label>
+        <select class="form-select"></select>
+      </div>
+      <div>
+        <label class="form-label">GameMode:</label>
+        <select class="form-select"></select>
+      </div>
+      <div>
+        <label class="form-label">Match Format:</label>
+        <select class="form-select"></select>
+      </div>
+      <div>
+        <label class="form-label">Start Date:</label>
+        <input type="date" class="form-input" />
+      </div>
+      <div>
+        <label class="form-label">End Date:</label>
+        <input type="date" class="form-input" />
+      </div>
+      <div>
+        <label class="form-label">Rules</label>
+        <textarea class="form-textarea"></textarea>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/tournaments.js"></script>
   </body>

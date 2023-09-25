@@ -30,8 +30,35 @@ document
       "3px solid #9e9e9e ";
   });
 
-function ChangePage() {
-  if (activePage == "listtournaments") {
+function fetchDataFromAPI() {
+  const apiUrl = base_url + "admin/fetchtournamentdata";
+  const requestData = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  axios(apiUrl, requestData)
+    .then((response) => {
+      const data = response.data;
+
+      const tournamentTypes = data.tournamentTypes;
+      const regions = data.regions;
+      const games = data.games;
+
+      console.log("Tournament Types:", tournamentTypes);
+      console.log("Regions:", regions);
+      console.log("Games:", games);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
+
+function ChangePage(activatingPage) {
+  if (activatingPage == "createtournament") {
     activePage = "createtournament";
     CreateTournament.style.borderBottom = "3px solid #2fd671";
     ListTournaments.style.borderBottom = "3px solid #989898";
@@ -39,6 +66,7 @@ function ChangePage() {
     ListTournaments.style.color = "#000000";
     ListTournamentContainer.style.display = "none";
     CreateTournamentContainer.style.display = "flex";
+    fetchDataFromAPI();
   } else {
     activePage = "listtournaments";
     ListTournaments.style.borderBottom = "3px solid #2fd671";
@@ -50,6 +78,12 @@ function ChangePage() {
   }
 }
 
-ListTournaments.addEventListener("click", ChangePage);
-CreateTournament.addEventListener("click", ChangePage);
-ChangePage();
+ListTournaments.addEventListener("click", function () {
+  ChangePage("listtournament");
+});
+
+CreateTournament.addEventListener("click", function () {
+  ChangePage("createtournament");
+});
+
+ChangePage("listtournament");
