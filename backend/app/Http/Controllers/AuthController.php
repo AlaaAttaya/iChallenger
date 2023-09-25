@@ -529,9 +529,6 @@ class AuthController extends Controller
         ]);
     }
     
-
-   
-    
     public function getAllTournaments(Request $request)
     {
         $searchQuery = $request->input('searchQuery');
@@ -552,5 +549,53 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getOpenTournaments(Request $request)
+    {
+        $searchQuery = $request->input('searchQuery');
+        $query = Tournament::query();
+
+        if (!is_null($searchQuery)) {
+            $query->where('name', 'LIKE', "$searchQuery%");
+        }
+
+        $tournaments = $query
+            ->where('is_completed', 0) 
+            ->with('game', 'gameMode', 'brackets', 'teams.members', 'winners')
+            ->get();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Open Tournaments retrieved successfully.',
+            'data' => $tournaments,
+        ]);
+    }
+
+    public function getTournamentPage(Request $request)
+    {
+        $tournamentId = $request->input('tournamentid');
+
+        if (!is_null($tournamentId)) {
+            $tournament = Tournament::with('game', 'gameMode', 'brackets', 'teams.members', 'winners')
+                ->find($tournamentId);
+
+            if ($tournament) {
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Tournament retrieved successfully.',
+                    'data' => $tournament,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'Error',
+                    'message' => 'Tournament not found.',
+                ], 404); 
+            }
+        }
+
+        return response()->json([
+            'status' => 'Error',
+            'message' => 'Tournament is missing.',
+        ], 400); 
+    }
     
 }

@@ -140,4 +140,6 @@ Route::group(["prefix" => "guest"], function () {
     Route::get('getuserposts', [AuthController::class, 'getUserPosts']);
     Route::get('getleaderboard', [AuthController::class, 'getLeaderboard']);
     Route::get('gettournaments', [AuthController::class, 'getAllTournaments']);
+    Route::get('getopentournaments', [AuthController::class, 'getOpenTournaments']);
+    Route::get('gettournamentpage', [AuthController::class, 'getTournamentPage']);
 });
