@@ -98,7 +98,7 @@ const PostPage = ({ userProfile }) => {
                 style={{ marginTop: "20px" }}
               >
                 {posts.length === 0 ? (
-                  <h3 style={{ color: "white" }}>No posts found.</h3>
+                  <h3>No posts found.</h3>
                 ) : (
                   posts.map((post) => (
                     <PostCard

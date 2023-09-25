@@ -122,7 +122,7 @@ const FollowingActivityPage = ({ userProfile }) => {
             ))}
           </>
         ) : (
-          <h3 style={{ color: "white" }}>No posts found.</h3>
+          <h3>No posts found.</h3>
         )}
       </div>
     </div>

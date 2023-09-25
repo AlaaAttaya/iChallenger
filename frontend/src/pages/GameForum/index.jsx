@@ -245,7 +245,7 @@ const GameForum = ({ userProfile }) => {
           )}
           <div className="gameforumposts-list">
             {filteredPosts.length === 0 ? (
-              <h3 style={{ color: "white" }}>No posts found.</h3>
+              <h3>No posts found.</h3>
             ) : (
               filteredPosts.map((post) => (
                 <PostCard

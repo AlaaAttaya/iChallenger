@@ -86,8 +86,8 @@ const Message = ({ onCloseMessages, userProfile }) => {
         };
         setMessages((prevMessages) => [...prevMessages, MessageReceived]);
       } else {
-        const NotifiedMessage = `${sender.username}:
-        ${message}
+        const NotifiedMessage = `New Message:
+        ${sender.username}: ${message}
       `;
 
         showMessage(NotifiedMessage);
