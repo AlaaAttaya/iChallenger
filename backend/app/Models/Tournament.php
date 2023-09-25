@@ -38,4 +38,10 @@ class Tournament extends Model
     {
         return $this->hasOne(TournamentWinner::class);
     }
+        public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
+
+  
 }
