@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\EmailController;
 use App\Models\Report;
+use App\Models\Region;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\ContactUs;
@@ -468,7 +469,7 @@ class AdminController extends Controller
 
      
     public function fetchTournamentData()
-    {
+    {   
         $tournamentTypes = TournamentType::all();
         $regions = Region::all();
         $games = Game::with('gameModes')->get();
