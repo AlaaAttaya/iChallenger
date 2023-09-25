@@ -45,6 +45,9 @@
   border-radius: 13px;
   cursor: pointer;
 }
+.errormsg {
+  color: #ff4b4b;
+}
 
 .reportuser-button:hover {
   background-color: rgba(255, 255, 255, 0.2);

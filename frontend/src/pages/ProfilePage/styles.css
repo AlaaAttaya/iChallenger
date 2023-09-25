@@ -173,7 +173,7 @@
   flex-direction: column;
   align-items: center;
   color: white;
-  font-size: 30px;
+  font-size: 25px;
   gap: 20px;
   font-family: "Rubik", sans-serif;
 }
@@ -183,7 +183,7 @@
   justify-content: space-between;
 
   color: white;
-  font-size: 30px;
+  font-size: 25px;
   font-family: "Rubik", sans-serif;
 }
 .overview-stats-winrate span {
@@ -194,11 +194,11 @@
   width: 100px;
 }
 .win {
-  font-size: 23px;
+  font-size: 21px;
   width: 100px;
 }
 .loss {
-  font-size: 23px;
+  font-size: 21px;
   width: 100px;
 }
 .pages-overview {

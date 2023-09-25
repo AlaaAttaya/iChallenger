@@ -20,6 +20,7 @@ import PostPage from "./pages/PostPage";
 import Tournaments from "./pages/Tournaments";
 import FollowingActivity from "./pages/FollowingActivity";
 import Leaderboards from "./pages/Leaderboards";
+import TournamentPage from "./pages/TournamentPage";
 import { refreshToken, verifyToken } from "./services/auth";
 
 const WrappedLandingPage = LoadingHOC(LandingPage);
@@ -36,6 +37,8 @@ const WrappedFollowingActivity = LoadingHOC(FollowingActivity);
 const WrappedLeaderboards = LoadingHOC(Leaderboards);
 const WrappedGameForum = LoadingHOC(GameForum);
 const WrappedPostPage = LoadingHOC(PostPage);
+const WrappedTournamentPage = LoadingHOC(TournamentPage);
+
 const App = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
@@ -168,6 +171,10 @@ const App = () => {
               <Route
                 path="/Tournaments"
                 element={<WrappedTournaments userProfile={userProfile} />}
+              />
+              <Route
+                path="/Tournaments/:tournamentid"
+                element={<WrappedTournamentPage userProfile={userProfile} />}
               />
               <Route
                 path="/Leaderboards"

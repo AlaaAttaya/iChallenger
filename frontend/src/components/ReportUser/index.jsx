@@ -85,7 +85,7 @@ const ReportUser = ({ onClose, userProfileView }) => {
           <div className="confirmation">
             <p>Are you sure?</p>
             {apiResponse && (
-              <span>
+              <span className="errormsg">
                 {apiResponse.status}: {apiResponse.message}
               </span>
             )}
