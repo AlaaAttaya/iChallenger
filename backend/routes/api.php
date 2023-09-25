@@ -66,8 +66,7 @@ Route::group(["middleware" => "auth:api"], function () {
        
         Route::get('userleaderboard', [UserController::class, 'getUserLeaderboard']);
 
-        Route::get('tournaments', [UserController::class, 'getAllTournaments']);
-        Route::get('filtertournaments', [UserController::class, 'filterTournaments']);
+       
 
 
         Route::post('blockuser', [UserController::class, 'blockUser']);
@@ -105,6 +104,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('createtournamentwinner', [AdminController::class, 'createTournamentWinner']);
 
         Route::get("fetchtournamentdata", [AdminController::class, "fetchTournamentData"]);
+        
+       
 
     });
 
@@ -138,4 +139,5 @@ Route::group(["prefix" => "guest"], function () {
     Route::get('getpost', [AuthController::class, 'getPost']);
     Route::get('getuserposts', [AuthController::class, 'getUserPosts']);
     Route::get('getleaderboard', [AuthController::class, 'getLeaderboard']);
+    Route::get('gettournaments', [AuthController::class, 'getAllTournaments']);
 });

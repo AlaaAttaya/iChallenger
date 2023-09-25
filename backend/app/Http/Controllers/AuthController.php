@@ -17,6 +17,7 @@ use App\Models\GameForum;
 use App\Models\Post;
 use App\Models\Leaderboard;
 use App\Models\TournamentType;
+use App\Models\Tournament;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -530,7 +531,25 @@ class AuthController extends Controller
 
    
     
+    public function getAllTournaments(Request $request)
+    {
+        $searchQuery = $request->input('searchQuery');
+        $query = Tournament::query();
     
+        if (!is_null($searchQuery)) {
+            $query->where('name', 'LIKE', "$searchQuery%");
+        }
+    
+        $tournaments = $query
+            ->with('game', 'gameMode', 'brackets', 'teams.members', 'winners')
+            ->get();
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Tournaments retrieved successfully.',
+            'data' => $tournaments,
+        ]);
+    }
 
     
 }

@@ -928,49 +928,8 @@ class UserController extends Controller
             'data' => $leaderboard,
         ]);
     }
-        public function getAllTournaments()
-    {
-        $tournaments = Tournament::all();
-
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'All tournaments retrieved successfully.',
-            'data' => $tournaments,
-        ]);
-    }
-        public function filterTournaments(Request $request)
-    {
-       
-        $query = Tournament::query();
-
-        if ($request->has('game_id')) {
-            $query->where('game_id', $request->input('game_id'));
-        }
-
-        if ($request->has('start_date')) {
-            $query->where('start_date', '>=', $request->input('start_date'));
-        }
-
-        if ($request->has('end_date')) {
-            $query->where('end_date', '<=', $request->input('end_date'));
-        }
-
-        if ($request->has('game_mode_id')) {
-            $query->where('game_mode_id', $request->input('game_mode_id'));
-        }
-
-        $filteredTournaments = $query->get();
-
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Tournaments filtered successfully.',
-            'data' => $filteredTournaments,
-        ]);
-    }
-
 
   
-        
     public function getFollowingPosts(Request $request)
     {
       
@@ -1072,7 +1031,8 @@ class UserController extends Controller
         return response()->json(['message' => 'User unblocked successfully.']);
     }
     public function generateResponse(Request $request)
-    {   $user=Auth::user();
+    {  
+        $user=Auth::user();
         $userMessage = $request->input('user_message', '');
         $maxTokenCount = 50; 
         $temperature = 0.2;
