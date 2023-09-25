@@ -12,3 +12,82 @@ body {
 
   height: 100vh;
 }
+.searchtournaments-iconsvg {
+  margin-left: 10px;
+}
+.searchtournaments-icon {
+  fill: #9e9e9e;
+}
+.searchtournamentsbar {
+  margin-left: 5px;
+}
+.searchtournamentsbar {
+  margin-top: 10px;
+  margin-left: 15px;
+  border: 3px solid #9e9e9e;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 80%;
+  height: 40px;
+  max-width: 500px;
+  position: relative;
+}
+.searchtournamentsinput {
+  background-color: transparent;
+  margin-left: 10px;
+  border: none;
+  padding: 5px;
+  width: 90%;
+  font-size: medium;
+}
+.searchtournamentsinput:focus {
+  outline: none !important;
+
+  font-weight: 550;
+}
+.pages {
+  display: flex;
+
+  flex-wrap: wrap;
+}
+
+.pages button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  color: #000000;
+  border: none;
+  font-size: large;
+  font-weight: 700;
+  border-bottom: 3px solid #989898;
+}
+.fetchedresults-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-bottom: 20px;
+}
+.results-container {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+.createtournament-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
