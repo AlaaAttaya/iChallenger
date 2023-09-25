@@ -134,6 +134,118 @@
   margin-bottom: 20px;
   min-height: 100%;
 }
+.overview-container {
+  margin-bottom: 40px;
+}
+.overview-content-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 50px;
+}
+.overview-content-wrapper {
+  background-color: #292929;
+  width: 330px;
+  height: 200px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.overview-content-gap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.red {
+  color: #fc3d3d;
+}
+.green {
+  color: #00ff65;
+}
+.overview-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 30px;
+  gap: 20px;
+  font-family: "Rubik", sans-serif;
+}
+.overview-stats-winrate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: white;
+  font-size: 30px;
+  font-family: "Rubik", sans-serif;
+}
+.overview-stats-winrate span {
+  width: 100px;
+}
+
+.winrate {
+  width: 100px;
+}
+.win {
+  font-size: 23px;
+  width: 100px;
+}
+.loss {
+  font-size: 23px;
+  width: 100px;
+}
+.pages-overview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  flex-grow: 1;
+}
+.pageopen {
+  color: #2fd671 !important;
+  border-bottom: 3px solid #2fd671 !important;
+}
+.pages-overview button {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  font-family: "Rubik", sans-serif;
+
+  background-color: transparent;
+  border-bottom: 3px solid #989898;
+}
+.tournament-content-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+.tournament-content-wrapper {
+  margin-top: 20px;
+  display: flex;
+  background-color: #292929;
+  align-items: flex-start;
+  justify-content: center;
+  width: 73.5%;
+  min-height: 700px;
+}
 @media screen and (max-width: 700px) {
   .coverPhotoContainer {
     position: relative;

@@ -493,7 +493,7 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
         {isLinkAccountOpen && (
           <div>
             <div>
-              <span className="info-span">Link...</span>
+              <span className="info-span"></span>
             </div>
           </div>
         )}

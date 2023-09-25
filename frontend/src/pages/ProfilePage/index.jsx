@@ -129,7 +129,60 @@ const ProfilePage = ({ userProfile }) => {
       </div>
       <div className={activeButton === "Activity" ? "profile-pages-info" : ""}>
         {activeButton === "Overview" && (
-          <div className="overview-container">Overview content</div>
+          <div className="overview-container">
+            <div className="overview-content-container">
+              <div className="overview-content-wrapper">
+                <div className="overview-content-gap">
+                  <div className="overview-stats">
+                    1234
+                    <span className="green">Total Points</span>
+                  </div>
+                </div>
+              </div>
+              <div className="overview-content-wrapper">
+                <div className="overview-content-gap">
+                  <div className="overview-stats">
+                    123
+                    <span className="green"> Tournaments Played</span>
+                  </div>
+                </div>
+              </div>
+              <div className="overview-content-wrapper">
+                <div className="overview-content-gap">
+                  <div className="overview-stats">
+                    10023
+                    <span className="green">Matches Played</span>
+                  </div>
+                </div>
+              </div>
+              <div className="overview-content-wrapper">
+                <div className="overview-content-gap">
+                  <div className="overview-stats-winrate">
+                    <span>100%</span>
+                    <span className="green winrate">Win/Rate</span>
+                  </div>
+                  <div className="overview-stats-winrate">
+                    <span>100 </span>
+                    <span className="green win">Wins</span>
+                  </div>
+                  <div className="overview-stats-winrate">
+                    <span>100 </span>
+                    <span className="red loss">Losses</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="tournament-content-container">
+              <div className="tournament-content-wrapper">
+                {" "}
+                <div className="pages-overview">
+                  <button>Active Tournaments</button>
+                  <button>Past Tournaments</button>
+                </div>
+              </div>{" "}
+            </div>
+          </div>
         )}
         {activeButton === "Activity" && (
           <div className="profile-activity">
@@ -145,7 +198,7 @@ const ProfilePage = ({ userProfile }) => {
                 />
               ))
             ) : (
-              <h3 style={{ color: "white" }}>No posts found.</h3>
+              <h3>No posts found.</h3>
             )}
           </div>
         )}
