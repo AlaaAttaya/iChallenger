@@ -104,6 +104,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('createteam', [AdminController::class, 'createTeam']);
         Route::post('createtournamentwinner', [AdminController::class, 'createTournamentWinner']);
 
+        Route::get("fetchtournamentdata", [AdminController::class, "fetchTournamentData"]);
+
     });
 
 
@@ -126,7 +128,8 @@ Route::group(["prefix" => "guest"], function () {
     Route::post("resetpassword", [AuthController::class, "resetPassword"]);
 
     Route::get("search", [AuthController::class, "getAllUsers"]);
-
+    
+ 
 
     Route::get('getgames', [AuthController::class, 'getGames']);
     Route::get('getgameforum', [AuthController::class, 'getGameForum']);
