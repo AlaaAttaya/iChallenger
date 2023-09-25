@@ -77,16 +77,25 @@
       </div>
       <div>
         <label class="form-label">Start Date:</label>
-        <input type="date" class="form-input" id="tournamentstartdate" />
+        <input
+          type="datetime-local"
+          class="form-input"
+          id="tournamentstartdate"
+        />
       </div>
       <div>
         <label class="form-label">End Date:</label>
-        <input type="date" class="form-input" id="tournamentenddate" />
+        <input
+          type="datetime-local"
+          class="form-input"
+          id="tournamentenddate"
+        />
       </div>
       <div>
         <label class="form-label">Rules</label>
         <textarea class="form-textarea" id="tournamentrules"></textarea>
       </div>
+      <div><span class="errormsg" id="tournamenterrormsg"></span></div>
       <div>
         <button class="tournament-create-button" id="createtournamentbutton">
           Create

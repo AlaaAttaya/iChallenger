@@ -16,6 +16,7 @@ const gameModeSelect = document.getElementById("tournamentgamemode");
 const createtournamentButton = document.getElementById(
   "createtournamentbutton"
 );
+const tournamenterrormsg = document.getElementById("tournamenterrormsg");
 let activePage;
 
 document
@@ -114,6 +115,72 @@ function ChangePage(activatingPage) {
     ListTournamentContainer.style.display = "flex";
   }
 }
+
+createtournamentButton.addEventListener("click", function () {
+  const tournamentName = document.getElementById("tournamentname").value;
+  const tournamentSize = document.getElementById("tournamentsize").value;
+  const tournamentType = document.getElementById("tournamenttype").value;
+  const tournamentRegion = document.getElementById("tournamentregion").value;
+  const tournamentGame = document.getElementById("tournamentgame").value;
+  const tournamentGameMode =
+    document.getElementById("tournamentgamemode").value;
+  const tournamentStartDate = document.getElementById(
+    "tournamentstartdate"
+  ).value;
+  const tournamentEndDate = document.getElementById("tournamentenddate").value;
+  const tournamentRules = document.getElementById("tournamentrules").value;
+  const tournamentErrorMsg = document.getElementById("tournamenterrormsg");
+
+  tournamentErrorMsg.innerText = "";
+
+  if (
+    !tournamentName ||
+    !tournamentSize ||
+    !tournamentType ||
+    !tournamentRegion ||
+    !tournamentGame ||
+    !tournamentGameMode ||
+    !tournamentStartDate ||
+    !tournamentEndDate ||
+    !tournamentRules
+  ) {
+    tournamentErrorMsg.innerText = "Please fill in all fields.";
+  } else if (tournamentStartDate >= tournamentEndDate) {
+    tournamentErrorMsg.innerText = "End date must be after the start date.";
+  } else if (tournamentSize < 2 || tournamentSize > 128) {
+    tournamentErrorMsg.innerText = "Tournament size must be between 2 and 128.";
+  } else {
+    const apiUrl = base_url + "admin/createtournament";
+    const requestData = {
+      method: "POST",
+      url: apiUrl,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        name: tournamentName,
+        tournament_size: tournamentSize,
+        tournament_type_id: tournamentType,
+        region_id: tournamentRegion,
+        game_id: tournamentGame,
+        game_mode_id: tournamentGameMode,
+        start_date: tournamentStartDate,
+        end_date: tournamentEndDate,
+        rules: tournamentRules,
+      },
+    };
+
+    axios(requestData)
+      .then((response) => {
+        tournamentErrorMsg.innerText = "Tournament created successfully.";
+        console.log("Tournament created successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error creating tournament:", error);
+      });
+  }
+});
 
 ListTournaments.addEventListener("click", function () {
   ChangePage("listtournament");
