@@ -11,7 +11,7 @@ class Tournament extends Model
 
     protected $fillable = [
         'name', 'game_id', 'game_mode_id', 'tournament_type_id',
-        'start_date', 'end_date', 'is_completed', 'tournament_size'
+        'start_date', 'end_date', 'is_completed', 'tournament_size','rules'
     ];
 
     public function game()

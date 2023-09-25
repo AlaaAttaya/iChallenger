@@ -271,6 +271,7 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'tournament_size' => 'required|integer|min:2',
+            'rules'=>'required|string',
         ]);
     
        
@@ -304,6 +305,7 @@ class AdminController extends Controller
             'start_date' => 'date',
             'end_date' => 'date|after:start_date',
             'tournament_size' => 'integer|min:2',
+            'rules'=>'string',
         ]);
 
        
