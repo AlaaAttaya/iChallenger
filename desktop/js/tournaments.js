@@ -163,6 +163,7 @@ function populateSelect(selectId, data) {
     const option = document.createElement("option");
     option.value = item.id;
     option.text = item.name;
+    option.setAttribute("data-name", item.name);
     selectElement.appendChild(option);
   });
 }
@@ -243,7 +244,10 @@ createtournamentButton.addEventListener("click", function () {
   const tournamentSize = document.getElementById("tournamentsize").value;
   const tournamentPoints = document.getElementById("tournamentpoints").value;
   const tournamentType = document.getElementById("tournamenttype").value;
-  const tournamentRegion = document.getElementById("tournamentregion").value;
+  const selectElement = document.getElementById("tournamentregion");
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  const tournamentRegion = selectedOption.getAttribute("data-name");
+
   const tournamentGame = document.getElementById("tournamentgame").value;
   const tournamentGameMode =
     document.getElementById("tournamentgamemode").value;
@@ -286,7 +290,7 @@ createtournamentButton.addEventListener("click", function () {
         name: tournamentName,
         tournament_size: tournamentSize,
         tournament_type_id: tournamentType,
-        region_id: tournamentRegion,
+        tournament_region: tournamentRegion,
         game_id: tournamentGame,
         game_mode_id: tournamentGameMode,
         start_date: tournamentStartDate,
