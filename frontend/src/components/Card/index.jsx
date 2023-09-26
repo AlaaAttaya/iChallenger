@@ -15,7 +15,7 @@ const Card = ({ title, description, image, width, height, alt, cardlink }) => {
         <Link to={cardlink} className="cardlink">
           <img src={image} alt={alt} className="card-image" />
           <div className="card-content">
-            <h3>{title}</h3>
+            <div className="card-title">{title}</div>
             <p>{description}</p>
           </div>
         </Link>
