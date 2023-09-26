@@ -129,13 +129,13 @@ const LandingPage = () => {
           ) : (
             <>
               <CardCarousel
-                cards={cardComponents}
-                carouseltitle={"Game Forums"}
+                cards={TournamentComponents}
+                carouseltitle={"Tournaments"}
               />
               <hr />
               <CardCarousel
-                cards={TournamentComponents}
-                carouseltitle={"Tournaments"}
+                cards={cardComponents}
+                carouseltitle={"Game Forums"}
               />
             </>
           )}
