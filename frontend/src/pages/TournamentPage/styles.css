@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   height: 100%;
+  margin-bottom: 20px;
 }
 
 .tournamentheader-wrapper {
@@ -63,8 +64,8 @@
   font-size: 18px;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 70px;
-  padding-right: 70px;
+  padding-left: 40px;
+  padding-right: 40px;
   border-radius: 5px;
   background-color: #2fd671;
   color: #202020;
@@ -141,6 +142,30 @@
   margin-top: 10px;
 }
 .navinfoactive {
-  color: #2fd671;
-  border-bottom: 3px solid #2fd671;
+  color: #2fd671 !important;
+  border-bottom: 3px solid #2fd671 !important;
+}
+.tournament-brackets {
+  background-color: #181818;
+  width: 70%;
+  height: 400px;
+  padding: 30px 0px;
+  display: flex;
+  justify-content: center;
+}
+.tournament-rules {
+  background-color: #181818;
+  width: 70%;
+  height: 400px;
+  padding: 30px 0px;
+  display: flex;
+  justify-content: center;
+}
+.tournament-teams {
+  background-color: #181818;
+  width: 70%;
+  height: 400px;
+  padding: 30px 0px;
+  display: flex;
+  justify-content: center;
 }

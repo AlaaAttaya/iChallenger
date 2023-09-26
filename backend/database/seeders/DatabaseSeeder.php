@@ -238,6 +238,6 @@ class DatabaseSeeder extends Seeder
         }
 
         TournamentType::create(['name' => 'Single Elimination']);
-        TournamentType::create( ['name' => 'Double Elimination']); 
+       
     }
 }

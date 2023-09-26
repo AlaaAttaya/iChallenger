@@ -4,17 +4,100 @@ import axios from "axios";
 import config from "../../services/config";
 import Loading from "../../components/Loading";
 import "./styles.css";
+import {
+  SingleEliminationBracket,
+  Match,
+  SVGViewer,
+} from "@g-loot/react-tournament-brackets";
+
 const TournamentPage = () => {
   const { tournamentid } = useParams();
   const [tournament, setTournament] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activePage, setActivePage] = useState("rules");
+  const [enrollActive, setEnrollActive] = useState(false);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+  const dummyMatches = [
+    {
+      id: 1,
+      name: "Round 1 - Match 1",
+      nextMatchId: 2,
+      tournamentRoundText: "1",
+      startTime: "2021-05-30",
+      state: "DONE",
+      participants: [
+        {
+          id: "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc",
+          resultText: "WON",
+          isWinner: false,
+          status: "PLAYED",
+          name: "Team A",
+        },
+        {
+          id: "9ea9ce1a-4794-4553-856c-9a3620c0531b",
+          resultText: null,
+          isWinner: true,
+          status: "PLAYED",
+          name: "Team B",
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "Round 1 - Match 2",
+      nextMatchId: 3,
+      tournamentRoundText: "1",
+      startTime: "2021-05-30",
+      state: "DONE",
+      participants: [
+        {
+          id: "9ea9ce1a-4794-4553-856c-9a3620c0531b",
+          resultText: "WON",
+          isWinner: false,
+          status: "PLAYED",
+          name: "Team C",
+        },
+        {
+          id: "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc",
+          resultText: null,
+          isWinner: true,
+          status: "PLAYED",
+          name: "Team D",
+        },
+      ],
+    },
+    {
+      id: 3,
+      name: "Round 2 - Match 1",
+      nextMatchId: null,
+      tournamentRoundText: "2",
+      startTime: "2021-06-01",
+      state: "DONE",
+      participants: [
+        {
+          id: "9ea9ce1a-4794-4553-856c-9a3620c0531b",
+          resultText: "WON",
+          isWinner: false,
+          status: "PLAYED",
+          name: "Team C",
+        },
+        {
+          id: "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc",
+          resultText: null,
+          isWinner: true,
+          status: "PLAYED",
+          name: "Team A",
+        },
+      ],
+    },
+  ];
+
   useEffect(() => {
     scrollToTop();
 
@@ -42,6 +125,12 @@ const TournamentPage = () => {
         setLoading(false);
       });
   }, [tournamentid]);
+  const handlePageClick = (page) => {
+    setActivePage(page);
+  };
+  const handleEnrollActive = () => {
+    setEnrollActive(!enrollActive);
+  };
 
   return (
     <div className="TournamentsPageResult">
@@ -75,19 +164,80 @@ const TournamentPage = () => {
                 {tournament.end_date}
               </div>
               <div className="tournamentheader-enroll">
-                <button>Enroll</button>
+                <button onClick={() => handleEnrollActive()}>Enroll</button>
               </div>
             </div>
           </div>
 
           <div className="tournament-navinfo">
-            <button className="rulesbutton">Rules</button>
-            <button>Brackets</button>
-            <button>Teams</button>
+            <button
+              className={activePage === "rules" ? "navinfoactive" : ""}
+              onClick={() => handlePageClick("rules")}
+            >
+              Rules
+            </button>
+            <button
+              className={activePage === "brackets" ? "navinfoactive" : ""}
+              onClick={() => handlePageClick("brackets")}
+            >
+              Brackets
+            </button>
+            <button
+              className={activePage === "teams" ? "navinfoactive" : ""}
+              onClick={() => handlePageClick("teams")}
+            >
+              Teams
+            </button>
           </div>
-          <div className="tournament-rules"></div>
-          <div className="tournament-brackets"></div>
-          <div className="tournament-teams"></div>
+          {activePage === "rules" && (
+            <div className="tournament-rules">rule</div>
+          )}
+          {activePage === "brackets" && (
+            <div className="tournament-brackets">
+              <SingleEliminationBracket
+                options={{
+                  style: {
+                    roundHeader: { backgroundColor: "#AAA" },
+                    connectorColor: "green",
+                    connectorColorHighlight: "#000",
+                  },
+                }}
+                matches={dummyMatches}
+                matchComponent={Match}
+                svgWrapper={({ children, ...props }) => (
+                  <SVGViewer width={1000} height={1000} {...props}>
+                    {children}
+                  </SVGViewer>
+                )}
+              />
+            </div>
+          )}
+          {activePage === "teams" && (
+            <div className="tournament-teams">team</div>
+          )}
+          {enrollActive && (
+            <div className="tournament-enroll">
+              <div className="tournament-enroll-close-wrapper">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  className="tournament-enroll-close"
+                  onClick={() => handleEnrollActive()}
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M8.68056 10.9999L0 19.6805L2.31935 22L11 13.3193L19.6806 22L22 19.6805L13.3194 10.9999L21.9998 2.31938L19.6803 0L11 8.68039L2.31961 0L0.000261718 2.31938L8.68056 10.9999Z"
+                    fill="#2FD671"
+                  />
+                </svg>
+              </div>
+              <div className="tournament-invitations">inv</div>
+            </div>
+          )}
         </div>
       ) : null}
     </div>
