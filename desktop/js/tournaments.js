@@ -17,7 +17,9 @@ const createtournamentButton = document.getElementById(
   "createtournamentbutton"
 );
 const tournamenterrormsg = document.getElementById("tournamenterrormsg");
+const searchtournaments = document.getElementById("searchtournaments");
 let activePage;
+let searchTimeout;
 
 document
   .getElementById("searchtournaments")
@@ -34,6 +36,103 @@ document
     document.getElementById("searchtournamentsbar").style.border =
       "3px solid #9e9e9e ";
   });
+
+function createTournamentCard(Tournament) {
+  const card = document.createElement("div");
+  card.classList.add("tournament-card");
+
+  const image = document.createElement("img");
+  image.src = "http://127.0.0.1:8000" + Tournament.game.gameimage;
+  image.alt = Tournament.game.name;
+  image.classList.add("tournament-image");
+
+  const infoContainer = document.createElement("div");
+  infoContainer.classList.add("info-container");
+
+  const TournamentName = document.createElement("div");
+  TournamentName.textContent = Tournament.name;
+  TournamentName.classList.add("tournament-name");
+
+  const TournamentGame = document.createElement("div");
+  TournamentGame.textContent = Tournament.game.name;
+  TournamentGame.classList.add("tournament-game");
+
+  const TournamentDate = document.createElement("div");
+  TournamentDate.textContent = Tournament.start_date;
+  TournamentDate.classList.add("tournament-startdate");
+
+  const TournamentCompleted = document.createElement("div");
+  if (Tournament.is_completed === 1) {
+    TournamentCompleted.textContent = "Completed";
+  } else {
+    TournamentCompleted.textContent = "Open";
+  }
+  TournamentCompleted.classList.add("tournament-completed");
+
+  infoContainer.appendChild(TournamentName);
+  infoContainer.appendChild(TournamentGame);
+  infoContainer.appendChild(TournamentDate);
+  infoContainer.appendChild(TournamentCompleted);
+
+  card.appendChild(image);
+  card.appendChild(infoContainer);
+
+  card.addEventListener("click", () => {
+    //   const gameId = card.dataset.gameId;
+    //   currentGameId = card.dataset.gameId;
+    //   const gamefetched = allGames.find((g) => {
+    //     return parseInt(g.id) === parseInt(gameId);
+    //   });
+    //   populateUpdateModal(gamefetched);
+    //   updatemodalContainer.style.display = "flex";
+  });
+
+  return card;
+}
+
+searchtournaments.addEventListener("input", () => {
+  clearTimeout(searchTimeout);
+
+  searchTimeout = setTimeout(() => {
+    const searchQuery = searchtournaments.value.trim();
+
+    if (searchQuery) {
+      fetchTournaments(searchQuery);
+    } else {
+      fetchTournaments();
+    }
+  }, 300);
+});
+
+function fetchTournaments(searchQuery = null) {
+  const apiUrl = base_url + "guest/gettournaments";
+
+  const queryParams = new URLSearchParams();
+  if (searchQuery) {
+    queryParams.append("searchQuery", searchQuery);
+  }
+
+  const urlWithParams = `${apiUrl}?${queryParams.toString()}`;
+
+  return axios
+    .get(urlWithParams)
+    .then((response) => {
+      const data = response.data;
+      if (data.status === "Success") {
+        const tournaments = data.data;
+        ResultsFetchedTournament.innerHTML = "";
+        tournaments.forEach((tournament) => {
+          const cardtournament = createTournamentCard(tournament);
+          ResultsFetchedTournament.appendChild(cardtournament);
+        });
+      } else {
+        console.error("Error:", data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Axios error:", error);
+    });
+}
 
 function populateSelect(selectId, data) {
   const selectElement = document.getElementById(selectId);
@@ -113,12 +212,14 @@ function ChangePage(activatingPage) {
     CreateTournament.style.color = "#000000";
     CreateTournamentContainer.style.display = "none";
     ListTournamentContainer.style.display = "flex";
+    fetchTournaments();
   }
 }
 
 createtournamentButton.addEventListener("click", function () {
   const tournamentName = document.getElementById("tournamentname").value;
   const tournamentSize = document.getElementById("tournamentsize").value;
+  const tournamentPoints = document.getElementById("tournamentpoints").value;
   const tournamentType = document.getElementById("tournamenttype").value;
   const tournamentRegion = document.getElementById("tournamentregion").value;
   const tournamentGame = document.getElementById("tournamentgame").value;
@@ -142,7 +243,8 @@ createtournamentButton.addEventListener("click", function () {
     !tournamentGameMode ||
     !tournamentStartDate ||
     !tournamentEndDate ||
-    !tournamentRules
+    !tournamentRules ||
+    !tournamentPoints
   ) {
     tournamentErrorMsg.innerText = "Please fill in all fields.";
   } else if (tournamentStartDate >= tournamentEndDate) {
@@ -168,6 +270,7 @@ createtournamentButton.addEventListener("click", function () {
         start_date: tournamentStartDate,
         end_date: tournamentEndDate,
         rules: tournamentRules,
+        tournament_points: tournamentPoints,
       },
     };
 

@@ -70,12 +70,12 @@ body {
 }
 .fetchedresults-wrapper {
   display: flex;
-  flex-direction: column;
-  width: 90%;
-  margin-bottom: 20px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 10px;
+  gap: 10px;
 }
 .results-container {
-  background-color: #fff;
   width: 100%;
   height: 100%;
   display: flex;
@@ -163,4 +163,67 @@ body {
 .errormsg {
   margin-top: 5px;
   color: red;
+}
+.tournament-card {
+  width: 215px;
+  height: 230px;
+  border: 3px solid #252525;
+  box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.tournament-card:hover {
+  transform: scale(1.05);
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0px 15px 19px rgba(30, 67, 48, 0.238);
+}
+
+.tournament-image {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+/* 
+.tournament-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #252525;
+  color: #a0ffaa;
+  font-size: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  box-sizing: border-box;
+} */
+.info-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #252525;
+  color: #a0ffaa;
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.tournament-name,
+.tournament-game,
+.tournament-startdate,
+.tournament-completed {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 20px;
+}
+
+@media screen and (min-width: 1300px) {
+  .tournament-card {
+    width: 230px;
+    height: 230px;
+  }
 }
