@@ -1,4 +1,4 @@
-.game-card {
+.tournament-card {
   width: 215px;
   height: 230px;
   border: 3px solid #252525;
@@ -7,29 +7,43 @@
   overflow: hidden;
   cursor: pointer;
 }
-.game-card:hover {
+
+.tournament-card:hover {
   transform: scale(1.05);
   transition: background-color 0.3s, transform 0.3s;
   box-shadow: 0px 15px 19px rgba(30, 67, 48, 0.238);
 }
 
-.game-image {
+.tournament-image {
   width: 100%;
   height: 100%;
   object-fit: fill;
 }
 
-.game-name {
+.info-container {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background-color: #252525;
   color: #a0ffaa;
-  font-size: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.tournament-name,
+.tournament-completed {
+  text-align: center;
+  font-size: 14px;
   font-family: "Rubik", sans-serif;
   font-weight: 600;
-  padding: 15px;
-  text-align: center;
-  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.tournament-startdate {
+  text-align: right;
+  font-size: 12px;
+  margin-top: auto;
 }
