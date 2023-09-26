@@ -222,10 +222,11 @@ return new class extends Migration
             $table->unsignedBigInteger('game_id');
             $table->unsignedBigInteger('game_mode_id');
             $table->unsignedBigInteger('tournament_type_id');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->datetime('start_date');
+            $table->datetime('end_date');
             $table->boolean('is_completed')->default(false);
             $table->text('rules')->nullable();
+            $table->integer('tournament_points')->default(0);
             $table->integer('tournament_size');
             $table->timestamps();
         });
