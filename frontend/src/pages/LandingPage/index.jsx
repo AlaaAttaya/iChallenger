@@ -5,6 +5,8 @@ import HeroCarousel from "../../components/HeroCarousel";
 import CardCarousel from "../../components/CardCarousel";
 import Image from "../../assets/images/UploadImage.png";
 import Card from "../../components/Card";
+import LandingTournamentCard from "../../components/LandingTournamentCard";
+
 import config from "../../services/config";
 import axios from "axios";
 import Loading from "../../components/Loading";
@@ -39,6 +41,29 @@ const LandingPage = () => {
 
   const [gameData, setGameData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openTournaments, setOpenTournaments] = useState([]);
+
+  const fetchOpenTournaments = async () => {
+    try {
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getopentournaments`,
+        {
+          params: { searchQuery: "" },
+        }
+      );
+
+      if (response.status === 200) {
+        setOpenTournaments(response.data.data);
+      } else {
+        console.error(
+          "Error fetching open tournaments data:",
+          response.data.message
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching open tournaments data:", error);
+    }
+  };
 
   const fetchGameData = async () => {
     try {
@@ -63,6 +88,7 @@ const LandingPage = () => {
   };
 
   useEffect(() => {
+    fetchOpenTournaments();
     fetchGameData();
   }, []);
 
@@ -73,6 +99,17 @@ const LandingPage = () => {
       image={`${config.base_url}${game.gameimage}`}
       alt={game.name}
       cardlink={`/Forums/${game.name}`}
+    />
+  ));
+  const TournamentComponents = openTournaments.map((tournament) => (
+    <LandingTournamentCard
+      key={tournament.id}
+      title={tournament.name}
+      image={`${config.base_url}${tournament.game.gameimage}`}
+      Completed={tournament.is_completed === 1 ? "Completed" : "Open"}
+      startDate={tournament.start_date}
+      alt={tournament.game.name}
+      cardlink={`/Tournaments/${tournament.id}`}
     />
   ));
 
@@ -97,7 +134,7 @@ const LandingPage = () => {
               />
               <hr />
               <CardCarousel
-                cards={cardComponents}
+                cards={TournamentComponents}
                 carouseltitle={"Tournaments"}
               />
             </>
