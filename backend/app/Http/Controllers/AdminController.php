@@ -273,6 +273,7 @@ class AdminController extends Controller
             'tournament_size' => 'required|integer|min:2',
             'tournament_points' => 'required|integer',
             'rules'=>'required|string',
+            'tournament_region'=>'required|string',
         ]);
     
        
@@ -286,7 +287,7 @@ class AdminController extends Controller
     }
 
         public function updateTournament(Request $request)
-    {
+    {  
         $tournamentId=$request->input('tournamentId');
         $tournament = Tournament::find($tournamentId);
 
@@ -308,6 +309,7 @@ class AdminController extends Controller
             'tournament_size' => 'integer|min:2',
             'tournament_points' => 'integer',
             'rules'=>'string',
+            'tournament_region'=>'string',
         ]);
 
        
