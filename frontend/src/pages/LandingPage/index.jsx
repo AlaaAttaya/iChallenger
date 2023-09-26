@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/global.css";
 import "./styles.css";
+
 import HeroCarousel from "../../components/HeroCarousel";
 import CardCarousel from "../../components/CardCarousel";
-import Image from "../../assets/images/UploadImage.png";
+
+import ReadyToBattle from "../../assets/images/readytobattle.jpg";
+import TournamentForEveryone from "../../assets/images/TournamentForEveryone.png";
+import GamingTourneyFeat from "../../assets/images/GamingTourneyFeat.jpg";
+
 import Card from "../../components/Card";
 import LandingTournamentCard from "../../components/LandingTournamentCard";
 
@@ -14,27 +19,22 @@ import Loading from "../../components/Loading";
 const LandingPage = () => {
   const heroImages = [
     {
-      src: Image,
-      width: "600px",
-      height: "500px",
-      alt: "Image",
-    },
-    {
-      src: Image,
+      src: TournamentForEveryone,
       width: "100%",
-      height: "500px",
+      height: "640px",
       alt: "Image",
     },
     {
-      src: Image,
-      width: "200px",
-      height: "200px",
+      src: ReadyToBattle,
+      width: "100%",
+      height: "640px",
       alt: "Image",
     },
+
     {
-      src: Image,
-      width: "200px",
-      height: "200px",
+      src: GamingTourneyFeat,
+      width: "100%",
+      height: "640px",
       alt: "Image",
     },
   ];
