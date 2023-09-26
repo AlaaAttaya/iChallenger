@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
-
+import config from "../../services/config";
+import TournamentCard from "../../components/TournamentCard";
+import Loading from "../../components/Loading";
+import axios from "axios";
 const TournamentsPage = ({ userProfile }) => {
   const [isInputFocused, setInputFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setLoading] = useState(true);
+  const [tournaments, setTournaments] = useState([]);
 
   const handleSearchResultsFocus = () => {
     setInputFocused(true);
@@ -12,6 +18,51 @@ const TournamentsPage = ({ userProfile }) => {
   const handleSearchResultsBlur = () => {
     setInputFocused(false);
   };
+
+  const fetchTournaments = async () => {
+    try {
+      const response = await axios.get(
+        `${config.base_url}/api/guest/getopentournaments`,
+        {
+          params: { searchQuery },
+        }
+      );
+
+      if (response.status === 200) {
+        setTournaments(response.data.data);
+        setLoading(false);
+      } else {
+        console.error("Error fetching tournament data:", response.data.message);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error fetching tournament data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTournaments();
+  }, [searchQuery]);
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const tournamentCards = tournaments.map((tournament) => (
+    <Link key={tournament.id} to={`/Tournaments/${tournament.id}`}>
+      <TournamentCard
+        key={tournament.id}
+        title={tournament.name}
+        Completed={tournament.is_completed ? "Completed" : "Open"}
+        startDate={tournament.start_date}
+        image={`${config.base_url}${tournament.game.gameimage}`}
+        width="315px"
+        height="330px"
+        alt={tournament.name}
+      />
+    </Link>
+  ));
 
   return (
     <div className="ForumsPage">
@@ -105,11 +156,21 @@ const TournamentsPage = ({ userProfile }) => {
             className={`searchgamesinput ${isInputFocused ? "focused" : ""}`}
             onFocus={handleSearchResultsFocus}
             onBlur={handleSearchResultsBlur}
+            value={searchQuery}
+            onChange={handleSearchInputChange}
             required
           />
         </div>
       </div>
-      <div className="searchtournaments-results">asds</div>
+      <div className="searchtournaments-results">
+        {isLoading ? (
+          <Loading />
+        ) : tournaments.length === 0 ? (
+          <h2>Tournaments not found</h2>
+        ) : (
+          tournamentCards
+        )}
+      </div>
     </div>
   );
 };
