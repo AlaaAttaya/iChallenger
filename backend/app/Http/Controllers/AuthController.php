@@ -598,4 +598,37 @@ class AuthController extends Controller
         ], 400); 
     }
     
+
+        public function getUsersStats(Request $request)
+    {
+        $searchUsername = $request->input('username', '');
+        $query = User::query();
+        
+        if ($searchUsername !== null) {
+            $query->where('username', 'like',  $searchUsername . '%');
+            $query->where('user_role_id', '!=', 1);
+        }
+        
+        $users = $query->with('teams.tournament.brackets.matches')->get();
+        
+        foreach ($users as $user) {
+            $user->followers = $user->followers;
+            $user->following = $user->following;
+            $user->followers_count = $user->followers->count();
+            $user->following_count = $user->following->count();
+
+          
+            $user->teams_count = $user->teams->count();
+            $user->tournaments_count = $user->teams->pluck('tournament')->unique()->count();
+            $user->matches_count = $user->teams->pluck('tournament.matches')->flatten()->count();
+            $user->leaderboard = $user->leaderboard;
+           
+        }
+        
+        return response()->json([
+            'status' => 'Success',
+            'data' => $users,
+        ]);
+    }
+
 }
