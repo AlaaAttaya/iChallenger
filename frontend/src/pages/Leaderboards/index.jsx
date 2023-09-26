@@ -50,7 +50,15 @@ const LeaderboardsPage = ({ userProfile }) => {
         return "extras";
     }
   };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
+    scrollToTop();
     fetchLeaderboardData();
   }, [searchQuery]);
 

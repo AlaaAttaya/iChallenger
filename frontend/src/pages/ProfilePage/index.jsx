@@ -11,6 +11,12 @@ const ProfilePage = ({ userProfile }) => {
   const [activeButton, setActiveButton] = useState("Overview");
   const [userPosts, setUserPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
 
@@ -19,6 +25,7 @@ const ProfilePage = ({ userProfile }) => {
     }
   };
   useEffect(() => {
+    scrollToTop();
     const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "/Login";

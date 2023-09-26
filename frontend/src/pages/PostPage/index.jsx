@@ -16,7 +16,12 @@ const PostPage = ({ userProfile }) => {
   const [loading, setLoading] = useState(true);
 
   const [posts, setPosts] = useState([]);
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   const fetchForumPost = async (post) => {
     try {
       const response = await axios.get(`${config.base_url}/api/guest/getpost`, {
@@ -56,6 +61,7 @@ const PostPage = ({ userProfile }) => {
     }
   };
   useEffect(() => {
+    scrollToTop();
     fetchData();
   }, [gamename, post]);
 

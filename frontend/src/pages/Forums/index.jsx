@@ -13,7 +13,15 @@ const ForumsPage = () => {
   const handleSearchResultsFocus = () => {
     setInputFocused(true);
   };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
+    scrollToTop();
     handleSearchInputChange({ target: { value: searchText } });
   }, []);
 

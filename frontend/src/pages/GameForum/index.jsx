@@ -25,6 +25,12 @@ const GameForum = ({ userProfile }) => {
   const toggleUploadDivision = () => {
     setUploadVisible(!uploadVisible);
   };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setFilteredPosts(posts);
@@ -144,6 +150,7 @@ const GameForum = ({ userProfile }) => {
     }
   };
   useEffect(() => {
+    scrollToTop();
     fetchData();
   }, [gamename]);
 

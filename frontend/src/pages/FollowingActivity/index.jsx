@@ -16,8 +16,15 @@ const FollowingActivityPage = ({ userProfile }) => {
   const handleSearchResultsFocus = () => {
     setInputFocused(true);
   };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
+    scrollToTop();
     fetchFollowingPosts();
   }, []);
 

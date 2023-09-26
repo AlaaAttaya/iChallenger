@@ -34,6 +34,12 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
       fetchUserPosts();
     }
   };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   useEffect(() => {
     if (!username) {
       setError("Username not found.");
@@ -51,6 +57,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
     }
   }, [userProfile, username, navigate]);
   useEffect(() => {
+    scrollToTop();
     if (userProfile && userProfile.username === username) {
       navigate("/Profile");
     } else {
@@ -240,7 +247,7 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
                       <path
                         d="M16.8167 2C20.515 2 23 5.81347 23 9.371C23 16.5756 12.6867 22.475 12.5 22.475C12.3133 22.475 2 16.5756 2 9.371C2 5.81347 4.485 2 8.18333 2C10.3067 2 11.695 3.16452 12.5 4.18827C13.305 3.16452 14.6933 2 16.8167 2Z"
                         stroke={`${isFollowing ? "red" : "black"}`}
-                        strokeWidth="3"
+                        strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />

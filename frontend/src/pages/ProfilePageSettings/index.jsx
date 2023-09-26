@@ -26,8 +26,15 @@ const ProfilePageSettings = ({ userProfile, setUserProfile }) => {
     newpassword: "",
     confirmnewpassword: "",
   });
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
+    scrollToTop();
     if (isInformationOpen) {
       axios
         .get(`${config.base_url}/api/guest/countries`)

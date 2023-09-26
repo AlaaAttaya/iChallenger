@@ -65,7 +65,7 @@ const TournamentsPage = ({ userProfile }) => {
   ));
 
   return (
-    <div className="ForumsPage">
+    <div>
       <div
         className={` ${
           userProfile && userProfile.leaderboard

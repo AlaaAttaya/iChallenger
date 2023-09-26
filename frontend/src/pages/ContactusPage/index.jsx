@@ -10,6 +10,13 @@ const ContactusPage = () => {
     subject: "",
     message: "",
   });
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  scrollToTop();
   const showMessage = (message) => {
     if (messagePopupRef.current) {
       messagePopupRef.current.innerText = message;

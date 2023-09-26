@@ -37,7 +37,13 @@ const LoginPage = ({ setUserProfile }) => {
       document.getElementById("submitsignup").click();
     }
   };
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  scrollToTop();
   useEffect(() => {
     if (activeForm === "signup") {
       axios
