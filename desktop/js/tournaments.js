@@ -18,6 +18,8 @@ const createtournamentButton = document.getElementById(
 );
 const tournamenterrormsg = document.getElementById("tournamenterrormsg");
 const searchtournaments = document.getElementById("searchtournaments");
+const updatemodalContainer = document.getElementById("modal-update-container");
+const closeModalUpdate = document.getElementById("closemodal-update");
 let activePage;
 let searchTimeout;
 
@@ -37,6 +39,34 @@ document
       "3px solid #9e9e9e ";
   });
 
+closeModalUpdate.addEventListener("click", () => {
+  updatemodalContainer.style.display = "none";
+});
+
+function populateUpdateModal(Tournament) {
+  //   const updateGameNameInput = document.getElementById("game-name-update");
+  //   const updatepreviewimage = document.getElementById("preview-image-update");
+  //   updateGameNameInput.value = game.name;
+  //   updatepreviewimage.src = "http://localhost:8000" + game.gameimage;
+  //   updategameModesContainer.innerHTML = "";
+  //   const gamemodesfetched = game.game_modes;
+  //   gamemodesfetched.forEach((gamemode) => {
+  //     const gameModeInput = document.createElement("div");
+  //     gameModeInput.classList.add("gamemodeinputs");
+  //     gameModeInput.innerHTML = `
+  //           <div class="gamemode-labels">Name & Team Count</div>
+  //           <input type="text" class="game-mode-name" placeholder="Name" value="${gamemode.name}" />
+  //           <input type="number" class="team-count" placeholder="Team Count" value="${gamemode.max_players_per_team}" />
+  //           <button class="remove-game-mode">Remove</button>
+  //         `;
+  //     updategameModesContainer.appendChild(gameModeInput);
+  //     const removeGameModeButton =
+  //       gameModeInput.querySelector(".remove-game-mode");
+  //     removeGameModeButton.addEventListener("click", () => {
+  //       updategameModesContainer.removeChild(gameModeInput);
+  //     });
+  //   });
+}
 function createTournamentCard(Tournament) {
   const card = document.createElement("div");
   card.classList.add("tournament-card");
@@ -53,14 +83,6 @@ function createTournamentCard(Tournament) {
   TournamentName.textContent = Tournament.name;
   TournamentName.classList.add("tournament-name");
 
-  const TournamentGame = document.createElement("div");
-  TournamentGame.textContent = Tournament.game.name;
-  TournamentGame.classList.add("tournament-game");
-
-  const TournamentDate = document.createElement("div");
-  TournamentDate.textContent = Tournament.start_date;
-  TournamentDate.classList.add("tournament-startdate");
-
   const TournamentCompleted = document.createElement("div");
   if (Tournament.is_completed === 1) {
     TournamentCompleted.textContent = "Completed";
@@ -69,22 +91,22 @@ function createTournamentCard(Tournament) {
   }
   TournamentCompleted.classList.add("tournament-completed");
 
+  const TournamentDate = document.createElement("div");
+  TournamentDate.textContent = Tournament.start_date;
+  TournamentDate.classList.add("tournament-startdate");
+
   infoContainer.appendChild(TournamentName);
-  infoContainer.appendChild(TournamentGame);
-  infoContainer.appendChild(TournamentDate);
   infoContainer.appendChild(TournamentCompleted);
+  infoContainer.appendChild(TournamentDate);
 
   card.appendChild(image);
   card.appendChild(infoContainer);
 
   card.addEventListener("click", () => {
-    //   const gameId = card.dataset.gameId;
-    //   currentGameId = card.dataset.gameId;
-    //   const gamefetched = allGames.find((g) => {
-    //     return parseInt(g.id) === parseInt(gameId);
-    //   });
-    //   populateUpdateModal(gamefetched);
-    //   updatemodalContainer.style.display = "flex";
+    const Tournamenttoupdate = card.dataset.Tournament;
+
+    populateUpdateModal(Tournamenttoupdate);
+    updatemodalContainer.style.display = "flex";
   });
 
   return card;
