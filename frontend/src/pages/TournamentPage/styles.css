@@ -4,3 +4,143 @@
   justify-content: center;
   height: 100%;
 }
+
+.tournamentheader-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.tournamentheader-info {
+  background-color: #252525;
+  height: 300px;
+  margin-top: 30px;
+  width: 70%;
+  display: flex;
+}
+
+.tournamentheader-image-container {
+  width: 500px;
+  height: 100%;
+}
+
+.tournamentheader-image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.tournamentheader-info-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.tournament-navinfo {
+  background-color: #252525;
+  height: 70px;
+  margin-top: 20px;
+  width: 70%;
+  display: flex;
+}
+
+.tournament-navinfo button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-family: "Rubik", sans-serif;
+  font-size: 19px;
+  cursor: pointer;
+  padding: 0px 20px;
+}
+
+.tournament-navinfo button:hover {
+  color: #2fd671;
+}
+
+.tournamentheader-enroll button {
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 70px;
+  padding-right: 70px;
+  border-radius: 5px;
+  background-color: #2fd671;
+  color: #202020;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tournamentheader-enroll {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 80px;
+}
+
+.tournamentheader-enroll button:hover {
+  background-color: #269c55;
+  color: #ffffff;
+}
+
+.tournamentheader-name {
+  color: #ffffff;
+  font-size: 50px;
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.tournamentheader-game {
+  color: #3cd679;
+  font-size: 25px;
+  font-weight: 600;
+  font-family: "Rubik", sans-serif;
+  padding-left: 24px;
+}
+
+.tournamentheader-gamemode {
+  color: #ffffffef;
+  font-size: 19px;
+
+  font-family: "Rubik", sans-serif;
+  padding-left: 24px;
+  margin-top: 10px;
+}
+
+.tournamentheader-region {
+  color: #ffffffef;
+  font-size: 19px;
+
+  font-family: "Rubik", sans-serif;
+  padding-left: 24px;
+  margin-top: 10px;
+}
+
+.tournamentheader-enddate {
+  color: #ffffffef;
+  font-size: 19px;
+
+  font-family: "Rubik", sans-serif;
+  padding-left: 24px;
+  margin-top: 10px;
+}
+
+.tournamentheader-startdate {
+  color: #ffffffef;
+  font-size: 19px;
+
+  font-family: "Rubik", sans-serif;
+  padding-left: 24px;
+  margin-top: 10px;
+}
+.navinfoactive {
+  color: #2fd671;
+  border-bottom: 3px solid #2fd671;
+}

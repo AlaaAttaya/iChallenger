@@ -50,8 +50,44 @@ const TournamentPage = () => {
       ) : notFound ? (
         <h2>Tournament not found.</h2>
       ) : tournament ? (
-        <div>
-          <h1>{tournament.name}</h1>
+        <div className="tournamentheader-wrapper">
+          <div className="tournamentheader-info">
+            <div className="tournamentheader-image-container">
+              <img src={config.base_url + tournament.game.gameimage} />
+            </div>
+            <div className="tournamentheader-info-wrapper">
+              <div className="tournamentheader-name">{tournament.name}</div>
+              <div className="tournamentheader-game">
+                {tournament.game.name}
+              </div>
+              <div className="tournamentheader-gamemode">
+                Game Mode: &nbsp;{tournament.game_mode.name}
+              </div>
+              <div className="tournamentheader-region">
+                Region:&nbsp;{tournament.tournament_region}
+              </div>
+
+              <div className="tournamentheader-startdate">
+                Start Date:&nbsp;{tournament.start_date}
+              </div>
+              <div className="tournamentheader-enddate">
+                End Date:&nbsp;
+                {tournament.end_date}
+              </div>
+              <div className="tournamentheader-enroll">
+                <button>Enroll</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="tournament-navinfo">
+            <button className="rulesbutton">Rules</button>
+            <button>Brackets</button>
+            <button>Teams</button>
+          </div>
+          <div className="tournament-rules"></div>
+          <div className="tournament-brackets"></div>
+          <div className="tournament-teams"></div>
         </div>
       ) : null}
     </div>
