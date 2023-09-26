@@ -1,6 +1,6 @@
 .tournament-card {
-  width: 215px;
-  height: 230px;
+  width: 250px;
+  height: 280px;
   border: 3px solid #252525;
   box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -27,7 +27,7 @@
   width: 100%;
   background-color: #252525;
   color: #a0ffaa;
-  padding: 15px;
+  padding: 6px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,6 @@
 
 .tournament-name,
 .tournament-completed {
-  text-align: center;
   font-size: 14px;
   font-family: "Rubik", sans-serif;
 
