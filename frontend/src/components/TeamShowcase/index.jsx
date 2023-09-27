@@ -12,9 +12,11 @@ const TeamShowcase = ({ teams, teamMembers }) => {
               {teamMembers
                 .filter((member) => member.teamId === team.id)
                 .map((member) => (
-                  <div key={member.id} className="member">
-                    {member.name}
-                  </div>
+                  <a key={member.id} href={`/Profile/${member.name}`}>
+                    <div key={member.id} className="member">
+                      {member.name}
+                    </div>
+                  </a>
                 ))}
             </div>
           </div>
