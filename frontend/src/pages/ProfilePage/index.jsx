@@ -357,7 +357,7 @@ const ProfilePage = ({ userProfile }) => {
                     )
                   ) : isactiveTournament === "pastTournament" ? (
                     pastTournaments.length === 0 ? (
-                      <div>No Tournaments</div>
+                      <div className="notournaments">No Tournaments</div>
                     ) : (
                       pastTournaments.map((tournament) => (
                         <a
