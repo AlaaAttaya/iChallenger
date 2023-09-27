@@ -576,7 +576,7 @@ class AuthController extends Controller
         $tournamentId = $request->input('tournamentid');
 
         if (!is_null($tournamentId)) {
-            $tournament = Tournament::with('game', 'gameMode', 'brackets', 'teams.members', 'winners')
+            $tournament = Tournament::with('game', 'gameMode',  'brackets.matches.team1', 'brackets.matches.team2','teams.members', 'winners')
                 ->find($tournamentId);
 
             if ($tournament) {
