@@ -203,10 +203,9 @@
 }
 .pages-overview {
   display: flex;
-  justify-content: center;
+
   align-items: center;
   margin-top: 20px;
-  flex-grow: 1;
 }
 .pageopen {
   color: #2fd671 !important;
@@ -240,11 +239,41 @@
 .tournament-content-wrapper {
   margin-top: 20px;
   display: flex;
+  flex-direction: column;
   background-color: #292929;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+
   width: 73.5%;
   min-height: 700px;
+}
+.tournamentactive {
+  color: #2fd671 !important;
+  border-bottom: 3px solid #2fd671 !important;
+}
+.tournament-profilecard {
+  background-color: #3a3a3a;
+  padding: 25px;
+  border-radius: 10px;
+  margin-top: 20px;
+  gap: 60px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.tournaments-results-wrapper {
+  margin-top: 40px;
+  width: 80%;
+}
+.points-span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notournaments {
+  color: white;
+  text-align: center;
+  font-family: "Rubik", sans-serif;
+  font-size: 22px;
 }
 @media screen and (max-width: 700px) {
   .coverPhotoContainer {
