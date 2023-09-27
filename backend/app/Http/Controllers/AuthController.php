@@ -576,7 +576,7 @@ class AuthController extends Controller
         $tournamentId = $request->input('tournamentid');
 
         if (!is_null($tournamentId)) {
-            $tournament = Tournament::with('game', 'gameMode',  'brackets.matches.team1', 'brackets.matches.team2','teams.members', 'winners')
+            $tournament = Tournament::with('game', 'gameMode',  'brackets.matches.team1', 'brackets.matches.team2','teams.members.user', 'winners')
                 ->find($tournamentId);
 
             if ($tournament) {
@@ -620,8 +620,16 @@ class AuthController extends Controller
     
             $user->teams_count = $user->teams->count();
             $user->tournaments_count = $user->teams->pluck('tournament')->unique()->count();
-            $user->matches_count = $user->teams->pluck('tournament.matches')->flatten()->count();
             $user->leaderboard = $user->leaderboard;
+
+            $matchesCount = 0; 
+            foreach ($user->teams as $team) {
+                foreach ($team->tournament->brackets as $bracket) {
+                    $matchesCount += $bracket->matches->count();
+                }
+            }
+
+            $user->matches_count = $matchesCount;
             
             foreach ($user->teams as $team) {
                
