@@ -68,7 +68,8 @@ Route::group(["middleware" => "auth:api"], function () {
 
        
 
-
+        Route::post('createteam', [UserController::class, 'createTeam']);
+        
         Route::post('blockuser', [UserController::class, 'blockUser']);
         Route::get('getblockedusers', [UserController::class, 'getBlockedUsers']);
         Route::post('unblockuser', [UserController::class, 'unblockUser']);

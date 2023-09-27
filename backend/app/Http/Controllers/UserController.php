@@ -1005,7 +1005,7 @@ class UserController extends Controller
             'data' => $blockedUsers,
         ]);
     }
-        public function unblockUser(Request $request)
+    public function unblockUser(Request $request)
     {
         $user = Auth::user();
 
@@ -1074,6 +1074,49 @@ class UserController extends Controller
             'token_count' => $tokenCount,
         ]);
     }
+    public function createTeam(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'tournament_id' => 'required|int'
+        ]);
+    
+        $user = Auth::user();
+    
+      
+        $tournament = Tournament::find($request->input('tournament_id'));
+    
+   
+        if ($tournament->teams->count() >= $tournament->tournament_size || strtotime($tournament->end_date) <= time()) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Tournament is full or has ended.',
+            ], 400); 
+        }
+    
+        $team = Team::create([
+            'name' => $request->input('name'),
+            'tournament_id' => $tournament->id, 
+            'captain_id' => $user->id,
+        ]);
+    
+        TeamMember::create([
+            'team_id' => $team->id,
+            'user_id' => $user->id,
+            'is_captain' => 1,
+        ]);
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Team created successfully.',
+            'data' => $team,
+        ], 201);
+    }
+    
+    
+    
+    
+    
     
 
 }
