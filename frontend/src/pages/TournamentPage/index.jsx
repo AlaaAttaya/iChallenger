@@ -10,107 +10,26 @@ import {
   SVGViewer,
 } from "@g-loot/react-tournament-brackets";
 import TeamShowcase from "../../components/TeamShowcase";
-const TournamentPage = () => {
+import UserCard from "../../components/UserCard";
+const TournamentPage = ({ userProfile }) => {
   const { tournamentid } = useParams();
   const [tournament, setTournament] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState("rules");
   const [enrollActive, setEnrollActive] = useState(false);
+  const [bracketMatches, setBracketMatches] = useState(null);
+  const [Teams, setTeams] = useState(null);
+  const [teamMembers, setTeamMembers] = useState(null);
+  const [invitedError, setInviteError] = useState(null);
+  const [enrollPage, setEnrollPage] = useState("teamcreation");
+  const [errorMsg, setErrorMsg] = useState("");
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
-
-  const dummyMatches = [
-    {
-      id: 1,
-      name: "Round 1 - Match 1",
-      nextMatchId: 2,
-      tournamentRoundText: "1",
-      startTime: "2021-05-30",
-      state: "DONE",
-      participants: [
-        {
-          id: "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc",
-          resultText: "WON",
-          isWinner: false,
-          status: "PLAYED",
-          name: "Team A",
-        },
-        {
-          id: "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-          resultText: null,
-          isWinner: true,
-          status: "PLAYED",
-          name: "Team B",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Round 1 - Match 2",
-      nextMatchId: 3,
-      tournamentRoundText: "1",
-      startTime: "2021-05-30",
-      state: "DONE",
-      participants: [
-        {
-          id: "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-          resultText: "WON",
-          isWinner: false,
-          status: "PLAYED",
-          name: "Team C",
-        },
-        {
-          id: "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc",
-          resultText: null,
-          isWinner: true,
-          status: "PLAYED",
-          name: "Team D",
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "Round 2 - Match 1",
-      nextMatchId: null,
-      tournamentRoundText: "2",
-      startTime: "2021-06-01",
-      state: "DONE",
-      participants: [
-        {
-          id: "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-          resultText: "WON",
-          isWinner: false,
-          status: "PLAYED",
-          name: "Team C",
-        },
-        {
-          id: "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc",
-          resultText: null,
-          isWinner: true,
-          status: "PLAYED",
-          name: "Team A",
-        },
-      ],
-    },
-  ];
-  const dummyTeams = [
-    { id: 1, name: "Team A" },
-    { id: 2, name: "Team B" },
-    { id: 3, name: "Team C" },
-  ];
-
-  const dummyTeamMembers = [
-    { id: 1, name: "Member 1", teamId: 1 },
-    { id: 2, name: "Member 2", teamId: 1 },
-    { id: 3, name: "Member 1", teamId: 2 },
-    { id: 4, name: "Member 2", teamId: 2 },
-    { id: 5, name: "Member 1", teamId: 3 },
-  ];
 
   useEffect(() => {
     scrollToTop();
@@ -125,25 +44,116 @@ const TournamentPage = () => {
         const data = response.data;
 
         if (data.status === "Success") {
+          const matches = data.data.brackets.reduce((accumulator, bracket) => {
+            accumulator.push(...bracket.matches);
+            return accumulator;
+          }, []);
+
+          const teams = data.data.teams.map((team) => ({
+            id: team.id,
+            name: team.name,
+          }));
+
+          const teamMembers = data.data.teams.reduce((accumulator, team) => {
+            accumulator.push(
+              ...team.members.map((member) => ({
+                id: member.id,
+                name: member.user.username,
+                teamId: team.id,
+              }))
+            );
+            return accumulator;
+          }, []);
+          ///
+          const sortedMatches = matches.sort(
+            (a, b) => a.bracket_id - b.bracket_id || a.id - b.id
+          );
+
+          const ResultMatches = sortedMatches.map((match) => ({
+            id: match.id,
+            name: `Round ${match.bracket_id} - Match ${match.id}`,
+            nextMatchId: null,
+            tournamentRoundText: `${match.bracket_id}`,
+            startTime: match.match_date,
+            state: match.is_completed === 1 ? "DONE" : "PENDING",
+            participants: [
+              {
+                id: match.team1_id,
+                resultText: match.winner_id === match.team1_id ? "WON" : null,
+                isWinner: match.winner_id === match.team1_id,
+                status: match.is_completed === 1 ? "PLAYED" : "UPCOMING",
+                name: match.team1.name,
+              },
+              {
+                id: match.team2_id,
+                resultText: match.winner_id === match.team2_id ? "WON" : null,
+                isWinner: match.winner_id === match.team2_id,
+                status: match.is_completed === 1 ? "PLAYED" : "UPCOMING",
+                name: match.team2.name,
+              },
+            ],
+          }));
+
+          console.log("tournaments", data.data);
+          console.log("teams", teams);
+          console.log("teamMembers", teamMembers);
+          console.log("matches", matches);
+          console.log("dummyMatches", ResultMatches);
+
           setTournament(data.data);
+          setTeams(teams);
+          setTeamMembers(teamMembers);
+          setBracketMatches(ResultMatches);
         } else {
           setNotFound(true);
         }
       })
       .catch((error) => {
         console.error(error);
-
         setNotFound(true);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [tournamentid]);
+
   const handlePageClick = (page) => {
     setActivePage(page);
   };
   const handleEnrollActive = () => {
-    setEnrollActive(!enrollActive);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/Login";
+    } else {
+      setEnrollActive(!enrollActive);
+    }
+  };
+  const handleTeamCreation = (teamName) => {
+    const token = localStorage.getItem("token");
+    const teamData = {
+      name: teamName,
+      tournament_id: tournament.id,
+    };
+
+    axios
+      .post("/api/create-team", teamData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.message == "Tournament is full or has ended.") {
+        }
+        setEnrollPage("tournamentinvitation");
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorMsg("Tournament is full or has ended.");
+      });
+  };
+  const handleInvite = () => {
+    setInviteError("message");
   };
 
   return (
@@ -164,7 +174,8 @@ const TournamentPage = () => {
                 {tournament.game.name}
               </div>
               <div className="tournamentheader-gamemode">
-                Game Mode: &nbsp;{tournament.game_mode.name}
+                Game Mode: &nbsp;{" "}
+                {tournament.game_mode ? tournament.game_mode.name : ""}
               </div>
               <div className="tournamentheader-region">
                 Region:&nbsp;{tournament.tournament_region}
@@ -237,50 +248,102 @@ const TournamentPage = () => {
           )}
           {activePage === "brackets" && (
             <div className="tournament-brackets">
-              <SingleEliminationBracket
-                options={{
-                  style: {
-                    roundHeader: { backgroundColor: "#AAA" },
-                    connectorColor: "green",
-                    connectorColorHighlight: "#000",
-                  },
-                }}
-                matches={dummyMatches}
-                matchComponent={Match}
-                svgWrapper={({ children, ...props }) => (
-                  <SVGViewer width={1000} height={1000} {...props}>
-                    {children}
-                  </SVGViewer>
-                )}
-              />
+              {Array.isArray(bracketMatches) && bracketMatches.length > 0 ? (
+                <SingleEliminationBracket
+                  options={{
+                    style: {
+                      roundHeader: { backgroundColor: "#AAA" },
+                      connectorColor: "green",
+                      connectorColorHighlight: "#000",
+                    },
+                  }}
+                  matches={bracketMatches}
+                  matchComponent={Match}
+                  svgWrapper={({ children, ...props }) => (
+                    <SVGViewer width={1000} height={1000} {...props}>
+                      {children}
+                    </SVGViewer>
+                  )}
+                />
+              ) : (
+                <p>No bracket matches available.</p>
+              )}
             </div>
           )}
           {activePage === "teams" && (
             <div className="tournament-teams">
-              <TeamShowcase teams={dummyTeams} teamMembers={dummyTeamMembers} />
+              <TeamShowcase teams={Teams} teamMembers={teamMembers} />
             </div>
           )}
           {enrollActive && (
-            <div className="tournament-enroll">
-              <div className="tournament-enroll-close-wrapper">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 22 22"
-                  fill="none"
-                  className="tournament-enroll-close"
-                  onClick={() => handleEnrollActive()}
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M8.68056 10.9999L0 19.6805L2.31935 22L11 13.3193L19.6806 22L22 19.6805L13.3194 10.9999L21.9998 2.31938L19.6803 0L11 8.68039L2.31961 0L0.000261718 2.31938L8.68056 10.9999Z"
-                    fill="#2FD671"
-                  />
-                </svg>
+            <div className="popup-container">
+              <div className="tournament-enroll">
+                <div className="tournament-enroll-close-wrapper">
+                  <div className="tournament-enroll-svg">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                      className="tournament-enroll-close"
+                      onClick={() => handleEnrollActive()}
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M8.68056 10.9999L0 19.6805L2.31935 22L11 13.3193L19.6806 22L22 19.6805L13.3194 10.9999L21.9998 2.31938L19.6803 0L11 8.68039L2.31961 0L0.000261718 2.31938L8.68056 10.9999Z"
+                        fill="#2FD671"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div className="tournament-invitations">
+                  <div className="header-invite">
+                    <span>Form Team</span>
+                  </div>
+                  {enrollPage == "teamcreation" && (
+                    <div className="tournament-team-creation">
+                      <div className="tournament-teamname-creation-wrapper">
+                        {" "}
+                        <span className="teamname-span">Team Name</span>
+                        <input
+                          type="text"
+                          placeholder="Team Name"
+                          className="teamname-creation"
+                        />
+                      </div>
+
+                      <span className="errormsg-createteam">{errorMsg}</span>
+                      <button className="CreateTeam">Create Team</button>
+                    </div>
+                  )}
+                  {enrollPage == "tournamentinvitation" && (
+                    <div className="tournament-invitation-input-wrapper">
+                      <div className="send-invitation">
+                        <input
+                          type="text"
+                          placeholder="Send Invite.."
+                          className="send-invitation-input"
+                        />
+                        <button
+                          className="button-invite"
+                          onClick={() => handleInvite()}
+                        >
+                          Invite
+                        </button>
+                      </div>
+
+                      <div className="team-members-list">
+                        <div className="team-members-usercard">
+                          <UserCard user={userProfile} />
+                        </div>
+                      </div>
+                      <span className="invited-error">{invitedError}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="tournament-invitations">inv</div>
             </div>
           )}
         </div>
