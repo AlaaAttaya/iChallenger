@@ -18,6 +18,7 @@ use App\Models\Post;
 use App\Models\Leaderboard;
 use App\Models\TournamentType;
 use App\Models\Tournament;
+use App\Models\TournamentWinner;
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Log; 
 class AuthController extends Controller
@@ -599,7 +600,7 @@ class AuthController extends Controller
     }
     
 
-        public function getUsersStats(Request $request)
+    public function getUsersStats(Request $request)
     {
         $searchUsername = $request->input('username', '');
         $query = User::query();
@@ -616,13 +617,33 @@ class AuthController extends Controller
             $user->following = $user->following;
             $user->followers_count = $user->followers->count();
             $user->following_count = $user->following->count();
-
-          
+    
             $user->teams_count = $user->teams->count();
             $user->tournaments_count = $user->teams->pluck('tournament')->unique()->count();
             $user->matches_count = $user->teams->pluck('tournament.matches')->flatten()->count();
             $user->leaderboard = $user->leaderboard;
-           
+            
+            foreach ($user->teams as $team) {
+               
+                  
+                        $tournamentWinner = TournamentWinner::where('tournament_id', $team->tournament->id)->first();
+                
+                        if ($tournamentWinner !== null) {
+                            if ($tournamentWinner->winner_id === $team->id) {
+                                $team->tournament->team_status = 'Won';
+                            } else {
+                                $team->tournament->team_status = 'Lost';
+                            }
+                        } else {
+                            $team->tournament->team_status = 'TBD';
+                        }
+                    
+                
+            }
+            
+            
+            
+            
         }
         
         return response()->json([
@@ -630,5 +651,7 @@ class AuthController extends Controller
             'data' => $users,
         ]);
     }
+    
+    
 
 }
