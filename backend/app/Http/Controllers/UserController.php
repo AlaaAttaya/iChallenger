@@ -1079,7 +1079,7 @@ class UserController extends Controller
             'token_count' => $tokenCount,
         ]);
     }
-    public function createTeam(Request $request)
+        public function createTeam(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
@@ -1087,69 +1087,62 @@ class UserController extends Controller
             'datenow' => 'required|date',
             'teammembers' => 'required|array', 
         ]);
-    
+
         $user = Auth::user();
         $tournamentId = $request->input('tournament_id');
         $currentDate = strtotime($request->input('datenow'));
-    
+
         $existingTeam = TeamMember::where('user_id', $user->id)
             ->whereHas('team', function ($query) use ($tournamentId) {
                 $query->where('tournament_id', $tournamentId);
             })
             ->first();
-    
+
         if ($existingTeam) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'You are already a member of another team in this tournament.',
             ], 400);
         }
-    
+
         $tournament = Tournament::find($tournamentId);
-    
+
         $tournamentStartDate = strtotime($tournament->start_date);
-    
+
         if ($tournament->teams->count() >= $tournament->tournament_size || $currentDate >= $tournamentStartDate) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Tournament is full or has started.',
             ], 400);
         }
-    
-       
+
         $team = Team::create([
             'name' => $request->input('name'),
             'tournament_id' => $tournament->id,
             'captain_id' => $user->id,
         ]);
-    
-       
+
         $teamMembers = $request->input('teammembers');
-    
-       
-        TeamMember::create([
-            'team_id' => $team->id,
-            'user_id' => $user->id,
-            'is_captain' => 1,
-        ]);
-    
-       
+
         foreach ($teamMembers as $memberData) {
             if (isset($memberData['id'])) {
+            
+                $isCaptain = $memberData['id'] === $user->id ? 1 : 0;
                 TeamMember::create([
                     'team_id' => $team->id,
                     'user_id' => $memberData['id'],
-                    'is_captain' => 0,
+                    'is_captain' => $isCaptain,
                 ]);
             }
         }
-    
+
         return response()->json([
             'status' => 'Success',
             'message' => 'Team created successfully.',
             'data' => $team,
         ], 201);
     }
+
     
     
     
