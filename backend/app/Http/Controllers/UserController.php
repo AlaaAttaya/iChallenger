@@ -1215,23 +1215,33 @@ class UserController extends Controller
         $request->validate([
             'team_name' => 'required|string', 
             'tournament_id' => 'required|exists:tournaments,id', 
-            'invited_user_id' => 'required|exists:users,id', 
+            'invitedUsername' => 'required|exists:users,username',
         ]);
     
         $sender = Auth::user();
+        
+        
+        $invitedUser = User::where('username', $request->input('invitedUsername'))->first();
+        
+        if (!$invitedUser) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Invited user not found.',
+            ], 404);
+        }
+    
         $invitation = new Invitation([
             'team_name' => $request->team_name,
             'tournament_id' => $request->tournament_id,
             'sender_id' => $sender->id,
-            'invited_user_id' => $request->invited_user_id,
+            'invited_user_id' => $invitedUser->id, 
             'status' => 'pending', 
         ]);
-    
     
         $invitation->load('tournament', 'invitedUser');
     
         $invitation->save();     
-      
+    
         $data = [
             'invitation' => $invitation,
             'invited_user' => $invitation->invitedUser,
@@ -1246,6 +1256,7 @@ class UserController extends Controller
             'data' => $invitation,
         ]);
     }
+    
     
     
     
