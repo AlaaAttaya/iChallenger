@@ -8,23 +8,22 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Notification; // Import your Notification model
+use App\Models\Notification; 
 
 class NotificationSentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $notification;
+    public $data;
 
    
-    public function __construct(Notification $notification)
+    public function __construct(array $data)
     {
-        $this->notification = $notification;
+        $this->data = $data;
     }
 
     public function broadcastOn()
     {
-      
-        return new Channel('notifications.' . $this->notification->invited_user_id);
+        return new Channel('notifications.' . $this->data['invited_user']->id);
     }
 }
