@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-height: 300px;
+  overflow: auto;
 }
 .dropdown-title {
   color: white;
@@ -50,4 +52,11 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
+}
+
+.message-invitation-accepted {
+  color: green;
+}
+.message-invitation-cancelled {
+  color: red;
 }

@@ -7,6 +7,62 @@ const NotificationsDropdown = ({ userProfile }) => {
   const [accepted, setAccepted] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [pendingInvitations, setPendingInvitations] = useState([]);
+  const handleAccept = (invitation) => {
+    axios
+      .post(
+        `${config.base_url}/api/user/acceptinvitation`,
+        {
+          tournament_id: invitation.tournament_id,
+          sender_id: invitation.sender_id,
+          team_name: invitation.team_name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setAccepted(true);
+          console.log("Accepted notification:", invitation);
+        } else {
+          console.error("Error accepting invitation:", response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error accepting invitation:", error);
+      });
+  };
+
+  const handleCancel = (invitation) => {
+    console.log(invitation);
+    axios
+      .post(
+        `${config.base_url}/api/user/cancelinvitation`,
+        {
+          tournament_id: invitation.tournament_id,
+          sender_id: invitation.sender_id,
+          team_name: invitation.team_name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setCancelled(true);
+          console.log("Cancelled notification:", invitation);
+        } else {
+          console.error("Error cancelling invitation:", response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error cancelling invitation:", error);
+      });
+  };
 
   useEffect(() => {
     if (userProfile) {
@@ -74,8 +130,16 @@ const NotificationsDropdown = ({ userProfile }) => {
               </button>
             </div>
           )}
-          {accepted && <div className="message">Invitation Accepted</div>}
-          {cancelled && <div className="message">Invitation Cancelled</div>}
+          {accepted && (
+            <div className="message-invitation-accepted">
+              Invitation Accepted
+            </div>
+          )}
+          {cancelled && (
+            <div className="message-invitation-cancelled">
+              Invitation Cancelled
+            </div>
+          )}
         </div>
       ))}
     </div>
