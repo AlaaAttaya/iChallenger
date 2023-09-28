@@ -17,7 +17,7 @@ const TournamentPage = ({ userProfile }) => {
   const [tournament, setTournament] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activePage, setActivePage] = useState("rules");
+  const [activePage, setActivePage] = useState("teams");
   const [enrollActive, setEnrollActive] = useState(false);
   const [bracketMatches, setBracketMatches] = useState(null);
   const [Teams, setTeams] = useState(null);
@@ -105,7 +105,7 @@ const TournamentPage = ({ userProfile }) => {
             );
             return accumulator;
           }, []);
-          ///
+
           const sortedMatches = matches.sort(
             (a, b) => a.bracket_id - b.bracket_id || a.id - b.id
           );
@@ -168,59 +168,73 @@ const TournamentPage = ({ userProfile }) => {
     if (!token) {
       window.location.href = "/Login";
     } else {
-      setEnrollActive(!enrollActive);
+      setInviteError("");
+      if (!enrollActive) {
+        setEnrollActive(!enrollActive);
 
-      const token = localStorage.getItem("token");
-      const currentDate = new Date().toLocaleString();
-      const tournamentData = {
-        tournament_id: tournament.id,
-        datenow: currentDate,
-      };
-      axios
-        .post(config.base_url + "/api/user/checktournament", tournamentData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          setMembersInvited([]);
-          setMembersInvited((prevMembers) => [...prevMembers, userProfile]);
-          setEnrollPage("teamcreation");
-        })
-        .catch((error) => {
-          console.log(error.response.data.message);
-          setEnrollPage("errorPage");
-          if (
-            error.response.data.message === "Tournament is full or has started."
-          ) {
-            setErrorMsg("Tournament is full or has started.");
-          } else if (
-            error.response.data.message ===
-            "You are already a member of another team in this tournament."
-          ) {
-            setErrorMsg(
+        const token = localStorage.getItem("token");
+        const currentDate = new Date().toLocaleString();
+        const tournamentData = {
+          tournament_id: tournament.id,
+          datenow: currentDate,
+        };
+        axios
+          .post(config.base_url + "/api/user/checktournament", tournamentData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            setMembersInvited([]);
+            setMembersInvited((prevMembers) => [...prevMembers, userProfile]);
+            setEnrollPage("teamcreation");
+          })
+          .catch((error) => {
+            console.log(error.response.data.message);
+            setEnrollPage("errorPage");
+            if (
+              error.response.data.message ===
+              "Tournament is full or has started."
+            ) {
+              setErrorMsg("Tournament is full or has started.");
+            } else if (
+              error.response.data.message ===
               "You are already a member of another team in this tournament."
-            );
-          } else {
-            setErrorMsg("Error: unable to join tournament.");
-          }
-        });
+            ) {
+              setErrorMsg(
+                "You are already a member of another team in this tournament."
+              );
+            } else {
+              setErrorMsg("Error: unable to join tournament.");
+            }
+          });
+      } else {
+        setEnrollActive(!enrollActive);
+      }
     }
   };
   const handleTeamCreation = () => {
     const token = localStorage.getItem("token");
     const currentDate = new Date().toLocaleString();
-    const maxplayersperteam = tournament.max_players_per_team;
+
+    if (teamNameInput.trim() === "") {
+      return setErrorMsg("Team name cannot be empty.");
+    }
+
+    if (MembersInvited.length !== maxPlayersPerTeam) {
+      return setInviteError(
+        "Number of invited members does not match the team size."
+      );
+    }
+
     const teamData = {
       name: teamNameInput,
       tournament_id: tournament.id,
       datenow: currentDate,
+      teammembers: MembersInvited,
     };
-    const TeamMembers = MembersInvited;
-    if (teamNameInput.trim() === "") {
-      return setErrorMsg("Team name cannot be empty.");
-    }
+
     axios
       .post(config.base_url + "/api/user/createteam", teamData, {
         headers: {
@@ -228,13 +242,18 @@ const TournamentPage = ({ userProfile }) => {
         },
       })
       .then((response) => {
-        setteamCreated(response.data);
         if (response.data.message === "Tournament is full or has ended.") {
           setErrorMsg("Tournament is full or has ended.");
         } else if (
           response.data.message === "You are already a member of another team."
         ) {
           setErrorMsg("You are already a member of another team.");
+        } else {
+          console.log(response.data);
+          setteamCreated(response.data);
+          handleEnrollActive();
+
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -260,8 +279,14 @@ const TournamentPage = ({ userProfile }) => {
     if (!teamNameInput || !memberinvited) {
       setInviteError("Team name and invited username are required.");
       return;
-    } else if (memberinvited === userProfile.username) {
+    }
+    if (memberinvited === userProfile.username) {
       setInviteError("You can't invite yourself.");
+      return;
+    }
+    if (MembersInvited === maxPlayersPerTeam) {
+      setInviteError("Team size reached.");
+      return;
     }
 
     axios
