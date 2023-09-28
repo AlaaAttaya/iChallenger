@@ -472,7 +472,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                       <path
                         d="M7 3.5C7 5.433 5.433 7 3.5 7C1.567 7 0 5.433 0 3.5C0 1.567 1.567 0 3.5 0C5.433 0 7 1.567 7 3.5Z"
                         fill="#FF0000"
-                        fill-opacity="0.72"
+                        fillOpacity="0.72"
                       />
                     </svg>
                   )}
@@ -736,7 +736,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                     <path
                       d="M7 3.5C7 5.433 5.433 7 3.5 7C1.567 7 0 5.433 0 3.5C0 1.567 1.567 0 3.5 0C5.433 0 7 1.567 7 3.5Z"
                       fill="#FF0000"
-                      fill-opacity="0.72"
+                      fillOpacity="0.72"
                     />
                   </svg>
                 )}{" "}

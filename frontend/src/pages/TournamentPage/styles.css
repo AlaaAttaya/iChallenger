@@ -183,8 +183,10 @@
   background-color: #fff;
   height: 400px;
   width: 70%;
+  padding: 0px 20px;
   font-size: 18px;
   font-family: "Rubik", sans-serif;
+  overflow: auto;
 }
 
 .tournament-enroll-close {
@@ -281,8 +283,12 @@
 .team-members-list {
   display: flex;
   margin-top: 10px;
-
+  gap: 5px;
+  max-height: 200px;
   align-items: center;
+  flex-direction: column;
+  overflow: auto;
+  box-sizing: border-box;
 }
 .team-members-usercard {
   width: 300px;
@@ -335,6 +341,10 @@
   padding: 10px 20px;
 }
 .teamname-span {
+  color: white;
+  font-size: 20px;
+}
+.teammax-span {
   color: white;
   font-size: 20px;
 }

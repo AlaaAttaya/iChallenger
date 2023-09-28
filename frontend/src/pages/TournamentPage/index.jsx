@@ -11,6 +11,7 @@ import {
 } from "@g-loot/react-tournament-brackets";
 import TeamShowcase from "../../components/TeamShowcase";
 import UserCard from "../../components/UserCard";
+import Pusher from "pusher-js";
 const TournamentPage = ({ userProfile }) => {
   const { tournamentid } = useParams();
   const [tournament, setTournament] = useState(null);
@@ -26,14 +27,50 @@ const TournamentPage = ({ userProfile }) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [teamNameInput, setTeamNameInput] = useState("");
   const [teamCreated, setteamCreated] = useState(null);
-  const [MembersInvited, setMembersInvited] = useState(null);
+  const [MembersInvited, setMembersInvited] = useState([]);
   const [memberinvited, setMemberInvited] = useState("");
+  const [maxPlayersPerTeam, setmaxPlayersPerTeam] = useState(null);
+  const [maxTeams, setmaxTeams] = useState(null);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+  useEffect(() => {
+    console.log("test");
+    if (userProfile) {
+      const pusher = new Pusher("52c459eed956d1bac55e", {
+        cluster: "eu",
+      });
+
+      const channel = pusher.subscribe("invitations." + userProfile.id);
+
+      channel.bind("App\\Events\\AcceptedInvitation", function (data) {
+        const acceptedMember = data.data;
+
+        const isAlreadyInvited = MembersInvited.some(
+          (member) => member.id === acceptedMember.invited_user.id
+        );
+
+        if (!isAlreadyInvited && MembersInvited.length <= maxPlayersPerTeam) {
+          setMembersInvited((prevMembers) => [
+            ...prevMembers,
+            acceptedMember.invited_user,
+          ]);
+          setInviteError("");
+        } else {
+          setInviteError("Team size reached.");
+        }
+      });
+
+      return () => {
+        channel.unbind();
+        pusher.unsubscribe("invitations." + userProfile.id);
+        pusher.disconnect();
+      };
+    }
+  }, [userProfile]);
 
   useEffect(() => {
     scrollToTop();
@@ -108,6 +145,8 @@ const TournamentPage = ({ userProfile }) => {
           setTeams(teams);
           setTeamMembers(teamMembers);
           setBracketMatches(ResultMatches);
+          setmaxPlayersPerTeam(data.data.game_mode.max_players_per_team);
+          setmaxTeams(data.data.tournament_size);
         } else {
           setNotFound(true);
         }
@@ -145,6 +184,8 @@ const TournamentPage = ({ userProfile }) => {
         })
         .then((response) => {
           console.log(response);
+          setMembersInvited([]);
+          setMembersInvited((prevMembers) => [...prevMembers, userProfile]);
           setEnrollPage("teamcreation");
         })
         .catch((error) => {
@@ -219,6 +260,8 @@ const TournamentPage = ({ userProfile }) => {
     if (!teamNameInput || !memberinvited) {
       setInviteError("Team name and invited username are required.");
       return;
+    } else if (memberinvited === userProfile.username) {
+      setInviteError("You can't invite yourself.");
     }
 
     axios
@@ -336,7 +379,10 @@ const TournamentPage = ({ userProfile }) => {
           </div>
           {activePage === "rules" && (
             <div className="tournament-rules">
-              <div className="rules">{tournament.rules}</div>
+              <div className="rules">
+                <h3 className="rules-title">Rules: </h3>
+                <pre>{tournament.rules}</pre>
+              </div>
             </div>
           )}
           {activePage === "brackets" && (
@@ -365,7 +411,11 @@ const TournamentPage = ({ userProfile }) => {
           )}
           {activePage === "teams" && (
             <div className="tournament-teams">
-              <TeamShowcase teams={Teams} teamMembers={teamMembers} />
+              {Teams.length > 0 ? (
+                <TeamShowcase teams={Teams} teamMembers={teamMembers} />
+              ) : (
+                <p>No teams available.</p>
+              )}
             </div>
           )}
           {enrollActive && (
@@ -408,6 +458,9 @@ const TournamentPage = ({ userProfile }) => {
                     <div className="tournament-team-creation">
                       <div className="tournament-teamname-creation-wrapper">
                         {" "}
+                        <span className="teammax-span">
+                          Max Team Size: {maxPlayersPerTeam}
+                        </span>
                         <span className="teamname-span">Team Name</span>
                         <input
                           type="text"
@@ -415,24 +468,35 @@ const TournamentPage = ({ userProfile }) => {
                           className="teamname-creation"
                           onChange={(e) => setTeamNameInput(e.target.value)}
                         />
-                        <div className="send-invitation">
-                          <input
-                            type="text"
-                            placeholder="Send Invite.."
-                            className="send-invitation-input"
-                            onChange={(e) => setMemberInvited(e.target.value)}
-                          />
-                          <button
-                            className="button-invite"
-                            onClick={() => handleInvite()}
-                          >
-                            Invite
-                          </button>
-                        </div>
-                        <div className="team-members-list">
-                          <div className="team-members-usercard">
-                            <UserCard user={userProfile} />
+                        {maxPlayersPerTeam && maxPlayersPerTeam !== 1 && (
+                          <div className="send-invitation">
+                            <input
+                              type="text"
+                              placeholder="Send Invite.."
+                              className="send-invitation-input"
+                              onChange={(e) => setMemberInvited(e.target.value)}
+                            />
+                            <button
+                              className="button-invite"
+                              onClick={() => handleInvite()}
+                            >
+                              Invite
+                            </button>
                           </div>
+                        )}
+                        <div className="team-members-list">
+                          {MembersInvited ? (
+                            MembersInvited.map((member) => (
+                              <div
+                                className="team-members-usercard"
+                                key={member.id}
+                              >
+                                <UserCard user={member} />
+                              </div>
+                            ))
+                          ) : (
+                            <p></p>
+                          )}
                         </div>
                         <span className="invited-error">{invitedError}</span>
                       </div>
