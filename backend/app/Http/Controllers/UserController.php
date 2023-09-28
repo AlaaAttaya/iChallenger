@@ -75,7 +75,7 @@ class UserController extends Controller
     
        
         $request->validate([
-            'profileimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+            'profileimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:20480',
         ]);
     
         if ($request->hasFile('profileimage')) {
@@ -109,7 +109,7 @@ class UserController extends Controller
     
        
         $request->validate([
-            'coverimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:2048',
+            'coverimage' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico|max:20480',
         ]);
     
         if ($request->hasFile('coverimage')) {

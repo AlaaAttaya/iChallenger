@@ -376,23 +376,7 @@ class AdminController extends Controller
             'data' => $team,
         ], 201);
     }
-    public function createTournamentWinner(Request $request)
-    {
-        
-        $request->validate([
-            'tournament_id' => 'required|exists:tournaments,id',
-            'winner_id' => 'required|exists:teams,id',
-        ]);
-    
-       
-        $tournamentWinner = TournamentWinner::create($request->all());
-    
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Tournament winner added successfully.',
-            'data' => $tournamentWinner,
-        ], 201);
-    }
+   
     public function getData()
     {
         $totalUsers = User::where('user_role_id', '<>', 1)->count();
@@ -487,5 +471,42 @@ class AdminController extends Controller
         ]);
     }
     
+    public function createTournamentWinner(Request $request)
+    { 
+        $request->validate([
+            'tournament_id' => 'required|integer',
+            'team_id' => 'required|integer',
+        ]);
+    
+     
+        $tournament = Tournament::findOrFail($request->input('tournament_id'));
+    
+       
+        if ($tournament->is_completed == 1) {
+            return response()->json(['message' => 'Tournament is already completed'], 400);
+        }
+    
+    
+        $tournament->update(['is_completed' => 1]);
+    
+    
+        TournamentWinner::create([
+            'tournament_id' => $tournament->id,
+            'winner_id' => $request->input('team_id'),
+        ]);
+    
+      
+        $winningTeamMembers = TeamMember::where('team_id', $request->input('team_id'))->get();
+    
+       
+        foreach ($winningTeamMembers as $teamMember) {
+            $leaderboard = Leaderboard::firstOrNew(['user_id' => $teamMember->user_id]);
+            $leaderboard->increment('won');
+            $leaderboard->increment('points', $tournament->tournament_points);
+            $leaderboard->save();
+        }
 
+        return response()->json(['message' => 'Winners announced successfully'], 200);
+    }
+    
 }
