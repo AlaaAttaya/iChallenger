@@ -67,6 +67,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('userleaderboard', [UserController::class, 'getUserLeaderboard']);
 
        
+        Route::post('checktournament', [UserController::class, 'checkTournament']);
 
         Route::post('createteam', [UserController::class, 'createTeam']);
         Route::delete('deleteteam', [UserController::class, 'deleteTeam']);
@@ -77,6 +78,9 @@ Route::group(["middleware" => "auth:api"], function () {
 
 
         Route::post('generateresponse',[UserController::class,'generateResponse']);
+
+        Route::post('sendinvitation', [UserController::class, 'sendInvitation']);
+        Route::post('getinvitations', [UserController::class, 'getInvitations']);
 
     });
 
