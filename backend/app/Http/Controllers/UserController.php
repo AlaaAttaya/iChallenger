@@ -32,7 +32,11 @@ use App\Models\Tournament;
 use App\Models\TournamentType;
 use App\Models\TournamentWinner;
 use App\Models\BlockedUser;
+use App\Models\Invitation;
+
 use App\Events\MessageSent;
+use App\Events\NotificationSentEvent;
+
 use GuzzleHttp\Client;
 class UserController extends Controller
 {
@@ -1131,7 +1135,44 @@ class UserController extends Controller
     }
     
     
-
+    public function checkTournament (Request $request){
+        $request->validate([
+            'tournament_id' => 'required|int',
+            'datenow' => 'required|date',
+        ]);
+        $user = Auth::user();
+        $tournamentId = $request->input('tournament_id');
+        $currentDate = strtotime($request->input('datenow'));
+    
+        
+        $existingTeam = TeamMember::where('user_id', $user->id)
+            ->whereHas('team', function ($query) use ($tournamentId) {
+                $query->where('tournament_id', $tournamentId);
+            })
+            ->first();
+    
+        if ($existingTeam) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You are already a member of another team in this tournament.',
+            ], 400);
+        }
+    
+        $tournament = Tournament::find($tournamentId);
+    
+        $tournamentStartDate = strtotime($tournament->start_date);
+    
+        if ($tournament->teams->count() >= $tournament->tournament_size || $currentDate >= $tournamentStartDate) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Tournament is full or has started.',
+            ], 400);
+        }
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'No issue found.',
+        ], 201);
+    }
     
     
     public function deleteTeam(Request $request)
@@ -1169,7 +1210,56 @@ class UserController extends Controller
     
     
     
+    public function sendInvitation(Request $request)
+    {
+        $request->validate([
+            'team_name' => 'required|string', 
+            'tournament_id' => 'required|exists:tournaments,id', 
+            'invited_user_id' => 'required|exists:users,id', 
+        ]);
+    
+        $sender = Auth::user();
+        $invitation = new Invitation([
+            'team_name' => $request->team_name,
+            'tournament_id' => $request->tournament_id,
+            'sender_id' => $sender->id,
+            'invited_user_id' => $request->invited_user_id,
+            'status' => 'pending', 
+        ]);
     
     
-
+        $invitation->load('tournament', 'invitedUser');
+    
+        $invitation->save();     
+      
+        $data = [
+            'invitation' => $invitation,
+            'invited_user' => $invitation->invitedUser,
+            'sender' => $sender,
+        ];
+    
+        event(new NotificationSentEvent($data)); 
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Invitation sent successfully',
+            'data' => $invitation,
+        ]);
+    }
+    
+    
+    
+    public function getInvitations()
+    {
+        $user = Auth::user();
+        
+        $invitations = Invitation::with('tournament', 'invitedUser')
+            ->where('invited_user_id', $user->id)
+            ->get();
+        
+        return response()->json([
+            'status' => 'Success',
+            'data' => $invitations,
+        ]);
+    }
 }
