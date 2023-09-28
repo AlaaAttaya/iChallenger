@@ -205,11 +205,10 @@
 
 .tournament-enroll {
   background-color: #181818;
-  padding: 20px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   width: 40%;
-  height: 40%;
   overflow: auto;
 }
 
@@ -340,6 +339,22 @@
   font-size: 20px;
 }
 .tournament-teamname-creation-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.tournament-error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  margin-top: 50px;
+}
+.errorpage-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;

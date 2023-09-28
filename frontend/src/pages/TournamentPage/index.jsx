@@ -22,8 +22,12 @@ const TournamentPage = ({ userProfile }) => {
   const [Teams, setTeams] = useState(null);
   const [teamMembers, setTeamMembers] = useState(null);
   const [invitedError, setInviteError] = useState(null);
-  const [enrollPage, setEnrollPage] = useState("teamcreation");
+  const [enrollPage, setEnrollPage] = useState("errorPage");
   const [errorMsg, setErrorMsg] = useState("");
+  const [teamNameInput, setTeamNameInput] = useState("");
+  const [teamCreated, setteamCreated] = useState(null);
+  const [MembersInvited, setMembersInvited] = useState(null);
+  const [memberinvited, setMemberInvited] = useState("");
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -126,34 +130,123 @@ const TournamentPage = ({ userProfile }) => {
       window.location.href = "/Login";
     } else {
       setEnrollActive(!enrollActive);
+
+      const token = localStorage.getItem("token");
+      const currentDate = new Date().toLocaleString();
+      const tournamentData = {
+        tournament_id: tournament.id,
+        datenow: currentDate,
+      };
+      axios
+        .post(config.base_url + "/api/user/checktournament", tournamentData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setEnrollPage("teamcreation");
+        })
+        .catch((error) => {
+          console.log(error.response.data.message);
+          setEnrollPage("errorPage");
+          if (
+            error.response.data.message === "Tournament is full or has started."
+          ) {
+            setErrorMsg("Tournament is full or has started.");
+          } else if (
+            error.response.data.message ===
+            "You are already a member of another team in this tournament."
+          ) {
+            setErrorMsg(
+              "You are already a member of another team in this tournament."
+            );
+          } else {
+            setErrorMsg("Error: unable to join tournament.");
+          }
+        });
     }
   };
-  const handleTeamCreation = (teamName) => {
+  const handleTeamCreation = () => {
     const token = localStorage.getItem("token");
+    const currentDate = new Date().toLocaleString();
+    const maxplayersperteam = tournament.max_players_per_team;
     const teamData = {
-      name: teamName,
+      name: teamNameInput,
       tournament_id: tournament.id,
+      datenow: currentDate,
     };
-
+    const TeamMembers = MembersInvited;
+    if (teamNameInput.trim() === "") {
+      return setErrorMsg("Team name cannot be empty.");
+    }
     axios
-      .post("/api/create-team", teamData, {
+      .post(config.base_url + "/api/user/createteam", teamData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log(response.data);
-        if (response.data.message == "Tournament is full or has ended.") {
+        setteamCreated(response.data);
+        if (response.data.message === "Tournament is full or has ended.") {
+          setErrorMsg("Tournament is full or has ended.");
+        } else if (
+          response.data.message === "You are already a member of another team."
+        ) {
+          setErrorMsg("You are already a member of another team.");
         }
-        setEnrollPage("tournamentinvitation");
       })
       .catch((error) => {
-        console.error(error);
-        setErrorMsg("Tournament is full or has ended.");
+        console.log(error.response.data.message);
+        if (
+          error.response.data.message === "Tournament is full or has started."
+        ) {
+          setErrorMsg("Tournament is full or has started.");
+        } else if (
+          error.response.data.message ===
+          "You are already a member of another team in this tournament."
+        ) {
+          setErrorMsg(
+            "You are already a member of another team in this tournament."
+          );
+        } else {
+          setErrorMsg("Error: unable to create team.");
+        }
       });
   };
+
   const handleInvite = () => {
-    setInviteError("message");
+    if (!teamNameInput || !memberinvited) {
+      setInviteError("Team name and invited username are required.");
+      return;
+    }
+
+    axios
+      .post(
+        config.base_url + "/api/user/sendinvitation",
+        {
+          tournament_id: tournament.id,
+          team_name: teamNameInput,
+          invitedUsername: memberinvited,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setInviteError("Pending...");
+      })
+      .catch((error) => {
+        if (error.response) {
+          setInviteError(error.response.data.message);
+        } else {
+          console.error("Error sending invitation:", error);
+          setInviteError("An error occurred while sending the invitation.");
+        }
+      });
   };
 
   return (
@@ -287,7 +380,9 @@ const TournamentPage = ({ userProfile }) => {
                       viewBox="0 0 22 22"
                       fill="none"
                       className="tournament-enroll-close"
-                      onClick={() => handleEnrollActive()}
+                      onClick={() => {
+                        handleEnrollActive();
+                      }}
                     >
                       <path
                         fillRule="evenodd"
@@ -302,6 +397,13 @@ const TournamentPage = ({ userProfile }) => {
                   <div className="header-invite">
                     <span>Form Team</span>
                   </div>
+                  {enrollPage == "errorPage" && (
+                    <div className="tournament-error-page">
+                      <div className="errorpage-wrapper">
+                        <span className="errormsg-createteam">{errorMsg}</span>
+                      </div>
+                    </div>
+                  )}
                   {enrollPage == "teamcreation" && (
                     <div className="tournament-team-creation">
                       <div className="tournament-teamname-creation-wrapper">
@@ -311,35 +413,37 @@ const TournamentPage = ({ userProfile }) => {
                           type="text"
                           placeholder="Team Name"
                           className="teamname-creation"
+                          onChange={(e) => setTeamNameInput(e.target.value)}
                         />
+                        <div className="send-invitation">
+                          <input
+                            type="text"
+                            placeholder="Send Invite.."
+                            className="send-invitation-input"
+                            onChange={(e) => setMemberInvited(e.target.value)}
+                          />
+                          <button
+                            className="button-invite"
+                            onClick={() => handleInvite()}
+                          >
+                            Invite
+                          </button>
+                        </div>
+                        <div className="team-members-list">
+                          <div className="team-members-usercard">
+                            <UserCard user={userProfile} />
+                          </div>
+                        </div>
+                        <span className="invited-error">{invitedError}</span>
                       </div>
 
                       <span className="errormsg-createteam">{errorMsg}</span>
-                      <button className="CreateTeam">Create Team</button>
-                    </div>
-                  )}
-                  {enrollPage == "tournamentinvitation" && (
-                    <div className="tournament-invitation-input-wrapper">
-                      <div className="send-invitation">
-                        <input
-                          type="text"
-                          placeholder="Send Invite.."
-                          className="send-invitation-input"
-                        />
-                        <button
-                          className="button-invite"
-                          onClick={() => handleInvite()}
-                        >
-                          Invite
-                        </button>
-                      </div>
-
-                      <div className="team-members-list">
-                        <div className="team-members-usercard">
-                          <UserCard user={userProfile} />
-                        </div>
-                      </div>
-                      <span className="invited-error">{invitedError}</span>
+                      <button
+                        className="CreateTeam"
+                        onClick={() => handleTeamCreation()}
+                      >
+                        Create Team
+                      </button>
                     </div>
                   )}
                 </div>
