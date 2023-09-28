@@ -1263,14 +1263,54 @@ class UserController extends Controller
     public function getInvitations()
     {
         $user = Auth::user();
-        
-        $invitations = Invitation::with('tournament', 'invitedUser')
+    
+        $pendingInvitations = Invitation::with('tournament', 'invitedUser')
             ->where('invited_user_id', $user->id)
+            ->where('status', 'pending') 
             ->get();
-        
+    
         return response()->json([
             'status' => 'Success',
-            'data' => $invitations,
+            'data' => $pendingInvitations,
         ]);
     }
+    
+    public function acceptInvitation(Request $request)
+    {
+        $tournamentId = $request->input('tournament_id');
+        $teamName = $request->input('team_name');
+        $senderId = $request->input('sender_id');
+    
+        Invitation::where('tournament_id', $tournamentId)
+            ->where('team_name', $teamName)
+            ->where('sender_id', $senderId)
+            ->where('status', 'pending')
+            ->update(['status' => 'accepted']);
+    
+        Invitation::where('tournament_id', $tournamentId)
+            ->where('team_name', '<>', $teamName)
+            ->where('status', 'pending')
+            ->update(['status' => 'cancelled']);
+    
+        return response()->json(['status' => 'Success', 'message' => 'Invitations accepted']);
+    }
+
+        public function cancelInvitation(Request $request)
+    {
+        $tournamentId = $request->input('tournament_id');
+        $teamName = $request->input('team_name');
+        $senderId = $request->input('sender_id');
+
+    
+        Invitation::where('tournament_id', $tournamentId)
+            ->where('team_name', $teamName)
+            ->where('sender_id', $senderId)
+            ->where('status', 'pending')
+            ->update(['status' => 'cancelled']);
+
+        return response()->json(['status' => 'Success', 'message' => 'Invitations cancelled']);
+    }
+    
+
+
 }

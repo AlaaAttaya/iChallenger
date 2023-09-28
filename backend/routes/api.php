@@ -80,7 +80,9 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('generateresponse',[UserController::class,'generateResponse']);
 
         Route::post('sendinvitation', [UserController::class, 'sendInvitation']);
-        Route::post('getinvitations', [UserController::class, 'getInvitations']);
+        Route::get('getinvitations', [UserController::class, 'getInvitations']);
+        Route::get('acceptinvitation', [UserController::class, 'acceptInvitation']);
+        Route::get('cancelinvitation', [UserController::class, 'cancelInvitation']);
 
     });
 
