@@ -115,19 +115,19 @@ const LandingPage = () => {
 
   return (
     <div className="LandingPage">
-      <section className="hero-section">
-        <HeroCarousel
-          images={heroImages}
-          showArrows={false}
-          showIndicators={true}
-        />
-      </section>
-      <section className="content-section">
-        <div className="forumscarousel">
-          {loading ? (
-            <Loading />
-          ) : (
-            <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <section className="hero-section">
+            <HeroCarousel
+              images={heroImages}
+              showArrows={false}
+              showIndicators={true}
+            />
+          </section>
+          <section className="content-section">
+            <div className="forumscarousel">
               <CardCarousel
                 cards={TournamentComponents}
                 carouseltitle={"Tournaments"}
@@ -137,10 +137,10 @@ const LandingPage = () => {
                 cards={cardComponents}
                 carouseltitle={"Game Forums"}
               />
-            </>
-          )}
-        </div>
-      </section>
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 };

@@ -122,7 +122,7 @@ const PostPage = ({ userProfile }) => {
         </>
       ) : (
         <div>
-          <h2> not found</h2>
+          <h2> Not found</h2>
         </div>
       )}
     </div>

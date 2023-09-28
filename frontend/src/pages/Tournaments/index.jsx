@@ -19,7 +19,7 @@ const TournamentsPage = ({ userProfile }) => {
     setInputFocused(false);
   };
 
-  const fetchTournaments = async () => {
+  const fetchTournaments = async (searchQuery) => {
     try {
       const response = await axios.get(
         `${config.base_url}/api/guest/getopentournaments`,
@@ -42,7 +42,7 @@ const TournamentsPage = ({ userProfile }) => {
   };
 
   useEffect(() => {
-    fetchTournaments();
+    fetchTournaments(searchQuery);
   }, [searchQuery]);
 
   const handleSearchInputChange = (e) => {

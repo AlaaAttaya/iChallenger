@@ -29,7 +29,6 @@
 }
 .mymessages-page {
   height: 250px;
-  overflow: auto;
   display: flex;
   align-content: center;
   gap: 10px;
@@ -38,7 +37,9 @@
   justify-content: center;
   background-color: #202020;
   overflow: auto;
+  padding: 20px;
 }
+
 .messages-nav {
   display: flex;
   flex-direction: row;
@@ -172,8 +173,8 @@
   display: flex;
   align-content: center;
   gap: 10px;
+  padding: 20px 20px;
   flex-direction: column;
-
   background-color: #202020;
 }
 .chat-content {

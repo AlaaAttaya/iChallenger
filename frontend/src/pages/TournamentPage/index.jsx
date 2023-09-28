@@ -327,7 +327,7 @@ const TournamentPage = ({ userProfile }) => {
         <div className="tournamentheader-wrapper">
           <div className="tournamentheader-info">
             <div className="tournamentheader-image-container">
-              <img src={config.base_url + tournament.game.gameimage} />
+              <img src={config.base_url + tournament.game.gameimage} alt="" />
             </div>
             <div className="tournamentheader-info-wrapper">
               <div className="tournamentheader-name">{tournament.name}</div>
@@ -472,14 +472,14 @@ const TournamentPage = ({ userProfile }) => {
                   <div className="header-invite">
                     <span>Form Team</span>
                   </div>
-                  {enrollPage == "errorPage" && (
+                  {enrollPage === "errorPage" && (
                     <div className="tournament-error-page">
                       <div className="errorpage-wrapper">
                         <span className="errormsg-createteam">{errorMsg}</span>
                       </div>
                     </div>
                   )}
-                  {enrollPage == "teamcreation" && (
+                  {enrollPage === "teamcreation" && (
                     <div className="tournament-team-creation">
                       <div className="tournament-teamname-creation-wrapper">
                         {" "}
