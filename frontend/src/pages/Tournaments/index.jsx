@@ -54,7 +54,7 @@ const TournamentsPage = ({ userProfile }) => {
       <TournamentCard
         key={tournament.id}
         title={tournament.name}
-        Completed={tournament.is_completed ? "Completed" : "Open"}
+        GameMode={tournament.game_mode.name}
         startDate={tournament.start_date}
         image={`${config.base_url}${tournament.game.gameimage}`}
         width="315px"

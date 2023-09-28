@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 const LandingTournamentCard = ({
   title,
-  Completed,
   startDate,
+  GameMode,
   image,
   width,
   height,
@@ -25,7 +25,7 @@ const LandingTournamentCard = ({
           <img src={image} alt={alt} className="card-image" />
           <div className="tournament-card-content">
             <div className="tournament-name">{title}</div>
-            <div className="tournament-completed">{Completed}</div>
+            <div className="tournament-completed">{GameMode}</div>
             <div className="tournament-startdate">{startDate}</div>
           </div>
         </Link>

@@ -106,7 +106,7 @@ const LandingPage = () => {
       key={tournament.id}
       title={tournament.name}
       image={`${config.base_url}${tournament.game.gameimage}`}
-      Completed={tournament.is_completed === 1 ? "Completed" : "Open"}
+      GameMode={tournament.game_mode.name}
       startDate={tournament.start_date}
       alt={tournament.game.name}
       cardlink={`/Tournaments/${tournament.id}`}
