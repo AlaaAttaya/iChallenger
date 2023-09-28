@@ -1078,25 +1078,42 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'tournament_id' => 'required|int'
+            'tournament_id' => 'required|int',
+            'datenow' => 'required|date',
         ]);
     
         $user = Auth::user();
+        $tournamentId = $request->input('tournament_id');
+        $currentDate = strtotime($request->input('datenow'));
     
-      
-        $tournament = Tournament::find($request->input('tournament_id'));
+        
+        $existingTeam = TeamMember::where('user_id', $user->id)
+            ->whereHas('team', function ($query) use ($tournamentId) {
+                $query->where('tournament_id', $tournamentId);
+            })
+            ->first();
     
-   
-        if ($tournament->teams->count() >= $tournament->tournament_size || strtotime($tournament->end_date) <= time()) {
+        if ($existingTeam) {
             return response()->json([
                 'status' => 'Error',
-                'message' => 'Tournament is full or has ended.',
-            ], 400); 
+                'message' => 'You are already a member of another team in this tournament.',
+            ], 400);
+        }
+    
+        $tournament = Tournament::find($tournamentId);
+    
+        $tournamentStartDate = strtotime($tournament->start_date);
+    
+        if ($tournament->teams->count() >= $tournament->tournament_size || $currentDate >= $tournamentStartDate) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Tournament is full or has started.',
+            ], 400);
         }
     
         $team = Team::create([
             'name' => $request->input('name'),
-            'tournament_id' => $tournament->id, 
+            'tournament_id' => $tournament->id,
             'captain_id' => $user->id,
         ]);
     
@@ -1113,6 +1130,42 @@ class UserController extends Controller
         ], 201);
     }
     
+    
+
+    
+    
+    public function deleteTeam(Request $request)
+    {   $id = $request->input('teamid');
+    
+        $team = Team::find($id);
+    
+        if (!$team) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Team not found.',
+            ], 404);
+        }
+    
+      
+        $user = Auth::user();
+        if ($user->id !== $team->captain_id) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'You do not have permission to delete this team.',
+            ], 403); 
+        }
+    
+       
+        $team->members()->delete();
+    
+       
+        $team->delete();
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Team and its members deleted successfully.',
+        ], 200);
+    }
     
     
     
