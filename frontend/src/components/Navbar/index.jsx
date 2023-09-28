@@ -15,6 +15,7 @@ import FollowingDropdown from "../FollowingDropdown";
 import UserCard from "../../components/UserCard";
 import Message from "../../components/Message";
 import axios from "axios";
+import Pusher from "pusher-js";
 const Navbar = ({ userProfile, setUserProfile }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,6 +55,35 @@ const Navbar = ({ userProfile, setUserProfile }) => {
   const isActive = (path) => {
     return location.pathname === path;
   };
+  const [newNotification, setNewNotification] = useState(false);
+  const [notificationdata, setNotificationData] = useState(null);
+
+  useEffect(() => {
+    if (userProfile) {
+      const pusher = new Pusher("52c459eed956d1bac55e", {
+        cluster: "eu",
+      });
+
+      const channel = pusher.subscribe("notifications." + userProfile.id);
+
+      channel.bind("App\\Events\\NotificationSentEvent", function (data) {
+        setNewNotification(true);
+
+        const notificationfetched = data.data;
+
+        setNotificationData((prevData) => ({
+          ...prevData,
+          ...notificationfetched,
+        }));
+      });
+
+      return () => {
+        channel.unbind();
+        pusher.unsubscribe("notifications." + userProfile.id);
+        pusher.disconnect();
+      };
+    }
+  }, [userProfile]);
 
   //topnavbar
 
@@ -104,6 +134,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     setIsMessagesDropdownOpen(!isMessagesDropdownOpen);
   };
   const toggleNotificationsDropdown = () => {
+    setNewNotification(false);
     setIsNotificationsDropdownOpen(!isNotificationsDropdownOpen);
   };
   const toggleFollowingDropdown = () => {
@@ -124,6 +155,7 @@ const Navbar = ({ userProfile, setUserProfile }) => {
     setIsMessagesleftnavbarOpen(!isMessagesleftnavbarOpen);
   };
   const toggleNotificationsleftnavbar = () => {
+    setNewNotification(false);
     setIsNotificationsleftnavbarOpen(!isNotificationsleftnavbarOpen);
   };
   const toggleFollowingleftnavbar = () => {
@@ -426,8 +458,31 @@ const Navbar = ({ userProfile, setUserProfile }) => {
                 onMouseEnter={toggleNotificationsDropdown}
                 onMouseLeave={toggleNotificationsDropdown}
               >
-                <button id="Notifications">Notifications</button>
-                {isNotificationsDropdownOpen && <NotificationsDropdown />}
+                <button id="Notifications">
+                  Notifications{" "}
+                  {newNotification && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="7"
+                      height="7"
+                      viewBox="0 0 7 7"
+                      fill="none"
+                      style={{ paddingBottom: "7px" }}
+                    >
+                      <path
+                        d="M7 3.5C7 5.433 5.433 7 3.5 7C1.567 7 0 5.433 0 3.5C0 1.567 1.567 0 3.5 0C5.433 0 7 1.567 7 3.5Z"
+                        fill="#FF0000"
+                        fill-opacity="0.72"
+                      />
+                    </svg>
+                  )}
+                </button>
+                {isNotificationsDropdownOpen && (
+                  <NotificationsDropdown
+                    userProfile={userProfile}
+                    NotificationData={notificationdata}
+                  />
+                )}
               </div>{" "}
               <div
                 className="buttondropdown-wrapper"
@@ -666,7 +721,26 @@ const Navbar = ({ userProfile, setUserProfile }) => {
               id="notifications-dropdown"
               onClick={toggleNotificationsleftnavbar}
             >
-              <div> Notifications </div>
+              <div>
+                {" "}
+                Notifications{" "}
+                {newNotification && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="7"
+                    height="7"
+                    viewBox="0 0 7 7"
+                    fill="none"
+                    style={{ paddingBottom: "7px" }}
+                  >
+                    <path
+                      d="M7 3.5C7 5.433 5.433 7 3.5 7C1.567 7 0 5.433 0 3.5C0 1.567 1.567 0 3.5 0C5.433 0 7 1.567 7 3.5Z"
+                      fill="#FF0000"
+                      fill-opacity="0.72"
+                    />
+                  </svg>
+                )}{" "}
+              </div>
               <div className="dropdown">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -689,7 +763,14 @@ const Navbar = ({ userProfile, setUserProfile }) => {
             </div>
             {isNotificationsleftnavbarOpen && (
               <div className="dropdowns-leftnavbar-items">
-                <div className="dropdown-item">Notifications Search</div>
+                <div className="dropdown-item">
+                  <div className="noposition-absolute">
+                    <NotificationsDropdown
+                      userProfile={userProfile}
+                      NotificationData={notificationdata}
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </>

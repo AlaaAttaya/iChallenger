@@ -283,6 +283,20 @@
   bottom: 0;
   right: 0;
 }
+.noposition-absolute {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.noposition-absolute > :nth-child(1) {
+  top: 0px;
+  overflow: auto;
+  max-height: 150px;
+}
+
 @media screen and (min-width: 1251px) and (max-width: 1450px) {
   .nav-buttons {
     gap: 5px;
