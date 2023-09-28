@@ -83,6 +83,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('getinvitations', [UserController::class, 'getInvitations']);
         Route::post('acceptinvitation', [UserController::class, 'acceptInvitation']);
         Route::post('cancelinvitation', [UserController::class, 'cancelInvitation']);
+        
+        Route::get('getacceptedinvitations', [UserController::class, 'getAcceptedInvitations']);
 
     });
 

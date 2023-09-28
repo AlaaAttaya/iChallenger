@@ -36,6 +36,7 @@ use App\Models\Invitation;
 
 use App\Events\MessageSent;
 use App\Events\NotificationSentEvent;
+use App\Events\AcceptedInvitation;
 
 use GuzzleHttp\Client;
 class UserController extends Controller
@@ -1084,13 +1085,13 @@ class UserController extends Controller
             'name' => 'required|string',
             'tournament_id' => 'required|int',
             'datenow' => 'required|date',
+            'teammembers' => 'required|array', 
         ]);
     
         $user = Auth::user();
         $tournamentId = $request->input('tournament_id');
         $currentDate = strtotime($request->input('datenow'));
     
-        
         $existingTeam = TeamMember::where('user_id', $user->id)
             ->whereHas('team', function ($query) use ($tournamentId) {
                 $query->where('tournament_id', $tournamentId);
@@ -1115,17 +1116,33 @@ class UserController extends Controller
             ], 400);
         }
     
+       
         $team = Team::create([
             'name' => $request->input('name'),
             'tournament_id' => $tournament->id,
             'captain_id' => $user->id,
         ]);
     
+       
+        $teamMembers = $request->input('teammembers');
+    
+       
         TeamMember::create([
             'team_id' => $team->id,
             'user_id' => $user->id,
             'is_captain' => 1,
         ]);
+    
+       
+        foreach ($teamMembers as $memberData) {
+            if (isset($memberData['id'])) {
+                TeamMember::create([
+                    'team_id' => $team->id,
+                    'user_id' => $memberData['id'],
+                    'is_captain' => 0,
+                ]);
+            }
+        }
     
         return response()->json([
             'status' => 'Success',
@@ -1133,6 +1150,7 @@ class UserController extends Controller
             'data' => $team,
         ], 201);
     }
+    
     
     
     public function checkTournament (Request $request){
@@ -1274,23 +1292,51 @@ class UserController extends Controller
             'data' => $pendingInvitations,
         ]);
     }
-    
+
     public function acceptInvitation(Request $request)
     {
+        $user = Auth::user();
         $tournamentId = $request->input('tournament_id');
         $teamName = $request->input('team_name');
         $senderId = $request->input('sender_id');
     
-        Invitation::where('tournament_id', $tournamentId)
+      
+        $invitation = Invitation::where('tournament_id', $tournamentId)
             ->where('team_name', $teamName)
             ->where('sender_id', $senderId)
             ->where('status', 'pending')
-            ->update(['status' => 'accepted']);
+            ->first();
     
+        if (!$invitation) {
+            return response()->json(['status' => 'Error', 'message' => 'Invitation not found']);
+        }
+    
+      
+        $invitation->update(['status' => 'accepted']);
+    
+      
         Invitation::where('tournament_id', $tournamentId)
             ->where('team_name', '<>', $teamName)
             ->where('status', 'pending')
             ->update(['status' => 'cancelled']);
+    
+      
+        $tournament = Tournament::find($tournamentId);
+    
+     
+        $sender = User::find($senderId);
+    
+   
+        $Data = [
+            'invitation' => $invitation,
+            'tournament' => $tournament,
+            'sender' => $sender,
+            'invited_user' => $user, 
+           
+        ];
+    
+      
+        event(new AcceptedInvitation($Data));
     
         return response()->json(['status' => 'Success', 'message' => 'Invitations accepted']);
     }
@@ -1311,6 +1357,6 @@ class UserController extends Controller
         return response()->json(['status' => 'Success', 'message' => 'Invitations cancelled']);
     }
     
-
+   
 
 }
