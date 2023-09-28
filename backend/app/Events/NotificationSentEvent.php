@@ -16,24 +16,15 @@ class NotificationSentEvent implements ShouldBroadcast
 
     public $notification;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Notification $notification
-     */
+   
     public function __construct(Notification $notification)
     {
         $this->notification = $notification;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return PrivateChannel
-     */
     public function broadcastOn()
     {
       
-        return new PrivateChannel('user.' . $this->notification->user_id);
+        return new Channel('notifications.' . $this->notification->invited_user_id);
     }
 }
