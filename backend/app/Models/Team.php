@@ -21,10 +21,6 @@ class Team extends Model
         return $this->hasMany(TeamMember::class);
     }
 
-    public function invitations()
-    {
-        return $this->hasMany(Invitation::class);
-    }
 
     public function tournaments()
     {

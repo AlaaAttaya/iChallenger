@@ -278,10 +278,15 @@ return new class extends Migration
 
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id');
+            $table->string('team_name');
+            $table->unsignedBigInteger('tournament_id');
+            $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('invited_user_id');
             $table->string('status');
             $table->timestamps();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->foreign('sender_id')->references('id')->on('users');
+            $table->foreign('invited_user_id')->references('id')->on('users');
         });
 
         Schema::create('tournament_winners', function (Blueprint $table) {
