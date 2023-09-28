@@ -34,3 +34,20 @@
   background-color: #28ac5d;
   border-radius: 5px;
 }
+
+.accept-button {
+  color: white;
+}
+
+.cancel-button {
+  color: white;
+}
+.buttons-acceptcancel {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
