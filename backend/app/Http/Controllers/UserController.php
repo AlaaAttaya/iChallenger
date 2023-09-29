@@ -25,7 +25,7 @@ use App\Models\ChannelModerator;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\GameMode;
-use App\Models\Leadboard;
+use App\Models\Leaderboard;
 use App\Models\Team;
 use App\Models\TeamMember;
 use App\Models\Tournament;

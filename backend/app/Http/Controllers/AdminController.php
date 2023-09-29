@@ -18,7 +18,7 @@ use App\Models\ContactUs;
 use App\Models\Game;
 use App\Models\GameForum;
 use App\Models\GameMode;
-use App\Models\Leadboard;
+use App\Models\Leaderboard;
 use App\Models\Team;
 use App\Models\TeamMember;
 use App\Models\Tournament;
@@ -472,48 +472,55 @@ class AdminController extends Controller
         ]);
     }
     
-    public function createTournamentWinner(Request $request)
+        public function createTournamentWinner(Request $request)
     { 
         $request->validate([
             'tournament_id' => 'required|integer',
             'team_id' => 'required|integer',
         ]);
-    
+
         $tournament = Tournament::findOrFail($request->input('tournament_id'));
-    
+
         if ($tournament->is_completed == 1) {
             return response()->json(['message' => 'Tournament is already completed'], 400);
         }
-    
+
         $tournament->update(['is_completed' => 1]);
-    
-        $winningTeamMembers = TeamMember::where('team_id', $request->input('team_id'))->get();
-    
+
+        $winningTeamId = $request->input('team_id');
+
+        TournamentWinner::create([
+            'tournament_id' => $tournament->id,
+            'winner_id' => $winningTeamId,
+        ]);
+
+        $winningTeamMembers = TeamMember::where('team_id', $winningTeamId)->get();
+
         foreach ($winningTeamMembers as $teamMember) {
             $leaderboard = Leaderboard::firstOrNew(['user_id' => $teamMember->user_id]);
             $leaderboard->increment('won');
             $leaderboard->increment('points', $tournament->tournament_points);
             $leaderboard->save();
         }
+
     
-        
         $losingTeams = Team::where('tournament_id', $tournament->id)
-            ->where('id', '!=', $request->input('team_id'))
+            ->where('id', '!=', $winningTeamId)
             ->get();
-    
+
         foreach ($losingTeams as $losingTeam) {
             $losingTeamMembers = TeamMember::where('team_id', $losingTeam->id)->get();
-    
+
             foreach ($losingTeamMembers as $losingTeamMember) {
                 $leaderboard = Leaderboard::firstOrNew(['user_id' => $losingTeamMember->user_id]);
                 $leaderboard->increment('lost');
                 $leaderboard->save();
             }
         }
-    
+
         return response()->json(['message' => 'Winners and losers updated successfully'], 200);
     }
-    
+
 
 
     public function updateMatches(Request $request)
@@ -534,7 +541,7 @@ class AdminController extends Controller
         $tournamentId = $request->input('tournament_id');
         $matchesData = $request->input('matches');
     
-        try {
+   
             foreach ($matchesData as $matchData) {
                 $matchId = $matchData['id'];
     
@@ -554,9 +561,7 @@ class AdminController extends Controller
             }
     
             return response()->json(['message' => 'Matches updated successfully'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error updating matches'], 500);
-        }
+       
     }
     
     public function createMatches(Request $request)
