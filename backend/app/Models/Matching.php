@@ -9,7 +9,7 @@ class Matching extends Model
 {
     use HasFactory;
     protected $table = 'matches';
-    protected $fillable = ['bracket_id', 'team1_id', 'team2_id', 'match_date', 'is_completed', 'winner_id'];
+    protected $fillable = ['bracket_id', 'team1_id', 'team2_id', 'match_date', 'is_completed', 'winner_id', 'nextmatchid'];
 
     public function bracket()
     {

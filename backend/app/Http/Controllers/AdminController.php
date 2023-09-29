@@ -25,6 +25,7 @@ use App\Models\Tournament;
 use App\Models\TournamentType;
 use App\Models\TournamentWinner;
 use App\Models\Matching;
+use App\Models\Bracket;
 class AdminController extends Controller
 {
     public function banUser(Request $request)
@@ -478,35 +479,117 @@ class AdminController extends Controller
             'team_id' => 'required|integer',
         ]);
     
-     
         $tournament = Tournament::findOrFail($request->input('tournament_id'));
     
-       
         if ($tournament->is_completed == 1) {
             return response()->json(['message' => 'Tournament is already completed'], 400);
         }
     
-    
         $tournament->update(['is_completed' => 1]);
     
-    
-        TournamentWinner::create([
-            'tournament_id' => $tournament->id,
-            'winner_id' => $request->input('team_id'),
-        ]);
-    
-      
         $winningTeamMembers = TeamMember::where('team_id', $request->input('team_id'))->get();
     
-       
         foreach ($winningTeamMembers as $teamMember) {
             $leaderboard = Leaderboard::firstOrNew(['user_id' => $teamMember->user_id]);
             $leaderboard->increment('won');
             $leaderboard->increment('points', $tournament->tournament_points);
             $leaderboard->save();
         }
+    
+        
+        $losingTeams = Team::where('tournament_id', $tournament->id)
+            ->where('id', '!=', $request->input('team_id'))
+            ->get();
+    
+        foreach ($losingTeams as $losingTeam) {
+            $losingTeamMembers = TeamMember::where('team_id', $losingTeam->id)->get();
+    
+            foreach ($losingTeamMembers as $losingTeamMember) {
+                $leaderboard = Leaderboard::firstOrNew(['user_id' => $losingTeamMember->user_id]);
+                $leaderboard->increment('lost');
+                $leaderboard->save();
+            }
+        }
+    
+        return response()->json(['message' => 'Winners and losers updated successfully'], 200);
+    }
+    
 
-        return response()->json(['message' => 'Winners announced successfully'], 200);
+
+    public function updateMatches(Request $request)
+    {
+        $request->validate([
+            'tournament_id' => 'required|integer',
+            'matches' => 'required|array',
+            'matches.*.id' => 'required|integer',
+            'matches.*.team1_id' => 'required|integer',
+            'matches.*.team2_id' => 'required|integer',
+            'matches.*.match_date' => 'nullable|date',
+            'matches.*.is_completed' => 'required|boolean',
+            'matches.*.nextmatchid' => 'nullable|integer',
+            'matches.*.winner_id' => 'nullable|integer',
+        
+        ]);
+    
+        $tournamentId = $request->input('tournament_id');
+        $matchesData = $request->input('matches');
+    
+        try {
+            foreach ($matchesData as $matchData) {
+                $matchId = $matchData['id'];
+    
+                
+                Matching::where('id', $matchId)
+                    ->whereHas('bracket', function ($query) use ($tournamentId) {
+                        $query->where('tournament_id', $tournamentId);
+                    })
+                    ->update([
+                        'team1_id' => $matchData['team1_id'],
+                        'team2_id' => $matchData['team2_id'],
+                        'match_date' => $matchData['match_date'],
+                        'is_completed' => $matchData['is_completed'],
+                        'nextmatchid' => $matchData['nextmatchid'],
+                        'winner_id' => $matchData['winner_id'],
+                    ]);
+            }
+    
+            return response()->json(['message' => 'Matches updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error updating matches'], 500);
+        }
+    }
+    
+    public function createMatches(Request $request)
+    {
+        $request->validate([
+            'tournament_id' => 'required|integer',
+            'matches' => 'required|array',
+        ]);
+    
+        $tournamentId = $request->input('tournament_id');
+        $matchesData = $request->input('matches');
+    
+           
+            $bracket = Bracket::create([
+                'tournament_id' => $tournamentId,
+            ]);
+    
+          
+            foreach ($matchesData as $matchData) {
+                Matching::create([
+                    'bracket_id' => $bracket->id,
+                    'team1_id' => $matchData['team1_id'],
+                    'team2_id' => $matchData['team2_id'],
+                    'match_date' => $matchData['match_date'],
+                    'is_completed' => $matchData['is_completed'],
+                    'nextmatchid' => $matchData['nextmatchid'],
+                    'winner_id' => $matchData['winner_id'],
+                    
+                ]);
+            }
+    
+            return response()->json(['message' => 'Matches created successfully'], 200);
+       
     }
     
 }

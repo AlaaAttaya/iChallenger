@@ -261,7 +261,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
-        
+
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bracket_id');
@@ -269,6 +269,7 @@ return new class extends Migration
             $table->unsignedBigInteger('team2_id'); 
             $table->date('match_date');
             $table->boolean('is_completed')->default(false);
+            $table->unsignedBigInteger('nextmatchid')->nullable();
             $table->unsignedBigInteger('winner_id')->nullable();
             $table->timestamps();
         
