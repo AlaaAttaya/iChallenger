@@ -83,7 +83,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::get('getinvitations', [UserController::class, 'getInvitations']);
         Route::post('acceptinvitation', [UserController::class, 'acceptInvitation']);
         Route::post('cancelinvitation', [UserController::class, 'cancelInvitation']);
-        
+
         Route::get('getacceptedinvitations', [UserController::class, 'getAcceptedInvitations']);
 
     });
@@ -114,8 +114,8 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('createtournamentwinner', [AdminController::class, 'createTournamentWinner']);
 
         Route::get("fetchtournamentdata", [AdminController::class, "fetchTournamentData"]);
-        
-       
+        Route::post("creatematches", [AdminController::class, "createMatches"]);
+       Route::post("updatematches", [AdminController::class, "updateMatches"]);
 
     });
 
