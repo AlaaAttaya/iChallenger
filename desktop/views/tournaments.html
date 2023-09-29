@@ -129,34 +129,13 @@
             />
           </svg>
         </div>
-        <h3>View Game</h3>
+        <h3>Update Tournament</h3>
 
         <div class="modal-input">
-          <label for="game-name">Name</label>
-          <input type="text" id="game-name-update" placeholder="Name" />
-        </div>
-        <div class="modal-input">
-          <input
-            type="file"
-            id="game-image-update"
-            class="imageinput"
-            accept="image/*"
-          />
-          <img
-            class="gameuploadimage"
-            id="preview-image-update"
-            src="../assets/images/UploadImage.png"
-            alt="Preview"
-          />
-          <div class="addgamemode">
-            <span class="gamemode-title">Game Modes</span>
-            <button class="addgamemodebutton" id="add-game-mode-update">
-              Add
-            </button>
-          </div>
-          <div id="game-modes-update-container" class="gamesmodelist"></div>
-          <span class="errormessage" id="errormessage-update"></span>
-          <button class="creategame" id="save-game">Save</button>
+          <button className="generate-bracket" id="generate-bracket">
+            Generate Bracket
+          </button>
+          <div className="listmatches-wrapper" id="listmatches"></div>
         </div>
       </div>
     </div>

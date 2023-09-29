@@ -43,33 +43,105 @@ closeModalUpdate.addEventListener("click", () => {
   updatemodalContainer.style.display = "none";
 });
 
-function populateUpdateModal(Tournament) {
-  //   const updateGameNameInput = document.getElementById("game-name-update");
-  //   const updatepreviewimage = document.getElementById("preview-image-update");
-  //   updateGameNameInput.value = game.name;
-  //   updatepreviewimage.src = "http://localhost:8000" + game.gameimage;
-  //   updategameModesContainer.innerHTML = "";
-  //   const gamemodesfetched = game.game_modes;
-  //   gamemodesfetched.forEach((gamemode) => {
-  //     const gameModeInput = document.createElement("div");
-  //     gameModeInput.classList.add("gamemodeinputs");
-  //     gameModeInput.innerHTML = `
-  //           <div class="gamemode-labels">Name & Team Count</div>
-  //           <input type="text" class="game-mode-name" placeholder="Name" value="${gamemode.name}" />
-  //           <input type="number" class="team-count" placeholder="Team Count" value="${gamemode.max_players_per_team}" />
-  //           <button class="remove-game-mode">Remove</button>
-  //         `;
-  //     updategameModesContainer.appendChild(gameModeInput);
-  //     const removeGameModeButton =
-  //       gameModeInput.querySelector(".remove-game-mode");
-  //     removeGameModeButton.addEventListener("click", () => {
-  //       updategameModesContainer.removeChild(gameModeInput);
-  //     });
-  //   });
+function generateInitialBrackets(teams) {
+  const matches = [];
+  const matchCount = Math.ceil(teams.length / 2);
+
+  for (let i = 0; i < matchCount; i++) {
+    const team1 = teams[i * 2];
+    const team2 = teams[i * 2 + 1];
+
+    if (team1 && team2) {
+      const match = {
+        team1_id: team1.id,
+        team2_id: team2.id,
+        match_date: null,
+        is_completed: 0,
+        winner_id: null,
+      };
+
+      matches.push(match);
+    }
+  }
+
+  return matches;
 }
+
+function populateUpdateTournamentModal(Tournament) {
+  const generateBracketButton = document.getElementById("generate-bracket");
+  const listMatchesWrapper = document.getElementById("listmatches");
+
+  generateBracketButton.addEventListener("click", () => {
+    const generatedMatches = generateInitialBrackets(Tournament.teams);
+
+    listMatchesWrapper.innerHTML = "";
+    console.log(generatedMatches);
+    generatedMatches.forEach((match, index) => {
+      console.log(match);
+      const matchDiv = document.createElement("div");
+      matchDiv.classList.add("match-wrapper");
+
+      const matchNumber = document.createElement("span");
+      matchNumber.textContent = `Match ${index + 1}`;
+      matchDiv.appendChild(matchNumber);
+
+      const dateInput = document.createElement("input");
+      dateInput.type = "date";
+      dateInput.name = `match_date_${index}`;
+      dateInput.required = true;
+      matchDiv.appendChild(dateInput);
+
+      const winnerSelect = document.createElement("select");
+      winnerSelect.name = `winner_${index}`;
+      const team1Option = document.createElement("option");
+      team1Option.value = "team1";
+      team1Option.text = "Team 1";
+      const team2Option = document.createElement("option");
+      team2Option.value = "team2";
+      team2Option.text = "Team 2";
+      const noWinnerOption = document.createElement("option");
+      noWinnerOption.value = "";
+      noWinnerOption.text = "No Winner";
+      winnerSelect.appendChild(noWinnerOption);
+      winnerSelect.appendChild(team1Option);
+      winnerSelect.appendChild(team2Option);
+      matchDiv.appendChild(winnerSelect);
+
+      const completedLabel = document.createElement("label");
+      completedLabel.textContent = "Completed:";
+
+      const isCompletedRadioYes = document.createElement("input");
+      isCompletedRadioYes.type = "radio";
+      isCompletedRadioYes.name = `completed_${index}`;
+      isCompletedRadioYes.value = "1";
+      isCompletedRadioYes.required = true;
+
+      const yesLabel = document.createElement("span");
+      yesLabel.textContent = "Yes";
+      completedLabel.appendChild(isCompletedRadioYes);
+      completedLabel.appendChild(yesLabel);
+
+      const isCompletedRadioNo = document.createElement("input");
+      isCompletedRadioNo.type = "radio";
+      isCompletedRadioNo.name = `completed_${index}`;
+      isCompletedRadioNo.value = "0";
+      isCompletedRadioNo.required = true;
+
+      const noLabel = document.createElement("span");
+      noLabel.textContent = "No";
+      completedLabel.appendChild(isCompletedRadioNo);
+      completedLabel.appendChild(noLabel);
+
+      matchDiv.appendChild(completedLabel);
+
+      listMatchesWrapper.appendChild(matchDiv);
+    });
+  });
+}
+
 function createTournamentCard(Tournament) {
-  const card = document.createElement("div");
-  card.classList.add("tournament-card");
+  const card1 = document.createElement("div");
+  card1.classList.add("tournament-card");
 
   const image = document.createElement("img");
   image.src = "http://127.0.0.1:8000" + Tournament.game.gameimage;
@@ -99,17 +171,18 @@ function createTournamentCard(Tournament) {
   infoContainer.appendChild(TournamentCompleted);
   infoContainer.appendChild(TournamentDate);
 
-  card.appendChild(image);
-  card.appendChild(infoContainer);
-
-  card.addEventListener("click", () => {
-    const Tournamenttoupdate = card.dataset.Tournament;
-
-    populateUpdateModal(Tournamenttoupdate);
+  card1.appendChild(image);
+  card1.appendChild(infoContainer);
+  card1.setAttribute("data-Tournament", JSON.stringify(Tournament));
+  card1.addEventListener("click", () => {
+    const Tournamenttoupdate = JSON.parse(
+      card1.getAttribute("data-Tournament")
+    );
+    populateUpdateTournamentModal(Tournamenttoupdate);
     updatemodalContainer.style.display = "flex";
   });
 
-  return card;
+  return card1;
 }
 
 searchtournaments.addEventListener("input", () => {
