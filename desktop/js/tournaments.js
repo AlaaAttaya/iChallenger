@@ -43,6 +43,31 @@ closeModalUpdate.addEventListener("click", () => {
   updatemodalContainer.style.display = "none";
 });
 
+function createTournamentWinner(tournamentId, teamId) {
+  const apiUrl = base_url + `admin/createtournamentwinner`;
+
+  const requestData = {
+    tournament_id: tournamentId,
+    team_id: teamId,
+  };
+
+  const token = localStorage.getItem("token");
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+
+  axios
+    .post(apiUrl, requestData, { headers: headers })
+    .then((response) => {
+      console.log("Create Tournament Winner Response:", response);
+    })
+    .catch((error) => {
+      console.error("Error creating tournament winner:", error);
+    });
+}
+
 function generateInitialBrackets(teams) {
   const matches = [];
   const matchCount = Math.ceil(teams.length / 2);
@@ -121,7 +146,14 @@ function createMatches(matches, tournamentId) {
 function populateUpdateTournamentModal(Tournament) {
   const generateBracketButton = document.getElementById("generate-bracket");
   const listMatchesWrapper = document.getElementById("listmatches");
-
+  const teamSelect = document.getElementById("teamSelect");
+  teamSelect.innerHTML = "";
+  Tournament.teams.forEach((team) => {
+    const teamOption = document.createElement("option");
+    teamOption.value = team.id;
+    teamOption.text = team.name;
+    teamSelect.appendChild(teamOption);
+  });
   generateBracketButton.addEventListener("click", () => {
     const generatedMatches = generateInitialBrackets(Tournament.teams);
 
@@ -220,6 +252,15 @@ function populateUpdateTournamentModal(Tournament) {
 
       console.log("generated", generatedMatches);
       createMatches(generatedMatches, tournamentId);
+    });
+    const announceWinnersButton = document.getElementById(
+      "announcewinners-matches"
+    );
+    announceWinnersButton.addEventListener("click", () => {
+      const selectedTeamId = teamSelect.value;
+      const tournamentId = Tournament.id;
+      console.log(selectedTeamId);
+      createTournamentWinner(tournamentId, selectedTeamId);
     });
   });
 }
