@@ -20,6 +20,7 @@ const tournamenterrormsg = document.getElementById("tournamenterrormsg");
 const searchtournaments = document.getElementById("searchtournaments");
 const updatemodalContainer = document.getElementById("modal-update-container");
 const closeModalUpdate = document.getElementById("closemodal-update");
+
 let activePage;
 let searchTimeout;
 
@@ -42,31 +43,6 @@ document
 closeModalUpdate.addEventListener("click", () => {
   updatemodalContainer.style.display = "none";
 });
-
-function createTournamentWinner(tournamentId, teamId) {
-  const apiUrl = base_url + `admin/createtournamentwinner`;
-
-  const requestData = {
-    tournament_id: tournamentId,
-    team_id: teamId,
-  };
-
-  const token = localStorage.getItem("token");
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  };
-
-  axios
-    .post(apiUrl, requestData, { headers: headers })
-    .then((response) => {
-      console.log("Create Tournament Winner Response:", response);
-    })
-    .catch((error) => {
-      console.error("Error creating tournament winner:", error);
-    });
-}
 
 function generateInitialBrackets(teams) {
   const matches = [];
@@ -94,8 +70,33 @@ function generateInitialBrackets(teams) {
 
   return matches;
 }
-function updateMatches(matches, tournamentId) {
-  const apiUrl = base_url + "admin/updatematches";
+
+function createTournamentWinner(tournamentId, teamId) {
+  const apiUrl = base_url + `admin/createtournamentwinner`;
+
+  const requestData = {
+    tournament_id: tournamentId,
+    team_id: teamId,
+  };
+
+  const token = localStorage.getItem("token");
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+
+  axios
+    .post(apiUrl, requestData, { headers: headers })
+    .then((response) => {
+      console.log("Create Tournament Winner Response:", response);
+    })
+    .catch((error) => {
+      console.error("Error creating tournament winner:", error);
+    });
+}
+function manageMatches(tournamentId, matches) {
+  const apiUrl = base_url + "admin/managematches";
 
   const requestData = {
     tournament_id: tournamentId,
@@ -109,43 +110,53 @@ function updateMatches(matches, tournamentId) {
     "Content-Type": "application/json",
   };
 
-  axios
+  return axios
     .post(apiUrl, requestData, { headers: headers })
     .then((response) => {
-      console.log("updatresponse", response);
-      console.log("Matches updated successfully");
+      console.log("Manage Matches Response:", response.data);
+      return response.data;
     })
     .catch((error) => {
-      console.error("Error updating matches:", error);
+      console.error("Error managing matches:", error);
+      throw error;
     });
 }
-function createMatches(matches, tournamentId) {
-  const apiUrl = base_url + "admin/creatematches";
 
-  const requestData = {
-    tournament_id: tournamentId,
-    matches: matches,
-  };
-
-  const token = localStorage.getItem("token");
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  };
-
-  axios
-    .post(apiUrl, requestData, { headers: headers })
-    .then((response) => {
-      console.log("Create Matches Response:", response);
-    })
-    .catch((error) => {
-      console.error("Error creating matches:", error);
-    });
-}
 function populateUpdateTournamentModal(Tournament) {
-  const generateBracketButton = document.getElementById("generate-bracket");
+  console.log("tournament", Tournament);
+  const showTeamsButton = document.getElementById("showteams");
+  const showBracketsButton = document.getElementById("showbrackets");
+  const showWinnersButton = document.getElementById("showwinners");
+  const listTeamsWrapper = document.getElementById("listteams");
+  const listMatchesContainer = document.getElementById("listmatches-container");
   const listMatchesWrapper = document.getElementById("listmatches");
+  const listWinnersWrapper = document.getElementById("listwinners");
+  const saveMatchesButton = document.getElementById("save-matches");
+
+  listTeamsWrapper.style.display = "block";
+  listMatchesContainer.style.display = "none";
+  listWinnersWrapper.style.display = "none";
+
+  showTeamsButton.addEventListener("click", () => {
+    listTeamsWrapper.style.display = "block";
+    listMatchesContainer.style.display = "none";
+    listWinnersWrapper.style.display = "none";
+  });
+
+  showBracketsButton.addEventListener("click", () => {
+    listTeamsWrapper.style.display = "none";
+    listMatchesContainer.style.display = "block";
+    listWinnersWrapper.style.display = "none";
+  });
+
+  showWinnersButton.addEventListener("click", () => {
+    listTeamsWrapper.style.display = "none";
+    listMatchesContainer.style.display = "none";
+    listWinnersWrapper.style.display = "block";
+  });
+
+  const generateBracketButton = document.getElementById("generate-brackets");
+
   const teamSelect = document.getElementById("teamSelect");
   teamSelect.innerHTML = "";
   Tournament.teams.forEach((team) => {
@@ -219,40 +230,7 @@ function populateUpdateTournamentModal(Tournament) {
 
       listMatchesWrapper.appendChild(matchDiv);
     });
-    const updateMatchesButton = document.getElementById("update-matches");
-    updateMatchesButton.addEventListener("click", () => {
-      const generatedMatches = generateInitialBrackets(Tournament.teams);
-      const tournamentId = Tournament.id;
 
-      updateMatches(generatedMatches, tournamentId);
-    });
-    const createMatchesButton = document.getElementById("create-matches");
-    createMatchesButton.addEventListener("click", () => {
-      const generatedMatches = generateInitialBrackets(Tournament.teams);
-      const tournamentId = Tournament.id;
-
-      generatedMatches.forEach((match, index) => {
-        const dateInput = document.querySelector(
-          `input[name=match_date_${index}]`
-        );
-        const completedRadio = document.querySelector(
-          `input[name=completed_${index}]:checked`
-        );
-        const winnerSelect = document.querySelector(
-          `select[name=winner_${index}]`
-        );
-        match.match_date = dateInput.value || null;
-        match.is_completed = completedRadio
-          ? parseInt(completedRadio.value)
-          : 0;
-        if (winnerSelect.value) {
-          match.winner_id = winnerSelect.value;
-        }
-      });
-
-      console.log("generated", generatedMatches);
-      createMatches(generatedMatches, tournamentId);
-    });
     const announceWinnersButton = document.getElementById(
       "announcewinners-matches"
     );
@@ -261,6 +239,82 @@ function populateUpdateTournamentModal(Tournament) {
       const tournamentId = Tournament.id;
       console.log(selectedTeamId);
       createTournamentWinner(tournamentId, selectedTeamId);
+    });
+  });
+
+  saveMatchesButton.addEventListener("click", () => {
+    const generatedMatches = generateInitialBrackets(Tournament.teams);
+    const tournamentId = Tournament.id;
+
+    generatedMatches.forEach((match, index) => {
+      const dateInput = document.querySelector(
+        `input[name=match_date_${index}]`
+      );
+      const completedRadio = document.querySelector(
+        `input[name=completed_${index}]:checked`
+      );
+      const winnerSelect = document.querySelector(
+        `select[name=winner_${index}]`
+      );
+      match.match_date = dateInput.value || null;
+      match.is_completed = completedRadio ? parseInt(completedRadio.value) : 0;
+      if (winnerSelect.value) {
+        match.winner_id = winnerSelect.value;
+      }
+    });
+
+    console.log("generated", generatedMatches);
+
+    manageMatches(tournamentId, generatedMatches)
+      .then((response) => {
+        console.log("Matches managed successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error managing matches:", error);
+      });
+  });
+  listTeamsWrapper.innerHTML = "";
+
+  Tournament.teams.forEach((team) => {
+    const teamDiv = document.createElement("div");
+    teamDiv.classList.add("team-wrapper");
+
+    const teamName = document.createElement("span");
+    teamName.textContent = `Team Name: ${team.name}`;
+    teamDiv.appendChild(teamName);
+
+    team.members.forEach((member) => {
+      const memberName = document.createElement("span");
+      memberName.textContent = `Member: ${member.user.username}`;
+      teamDiv.appendChild(memberName);
+    });
+
+    listTeamsWrapper.appendChild(teamDiv);
+  });
+  listMatchesWrapper.innerHTML = "";
+
+  Tournament.brackets.forEach((bracket, roundIndex) => {
+    const roundHeader = document.createElement("h2");
+    roundHeader.textContent = `Round ${roundIndex + 1}`;
+    listMatchesWrapper.appendChild(roundHeader);
+
+    bracket.matches.forEach((match, matchIndex) => {
+      const matchDiv = document.createElement("div");
+      matchDiv.classList.add("match-wrapper");
+
+      const matchNumber = document.createElement("span");
+      matchNumber.textContent = `Match ${roundIndex + 1}.${matchIndex + 1}`;
+      matchDiv.appendChild(matchNumber);
+
+      const team1Name = document.createElement("span");
+      team1Name.textContent = `Team 1: ${match.team1_name}`;
+      matchDiv.appendChild(team1Name);
+
+      const team2Name = document.createElement("span");
+      team2Name.textContent = `Team 2: ${match.team2_name}`;
+      matchDiv.appendChild(team2Name);
+
+      listMatchesWrapper.appendChild(matchDiv);
     });
   });
 }

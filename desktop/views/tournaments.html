@@ -132,16 +132,32 @@
         <h3>Update Tournament</h3>
 
         <div class="modal-input">
-          <button className="generate-bracket" id="generate-bracket">
-            Generate Bracket
-          </button>
-          <div className="listmatches-wrapper" id="listmatches"></div>
-          <button class="update-matches" id="update-matches">Update</button>
-          <button class="create-matches" id="create-matches">Create</button>
-          <select id="teamSelect"></select>
-          <button class="create-matches" id="announcewinners-matches">
-            Announce Winners
-          </button>
+          <div class="updatetournament-pages">
+            <button class="updatetournament-showteams" id="showteams">
+              Teams
+            </button>
+            <button class="updatetournament-showbrackets" id="showbrackets">
+              Brackets
+            </button>
+            <button class="updatetournament-showwinners" id="showwinners">
+              Announce Winners
+            </button>
+          </div>
+          <div class="listteams-wrapper" id="listteams"></div>
+          <div className="listmatches-container" id="listmatches-container">
+            <div className="listmatches-wrapper" id="listmatches"></div>
+            <button class="genere-brackets" id="generate-brackets">
+              generate-brackets
+            </button>
+            <button class="save-matches" id="save-matches">save</button>
+          </div>
+
+          <div class="listwinners-wrapper" id="listwinners">
+            <select id="teamSelect"></select>
+            <button class="create-matches" id="announcewinners-matches">
+              Announce Winners
+            </button>
+          </div>
         </div>
       </div>
     </div>

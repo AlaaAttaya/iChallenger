@@ -265,6 +265,10 @@ body {
   justify-content: center;
 }
 
+.updatetournament-pages {
+  display: flex;
+}
+
 @media screen and (min-width: 1300px) {
   .tournament-card {
     width: 230px;
