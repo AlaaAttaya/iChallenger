@@ -94,7 +94,7 @@ const NotificationsDropdown = ({ userProfile }) => {
           <div key={invitation.id} className="notification-item">
             <div className="dropdown-title">
               {invitation
-                ? `${invitation.invited_user.name} invited you to play in the tournament.`
+                ? `${invitation.sender.username} invited you to play in the tournament.`
                 : ""}
             </div>
             {!accepted && !cancelled && (

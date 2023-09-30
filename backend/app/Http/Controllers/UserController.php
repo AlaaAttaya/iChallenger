@@ -1275,7 +1275,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
     
-        $pendingInvitations = Invitation::with('tournament', 'invitedUser')
+        $pendingInvitations = Invitation::with('tournament', 'invitedUser','sender')
             ->where('invited_user_id', $user->id)
             ->where('status', 'pending') 
             ->get();

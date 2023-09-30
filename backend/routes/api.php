@@ -111,6 +111,7 @@ Route::group(["middleware" => "auth:api"], function () {
         Route::post('creatematch', [AdminController::class, 'createMatch']);
         Route::post('markmatchascomplete', [AdminController::class, 'markMatchAsComplete']);
         Route::post('createteam', [AdminController::class, 'createTeam']);
+        
         Route::post('createtournamentwinner', [AdminController::class, 'createTournamentWinner']);
 
         Route::get("fetchtournamentdata", [AdminController::class, "fetchTournamentData"]);

@@ -64,41 +64,43 @@ const Message = ({ onCloseMessages, userProfile }) => {
   }, [activeuser]);
 
   useEffect(() => {
-    const pusher = new Pusher("52c459eed956d1bac55e", {
-      cluster: "eu",
-    });
+    if (userProfile) {
+      const pusher = new Pusher("52c459eed956d1bac55e", {
+        cluster: "eu",
+      });
 
-    const channel = pusher.subscribe("user." + userProfile.id);
+      const channel = pusher.subscribe("user." + userProfile.id);
 
-    channel.bind("App\\Events\\MessageSent", function (data) {
-      console.log("Received new message:", data);
-      const message = data.message.content;
-      const sender = data.sender;
+      channel.bind("App\\Events\\MessageSent", function (data) {
+        console.log("Received new message:", data);
+        const message = data.message.content;
+        const sender = data.sender;
 
-      if (
-        activeuser &&
-        activeuser.id === sender.id &&
-        activeuser.id !== userProfile.id
-      ) {
-        const MessageReceived = {
-          content: message,
-          messageowner: sender.username,
-        };
-        setMessages((prevMessages) => [...prevMessages, MessageReceived]);
-      } else {
-        const NotifiedMessage = `New Message:
+        if (
+          activeuser &&
+          activeuser.id === sender.id &&
+          activeuser.id !== userProfile.id
+        ) {
+          const MessageReceived = {
+            content: message,
+            messageowner: sender.username,
+          };
+          setMessages((prevMessages) => [...prevMessages, MessageReceived]);
+        } else {
+          const NotifiedMessage = `New Message:
         ${sender.username}: ${message}
       `;
 
-        showMessage(NotifiedMessage);
-      }
-    });
+          showMessage(NotifiedMessage);
+        }
+      });
 
-    return () => {
-      channel.unbind();
-      pusher.unsubscribe("user." + userProfile.id);
-      pusher.disconnect();
-    };
+      return () => {
+        channel.unbind();
+        pusher.unsubscribe("user." + userProfile.id);
+        pusher.disconnect();
+      };
+    }
   }, [userProfile, activeuser]);
 
   const handleChatGptKeyPress = async (e) => {

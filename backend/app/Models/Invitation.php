@@ -26,4 +26,8 @@ class Invitation extends Model
     {
         return $this->belongsTo(Tournament::class, 'tournament_id');
     }
+        public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
 }
