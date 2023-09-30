@@ -513,7 +513,15 @@ const ProfilePageView = ({ userProfile, setUserProfile }) => {
                                     />
                                   </svg>
                                 </span>
-                                <span className="tournament-profilecard-teamstatus">
+                                <span
+                                  className={`tournament-profilecard-teamstatus ${
+                                    tournament.team_status === "Lost"
+                                      ? "red"
+                                      : tournament.team_status === "Won"
+                                      ? "green"
+                                      : ""
+                                  }`}
+                                >
                                   {" "}
                                   {tournament.team_status}
                                 </span>
