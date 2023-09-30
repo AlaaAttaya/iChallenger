@@ -384,16 +384,16 @@ class AdminController extends Controller
         $totalTournaments = Tournament::count();
         $totalPosts = Post::count();
         
-    $data = [
-        'totalusers' => $totalUsers,
-        'totaltournaments' => $totalTournaments,
-        'totalposts' => $totalPosts,
-    ];
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Data Retrieved successfully.',
-            'data' => $data,
-        ], 201);
+        $data = [
+            'totalusers' => $totalUsers,
+            'totaltournaments' => $totalTournaments,
+            'totalposts' => $totalPosts,
+        ];
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Data Retrieved successfully.',
+                'data' => $data,
+            ], 201);
     }
     public function getTournamentsByGame()
     {
@@ -422,8 +422,10 @@ class AdminController extends Controller
             'data' => $usersByCountry,
         ], 200);
     }
-        public function searchEntities(Request $request)
-    {   $searchName=$request->input('searchName');
+
+    public function searchEntities(Request $request)
+    {   
+        $searchName=$request->input('searchName');
     
         $users = User::where('username', 'like', $searchName . '%')->where('user_role_id', '<>', 1)->get();
 
@@ -472,7 +474,7 @@ class AdminController extends Controller
         ]);
     }
     
-        public function createTournamentWinner(Request $request)
+    public function createTournamentWinner(Request $request)
     { 
         $request->validate([
             'tournament_id' => 'required|integer',
@@ -520,7 +522,6 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Winners and losers updated successfully'], 200);
     }
-
 
 
     public function updateMatches(Request $request)
@@ -596,5 +597,69 @@ class AdminController extends Controller
             return response()->json(['message' => 'Matches created successfully'], 200);
        
     }
+        public function manageMatches(Request $request)
+    {
+        $request->validate([
+            'tournament_id' => 'required|integer',
+            'matches' => 'required|array',
+        ]);
+
+        $tournamentId = $request->input('tournament_id');
+        $matchesData = $request->input('matches');
+
+    
+        $updatedMatchIds = [];
+        $allMatches = [];
+
+        foreach ($matchesData as $matchData) {
+            $matchId = isset($matchData['id']) ? $matchData['id'] : null;
+
+            $matching = Matching::where('id', $matchId)
+                ->whereHas('bracket', function ($query) use ($tournamentId) {
+                    $query->where('tournament_id', $tournamentId);
+                })
+                ->first();
+
+            if ($matching) {
+
+                $matching->update([
+                    'team1_id' => $matchData['team1_id'],
+                    'team2_id' => $matchData['team2_id'],
+                    'match_date' => $matchData['match_date'],
+                    'is_completed' => $matchData['is_completed'],
+                    'nextmatchid' => $matchData['nextmatchid'],
+                    'winner_id' => $matchData['winner_id'],
+                ]);
+
+                
+                $updatedMatchIds[] = $matching->id;
+            } else {
+                $bracket = Bracket::create([
+                    'tournament_id' => $tournamentId,
+                ]);
+        
+                $newMatch = Matching::create([
+                    'bracket_id' => $bracket->id,
+                    'team1_id' => $matchData['team1_id'],
+                    'team2_id' => $matchData['team2_id'],
+                    'match_date' => $matchData['match_date'],
+                    'is_completed' => $matchData['is_completed'],
+                    'nextmatchid' => $matchData['nextmatchid'],
+                    'winner_id' => $matchData['winner_id'],
+                ]);
+
+                $allMatches[] = $newMatch;
+            }
+        }
+
+
+        $allTournamentMatches = Matching::whereHas('bracket', function ($query) use ($tournamentId) {
+            $query->where('tournament_id', $tournamentId);
+        })->get();
+
+        return response()->json(['message' => 'Matches managed successfully', 'updated_matches' => $updatedMatchIds, 'all_matches' => $allTournamentMatches], 200);
+    }
+
+
     
 }

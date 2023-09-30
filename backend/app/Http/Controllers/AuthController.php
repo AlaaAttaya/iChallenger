@@ -540,7 +540,7 @@ class AuthController extends Controller
         }
     
         $tournaments = $query
-            ->with('game', 'gameMode', 'brackets', 'teams.members', 'winners')
+            ->with('game', 'gameMode', 'brackets', 'teams.members.user', 'winners')
             ->get();
     
         return response()->json([
@@ -630,7 +630,7 @@ class AuthController extends Controller
             }
 
             $user->matches_count = $matchesCount;
-            
+
             foreach ($user->teams as $team) {
                
                   
