@@ -271,6 +271,7 @@ return new class extends Migration
             $table->boolean('is_completed')->default(false);
             $table->unsignedBigInteger('nextmatchid')->nullable();
             $table->unsignedBigInteger('winner_id')->nullable();
+            $table->integer('round_number')->default(1);
             $table->timestamps();
         
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');

@@ -540,7 +540,7 @@ class AuthController extends Controller
         }
     
         $tournaments = $query
-            ->with('game', 'gameMode', 'brackets', 'teams.members.user', 'winners')
+            ->with('game', 'gameMode', 'brackets.matches.team1', 'brackets.matches.team2','teams.members.user', 'winners')
             ->get();
     
         return response()->json([
