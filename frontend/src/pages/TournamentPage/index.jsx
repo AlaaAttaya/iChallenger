@@ -300,6 +300,21 @@ const TournamentPage = ({ userProfile }) => {
       return;
     }
 
+    if (tournament && tournament.teams) {
+      for (const team of tournament.teams) {
+        if (team.members) {
+          for (const member of team.members) {
+            if (member.user.username === memberinvited) {
+              setInviteError(
+                "User is already a member of a team in this tournament."
+              );
+              return;
+            }
+          }
+        }
+      }
+    }
+
     axios
       .post(
         config.base_url + "/api/user/sendinvitation",
@@ -440,13 +455,13 @@ const TournamentPage = ({ userProfile }) => {
           resultText: null,
           isWinner: false,
           status: null,
-          name: "Team 5",
+          name: "Team",
           picture: "teamlogos/r7zn4gr8eajivapvjyzd",
         },
       ],
     },
   ];
-
+  console.log(dummyMatches);
   return (
     <div className="TournamentsPageResult">
       {loading ? (
@@ -474,10 +489,6 @@ const TournamentPage = ({ userProfile }) => {
 
               <div className="tournamentheader-startdate">
                 Start Date:&nbsp;{tournament.start_date}
-              </div>
-              <div className="tournamentheader-enddate">
-                End Date:&nbsp;
-                {tournament.end_date}
               </div>
               <div className="tournamentheader-points">
                 Points:&nbsp;{tournament.tournament_points}
@@ -551,7 +562,7 @@ const TournamentPage = ({ userProfile }) => {
                       connectorColorHighlight: "#000",
                     },
                   }}
-                  matches={dummyMatches}
+                  matches={bracketMatches}
                   matchComponent={Match}
                   svgWrapper={({ children, ...props }) => (
                     <SVGViewer width={1000} height={400} {...props}>
