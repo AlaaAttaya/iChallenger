@@ -455,7 +455,7 @@ const TournamentPage = ({ userProfile }) => {
             {activePage === "rules" && (
               <div className="tournament-rules">
                 <div className="rules">
-                  <h3 className="rules-title">Rules: </h3>
+                  <h3 className="rules-title">Rules </h3>
                   <pre>{tournament.rules}</pre>
                 </div>
               </div>
@@ -474,7 +474,7 @@ const TournamentPage = ({ userProfile }) => {
                     matches={bracketMatches}
                     matchComponent={Match}
                     svgWrapper={({ children, ...props }) => (
-                      <SVGViewer width={1000} height={400} {...props}>
+                      <SVGViewer width={600} height={500} {...props}>
                         {children}
                       </SVGViewer>
                     )}
