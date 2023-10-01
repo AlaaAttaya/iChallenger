@@ -40,8 +40,8 @@ function createGameCard(game) {
   gameName.textContent = game.name;
   gameName.classList.add("game-name");
 
-  card.appendChild(image);
   card.appendChild(gameName);
+  card.appendChild(image);
   card.addEventListener("click", () => {
     const gameId = card.dataset.gameId;
     currentGameId = card.dataset.gameId;
