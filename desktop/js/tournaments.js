@@ -126,9 +126,13 @@ function createTournamentWinner(tournamentId, teamId) {
     .post(apiUrl, requestData, { headers: headers })
     .then((response) => {
       console.log("Create Tournament Winner Response:", response);
+      document.getElementById("winnerannounced").innerHTML =
+        "Winner announced.";
     })
     .catch((error) => {
       console.error("Error creating tournament winner:", error);
+      document.getElementById("winnerannounced").innerHTML =
+        "Winner already announced.";
     });
 }
 function manageMatches(tournamentId, generatedmatches) {
@@ -150,6 +154,8 @@ function manageMatches(tournamentId, generatedmatches) {
     .post(apiUrl, requestData, { headers: headers })
     .then((response) => {
       console.log("Manage Matches Response:", response.data);
+      document.getElementById("generatedmatcheserror").innerHTML =
+        "Bracket saved.";
       return response.data;
     })
     .catch((error) => {
