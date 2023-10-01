@@ -24,8 +24,12 @@ const FollowingActivityPage = ({ userProfile }) => {
   };
 
   useEffect(() => {
-    scrollToTop();
-    fetchFollowingPosts();
+    if (!localStorage.getItem("token")) {
+      window.location.href = "/Login";
+    } else {
+      scrollToTop();
+      fetchFollowingPosts();
+    }
   }, []);
 
   const fetchFollowingPosts = async () => {
@@ -72,18 +76,18 @@ const FollowingActivityPage = ({ userProfile }) => {
       <div>
         <div className="navcommunity-wrapper">
           <div className="navcommunityfollowing">
-            <Link to="/Activity">
-              <button className="thispage">Following Activity</button>
-            </Link>
             <Link to="/Forums" className="gameforumlink">
               <button>Game Forums</button>
+            </Link>
+            <Link to="/Activity">
+              <button className="thispage">Following Activity</button>
             </Link>
           </div>
           <div className="followingnavbarsearch-wrapper">
             <div className="followingnavbarsearch">
               <svg
-                width="18"
-                height="18"
+                width="25"
+                height="34"
                 viewBox="0 0 35 35"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +100,7 @@ const FollowingActivityPage = ({ userProfile }) => {
               <input
                 type="text"
                 className="inputtext-search-following"
-                placeholder="Search Posts"
+                placeholder="Search.."
                 value={searchText}
                 onChange={handleSearchInputChange}
                 onFocus={handleSearchResultsFocus}

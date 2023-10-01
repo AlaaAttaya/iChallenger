@@ -5,63 +5,82 @@
   height: 100%;
 }
 .navcommunityfollowing {
-  background-color: #252525;
   display: flex;
   justify-content: center;
   flex-direction: row;
   margin-right: 472px;
 }
 .navcommunity-wrapper {
-  background-color: #252525;
+  background-color: #111111;
   display: flex;
-  justify-content: flex-end;
   flex-direction: row;
+  height: 100px;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: flex-end;
 }
+
 .navcommunityfollowing button {
   cursor: pointer;
   border: none;
   background-color: transparent;
-  color: #2fd671;
-  font-size: 20px;
-  padding: 20px 20px;
+  color: #ffffff;
+  font-size: 24px;
+  padding: 20px 24px;
   font-family: "Rubik", sans-serif;
   font-weight: 500;
 }
 .navcommunityfollowing button:hover {
-  background-color: #393939;
+  color: #2fd671;
 }
 .thispage {
   color: #2fd671 !important;
 }
 .inputtext-search-following {
   background-color: transparent;
+  margin-left: 10px;
   border: none;
-  color: #a4a3a3;
-  padding: 10px;
+  padding: 5px;
   width: 100%;
-  margin-left: 5px;
+  font-size: medium;
 }
 .followingnavbarsearch-wrapper {
+  margin-top: 20px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  margin-right: 60px;
+  padding: 10px;
 }
+
 .followingnavbarsearch {
+  margin-top: 10px;
+  margin-left: 15px;
+  border: 3px solid #9e9e9e;
+  border-radius: 10px;
   display: flex;
-  padding: 5px 10px;
-
-  align-items: center;
-  background-color: #ffffff10;
-  border-radius: 7px;
+  flex-wrap: nowrap;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  margin-right: 30px;
+  background-color: white;
 }
-
+.followingnavbarsearch svg {
+  margin-left: 10px;
+}
 .followingnavbarsearch input:focus {
   outline: 2px solid #2fd67200;
+  font-weight: 500;
+}
+.followingnavbarsearch:focus-within {
+  border: 3px solid #269c55;
 }
 
 .followingnavbarsearch:focus-within svg path {
-  fill: #2fd671;
+  fill: #269c55;
 }
 .post-list {
   display: flex;
