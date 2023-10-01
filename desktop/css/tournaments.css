@@ -264,3 +264,172 @@ body {
 .updatetournament-pages {
   display: flex;
 }
+
+.updatetournament-pages {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.updatetournament-pages button {
+  background-color: #2fd671;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.updatetournament-pages button:last-child {
+  margin-right: 0;
+}
+
+.updatetournament-pages button:hover {
+  background-color: #269c55;
+}
+
+.listmatches-wrapper {
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.listmatches-wrapper h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.updatetournament-pages {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.updatetournament-pages button {
+  background-color: #2fd671;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.updatetournament-pages button:last-child {
+  margin-right: 0;
+}
+
+.updatetournament-pages button:hover {
+  background-color: #269c55;
+}
+
+.listmatches-wrapper {
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.listmatches-wrapper h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.team-wrapper {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.team-wrapper span {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.round-wrapper {
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.round-wrapper h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.match-wrapper {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.match-wrapper span {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.match-wrapper label {
+  display: block;
+  margin-top: 10px;
+}
+
+.match-wrapper input[type="date"],
+.match-wrapper select {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.match-wrapper input[type="radio"] {
+  margin-right: 5px;
+}
+
+#save-matches,
+#generate-brackets {
+  background-color: #2fd671;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#save-matches:hover,
+#generate-brackets:hover {
+  background-color: #269c55;
+}
+
+#announcewinners-matches {
+  background-color: #ff9900;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#announcewinners-matches:hover {
+  background-color: #cc7a00;
+}
+
+#teamSelect {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
