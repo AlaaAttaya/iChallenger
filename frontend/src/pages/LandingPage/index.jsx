@@ -5,9 +5,7 @@ import "./styles.css";
 import HeroCarousel from "../../components/HeroCarousel";
 import CardCarousel from "../../components/CardCarousel";
 
-import ReadyToBattle from "../../assets/images/readytobattle.jpg";
 import TournamentForEveryone from "../../assets/images/TournamentForEveryone.png";
-import GamingTourneyFeat from "../../assets/images/GamingTourneyFeat.jpg";
 
 import Card from "../../components/Card";
 import LandingTournamentCard from "../../components/LandingTournamentCard";
@@ -21,20 +19,7 @@ const LandingPage = () => {
     {
       src: TournamentForEveryone,
       width: "100%",
-      height: "640px",
-      alt: "Image",
-    },
-    {
-      src: ReadyToBattle,
-      width: "100%",
-      height: "640px",
-      alt: "Image",
-    },
-
-    {
-      src: GamingTourneyFeat,
-      width: "100%",
-      height: "640px",
+      height: "720px",
       alt: "Image",
     },
   ];

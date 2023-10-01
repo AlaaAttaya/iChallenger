@@ -45,6 +45,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  padding: 10px 10px;
 }
 .nav-login {
   margin-right: 40px;
@@ -121,7 +122,6 @@
   background-color: #ffffff10;
   color: #3cd679;
   border-radius: 7px;
-  padding: 10px 15px;
 }
 .clicked-navbar {
   background-color: #ffffff10 !important;

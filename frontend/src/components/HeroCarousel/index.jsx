@@ -14,7 +14,7 @@ const HeroCarousel = ({ images, showArrows, showIndicators }) => {
       interval={5000}
       emulateTouch={true}
       showArrows={showArrows}
-      showIndicators={showIndicators}
+      showIndicators={false}
     >
       {images.map((imageData, index) => (
         <div key={index}>
