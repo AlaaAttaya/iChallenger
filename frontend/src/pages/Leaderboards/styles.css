@@ -28,7 +28,7 @@
   font-weight: 500;
 }
 .navcommunity-Leaderboards-noprofile button:hover {
-  background-color: #393939;
+  color: #2fd671;
 }
 
 .navcommunity-Leaderboards button {
@@ -42,7 +42,7 @@
   font-weight: 500;
 }
 .navcommunity-Leaderboards button:hover {
-  background-color: #393939;
+  color: #2fd671;
 }
 .searchleaderboards-container {
   margin-top: 20px;
@@ -76,16 +76,18 @@
   flex-wrap: nowrap;
   padding-top: 2px;
   padding-bottom: 2px;
-  width: 80%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 700px;
   position: relative;
+  margin-right: 30px;
+  background-color: white;
 }
 .searchgamesinput {
   background-color: transparent;
   margin-left: 10px;
   border: none;
   padding: 5px;
-  width: 90%;
+  width: 100%;
   font-size: medium;
 }
 .searchgamesinput:focus {
@@ -101,7 +103,7 @@
   fill: #269c55;
 }
 .thispage {
-  background-color: #393939 !important;
+  color: #2fd671 !important;
 }
 .image-leaderboard {
   width: 50px;
@@ -149,19 +151,21 @@
 }
 .user-leaderboardinfo-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   flex-wrap: wrap;
   gap: 30px;
-  margin-right: 100px;
+  margin-right: 60px;
+  margin-top: 20px;
 }
 .userleaderboard-info {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
-  gap: 10px;
-  font-size: 22px;
+  gap: 20px;
+  font-size: 36px;
+  font-weight: bold;
   font-family: "Rubik", sans-serif;
 }
 .red {

@@ -79,10 +79,10 @@ const LeaderboardsPage = ({ userProfile }) => {
           }`}
         >
           <Link to="/Tournaments">
-            <button>Find Tournaments</button>
+            <button>Tournaments</button>
           </Link>
           <Link to="/Leaderboards">
-            <button className="thispage">Leaderboards</button>
+            <button className="thispage">Leaderboard</button>
           </Link>
         </div>
         {userProfile && userProfile.leaderboard && (
@@ -99,8 +99,8 @@ const LeaderboardsPage = ({ userProfile }) => {
               {userProfile.leaderboard.points}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="27"
+                height="27"
                 viewBox="0 0 36 36"
                 fill="none"
               >
