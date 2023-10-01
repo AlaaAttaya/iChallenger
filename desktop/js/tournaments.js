@@ -45,30 +45,66 @@ closeModalUpdate.addEventListener("click", () => {
 });
 
 function generateInitialBrackets(teams) {
-  const matches = [];
-  const matchCount = Math.ceil(teams.length / 2);
+  const brackets = [];
+  const numTeams = teams.length;
+  const numRounds = Math.ceil(Math.log2(numTeams));
 
-  for (let i = 0; i < matchCount; i++) {
-    const team1 = teams[i * 2];
-    const team2 = teams[i * 2 + 1];
+  for (let round = 1; round <= numRounds; round++) {
+    const bracket = {
+      round: round,
+      matches: [],
+    };
 
-    if (team1 && team2) {
-      const match = {
-        team1_name: team1.name,
-        team2_name: team2.name,
-        team1_id: team1.id,
-        team2_id: team2.id,
-        match_date: null,
-        nextmatchid: null,
-        is_completed: 0,
-        winner_id: null,
-      };
+    if (round === 1) {
+      for (let i = 0; i < numTeams; i += 2) {
+        const team1 = teams[i];
+        const team2 = i + 1 < numTeams ? teams[i + 1] : null;
 
-      matches.push(match);
+        const match = {
+          team1_id: team1.id,
+          team2_id: team2 ? team2.id : team1.id,
+          team1_name: team1.name,
+          team2_name: team2 ? team2.name : team1.name,
+          match_date: null,
+          nextmatchid: null,
+          is_completed: 0,
+          winner_id: null,
+          round_number: round,
+        };
+
+        bracket.matches.push(match);
+      }
+    } else {
+      const numMatches = Math.pow(2, numRounds - round);
+
+      for (let i = 0; i < numMatches; i++) {
+        const match = {
+          team1_id: null,
+          team2_id: null,
+          team1_name: null,
+          team2_name: null,
+          match_date: null,
+          nextmatchid: null,
+          is_completed: 0,
+          winner_id: null,
+          round_number: round,
+        };
+
+        bracket.matches.push(match);
+      }
     }
-  }
 
-  return matches;
+    brackets.push(bracket);
+  }
+  console.log("BBBBB", brackets);
+  return brackets;
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 }
 
 function createTournamentWinner(tournamentId, teamId) {
@@ -95,12 +131,12 @@ function createTournamentWinner(tournamentId, teamId) {
       console.error("Error creating tournament winner:", error);
     });
 }
-function manageMatches(tournamentId, matches) {
+function manageMatches(tournamentId, generatedmatches) {
   const apiUrl = base_url + "admin/managematches";
-
+  console.log("asasdasda", generatedmatches);
   const requestData = {
     tournament_id: tournamentId,
-    matches: matches,
+    generatedmatches: generatedmatches,
   };
 
   const token = localStorage.getItem("token");
@@ -117,7 +153,8 @@ function manageMatches(tournamentId, matches) {
       return response.data;
     })
     .catch((error) => {
-      console.error("Error managing matches:", error);
+      document.getElementById("generatedmatcheserror").innerHTML =
+        "Matches date cannot be null.";
       throw error;
     });
 }
@@ -165,102 +202,198 @@ function populateUpdateTournamentModal(Tournament) {
     teamOption.text = team.name;
     teamSelect.appendChild(teamOption);
   });
+
   generateBracketButton.addEventListener("click", () => {
     const generatedMatches = generateInitialBrackets(Tournament.teams);
 
     listMatchesWrapper.innerHTML = "";
     console.log(generatedMatches);
-    generatedMatches.forEach((match, index) => {
-      console.log(match);
-      const matchDiv = document.createElement("div");
-      matchDiv.classList.add("match-wrapper");
 
-      const matchNumber = document.createElement("span");
-      matchNumber.textContent = `Match ${index + 1}`;
-      matchDiv.appendChild(matchNumber);
+    generatedMatches.forEach((bracket, roundIndex) => {
+      const roundDiv = document.createElement("div");
+      roundDiv.classList.add("round-wrapper");
 
-      const dateInput = document.createElement("input");
-      dateInput.type = "date";
-      dateInput.name = `match_date_${index}`;
-      dateInput.required = true;
-      matchDiv.appendChild(dateInput);
+      const roundHeader = document.createElement("h2");
+      roundHeader.textContent = `Round ${roundIndex + 1}`;
+      roundDiv.appendChild(roundHeader);
 
-      const winnerSelect = document.createElement("select");
-      winnerSelect.name = `winner_${index}`;
-      const team1Option = document.createElement("option");
-      team1Option.value = match.team1_name;
-      team1Option.text = match.team1_name;
-      const team2Option = document.createElement("option");
-      team2Option.value = match.team2_name;
-      team2Option.text = match.team2_name;
-      const noWinnerOption = document.createElement("option");
-      noWinnerOption.value = "";
-      noWinnerOption.text = "No Winner";
-      winnerSelect.appendChild(noWinnerOption);
-      winnerSelect.appendChild(team1Option);
-      winnerSelect.appendChild(team2Option);
-      matchDiv.appendChild(winnerSelect);
+      bracket.matches.forEach((match, matchIndex) => {
+        console.log(roundIndex, matchIndex);
+        const matchDiv = document.createElement("div");
+        matchDiv.classList.add("match-wrapper");
 
-      const completedLabel = document.createElement("label");
-      completedLabel.textContent = "Completed:";
+        const matchNumber = document.createElement("span");
+        matchNumber.textContent = `Match ${roundIndex + 1}.${matchIndex + 1}`;
+        matchDiv.appendChild(matchNumber);
 
-      const isCompletedRadioYes = document.createElement("input");
-      isCompletedRadioYes.type = "radio";
-      isCompletedRadioYes.name = `completed_${index}`;
-      isCompletedRadioYes.value = "1";
-      isCompletedRadioYes.required = true;
+        const dateLabel = document.createElement("label");
+        dateLabel.textContent = "Date:";
+        const dateInput = document.createElement("input");
+        dateInput.type = "date";
+        dateInput.name = `match_date_${roundIndex}_${matchIndex}`;
+        dateInput.required = true;
+        dateInput.setAttribute("data-round", match.round_number);
+        dateLabel.appendChild(dateInput);
+        matchDiv.appendChild(dateLabel);
 
-      const yesLabel = document.createElement("span");
-      yesLabel.textContent = "Yes";
-      completedLabel.appendChild(isCompletedRadioYes);
-      completedLabel.appendChild(yesLabel);
+        const team1Label = document.createElement("label");
+        team1Label.textContent = "Team 1:";
+        const team1Select = document.createElement("select");
+        team1Select.name = `team1_${roundIndex}_${matchIndex}`;
+        team1Select.required = true;
 
-      const isCompletedRadioNo = document.createElement("input");
-      isCompletedRadioNo.type = "radio";
-      isCompletedRadioNo.name = `completed_${index}`;
-      isCompletedRadioNo.value = "0";
-      isCompletedRadioNo.required = true;
+        Tournament.teams.forEach((team) => {
+          const teamOption = document.createElement("option");
+          teamOption.value = team.id;
+          teamOption.textContent = team.name;
+          team1Select.appendChild(teamOption);
+        });
 
-      const noLabel = document.createElement("span");
-      noLabel.textContent = "No";
-      completedLabel.appendChild(isCompletedRadioNo);
-      completedLabel.appendChild(noLabel);
+        team1Label.appendChild(team1Select);
+        matchDiv.appendChild(team1Label);
 
-      matchDiv.appendChild(completedLabel);
+        const team2Label = document.createElement("label");
+        team2Label.textContent = "Team 2:";
+        const team2Select = document.createElement("select");
+        team2Select.name = `team2_${roundIndex}_${matchIndex}`;
+        team2Select.required = true;
 
-      listMatchesWrapper.appendChild(matchDiv);
+        Tournament.teams.forEach((team) => {
+          const teamOption = document.createElement("option");
+          teamOption.value = team.id;
+          teamOption.textContent = team.name;
+          team2Select.appendChild(teamOption);
+        });
+
+        team2Label.appendChild(team2Select);
+        matchDiv.appendChild(team2Label);
+
+        const winnerLabel = document.createElement("label");
+        winnerLabel.textContent = "Winner:";
+        const winnerSelect = document.createElement("select");
+        winnerSelect.name = `winner_${roundIndex}_${matchIndex}`;
+
+        const noWinnerOption = document.createElement("option");
+        noWinnerOption.value = "";
+        noWinnerOption.textContent = "No Winner";
+        winnerSelect.appendChild(noWinnerOption);
+
+        Tournament.teams.forEach((team) => {
+          const teamOption = document.createElement("option");
+          teamOption.value = team.id;
+          teamOption.textContent = team.name;
+          winnerSelect.appendChild(teamOption);
+        });
+
+        winnerLabel.appendChild(winnerSelect);
+        matchDiv.appendChild(winnerLabel);
+
+        const completedLabel = document.createElement("label");
+        completedLabel.textContent = "Completed:";
+        const isCompletedRadioYes = document.createElement("input");
+        isCompletedRadioYes.type = "radio";
+        isCompletedRadioYes.name = `completed_${roundIndex}_${matchIndex}`;
+        isCompletedRadioYes.value = "1";
+        isCompletedRadioYes.required = true;
+        const yesLabel = document.createElement("span");
+        yesLabel.textContent = "Yes";
+        completedLabel.appendChild(isCompletedRadioYes);
+        completedLabel.appendChild(yesLabel);
+
+        const isCompletedRadioNo = document.createElement("input");
+        isCompletedRadioNo.type = "radio";
+        isCompletedRadioNo.name = `completed_${roundIndex}_${matchIndex}`;
+        isCompletedRadioNo.value = "0";
+        isCompletedRadioNo.required = true;
+        const noLabel = document.createElement("span");
+        noLabel.textContent = "No";
+        completedLabel.appendChild(isCompletedRadioNo);
+        completedLabel.appendChild(noLabel);
+        matchDiv.appendChild(completedLabel);
+
+        roundDiv.appendChild(matchDiv);
+
+        Tournament.teams.forEach((team) => {
+          const teamOption = document.createElement("option");
+          teamOption.value = team.id;
+          teamOption.textContent = team.name;
+          team1Select.appendChild(teamOption);
+          team2Select.appendChild(teamOption.cloneNode(true));
+        });
+
+        team1Select.addEventListener("change", (event) => {
+          console.log("Team 1 selected:", event.target.value);
+        });
+
+        team2Select.addEventListener("change", (event) => {
+          console.log("Team 2 selected:", event.target.value);
+        });
+      });
+
+      listMatchesWrapper.appendChild(roundDiv);
     });
 
-    const announceWinnersButton = document.getElementById(
-      "announcewinners-matches"
-    );
-    announceWinnersButton.addEventListener("click", () => {
-      const selectedTeamId = teamSelect.value;
-      const tournamentId = Tournament.id;
-      console.log(selectedTeamId);
-      createTournamentWinner(tournamentId, selectedTeamId);
-    });
+    window.generatedMatches = generatedMatches;
   });
 
+  const announceWinnersButton = document.getElementById(
+    "announcewinners-matches"
+  );
+  announceWinnersButton.addEventListener("click", () => {
+    const selectedTeamId = teamSelect.value;
+    const tournamentId = Tournament.id;
+    console.log("selectteam", selectedTeamId);
+    createTournamentWinner(tournamentId, selectedTeamId);
+  });
   saveMatchesButton.addEventListener("click", () => {
-    const generatedMatches = generateInitialBrackets(Tournament.teams);
+    const generatedMatches = window.generatedMatches;
     const tournamentId = Tournament.id;
 
-    generatedMatches.forEach((match, index) => {
-      const dateInput = document.querySelector(
-        `input[name=match_date_${index}]`
-      );
-      const completedRadio = document.querySelector(
-        `input[name=completed_${index}]:checked`
-      );
-      const winnerSelect = document.querySelector(
-        `select[name=winner_${index}]`
-      );
-      match.match_date = dateInput.value || null;
-      match.is_completed = completedRadio ? parseInt(completedRadio.value) : 0;
-      if (winnerSelect.value) {
-        match.winner_id = winnerSelect.value;
-      }
+    console.log("save", generatedMatches);
+    const teamIdToName = {};
+    Tournament.teams.forEach((team) => {
+      teamIdToName[team.id] = team.name;
+    });
+    generatedMatches.forEach((round, roundIndex) => {
+      round.matches.forEach((match, matchIndex) => {
+        console.log(roundIndex, matchIndex);
+        const dateInput = document.querySelector(
+          `input[name=match_date_${roundIndex}_${matchIndex}]`
+        );
+        const completedRadio = document.querySelector(
+          `input[name=completed_${roundIndex}_${matchIndex}]:checked`
+        );
+        const winnerSelect = document.querySelector(
+          `select[name=winner_${roundIndex}_${matchIndex}]`
+        );
+        match.round_number = roundIndex + 1;
+        const team1SelectValue = document.querySelector(
+          `select[name=team1_${roundIndex}_${matchIndex}]`
+        ).value;
+
+        const team2SelectValue = document.querySelector(
+          `select[name=team2_${roundIndex}_${matchIndex}]`
+        ).value;
+
+        console.log("Team 1 selected value:", team1SelectValue);
+        console.log("Team 2 selected value:", team2SelectValue);
+        match.team1_id = team1SelectValue;
+        match.team2_id = team2SelectValue;
+        const team1Name = teamIdToName[team1SelectValue];
+        const team2Name = teamIdToName[team2SelectValue];
+        console.log("team1name", team1Name);
+        console.log("team2name", team2Name);
+        match.team1_name = team1Name;
+        match.team2_name = team2Name;
+
+        console.log("mmm", roundIndex);
+        console.log("mmm", roundIndex);
+        match.match_date = dateInput ? dateInput.value : null;
+        match.is_completed = completedRadio
+          ? parseInt(completedRadio.value)
+          : 0;
+        match.winner_id = winnerSelect ? winnerSelect.value : null;
+      });
     });
 
     console.log("generated", generatedMatches);
@@ -273,6 +406,7 @@ function populateUpdateTournamentModal(Tournament) {
         console.error("Error managing matches:", error);
       });
   });
+
   listTeamsWrapper.innerHTML = "";
 
   Tournament.teams.forEach((team) => {
@@ -292,31 +426,6 @@ function populateUpdateTournamentModal(Tournament) {
     listTeamsWrapper.appendChild(teamDiv);
   });
   listMatchesWrapper.innerHTML = "";
-
-  Tournament.brackets.forEach((bracket, roundIndex) => {
-    const roundHeader = document.createElement("h2");
-    roundHeader.textContent = `Round ${roundIndex + 1}`;
-    listMatchesWrapper.appendChild(roundHeader);
-
-    bracket.matches.forEach((match, matchIndex) => {
-      const matchDiv = document.createElement("div");
-      matchDiv.classList.add("match-wrapper");
-
-      const matchNumber = document.createElement("span");
-      matchNumber.textContent = `Match ${roundIndex + 1}.${matchIndex + 1}`;
-      matchDiv.appendChild(matchNumber);
-
-      const team1Name = document.createElement("span");
-      team1Name.textContent = `Team 1: ${match.team1_name}`;
-      matchDiv.appendChild(team1Name);
-
-      const team2Name = document.createElement("span");
-      team2Name.textContent = `Team 2: ${match.team2_name}`;
-      matchDiv.appendChild(team2Name);
-
-      listMatchesWrapper.appendChild(matchDiv);
-    });
-  });
 }
 
 function createTournamentCard(Tournament) {

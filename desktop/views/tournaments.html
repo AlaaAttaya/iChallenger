@@ -143,13 +143,16 @@
               Announce Winners
             </button>
           </div>
-          <div class="listteams-wrapper" id="listteams"></div>
+          <div class="listteams-wrapper" id="listteams">
+            <span class="errormsg"></span>
+          </div>
           <div className="listmatches-container" id="listmatches-container">
             <div className="listmatches-wrapper" id="listmatches"></div>
             <button class="genere-brackets" id="generate-brackets">
               generate-brackets
             </button>
             <button class="save-matches" id="save-matches">save</button>
+            <span class="errormsg" id="generatedmatcheserror"></span>
           </div>
 
           <div class="listwinners-wrapper" id="listwinners">
@@ -157,6 +160,7 @@
             <button class="create-matches" id="announcewinners-matches">
               Announce Winners
             </button>
+            <span class="errormsg"></span>
           </div>
         </div>
       </div>
