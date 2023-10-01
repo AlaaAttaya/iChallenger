@@ -265,8 +265,8 @@ return new class extends Migration
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bracket_id');
-            $table->unsignedBigInteger('team1_id');
-            $table->unsignedBigInteger('team2_id'); 
+            $table->unsignedBigInteger('team1_id')->nullable();
+            $table->unsignedBigInteger('team2_id')->nullable(); 
             $table->date('match_date');
             $table->boolean('is_completed')->default(false);
             $table->unsignedBigInteger('nextmatchid')->nullable();
@@ -274,9 +274,7 @@ return new class extends Migration
             $table->integer('round_number')->default(1);
             $table->timestamps();
         
-            $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
-            $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade');
+         
         });
 
         Schema::create('invitations', function (Blueprint $table) {

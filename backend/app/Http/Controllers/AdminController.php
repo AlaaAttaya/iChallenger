@@ -474,8 +474,8 @@ class AdminController extends Controller
         ]);
     }
     
-    public function createTournamentWinner(Request $request)
-    { 
+        public function createTournamentWinner(Request $request)
+    {
         $request->validate([
             'tournament_id' => 'required|integer',
             'team_id' => 'required|integer',
@@ -485,6 +485,13 @@ class AdminController extends Controller
 
         if ($tournament->is_completed == 1) {
             return response()->json(['message' => 'Tournament is already completed'], 400);
+        }
+
+    
+        $existingWinner = TournamentWinner::where('tournament_id', $tournament->id)->first();
+
+        if ($existingWinner) {
+            return response()->json(['message' => 'Winner is already announced for this tournament'], 400);
         }
 
         $tournament->update(['is_completed' => 1]);
@@ -505,7 +512,6 @@ class AdminController extends Controller
             $leaderboard->save();
         }
 
-    
         $losingTeams = Team::where('tournament_id', $tournament->id)
             ->where('id', '!=', $winningTeamId)
             ->get();
@@ -522,6 +528,7 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Winners and losers updated successfully'], 200);
     }
+
 
 
     public function updateMatches(Request $request)
@@ -597,47 +604,30 @@ class AdminController extends Controller
             return response()->json(['message' => 'Matches created successfully'], 200);
        
     }
-        public function manageMatches(Request $request)
+    public function manageMatches(Request $request)
     {
         $request->validate([
             'tournament_id' => 'required|integer',
-            'matches' => 'required|array',
+            'generatedmatches' => 'required|array',
         ]);
-
-        $tournamentId = $request->input('tournament_id');
-        $matchesData = $request->input('matches');
-
     
-        $updatedMatchIds = [];
+        $tournamentId = $request->input('tournament_id');
+        $roundsData = $request->input('generatedmatches');
+    
+        Matching::whereHas('bracket', function ($query) use ($tournamentId) {
+            $query->where('tournament_id', $tournamentId);
+        })->delete();
+        Bracket::where('tournament_id', $tournamentId)->delete();
+      
+    
         $allMatches = [];
-
-        foreach ($matchesData as $matchData) {
-            $matchId = isset($matchData['id']) ? $matchData['id'] : null;
-
-            $matching = Matching::where('id', $matchId)
-                ->whereHas('bracket', function ($query) use ($tournamentId) {
-                    $query->where('tournament_id', $tournamentId);
-                })
-                ->first();
-
-            if ($matching) {
-
-                $matching->update([
-                    'team1_id' => $matchData['team1_id'],
-                    'team2_id' => $matchData['team2_id'],
-                    'match_date' => $matchData['match_date'],
-                    'is_completed' => $matchData['is_completed'],
-                    'nextmatchid' => $matchData['nextmatchid'],
-                    'winner_id' => $matchData['winner_id'],
-                ]);
-
-                
-                $updatedMatchIds[] = $matching->id;
-            } else {
-                $bracket = Bracket::create([
-                    'tournament_id' => $tournamentId,
-                ]);
-        
+    
+        foreach ($roundsData as $round) {
+            $bracket = Bracket::create([
+                'tournament_id' => $tournamentId,
+            ]);
+    
+            foreach ($round['matches'] as $matchData) {
                 $newMatch = Matching::create([
                     'bracket_id' => $bracket->id,
                     'team1_id' => $matchData['team1_id'],
@@ -646,19 +636,23 @@ class AdminController extends Controller
                     'is_completed' => $matchData['is_completed'],
                     'nextmatchid' => $matchData['nextmatchid'],
                     'winner_id' => $matchData['winner_id'],
+                    'round_number'=> $matchData['round_number'],
                 ]);
-
+    
                 $allMatches[] = $newMatch;
             }
         }
-
-
+    
+    
         $allTournamentMatches = Matching::whereHas('bracket', function ($query) use ($tournamentId) {
             $query->where('tournament_id', $tournamentId);
         })->get();
-
-        return response()->json(['message' => 'Matches managed successfully', 'updated_matches' => $updatedMatchIds, 'all_matches' => $allTournamentMatches], 200);
+    
+        return response()->json(['message' => 'Matches managed successfully', 'all_matches' => $allMatches], 200);
     }
+    
+    
+
 
 
     
