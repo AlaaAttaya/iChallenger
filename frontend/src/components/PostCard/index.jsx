@@ -313,6 +313,7 @@ const PostCard = ({ post, gameforum, show, userProfile }) => {
               showStatus={false}
               showThumbs={false}
               emulateTouch={true}
+              showIndicators={false}
             >
               {post.post_uploads.length > 0 ? (
                 post.post_uploads.map((upload, index) => {

@@ -15,7 +15,8 @@
 .coverPhotoContainer {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 300px;
+  background-color: #111111;
 }
 
 .coverPhoto {
@@ -23,22 +24,20 @@
   height: 100%;
 }
 
-.profileImageContainer {
-  position: absolute;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-}
-
 .profileImage {
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   position: absolute;
-  top: 14px;
-  left: 40px;
+  top: 40px;
+  left: 100px;
+  outline: 10px solid #2fd671;
 }
-
+.profileimagestats {
+  position: absolute;
+  top: 34px;
+  left: 174px;
+}
 .profile-navbar-buttons-container {
   background-color: #111111;
   display: flex;
@@ -83,16 +82,64 @@
   flex-direction: column;
   justify-content: center;
   margin-left: 150px;
+  gap: 10px;
 }
 
 .username-profile {
   color: white;
-  font-size: 26px;
+  font-size: 36px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 700;
 }
 
 .followerscount-profile {
   color: #cbcbcb;
   font-size: 16px;
+}
+.label-profilepage {
+  font-weight: bold;
+  font-size: 16px;
+}
+.greycolor-profilepage {
+  color: #b8b8b8 !important;
+  font-size: 16px;
+  font-family: "Rubik", sans-serif;
+}
+.profileimagestats-info {
+  color: #fff;
+  font-size: 16px;
+  font-weight: lighter;
+  font-family: "Rubik", sans-serif;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #313131;
+  padding: 15px;
+  border-radius: 8px;
+  width: 280px;
+}
+.profileimagestats-info-wrapper {
+  display: flex;
+}
+.profileimagestatsusername-info {
+  color: #fff;
+  font-size: 16px;
+  font-weight: lighter;
+  font-family: "Rubik", sans-serif;
+  display: flex;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 8px;
+  width: 280px;
+}
+.coverimageuserstats {
+  position: absolute;
+  right: 59px;
+  top: 52px;
 }
 @media screen and (min-width: 701px) and (max-width: 1000px) {
   .profile-navbar-buttons button {
@@ -177,28 +224,48 @@
   gap: 20px;
   font-family: "Rubik", sans-serif;
 }
-.overview-stats-winrate {
+.overview-stats-wins {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   color: white;
-  font-size: 25px;
+  font-size: 36px;
+  font-weight: bold;
   font-family: "Rubik", sans-serif;
 }
-.overview-stats-winrate span {
-  width: 100px;
+.overview-stats-wins span {
+  width: 70px;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Rubik", sans-serif;
+  padding: 5px;
 }
+.overview-stats-points {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Rubik", sans-serif;
+
+  padding: 1px;
+}
 .winrate {
   width: 100px;
 }
 .win {
-  font-size: 21px;
+  font-size: 24px !important;
   width: 100px;
+  font-weight: 600;
 }
 .loss {
-  font-size: 21px;
+  font-size: 24px !important;
+  font-weight: 600;
   width: 100px;
 }
 .pages-overview {
@@ -268,6 +335,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Rubik", sans-serif;
 }
 .notournaments {
   color: white;
@@ -275,6 +345,7 @@
   font-family: "Rubik", sans-serif;
   font-size: 22px;
 }
+
 @media screen and (max-width: 700px) {
   .coverPhotoContainer {
     position: relative;
