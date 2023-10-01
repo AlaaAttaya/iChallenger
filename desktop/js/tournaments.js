@@ -313,14 +313,6 @@ function populateUpdateTournamentModal(Tournament) {
 
         roundDiv.appendChild(matchDiv);
 
-        Tournament.teams.forEach((team) => {
-          const teamOption = document.createElement("option");
-          teamOption.value = team.id;
-          teamOption.textContent = team.name;
-          team1Select.appendChild(teamOption);
-          team2Select.appendChild(teamOption.cloneNode(true));
-        });
-
         team1Select.addEventListener("change", (event) => {
           console.log("Team 1 selected:", event.target.value);
         });
