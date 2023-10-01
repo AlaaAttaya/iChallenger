@@ -1,34 +1,33 @@
-.cardlink {
+.gcardlink {
   text-decoration: none;
   color: black;
   cursor: pointer;
 }
 
-.card-image {
-  width: 315px;
-  height: 330px;
+.gcard-image {
+  width: 300px;
+  height: 440px;
 }
 
-.card-content {
-  width: 100%;
-  background-color: #252525;
-  color: #a0ffaa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
+.gcard-content {
   left: 0;
-}
-
-.card {
-  border: 3px solid #252525;
-  box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.1);
-  width: 315px;
-  position: relative;
-}
-.card-title {
-  font-family: "Rubik", sans-serif;
+  width: 100%;
+  background-color: #2fd671;
+  color: #000000;
   font-size: 20px;
+  font-family: "Rubik", sans-serif;
+  font-weight: bold;
   padding: 15px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.card {
+  width: 300px;
+  height: 452px;
+  box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: 15px;
+  overflow: hidden;
 }

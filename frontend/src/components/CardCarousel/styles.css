@@ -32,7 +32,6 @@
 }
 
 .card {
-  border: 3px solid #252525;
   box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.1);
   width: 315px;
   position: relative;
@@ -43,6 +42,7 @@
 }
 .carousel-container {
   position: relative;
+  margin-top: 70px;
 }
 
 .prev-arrow {
@@ -72,9 +72,23 @@
   width: 100%;
   height: 100%;
 }
-h1 {
+
+.carousel-title {
   font-family: "Rubik", sans-serif;
-  font-weight: 600;
-  font-size: xx-large;
-  margin-top: 100px;
+  font-weight: bolder;
+  font-size: 28px;
+}
+.slick-slider {
+  margin-top: 30px;
+}
+.ViewAll {
+  color: #2fd671;
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+}
+.carousel-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

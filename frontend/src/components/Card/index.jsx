@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
-const Card = ({ title, description, image, width, height, alt, cardlink }) => {
+const Card = ({ title, image, width, height, alt, cardlink }) => {
   return (
     <div className="carousel-card-content">
       <div
@@ -12,12 +12,11 @@ const Card = ({ title, description, image, width, height, alt, cardlink }) => {
         }}
       >
         {" "}
-        <Link to={cardlink} className="cardlink">
-          <img src={image} alt={alt} className="card-image" />
-          <div className="card-content">
-            <div className="card-title">{title}</div>
-            <p>{description}</p>
+        <Link to={cardlink} className="gcardlink">
+          <div className="gcard-content">
+            <div className="gcard-title">{title}</div>
           </div>
+          <img src={image} alt={alt} className="gcard-image" />
         </Link>
       </div>
     </div>

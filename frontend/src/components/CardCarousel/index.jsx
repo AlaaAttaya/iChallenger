@@ -38,7 +38,13 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
-const CardCarousel = ({ cards, setwidth, setheight, carouseltitle }) => {
+const CardCarousel = ({
+  cards,
+  setwidth,
+  setheight,
+  carouseltitle,
+  linkto,
+}) => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const settings = {
     infinite: true,
@@ -56,7 +62,7 @@ const CardCarousel = ({ cards, setwidth, setheight, carouseltitle }) => {
     } else if (window.innerWidth >= 1150 && window.innerWidth <= 1550) {
       setSlidesToShow(3);
     } else {
-      setSlidesToShow(4);
+      setSlidesToShow(5);
     }
   };
 
@@ -72,8 +78,12 @@ const CardCarousel = ({ cards, setwidth, setheight, carouseltitle }) => {
 
   return (
     <div className="carousel-container">
-      <h1>{carouseltitle}</h1>
-
+      <div className="carousel-title-wrapper">
+        <span className="carousel-title">{carouseltitle}</span>
+        <a className="A-link" href={linkto}>
+          <span className="ViewAll">View All</span>
+        </a>
+      </div>
       <Slider {...settings}>
         {cards.map((card, index) => (
           <div
