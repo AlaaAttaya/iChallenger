@@ -3,15 +3,18 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: #f2f5f8;
 }
 
 .game-forum-container {
-  background-color: #252525;
+  background-color: #111111;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-end;
   flex-direction: row;
   gap: 100px;
+  height: 140px;
+  padding: 15px 45px;
 }
 
 .game-forum-image {
@@ -20,19 +23,12 @@
 }
 
 .game-forum-name {
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 500;
+  color: #ffffff;
+}
 
-  color: #2fd671;
-}
-.profile-upload-container {
-  background-color: #252525;
-  display: flex;
-  align-items: center;
-  padding: 13px 13px;
-  cursor: pointer;
-  margin-left: 30px;
-}
-.profile-upload-wrapper {
+.profile-upload-wrapper-2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -211,22 +207,36 @@
 .error-postuploadmessage {
   color: #ff4848;
 }
-.gameforumposts-list {
+.gameforumposts-list2 {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   flex-direction: column;
   margin-bottom: 30px;
+  width: 100%;
+}
+.postpage-svg {
+  padding-bottom: 20px;
+}
+.game-forum-container-navigation {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
 @media screen and (max-width: 700px) {
   .game-forum-container {
-    background-color: #252525;
+    background-color: #111111;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
     flex-direction: row;
-    gap: 30px;
+    gap: 100px;
+    height: 140px;
+    padding: 15px 45px;
   }
   .PostCard {
     width: 100%;

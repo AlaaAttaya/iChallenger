@@ -379,7 +379,7 @@ const TournamentPage = ({ userProfile }) => {
                   />
                 </div>
                 <div className="tournamentheader-enroll">
-                  <button onClick={() => handleEnrollActive()}>Enroll</button>
+                  <button onClick={() => handleEnrollActive()}>ENROLL</button>
                 </div>
               </div>
             </div>

@@ -51,6 +51,7 @@
 }
 .searchtournaments-iconsvg {
   margin-left: 10px;
+  max-width: 20px !important;
 }
 .searchtournaments-icon {
   fill: #9e9e9e;
