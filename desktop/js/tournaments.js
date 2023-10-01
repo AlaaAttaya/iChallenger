@@ -241,7 +241,10 @@ function populateUpdateTournamentModal(Tournament) {
         const team1Select = document.createElement("select");
         team1Select.name = `team1_${roundIndex}_${matchIndex}`;
         team1Select.required = true;
-
+        const nullOption = document.createElement("option");
+        nullOption.value = "";
+        nullOption.textContent = "TBD";
+        team1Select.appendChild(nullOption);
         Tournament.teams.forEach((team) => {
           const teamOption = document.createElement("option");
           teamOption.value = team.id;
@@ -257,7 +260,10 @@ function populateUpdateTournamentModal(Tournament) {
         const team2Select = document.createElement("select");
         team2Select.name = `team2_${roundIndex}_${matchIndex}`;
         team2Select.required = true;
-
+        const nullOption2 = document.createElement("option");
+        nullOption2.value = "";
+        nullOption2.textContent = "TBD";
+        team2Select.appendChild(nullOption2);
         Tournament.teams.forEach((team) => {
           const teamOption = document.createElement("option");
           teamOption.value = team.id;
