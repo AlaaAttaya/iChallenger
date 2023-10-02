@@ -32,17 +32,25 @@
 
 ### Mockups
 
-| Tournaments screen                             |
+| LandingPage                             |
+| --------------------------------------- |
+| ![fsdaf](./readme/demo/LandingPage.png) |
+
+| Tournaments                                    |
 | ---------------------------------------------- |
 | ![Landing](./readme/demo/TournamentSearch.png) |
 
-| Game Forums Screen                         |
+| Tournament Page                            |
 | ------------------------------------------ |
 | ![fsdaf](./readme/demo/TournamentPage.png) |
 
-| Tournament Page Screen                     |
-| ------------------------------------------ |
-| ![fsdaf](./readme/demo/TournamentPage.png) |
+| Leaderboard                              |
+| ---------------------------------------- |
+| ![fsdaf](./readme/demo/Leaderboards.png) |
+
+| Profile Page                            |
+| --------------------------------------- |
+| ![fsdaf](./readme/demo/ProfilePage.png) |
 
 <br><br>
 
