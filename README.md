@@ -1,9 +1,9 @@
 <img src="./readme/title1.svg"/>
-<div align="center">
+<div style="text-align:center">
 
 > This is the project’s summary that describes the project plain and simple, limited to the space available.
 
-**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/ucard#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/ucard#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/ucard#implementation) • [TECH STACK](https://github.com/alaa-attaya/ucard#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/ucard#how-to-run)**
+**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/iChallenger#implementation) • [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)**
 
 </div>
 <br><br>
@@ -32,9 +32,17 @@
 
 ### Mockups
 
-| Home screen                             | Menu Screen                           | Order Screen                          |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Tournaments screen                             |
+| ---------------------------------------------- |
+| ![Landing](./readme/demo/TournamentSearch.png) |
+
+| Game Forums Screen                         |
+| ------------------------------------------ |
+| ![fsdaf](./readme/demo/TournamentPage.png) |
+
+| Tournament Page Screen                     |
+| ------------------------------------------ |
+| ![fsdaf](./readme/demo/TournamentPage.png) |
 
 <br><br>
 
