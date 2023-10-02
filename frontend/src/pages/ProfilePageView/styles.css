@@ -19,7 +19,7 @@
   height: 300px;
 }
 .profilepageactive {
-  background-color: #3cd679 !important;
+  color: #3cd679 !important;
 }
 .coverPhoto {
   width: 100%;
@@ -46,6 +46,7 @@
 
 .profile-navbar-buttons {
   display: flex;
+  padding: 15px 60px;
 }
 
 .profile-navbar-buttons button {
@@ -55,15 +56,14 @@
   font-weight: 550;
   background-color: transparent;
   border: none;
-  font-size: 20px;
+  font-size: 28px;
   cursor: pointer;
   align-items: center;
   display: flex;
 }
 
 .profile-navbar-buttons button:hover {
-  color: #111111;
-  background-color: #3cd679;
+  color: #3cd679;
 }
 .shifter {
   display: flex;
@@ -91,7 +91,7 @@
 .viewbuttons {
   background-color: #2fd671 !important;
   color: rgb(0, 0, 0) !important;
-  border-radius: 7px !important;
+  border-radius: 12px !important;
   padding: 10px !important;
   gap: 5px !important;
   font-family: "Rubik", sans-serif !important;
@@ -103,10 +103,17 @@
   align-items: center !important;
   display: flex !important;
   cursor: pointer !important;
+  padding: 0px 30px !important;
+}
+
+.viewbuttons:hover {
+  background-color: #4bff93 !important;
 }
 
 .report-button {
   color: #faff0e !important;
+  font-size: 20px !important;
+  gap: 5px;
 }
 .report-button:hover {
   background-color: transparent !important;
@@ -202,7 +209,27 @@
 .overview-stats-winrate span {
   width: 100px;
 }
+.overview-stats-wins span {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Rubik", sans-serif;
+  padding: 5px;
+}
+.overview-stats-points {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Rubik", sans-serif;
+
+  padding-right: 10px;
+}
 .winrate {
   width: 100px;
 }
@@ -223,7 +250,6 @@
 }
 .pageopen {
   color: #2fd671 !important;
-  border-bottom: 3px solid #2fd671 !important;
 }
 .pages-overview button {
   padding-left: 10px;
@@ -231,48 +257,47 @@
   font-size: 18px;
   margin-top: 20px;
   margin-bottom: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
+
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   font-family: "Rubik", sans-serif;
 
   background-color: transparent;
-  border-bottom: 3px solid #989898;
 }
 .tournament-content-container {
-  margin-top: 20px;
   display: flex;
+  flex-grow: 1;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
+  margin-left: 72px;
 }
 .tournament-content-wrapper {
-  margin-top: 10px;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
-  background-color: #292929;
-  align-items: center;
-
   width: 73.5%;
   min-height: 700px;
+  align-items: center;
 }
 .tournament-profilecard {
   background-color: #3a3a3a;
-  padding: 25px;
+  padding: 27px;
   border-radius: 10px;
   margin-top: 20px;
   gap: 60px;
   display: flex;
   color: white;
   align-items: center;
+  width: 90%;
+  justify-content: center;
+  margin-left: 30px;
 }
 .tournaments-results-wrapper {
   margin-top: 40px;
-  width: 80%;
 }
 .points-span {
   display: flex;
@@ -281,10 +306,8 @@
 }
 .tournamentactive {
   color: #2fd671 !important;
-  border-bottom: 3px solid #2fd671 !important;
 }
 .notournaments {
-  color: white;
   text-align: center;
   font-family: "Rubik", sans-serif;
   font-size: 22px;
@@ -299,6 +322,14 @@
 }
 .tournament-profilecard-teamstatus {
   font-size: 20px;
+}
+.tournaments-results-background {
+  background-color: #ffffff;
+  min-width: 1000px;
+  min-height: 555px;
+  border-radius: 15px;
+  border: 1px solid #cccccc;
+  padding: 0px 100px;
 }
 @media screen and (min-width: 701px) and (max-width: 1000px) {
   .profile-navbar-buttons button {

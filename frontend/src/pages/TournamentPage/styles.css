@@ -263,6 +263,7 @@
   width: 50%;
   height: 500px;
   overflow: auto;
+  border-radius: 15px;
 }
 
 .tournament-invitations {
@@ -474,7 +475,7 @@
   font-size: 16px;
   font-family: "Rubik", sans-serif;
 }
-p {
+.nothingavailable {
   color: black;
 }
 .rules-title {

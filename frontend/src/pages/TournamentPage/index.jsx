@@ -480,7 +480,9 @@ const TournamentPage = ({ userProfile }) => {
                     )}
                   />
                 ) : (
-                  <p>No bracket matches available.</p>
+                  <p className="nothingavailable">
+                    No bracket matches available.
+                  </p>
                 )}
               </div>
             )}
@@ -489,7 +491,7 @@ const TournamentPage = ({ userProfile }) => {
                 {Teams.length > 0 ? (
                   <TeamShowcase teams={Teams} teamMembers={teamMembers} />
                 ) : (
-                  <p>No teams available.</p>
+                  <p className="nothingavailable">No teams available.</p>
                 )}
               </div>
             )}
