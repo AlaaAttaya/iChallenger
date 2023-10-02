@@ -3,7 +3,7 @@
 
 > This is the project’s summary that describes the project plain and simple, limited to the space available.
 
-**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/ucard#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/ucard#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/ucard#implementation) • [TECH STACK](https://github.com/alaa-attaya/ucard#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/ucard#how-to-run)**
+**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/iChallenger#implementation) • [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)**
 
 </div>
 <br><br>
