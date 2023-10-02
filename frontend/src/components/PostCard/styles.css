@@ -58,7 +58,6 @@
   gap: 50px;
   background-color: #252525;
   height: 20%;
-  border-radius: 0 0 20px 0;
 }
 .comments-wrapper {
   display: flex;
