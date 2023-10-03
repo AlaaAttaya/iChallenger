@@ -1039,8 +1039,8 @@ class UserController extends Controller
     {  
         $user=Auth::user();
         $userMessage = $request->input('user_message', '');
-        $maxTokenCount = 70; 
-        $temperature = 0.2;
+        $maxTokenCount = 300; 
+        $temperature = 1;
     
         $messages = [
             [

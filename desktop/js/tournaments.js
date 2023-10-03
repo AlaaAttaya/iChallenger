@@ -235,7 +235,7 @@ function populateUpdateTournamentModal(Tournament) {
         const dateLabel = document.createElement("label");
         dateLabel.textContent = "Date:";
         const dateInput = document.createElement("input");
-        dateInput.type = "date";
+        dateInput.type = "datetime-local";
         dateInput.name = `match_date_${roundIndex}_${matchIndex}`;
         dateInput.required = true;
         dateInput.setAttribute("data-round", match.round_number);

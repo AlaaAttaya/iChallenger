@@ -3,7 +3,7 @@
 
 > This is the project’s summary that describes the project plain and simple, limited to the space available.
 
-**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/iChallenger#implementation) • [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)**
+**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/iChallenger#demo) • [PERFORMANCE](https://github.com/alaa-attaya/iChallenger#performance)• [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)**
 
 </div>
 <br><br>
@@ -32,7 +32,7 @@
 
 ### Mockups
 
-| LandingPage                             |
+| Landing                                 |
 | --------------------------------------- |
 | ![fsdaf](./readme/demo/LandingPage.png) |
 
@@ -54,21 +54,46 @@
 
 <br><br>
 
-<!-- Implementation -->
+<!-- Demo -->
 
-<img id="implementation" src="./readme/title4.svg"/>
+<img id="demo" src="./readme/title4.svg"/>
 
-| Login screen                            | Register screen                       | Landing screen                        |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-| Home screen                             | Menu Screen                           | Order Screen                          |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Landing                               |
+| ------------------------------------- |
+| ![Landing](./readme/demo/Landing.gif) |
+
+| Admin: Add Game                        | Admin: Create Tournament                                 |
+| -------------------------------------- | -------------------------------------------------------- |
+| ![Add Game](./readme/demo/AddGame.gif) | ![Create Tournament](./readme/demo/CreateTournament.gif) |
+
+| Admin: User Management                      |
+| ------------------------------------------- |
+| ![Forgot Password](./readme/demo/Admin.gif) |
+
+| Forgot Password                                        |
+| ------------------------------------------------------ |
+| ![Forgot Password](./readme/demo/CodeVerification.gif) |
+
+| Posts                                      | Follow                              |
+| ------------------------------------------ | ----------------------------------- |
+| ![Posts](./readme/demo/GameForumPosts.gif) | ![Follow](./readme/demo/Follow.gif) |
+
+| Messages                                |
+| --------------------------------------- |
+| ![Messages](./readme/demo/Messages.gif) |
+
+| Tournament Invitations                                            | Tournament Completed                                            |
+| ----------------------------------------------------------------- | --------------------------------------------------------------- |
+| ![Tournament Invitations](./readme/demo/TournamentInvitation.gif) | ![Tournament Completed ](./readme/demo/TournamentCompleted.gif) |
 
 <br><br>
 
+<!-- Performance -->
+<!-- <img id="performance" src="./readme/title5.svg"/> -->
+
 <!-- Tech stack -->
 
-<img id="tech-stack" src="./readme/title5.svg"/>
+<img id="tech-stack" src="./readme/title6.svg"/>
 
 ### iChallenger is built using the following technologies:
 
@@ -78,12 +103,12 @@
 - To send messages and notifications, the project uses [Pusher](https://pusher.com/). Pusher provides realtime communication between servers, apps and devices.
 - To send emails, the project uses [ElasticEmail](https://elasticemail.com/). Elastic Email offers a simple full service platform for Email Marketing and transactional emails.
 - This project uses [ChatGPT](https://platform.openai.com/). ChatGPT is employed for user interactions related to games, enhancing interactive conversations and providing intelligent responses specifically in that context.
-- For persistent storage (database), the project uses MySQL. The world's most popular open source database.
+- For persistent storage (database), the project uses [MySQL](https://www.mysql.com/). The world's most popular open source database.
 
 <br><br>
 
 <!-- How to run -->
-<img id="how-to-run" src="./readme/title6.svg"/>
+<img id="how-to-run" src="./readme/title7.svg"/>
 
 > To set up iChallenger locally, follow these steps:
 

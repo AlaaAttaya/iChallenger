@@ -389,7 +389,7 @@ const LoginPage = ({ setUserProfile }) => {
               id="submitsignup"
               onClick={handleSignupSubmit}
             >
-              Signup
+              Sign up
             </button>
           </div>
         </div>

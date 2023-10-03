@@ -523,6 +523,9 @@ const TournamentPage = ({ userProfile }) => {
                   <div className="tournament-invitations">
                     <div className="header-invite">
                       <span>Form Team</span>
+                      <span className="teammax-span">
+                        Max Team Size: {maxPlayersPerTeam}
+                      </span>
                     </div>
                     {enrollPage === "errorPage" && (
                       <div className="tournament-error-page">
@@ -537,49 +540,56 @@ const TournamentPage = ({ userProfile }) => {
                       <div className="tournament-team-creation">
                         <div className="tournament-teamname-creation-wrapper">
                           {" "}
-                          <span className="teammax-span">
-                            Max Team Size: {maxPlayersPerTeam}
-                          </span>
-                          <span className="teamname-span">Team Name</span>
-                          <input
-                            type="text"
-                            placeholder="Team Name"
-                            className="teamname-creation"
-                            onChange={(e) => setTeamNameInput(e.target.value)}
-                          />
-                          {maxPlayersPerTeam && maxPlayersPerTeam !== 1 && (
-                            <div className="send-invitation">
+                          <div className="enroll-left">
+                            <span className="teamname-span">
+                              Team Name: &nbsp;
                               <input
                                 type="text"
-                                placeholder="Send Invite.."
-                                className="send-invitation-input"
+                                placeholder="Team Name"
+                                className="teamname-creation"
                                 onChange={(e) =>
-                                  setMemberInvited(e.target.value)
+                                  setTeamNameInput(e.target.value)
                                 }
                               />
-                              <button
-                                className="button-invite"
-                                onClick={() => handleInvite()}
-                              >
-                                Invite
-                              </button>
-                            </div>
-                          )}
-                          <div className="team-members-list">
-                            {MembersInvited ? (
-                              MembersInvited.map((member) => (
-                                <div
-                                  className="team-members-usercard"
-                                  key={member.id}
-                                >
-                                  <UserCard user={member} />
-                                </div>
-                              ))
-                            ) : (
-                              <p></p>
-                            )}
+                            </span>
                           </div>
-                          <span className="invited-error">{invitedError}</span>
+                          <div classname="enroll-right">
+                            {maxPlayersPerTeam && maxPlayersPerTeam !== 1 && (
+                              <div className="send-invitation">
+                                <input
+                                  type="text"
+                                  placeholder="Send Invite.."
+                                  className="send-invitation-input"
+                                  onChange={(e) =>
+                                    setMemberInvited(e.target.value)
+                                  }
+                                />
+                                <button
+                                  className="button-invite"
+                                  onClick={() => handleInvite()}
+                                >
+                                  Invite
+                                </button>
+                              </div>
+                            )}
+                            <div className="team-members-list">
+                              {MembersInvited ? (
+                                MembersInvited.map((member) => (
+                                  <div
+                                    className="team-members-usercard"
+                                    key={member.id}
+                                  >
+                                    <UserCard user={member} />
+                                  </div>
+                                ))
+                              ) : (
+                                <p></p>
+                              )}
+                              <span className="invited-error">
+                                {invitedError}
+                              </span>
+                            </div>
+                          </div>
                         </div>
 
                         <span className="errormsg-createteam">{errorMsg}</span>

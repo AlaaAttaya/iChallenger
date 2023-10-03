@@ -232,7 +232,7 @@
 .rules {
   background-color: #fff;
   height: 400px;
-  width: 70%;
+
   padding: 0px 20px;
   font-size: 18px;
   font-family: "Rubik", sans-serif;
@@ -287,6 +287,8 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  flex-direction: column;
+  gap: 10px;
 }
 .header-invite span {
   color: #fff;
@@ -330,7 +332,6 @@
   display: flex;
 
   align-items: center;
-  margin-top: 20px;
 }
 .team-members-list {
   display: flex;
@@ -402,9 +403,9 @@
 }
 .tournament-teamname-creation-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+
   gap: 10px;
 }
 .tournament-error-page {
@@ -480,4 +481,12 @@
 }
 .rules-title {
   text-align: center;
+}
+.enroll-left {
+  display: flex;
+  flex-direction: column;
+}
+.enroll-right {
+  display: flex;
+  flex-direction: column;
 }
