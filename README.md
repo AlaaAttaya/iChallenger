@@ -66,17 +66,25 @@
 | ------------------------------------------------------ |
 | ![Forgot Password](./readme/demo/CodeVerification.gif) |
 
-| Posts                                      | Follow                              |
-| ------------------------------------------ | ----------------------------------- |
-| ![Posts](./readme/demo/GameForumPosts.gif) | ![Follow](./readme/demo/Follow.gif) |
+| Posts                                      |
+| ------------------------------------------ | 
+| ![Posts](./readme/demo/GameForumPosts.gif) | 
+
+| Follow                              |
+| ----------------------------------- |
+| ![Follow](./readme/demo/Follow.gif) |
 
 | Messages                                |
 | --------------------------------------- |
 | ![Messages](./readme/demo/Messages.gif) |
 
-| Tournament Invitations                                            | Tournament Completed                                            |
-| ----------------------------------------------------------------- | --------------------------------------------------------------- |
-| ![Tournament Invitations](./readme/demo/TournamentInvitation.gif) | ![Tournament Completed ](./readme/demo/TournamentCompleted.gif) |
+| Tournament Invitations                                            | 
+| ----------------------------------------------------------------- |
+| ![Tournament Invitations](./readme/demo/TournamentInvitation.gif) | 
+
+| Tournament Completed                                            |
+| --------------------------------------------------------------- |
+| ![Tournament Completed ](./readme/demo/TournamentCompleted.gif) |
 
 <br><br>
 
