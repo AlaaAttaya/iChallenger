@@ -8,7 +8,7 @@
 <div>
 
 - [PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy)
-  - [User Types](https://github.com/alaa-attaya/iChallenger#usertypes)
+  - [User Types](https://github.com/alaa-attaya/iChallenger#user-types)
 - [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#prototypes)
 - [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack)
 - [DEMO](https://github.com/alaa-attaya/iChallenger#demo)
@@ -26,7 +26,7 @@
 > iChallenger is a social gaming community and tournament platform that aims to provide players with a dynamic and interactive
 > gaming experience where they can compete with others, showcase their skills, earn points and rise up the leaderboards.
 
-## User Types
+### User Types
 
 1. Admin
 2. Users (Players)
