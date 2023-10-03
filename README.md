@@ -1,36 +1,46 @@
 <img src="./readme/title1.svg"/>
 <div style="text-align:center">
 
-> This is the project’s summary that describes the project plain and simple, limited to the space available.
+</div>
+<br><br>
+<img src="./readme/title2.svg"/>
 
-**[PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy) • [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#wireframes) • [IMPLEMENTATION](https://github.com/alaa-attaya/iChallenger#demo) • [PERFORMANCE](https://github.com/alaa-attaya/iChallenger#performance)• [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack) • [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)**
+<div>
+
+- [PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy)
+- [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#prototypes)
+- [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack)
+- [DEMO](https://github.com/alaa-attaya/iChallenger#demo)
+- [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)
 
 </div>
 <br><br>
 
 <!-- project philosophy -->
-<img  id="project-philosophy" src="./readme/title2.svg"/>
+<img  id="project-philosophy" src="./readme/title3.svg"/>
 
 > iChallenger is a social gaming community and tournament platform that aims to provide players with a dynamic and interactive
 > gaming experience where they can compete with others, showcase their skills, earn points and rise up the leaderboards.
 
 ### User Stories
 
+- As a Player, I want to find and participate in tournaments, so that I can progress in the leaderboards.
+- As a Player, I want to upload content in the forums, so that I can showcase my skills to the community.
+- As a Player, I want to communicate with other players, so that I can coordinate gameplay, and share valuable gaming tips.
+
+### Admin Stories
+
 - As an Admin, I want to manage players on the platform, so that I can take necessary actions against misconduct.
 - As an Admin, I want to add games to the platform, so that users can have forums dedicated to those games.
 - As an Admin, I want to create and manage tournaments, so that users can participate in organized competitions and enjoy a competitive gaming experience on the platform.
-- As a Player, I want to find and participate in challenges, so that I can progress in the leaderboards.
-- As a Player, I want to upload content in the forums so that I can showcase my skills to the community.
 
 <br><br>
 
 <!-- Prototyping -->
 
-<img id="wireframes" src="./readme/title3.svg"/>
+<img id="prototypes" src="./readme/title4.svg"/>
 
 > The design was crafted using the Figma app, providing a solid foundation for the project.
-
-### Mockups
 
 | Landing                                 |
 | --------------------------------------- |
@@ -46,9 +56,23 @@
 
 <br><br>
 
+<!-- Tech stack -->
+
+<img id="tech-stack" src="./readme/title5.svg"/>
+
+### iChallenger is built using the following technologies:
+
+- This project uses [React](https://react.dev/). React aims to allow developers to create fast user interfaces for websites and applications alike easily.
+- This project uses [Electron](https://www.electronjs.org/). Electron simplifies cross-platform desktop app development by leveraging JavaScript, HTML, CSS, and embedded Chromium and Node.js.
+- This project uses [Laravel](https://laravel.com/). Laravel is PHP web application framework that is used for developing web applications and APIs.
+- To send messages and notifications, the project uses [Pusher](https://pusher.com/). Pusher provides realtime communication between servers, apps and devices.
+- To send emails, the project uses [ElasticEmail](https://elasticemail.com/). Elastic Email offers a simple full service platform for Email Marketing and transactional emails.
+- This project uses [ChatGPT](https://platform.openai.com/). ChatGPT is employed for user interactions related to games, enhancing interactive conversations and providing intelligent responses specifically in that context.
+- For persistent storage (database), the project uses [MySQL](https://www.mysql.com/). The world's most popular open source database.
+<br><br>
 <!-- Demo -->
 
-<img id="demo" src="./readme/title4.svg"/>
+<img id="demo" src="./readme/title6.svg"/>
 
 | Landing                               |
 | ------------------------------------- |
@@ -78,29 +102,13 @@
 | ----------------------------------------------------------------- | --------------------------------------------------------------- |
 | ![Tournament Invitations](./readme/demo/TournamentInvitation.gif) | ![Tournament Completed ](./readme/demo/TournamentCompleted.gif) |
 
-<br><br>
-
 <!-- Performance -->
-<!-- <img id="performance" src="./readme/title5.svg"/> -->
-
-<!-- Tech stack -->
-
-<img id="tech-stack" src="./readme/title6.svg"/>
-
-### iChallenger is built using the following technologies:
-
-- This project uses [React](https://react.dev/). React aims to allow developers to create fast user interfaces for websites and applications alike easily.
-- This project uses [Electron](https://www.electronjs.org/). Electron simplifies cross-platform desktop app development by leveraging JavaScript, HTML, CSS, and embedded Chromium and Node.js.
-- This project uses [Laravel](https://laravel.com/). Laravel is PHP web application framework that is used for developing web applications and APIs.
-- To send messages and notifications, the project uses [Pusher](https://pusher.com/). Pusher provides realtime communication between servers, apps and devices.
-- To send emails, the project uses [ElasticEmail](https://elasticemail.com/). Elastic Email offers a simple full service platform for Email Marketing and transactional emails.
-- This project uses [ChatGPT](https://platform.openai.com/). ChatGPT is employed for user interactions related to games, enhancing interactive conversations and providing intelligent responses specifically in that context.
-- For persistent storage (database), the project uses [MySQL](https://www.mysql.com/). The world's most popular open source database.
+<!-- <img id="performance" src="./readme/title7.svg"/> -->
 
 <br><br>
 
 <!-- How to run -->
-<img id="how-to-run" src="./readme/title7.svg"/>
+<img id="how-to-run" src="./readme/title8.svg"/>
 
 > To set up iChallenger locally, follow these steps:
 
