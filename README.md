@@ -26,7 +26,7 @@
 > iChallenger is a social gaming community and tournament platform that aims to provide players with a dynamic and interactive
 > gaming experience where they can compete with others, showcase their skills, earn points and rise up the leaderboards.
 
-### User Types
+## User Types
 
 1. Admin
 2. Users (Players)
