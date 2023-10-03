@@ -36,21 +36,13 @@
 | --------------------------------------- |
 | ![fsdaf](./readme/demo/LandingPage.png) |
 
-| Tournaments                                    |
-| ---------------------------------------------- |
-| ![Landing](./readme/demo/TournamentSearch.png) |
+| Tournaments                                    | Leaderboard                              |
+| ---------------------------------------------- | ---------------------------------------- |
+| ![Landing](./readme/demo/TournamentSearch.png) | ![fsdaf](./readme/demo/Leaderboards.png) |
 
-| Tournament Page                            |
-| ------------------------------------------ |
-| ![fsdaf](./readme/demo/TournamentPage.png) |
-
-| Leaderboard                              |
-| ---------------------------------------- |
-| ![fsdaf](./readme/demo/Leaderboards.png) |
-
-| Profile Page                            |
-| --------------------------------------- |
-| ![fsdaf](./readme/demo/ProfilePage.png) |
+| Tournament Page                            | Profile Page                            |
+| ------------------------------------------ | --------------------------------------- |
+| ![fsdaf](./readme/demo/TournamentPage.png) | ![fsdaf](./readme/demo/ProfilePage.png) |
 
 <br><br>
 
