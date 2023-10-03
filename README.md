@@ -8,10 +8,14 @@
 <div>
 
 - [PROJECT PHILOSOPHY](https://github.com/alaa-attaya/iChallenger#project-philosophy)
+  - [User Types](https://github.com/alaa-attaya/iChallenger#usertypes)
 - [PROTOTYPES](https://github.com/alaa-attaya/iChallenger#prototypes)
 - [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack)
 - [DEMO](https://github.com/alaa-attaya/iChallenger#demo)
-- [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)
+- [PERFORMANCE](https://github.com/alaa-attaya/iChallenger#performance)
+- [HOW TO RUN](https://github.com/alaa-attaya/iChallenger#how-to-run)
+  - [Prerequisites](https://github.com/alaa-attaya/iChallenger#prerequisites)
+  - [Installation](https://github.com/alaa-attaya/iChallenger#installation)
 
 </div>
 <br><br>
@@ -21,6 +25,11 @@
 
 > iChallenger is a social gaming community and tournament platform that aims to provide players with a dynamic and interactive
 > gaming experience where they can compete with others, showcase their skills, earn points and rise up the leaderboards.
+
+### User Types
+
+1. Admin
+2. Users (Players)
 
 ### User Stories
 
@@ -111,8 +120,51 @@
 | ![Tournament Completed ](./readme/demo/TournamentCompleted.gif) |
 
 <!-- Performance -->
-<!-- <img id="performance" src="./readme/title7.svg"/> -->
+<img id="performance" src="./readme/title7.svg"/>
 
+> The following tests were conducted in Postman to assess the functionality of my application's primary APIs
+
+<br>
+URL: http://52.212.245.205:80/api/guest/getgameforum
+
+```sh
+PASS: Response time is within acceptable range //1205 ms
+PASS: Response content type is JSON
+PASS: Response schema is valid
+
+```
+
+<br>
+URL: http://52.212.245.205:80/api/guest/getgameforumposts
+
+```sh
+PASS: Response time is within acceptable range //1410 ms
+PASS: Response content type is JSON
+PASS: Response schema is valid
+
+```
+
+<br>
+URL: http://52.212.245.205:80/api/guest/getopentournaments
+
+```sh
+PASS: Response time is within acceptable range //1004 ms
+PASS: Response content type is JSON
+PASS: Response schema is valid
+
+```
+
+<br>
+URL: http://52.212.245.205:80/api/guest/getusersstats
+
+```sh
+PASS: Response time is within acceptable range //947 ms
+PASS: Response content type is JSON
+PASS: Response schema is valid
+
+```
+
+<br>
 <br><br>
 
 <!-- How to run -->
