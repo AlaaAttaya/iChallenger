@@ -13,7 +13,7 @@
 - [TECH STACK](https://github.com/alaa-attaya/iChallenger#tech-stack)
 - [DEMO](https://github.com/alaa-attaya/iChallenger#demo)
 - [PERFORMANCE](https://github.com/alaa-attaya/iChallenger#performance)
-- [HOW TO RUN](https://github.com/alaa-attaya/iChallenger#how-to-run)
+- [HOW TO RUN?](https://github.com/alaa-attaya/iChallenger#how-to-run)
   - [Prerequisites](https://github.com/alaa-attaya/iChallenger#prerequisites)
   - [Installation](https://github.com/alaa-attaya/iChallenger#installation)
 
