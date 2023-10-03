@@ -189,7 +189,6 @@ PASS: Response schema is valid
 - **Electron**: Make sure you have Electron.js installed globally. You can install it via npm:
 
   ```sh
-  Copy code
   npm install -g electron
   ```
 
