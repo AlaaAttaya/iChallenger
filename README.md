@@ -91,8 +91,8 @@
 | ![Forgot Password](./readme/demo/CodeVerification.gif) |
 
 | Posts                                      |
-| ------------------------------------------ | 
-| ![Posts](./readme/demo/GameForumPosts.gif) | 
+| ------------------------------------------ |
+| ![Posts](./readme/demo/GameForumPosts.gif) |
 
 | Follow                              |
 | ----------------------------------- |
@@ -102,9 +102,9 @@
 | --------------------------------------- |
 | ![Messages](./readme/demo/Messages.gif) |
 
-| Tournament Invitations                                            | 
+| Tournament Invitations                                            |
 | ----------------------------------------------------------------- |
-| ![Tournament Invitations](./readme/demo/TournamentInvitation.gif) | 
+| ![Tournament Invitations](./readme/demo/TournamentInvitation.gif) |
 
 | Tournament Completed                                            |
 | --------------------------------------------------------------- |
